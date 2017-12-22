@@ -1,14 +1,7 @@
-Contributing to Bitcore
-=======
+Contributing to BitcoinCash.js
+==============================
 
-We're working hard to make *bitcore* the most powerful JavaScript library for working with bitcoin. Our goal is to have *bitcore* be a library that can be used by anyone interested in bitcoin, and to level expertise differences with great design and documentation.
-
-## Community
-
-If there are any questions, etc., please feel to ask in one of the community channels:
-
-- https://labs.bitpay.com/c/bitcore (Support Forum)
-- https://gitter.im/bitpay/bitcore (Development Chat)
+We're working hard to make *bitcoincashjs* the most powerful JavaScript library for working with Bitcoin Cash. Our goal is to have *bitcoincashjs* be a library that can be used by anyone interested in Bitcoin Cash.
 
 ## Quick Checklist
 
@@ -20,7 +13,7 @@ Ideally, please make sure to run:
 
 ## Design Guidelines
 
-These are some global design goals in bitcore that any change must adhere.
+These are some global design goals in bitcoincashjs that any change must adhere.
 
 ### D1 - Naming Matters
 
@@ -91,7 +84,7 @@ var bufferUtil = require('./util/buffer');
 
 #### G7 - Standard Methods
 
-When possible, bitcore objects should have standard methods on an instance prototype:
+When possible, bitcoincashjs objects should have standard methods on an instance prototype:
 * `toObject/toJSON` - A plain JavaScript object that `JSON.stringify` can call
 * `toString` - A string representation of the instance
 * `toBuffer` - A hex Buffer
@@ -101,7 +94,7 @@ These should have a matching static method that can be used for instantiation:
 * `fromString` - Should be able to instantiate with output from `toString`
 * `fromBuffer` - Should likewise be able to instantiate from output from `toBuffer`
 
-`JSON.stringify` and `JSON.parse` are expected to be handled outside of the scope of Bitcore methods. For example, calling `JSON.stringify` on an Bitcore object will behave as expected and call `transaction.toJSON()` and then stringify it:
+`JSON.stringify` and `JSON.parse` are expected to be handled outside of the scope of BitcoinCash.js methods. For example, calling `JSON.stringify` on an BitcoinCash.js object will behave as expecte`transaction.toJSON()` and the
 
 ```javascript
 var transactionString = JSON.stringify(transaction);
@@ -116,7 +109,7 @@ var tx = new Transaction(data);
 
 ### Errors
 
-#### E1 - Use bitcore.Errors
+#### E1 - Use bitcoincashjs.Errors
 
 We've designed a structure for Errors to follow and are slowly migrating to it.
 
@@ -206,14 +199,14 @@ Don't write long tests, write helper functions to make them be as short and conc
 
 Inputs for tests should not be generated randomly. Also, the type and structure of outputs should be checked.
 
-#### T3 - Require 'bitcore' and Look up Classes from There
+#### T3 - Require 'bitcoincashjs' and Look up Classes from There
 
-This helps to make tests more useful as examples, and more independent of where they are placed. This also helps prevent forgetting to include all submodules in the bitcore object.
+This helps to make tests more useful as examples, and more independent of where they are placed. This also helps prevent forgetting to include all submodules in the bitcoincashjs object.
 
 DO:
 ```javascript
-var bitcore = require('../');
-var PublicKey = bitcore.PublicKey;
+var bitcoincashjs = require('../');
+var PublicKey = bitcoincashjs.PublicKey;
 ```
 DON'T:
 ```javascript
@@ -246,8 +239,8 @@ git checkout -b remove/some-file
 
 We expect pull requests to be rebased to the master branch before merging:
 ```sh
-git remote add bitpay git@github.com:bitpay/bitcore.git
-git pull --rebase bitpay master
+git remote add bitcoincashjs git@github.com:bitcoincashjs/bitcoincashjs.git
+git pull --rebase bitcoincashjs master
 ```
 
 Note that we require rebasing your branch instead of merging it, for commit readability reasons.
@@ -258,11 +251,11 @@ git push origin your_branch_name
 git push origin feature/some-new-stuff
 git push origin fix/some-bug
 ```
-Finally go to [github.com/bitpay/bitcore](https://github.com/bitpay/bitcore) in your web browser and issue a new pull request.
+Finally go to [github.com/bitcoincashjs/bitcoincashjs](https://github.com/bitcoincashjs/bitcoincashjs) in your web browser and issue a new pull request.
 
-Main contributors will review your code and possibly ask for changes before your code is pulled in to the main repository.  We'll check that all tests pass, review the coding style, and check for general code correctness. If everything is OK, we'll merge your pull request and your code will be part of bitcore.
+Main contributors will review your code and possibly ask for changes before your code is pulled in to the main repository.  We'll check that all tests pass, review the coding style, and check for general code correctness. If everything is OK, we'll merge your pull request and your code will be part of bitcoincashjs.
 
 If you have any questions feel free to post them to
-[github.com/bitpay/bitcore/issues](https://github.com/bitpay/bitcore/issues).
+[github.com/bitcoincashjs/bitcoincashjs/issues](https://github.com/bitcoincashjs/bitcoincashjs/issues).
 
 Thanks for your time and code!

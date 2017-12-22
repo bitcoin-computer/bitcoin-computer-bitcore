@@ -52156,10 +52156,10 @@ exports.createContext = Script.createContext = function (context) {
 
 },{"indexof":140}],204:[function(require,module,exports){
 module.exports={
-  "name": "bitcore-lib-cash",
-  "version": "0.14.0",
+  "name": "bitcoincashjs",
+  "version": "0.1.0",
   "description": "A pure and powerful JavaScript Bitcoin Cash library.",
-  "author": "BitPay <dev@bitpay.com>",
+  "author": "BitcoinCash.js Developers <bitcoincashjs@tuta.io>",
   "main": "index.js",
   "scripts": {
     "lint": "gulp lint",
@@ -52169,48 +52169,8 @@ module.exports={
   },
   "contributors": [
     {
-      "name": "Daniel Cousens",
-      "email": "bitcoin@dcousens.com"
-    },
-    {
-      "name": "Esteban Ordano",
-      "email": "eordano@gmail.com"
-    },
-    {
-      "name": "Gordon Hall",
-      "email": "gordon@bitpay.com"
-    },
-    {
-      "name": "Jeff Garzik",
-      "email": "jgarzik@bitpay.com"
-    },
-    {
-      "name": "Kyle Drake",
-      "email": "kyle@kyledrake.net"
-    },
-    {
-      "name": "Manuel Araoz",
-      "email": "manuelaraoz@gmail.com"
-    },
-    {
-      "name": "Matias Alejo Garcia",
-      "email": "ematiu@gmail.com"
-    },
-    {
-      "name": "Ryan X. Charles",
-      "email": "ryanxcharles@gmail.com"
-    },
-    {
-      "name": "Stefan Thomas",
-      "email": "moon@justmoon.net"
-    },
-    {
-      "name": "Stephen Pair",
-      "email": "stephen@bitpay.com"
-    },
-    {
-      "name": "Wei Lu",
-      "email": "luwei.here@gmail.com"
+      "name": "Emilio Almansi",
+      "email": "hi@ealmansi.com"
     }
   ],
   "keywords": [

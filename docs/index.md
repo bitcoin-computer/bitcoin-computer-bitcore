@@ -1,10 +1,13 @@
-# Bitcore v0.14
+# BitcoinCash.js v0.1
 
-## Principles
 
-Bitcoin is a powerful new peer-to-peer platform for the next generation of financial technology. The decentralized nature of the Bitcoin network allows for highly resilient bitcoin infrastructure, and the developer community needs reliable, open-source tools to implement bitcoin apps and services. Bitcore provides a reliable API for JavaScript apps that need to interface with Bitcoin.
+## Bitcoin Cash
 
-To get started, just `npm install bitcore` or `bower install bitcore`.
+Bitcoin Cash is the continuation of the Bitcoin project as peer-to-peer electronic cash for the Internet.
+
+Bitcoin Cash uses a different `SigHash` for transaction signatures. The implementation in BitcoinCash.js has been tested agains the original Bitcoin Cash test vectors (see sighash.json in `/test`). Modifications in script evaluation have not yet been implemented.
+
+To get started, just `npm install --save bitcoincashjs` or `bower install bitcoincashjs`.
 
 # Documentation Index
 
