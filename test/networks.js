@@ -2,8 +2,8 @@
 
 var expect = require('chai').expect;
 var should = require('chai').should();
-var bitcore = require('..');
-var networks = bitcore.Networks;
+var bitcoinCash = require('..');
+var networks = bitcoinCash.Networks;
 
 describe('Networks', function() {
 

@@ -23,7 +23,7 @@ module.exports = function(config) {
     },
     singleRun: true,
     files: [
-      'tests.js'
+      'build/tests.js'
     ],
     plugins: [
       'karma-mocha',

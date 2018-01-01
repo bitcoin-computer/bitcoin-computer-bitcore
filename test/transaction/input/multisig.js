@@ -5,13 +5,13 @@ var should = require('chai').should();
 var expect = require('chai').expect;
 var _ = require('lodash');
 
-var bitcore = require('../../..');
-var Transaction = bitcore.Transaction;
-var PrivateKey = bitcore.PrivateKey;
-var Address = bitcore.Address;
-var Script = bitcore.Script;
-var Signature = bitcore.crypto.Signature;
-var MultiSigInput = bitcore.Transaction.Input.MultiSig;
+var bitcoinCash = require('../../..');
+var Transaction = bitcoinCash.Transaction;
+var PrivateKey = bitcoinCash.PrivateKey;
+var Address = bitcoinCash.Address;
+var Script = bitcoinCash.Script;
+var Signature = bitcoinCash.crypto.Signature;
+var MultiSigInput = bitcoinCash.Transaction.Input.MultiSig;
 
 describe('MultiSigInput', function() {
 
