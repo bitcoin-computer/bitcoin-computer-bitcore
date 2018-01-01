@@ -2,7 +2,7 @@ BitcoinCash.js
 ==============
 
 [![NPM Package](https://img.shields.io/npm/v/bitcoincashjs.svg?style=flat-square)](https://www.npmjs.org/package/bitcoincashjs)
-[![Build Status](https://travis-ci.org/bitcoincashjs/bitcoincashjs.svg?branch=master&style=flat-square)](https://travis-ci.org/bitcoincashjs/bitcoincashjs)
+[![Build Status](https://img.shields.io/travis/bitcoincashjs/bitcoincashjs.svg?branch=master&style=flat-square)](https://travis-ci.org/bitcoincashjs/bitcoincashjs)
 [![Coverage Status](https://img.shields.io/coveralls/bitcoincashjs/bitcoincashjs.svg?style=flat-square)](https://coveralls.io/r/bitcoincashjs/bitcoincashjs)
 
 [![NPM Stats](https://nodei.co/npm/bitcoincashjs.png?downloads=true)](https://nodei.co/npm/bitcoincashjs/)
