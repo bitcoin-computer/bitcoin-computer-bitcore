@@ -619,10 +619,12 @@ describe('Address', function() {
   });
 
   describe('Address formats', function() {
-
     it('should throw an error if given an invalid format', function() {
       (function() {
         new Address(PKHLivenet[0]).toString('some invalid format');
+      }).should.throw('Unrecognized address format.');
+      (function() {
+        Address.fromString(PKHLivenet[0], 'livenet', Address.PayToPublicKeyHash, 'some invalid format');
       }).should.throw('Unrecognized address format.');
     });
 

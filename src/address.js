@@ -281,6 +281,7 @@ Address.createMultisig = function(publicKeys, threshold, network) {
  * @param {string} data
  * @param {String|Network=} network - either a Network instance, 'livenet', or 'testnet'
  * @param {string=} type - The type: 'pubkeyhash' or 'scripthash'
+ * @param {string} format - The format: 'legacy', 'bitpay' or 'cashaddr'
  * @returns {Object} An object with keys: hashBuffer, network and type
  * @private
  */
@@ -290,28 +291,70 @@ Address._transformString = function(data, network, type, format) {
   }
   data = data.trim();
   if (format === Address.LegacyFormat) {
-    return Address._transformBuffer(Base58Check.decode(data), network, type);
+    return Address._transformStringLegacy(data, network, type);
   }
   else if (format === Address.BitpayFormat) {
-    var addressBuffer = Base58Check.decode(data);
-    if (format === Address.BitpayFormat) {
-      if (addressBuffer[0] === BITPAY_P2PKH_VERSION_BYTE) {
-        addressBuffer[0] = 0;
-      }
-      else if (addressBuffer[0] === BITPAY_P2SH_VERSION_BYTE) {
-        addressBuffer[0] = 5;
-      }
-    }
-    return Address._transformBuffer(addressBuffer, network, type);
+    return Address._transformStringBitpay(data, network, type);
   }
   else if (format === Address.CashAddrFormat) {
-    var networkObject = Networks.get(network);
-    var version = new Buffer([networkObject[type]]);
-    var hashBuffer = new Buffer(cashaddr.decode(data).hash);
-    var addressBuffer = Buffer.concat([version, hashBuffer]);
-    return Address._transformBuffer(addressBuffer, network, type);
+    return Address._transformStringCashAddr(data, network, type);
   }
   throw new TypeError('Unrecognized address format.');
+};
+
+/**
+ * Internal function to transform a bitcoin address string in legacy format
+ *
+ * @param {string} data
+ * @param {String|Network=} network - either a Network instance, 'livenet', or 'testnet'
+ * @param {string=} type - The type: 'pubkeyhash' or 'scripthash'
+ * @returns {Object} An object with keys: hashBuffer, network and type
+ * @private
+ */
+Address._transformStringLegacy = function(data, network, type) {
+  const addressBuffer = Base58Check.decode(data);
+  return Address._transformBuffer(addressBuffer, network, type);
+};
+
+/**
+ * Internal function to transform a bitcoin address string in Bitpay format
+ *
+ * @param {string} data
+ * @param {String|Network=} network - either a Network instance, 'livenet', or 'testnet'
+ * @param {string=} type - The type: 'pubkeyhash' or 'scripthash'
+ * @returns {Object} An object with keys: hashBuffer, network and type
+ * @private
+ */
+Address._transformStringBitpay = function(data, network, type) {
+  const addressBuffer = Base58Check.decode(data);
+  if (addressBuffer[0] === BITPAY_P2PKH_VERSION_BYTE) {
+    addressBuffer[0] = 0;
+  }
+  else if (addressBuffer[0] === BITPAY_P2SH_VERSION_BYTE) {
+    addressBuffer[0] = 5;
+  }
+  return Address._transformBuffer(addressBuffer, network, type);
+};
+
+/**
+ * Internal function to transform a bitcoin address string in CashAddr format
+ *
+ * @param {string} data
+ * @param {String|Network=} network - either a Network instance, 'livenet', or 'testnet'
+ * @param {string=} type - The type: 'pubkeyhash' or 'scripthash'
+ * @returns {Object} An object with keys: hashBuffer, network and type
+ * @private
+ */
+Address._transformStringCashAddr = function(data, network, type) {
+  network = network || 'mainnet';
+  type = type || Address.PayToPublicKeyHash;
+  var networkObject = Networks.get(network);
+  $.checkArgument(networkObject, 'Invalid network.');
+  $.checkArgument(type in networkObject, 'Invalid type.');
+  var version = new Buffer([networkObject[type]]);
+  var hashBuffer = new Buffer(cashaddr.decode(data).hash);
+  var addressBuffer = Buffer.concat([version, hashBuffer]);
+  return Address._transformBuffer(addressBuffer, network, type);
 };
 
 /**
@@ -406,6 +449,7 @@ Address.fromBuffer = function(buffer, network, type) {
  * @param {string} str - An string of the bitcoin address
  * @param {String|Network=} network - either a Network instance, 'livenet', or 'testnet'
  * @param {string=} type - The type of address: 'script' or 'pubkey'
+ * @param {string=} format - The format: 'legacy', 'bitpay' or 'cashaddr'
  * @returns {Address} A new valid and frozen instance of an Address
  */
 Address.fromString = function(str, network, type, format) {
@@ -512,33 +556,61 @@ Address.prototype.toObject = Address.prototype.toJSON = function toObject() {
 /**
  * Will return a the string representation of the address
  *
+ * @param {string=} format - The format: 'legacy', 'bitpay' or 'cashaddr'
  * @returns {string} Bitcoin address
  */
 Address.prototype.toString = function(format) {
   format = format || Address.DefaultFormat;
   if (format === Address.LegacyFormat) {
-    return Base58Check.encode(this.toBuffer());
+    return this._toStringLegacy();
   }
   else if (format === Address.BitpayFormat) {
-    var buffer = this.toBuffer();
-    if (this.network.toString() === 'livenet') {
-      if (this.type === Address.PayToPublicKeyHash) {
-        buffer[0] = BITPAY_P2PKH_VERSION_BYTE;
-      }
-      else if (this.type === Address.PayToScriptHash) {
-        buffer[0] = BITPAY_P2SH_VERSION_BYTE;
-      }
-    }
-    return Base58Check.encode(buffer);
+    return this._toStringBitpay();
   }
   else if (format === Address.CashAddrFormat) {
-    var prefix = this.network.toString() === 'livenet' ? 'bitcoincash' : 'bchtest';
-    var type = this.type === Address.PayToPublicKeyHash ? 'P2PKH' : 'P2SH';
-    var hash = [...this.hashBuffer];
-    return cashaddr.encode(prefix, type, hash);
+    return this._toStringCashAddr();
   }
   throw new TypeError('Unrecognized address format.');
 };
+
+/**
+ * Will return a the string representation of the address in legacy format
+ *
+ * @returns {string} Bitcoin address
+ */
+Address.prototype._toStringLegacy = function() {
+  return Base58Check.encode(this.toBuffer());
+}
+
+/**
+ * Will return a the string representation of the address in Bitpay format
+ *
+ * @returns {string} Bitcoin address
+ */
+Address.prototype._toStringBitpay = function() {
+  let buffer = this.toBuffer();
+  if (this.network.toString() === 'livenet') {
+    if (this.type === Address.PayToPublicKeyHash) {
+      buffer[0] = BITPAY_P2PKH_VERSION_BYTE;
+    }
+    else if (this.type === Address.PayToScriptHash) {
+      buffer[0] = BITPAY_P2SH_VERSION_BYTE;
+    }
+  }
+  return Base58Check.encode(buffer);
+}
+
+/**
+ * Will return a the string representation of the address in CashAddr format
+ *
+ * @returns {string} Bitcoin address
+ */
+Address.prototype._toStringCashAddr = function() {
+  const prefix = this.network.toString() === 'livenet' ? 'bitcoincash' : 'bchtest';
+  const type = this.type === Address.PayToPublicKeyHash ? 'P2PKH' : 'P2SH';
+  const hash = [...this.hashBuffer];
+  return cashaddr.encode(prefix, type, hash);
+}
 
 /**
  * Will return a string formatted for the console
