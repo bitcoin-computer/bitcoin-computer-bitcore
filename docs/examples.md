@@ -18,6 +18,34 @@ const address = new bitcoinCash.PrivateKey(bn).toAddress();
 console.log(address.toString()) // 126tFHmNHNAXDYT1QeEBEwBbEojib1VZyg
 ```
 
+## Translate an address to any Bitcoin Cash address format
+```javascript
+const Address = bitcoinCash.Address;
+const BitpayFormat = Address.BitpayFormat;
+const CashAddrFormat = Address.CashAddrFormat;
+
+const address = new Address('1MF7A5H2nHYYJMieouip2SkZiFZMBKqSZe');
+
+console.log(address.toString()) // 1MF7A5H2nHYYJMieouip2SkZiFZMBKqSZe
+console.log(address.toString(BitpayFormat)) // Cchzj7d6fLX5CVd5Vf3jbxNbLNmm4BTYuG
+console.log(address.toString(CashAddrFormat)) // bitcoincash:qr0q67nsn66cf3klfufttr0vuswh3w5nt5jqpp20t9
+```
+
+## Read an address from any Bitcoin Cash address format
+```javascript
+const Address = bitcoinCash.Address;
+const fromString = Address.fromString;
+const BitpayFormat = Address.BitpayFormat;
+const CashAddrFormat = Address.CashAddrFormat;
+
+const legacy = fromString('1MF7A5H2nHYYJMieouip2SkZiFZMBKqSZe',
+                  'mainnet', 'pubkeyhash');
+const bitpay = fromString('Cchzj7d6fLX5CVd5Vf3jbxNbLNmm4BTYuG',
+                  'mainnet', 'pubkeyhash', BitpayFormat);
+const cashaddr = fromString('bitcoincash:qr0q67nsn66cf3klfufttr0vuswh3w5nt5jqpp20t9',
+                  'mainnet', 'pubkeyhash', CashAddrFormat);
+```
+
 ## Import an address via WIF
 ```javascript
 const wif = 'Kxr9tQED9H44gCmp6HAdmemAzU3n84H3dGkuWTKvE23JgHMW8gct';

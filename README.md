@@ -40,10 +40,12 @@ You can find many useful, up-to-date examples to get you started right away on t
 
 * [Generate a random address](https://github.com/bitcoincashjs/bitcoincashjs/blob/master/docs/examples.md#generate-a-random-address)
 * [Generate a address from a SHA256 hash](https://github.com/bitcoincashjs/bitcoincashjs/blob/master/docs/examples.md#generate-a-address-from-a-sha256-hash)
+* [Translate an address to any Bitcoin Cash address format](https://github.com/bitcoincashjs/bitcoincashjs/blob/master/docs/examples.md#translate-an-address-to-any-bitcoin-cash-address-format)
+* [Read an address from any Bitcoin Cash address format](https://github.com/bitcoincashjs/bitcoincashjs/blob/master/docs/examples.md#read-an-address-from-any-bitcoin-cash-address-format)
 * [Import an address via WIF](https://github.com/bitcoincashjs/bitcoincashjs/blob/master/docs/examples.md#import-an-address-via-wif)
 * [Create a Transaction](https://github.com/bitcoincashjs/bitcoincashjs/blob/master/docs/examples.md#create-a-transaction)
-* [Sign a Bitcoin message](https://github.com/bitcoincashjs/bitcoincashjs/blob/master/docs/examples.md#sign-a-bitcoin-message)
 * [Verify a Bitcoin message](https://github.com/bitcoincashjs/bitcoincashjs/blob/master/docs/examples.md#verify-a-bitcoin-message)
+* [Sign a Bitcoin message](https://github.com/bitcoincashjs/bitcoincashjs/blob/master/docs/examples.md#sign-a-bitcoin-message)
 * [Create an OP RETURN transaction](https://github.com/bitcoincashjs/bitcoincashjs/blob/master/docs/examples.md#create-an-op-return-transaction)
 * [Create a 2-of-3 multisig P2SH address](https://github.com/bitcoincashjs/bitcoincashjs/blob/master/docs/examples.md#create-a-2-of-3-multisig-p2sh-address)
 * [Spend from a 2-of-2 multisig P2SH address](https://github.com/bitcoincashjs/bitcoincashjs/blob/master/docs/examples.md#spend-from-a-2-of-2-multisig-p2sh-address)
