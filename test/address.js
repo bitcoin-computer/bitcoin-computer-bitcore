@@ -116,6 +116,66 @@ describe('Address', function() {
     'mtX8nPZZdJ8d3QNLRJ1oJTiEi26Sj6LQXS'
   ];
 
+  const PKHLivenetBitpay = [
+    'CMPeBN1BZDzaqU5DF66X5QykLcS1voucT9',
+    'CRZoT4EafXoYLNJm3bPpTjK3h4q1FSxet4',
+    'CTHVPhghRAmiLHajoKYTGRyiU8RomQmAfZ',
+    'CaSvYEmgxVRYiAauWzW1XP4SHkyTiS78yy',
+    'CaSvYEmgxVRYiAauWzW1XP4SHkyTiS78yy',
+  ];
+
+  const P2SHLivenetBitpay = [
+    'H8rnMErHmZWKpp8H3beDwL8BsSEwzDFSjJ',
+    'H8kzbJ9Mw46WdAxC8SAFadHn1oNqp6jEsu',
+    'HCGvZEM8pNyAFBfRrz9Eo4N4eGJPuFahd9',
+    'HVZezVtqnDwoTZTZ997fZUUGZMetDFUDLf',
+    'HVZezVtqnDwoTZTZ997fZUUGZMetDFUDLf',
+  ];
+
+  const PKHTestnetBitpay = [
+    'n28S35tqEMbt6vNad7A5K3mZ7vdn8dZ86X',
+    'n45x3R2w2jaSC62BMa9MeJCd3TXxgvDEmm',
+    'mursDVxqNQmmwWHACpM9VHwVVSfTddGsEM',
+    'mtX8nPZZdJ8d3QNLRJ1oJTiEi26Sj6LQXS',
+  ];
+
+  const P2SHTestnetBitpay = [
+    '2N7FuwuUuoTBrDFdrAZ9KxBmtqMLxce9i1C',
+    '2NEWDzHWwY5ZZp8CQWbB7ouNMLqCia6YRda',
+    '2MxgPqX1iThW3oZVk9KoFcE5M4JpiETssVN',
+    '2NB72XtkjpnATMggui83aEtPawyyKvnbX2o',
+  ];
+
+  const PKHLivenetCashAddr = [
+    'bitcoincash:qqmq4ua630cqumzt29ml2jmy8gesega95cjctx4j02',
+    'bitcoincash:qp3awknl3dz8ezu3rmapff3phnzz95kansf0r3rs4x',
+    'bitcoincash:qpmtrcpj2fgwfn7f5fxxg7xrx08nayzquuv62srvq4',
+    'bitcoincash:qrz5xl0qmwxj8q7k57cfgn0avfuf86sr85x2056k40',
+    'bitcoincash:qrz5xl0qmwxj8q7k57cfgn0avfuf86sr85x2056k40',
+  ];
+
+  const P2SHLivenetCashAddr = [
+    'bitcoincash:pqv60krfqv3k3lglrcnwtee6ftgwgaykpccr8hujjz',
+    'bitcoincash:pqvglydfxx28ahwhgvkkuc2rsl3jkfz8py95pldjhu',
+    'bitcoincash:pqljzrnjwlyfnsap2hxpey85zpktmhhvdcjse2m6lm',
+    'bitcoincash:pr7v23sd6m3yslrawkcevd39mg8g7nzew5zmfd0lrt',
+    'bitcoincash:pr7v23sd6m3yslrawkcevd39mg8g7nzew5zmfd0lrt',
+  ];
+
+  const PKHTestnetCashAddr = [
+    'bchtest:qr3pswmv0t332gwaedmuhqcp59gswsu2ysdn664dvs',
+    'bchtest:qrmeqjy9l3me7tchp3szxuu692a9uhwu4ugltjlulm',
+    'bchtest:qzw4t46ref4lm73d5l4ht3nzse987ee2tsv9zydr5v',
+    'bchtest:qz82yclajj49kq3cnqk5khs9h2qx5drfruglvwmnac',
+  ];
+
+  const P2SHTestnetCashAddr = [
+    'bchtest:pzvmx80heyrg69ypkkt90rwmknfmmy96av8f02lrrf',
+    'bchtest:pr5npcvrffxjx3czwuu4r438en5zlw6a9cm22jfau6',
+    'bchtest:pqaek07h55x57zx35kc0vtmyf7n3zkhz7vxlq6zven',
+    'bchtest:prp72h7we64y8y0d92t80a9y6d82e5pp5qafr2whk4',
+  ];
+
   describe('validation', function() {
 
     it('getValidationError detects network mismatchs', function() {
@@ -555,6 +615,131 @@ describe('Address', function() {
       expect(function() {
         return Address.createMultisig([], 3, 'testnet');
       }).to.throw('Number of required signatures must be less than or equal to the number of public keys');
+    });
+  });
+
+  describe('Address formats', function() {
+
+    it('should throw an error if given an invalid format', function() {
+      (function() {
+        new Address(PKHLivenet[0]).toString('some invalid format');
+      }).should.throw('Unrecognized address format.');
+    });
+
+    it('should successfully convert address into Bitpay format', function() {
+      for (const i in PKHLivenet) {
+        const output = new Address(PKHLivenet[i]).toString(Address.BitpayFormat);
+        output.should.equal(PKHLivenetBitpay[i]);
+      }
+      for (const i in P2SHLivenet) {
+        const output = new Address(P2SHLivenet[i]).toString(Address.BitpayFormat);
+        output.should.equal(P2SHLivenetBitpay[i]);
+      }
+      for (const i in PKHTestnet) {
+        const output = new Address(PKHTestnet[i]).toString(Address.BitpayFormat);
+        output.should.equal(PKHTestnetBitpay[i]);
+      }
+      for (const i in P2SHTestnet) {
+        const output = new Address(P2SHTestnet[i]).toString(Address.BitpayFormat);
+        output.should.equal(P2SHTestnetBitpay[i]);
+      }
+    });
+
+    it('should successfully decode address in Bitpay format', function() {
+      for (const i in PKHLivenetBitpay) {
+        const address = Address.fromString(
+            PKHLivenetBitpay[i],
+            'livenet' ,
+            Address.PayToPublicKeyHash,
+            Address.BitpayFormat
+        );
+        address.toString().should.equal(PKHLivenet[i].trim());
+      }
+      for (const i in P2SHLivenetBitpay) {
+        const address = Address.fromString(
+            P2SHLivenetBitpay[i],
+            'livenet' ,
+            Address.PayToScriptHash,
+            Address.BitpayFormat
+        );
+        address.toString().should.equal(P2SHLivenet[i].trim());
+      }
+      for (const i in PKHTestnetBitpay) {
+        const address = Address.fromString(
+            PKHTestnetBitpay[i],
+            'testnet' ,
+            Address.PayToPublicKeyHash,
+            Address.BitpayFormat
+        );
+        address.toString().should.equal(PKHTestnet[i].trim());
+      }
+      for (const i in P2SHTestnetBitpay) {
+        const address = Address.fromString(
+            P2SHTestnetBitpay[i],
+            'testnet' ,
+            Address.PayToScriptHash,
+            Address.BitpayFormat
+        );
+        address.toString().should.equal(P2SHTestnet[i].trim());
+      }
+    });
+
+    it('should successfully convert address into CashAddr format', function() {
+      for (const i in PKHLivenet) {
+        const output = new Address(PKHLivenet[i]).toString(Address.CashAddrFormat);
+        output.should.equal(PKHLivenetCashAddr[i]);
+      }
+      for (const i in P2SHLivenet) {
+        const output = new Address(P2SHLivenet[i]).toString(Address.CashAddrFormat);
+        output.should.equal(P2SHLivenetCashAddr[i]);
+      }
+      for (const i in PKHTestnet) {
+        const output = new Address(PKHTestnet[i]).toString(Address.CashAddrFormat);
+        output.should.equal(PKHTestnetCashAddr[i]);
+      }
+      for (const i in P2SHTestnet) {
+        const output = new Address(P2SHTestnet[i]).toString(Address.CashAddrFormat);
+        output.should.equal(P2SHTestnetCashAddr[i]);
+      }
+    });
+
+    it('should successfully decode address in CashAddr format', function() {
+      for (const i in PKHLivenetCashAddr) {
+        const address = Address.fromString(
+            PKHLivenetCashAddr[i],
+            'livenet' ,
+            Address.PayToPublicKeyHash,
+            Address.CashAddrFormat
+        );
+        address.toString().should.equal(PKHLivenet[i].trim());
+      }
+      for (const i in P2SHLivenetCashAddr) {
+        const address = Address.fromString(
+            P2SHLivenetCashAddr[i],
+            'livenet' ,
+            Address.PayToScriptHash,
+            Address.CashAddrFormat
+        );
+        address.toString().should.equal(P2SHLivenet[i].trim());
+      }
+      for (const i in PKHTestnetCashAddr) {
+        const address = Address.fromString(
+            PKHTestnetCashAddr[i],
+            'testnet' ,
+            Address.PayToPublicKeyHash,
+            Address.CashAddrFormat
+        );
+        address.toString().should.equal(PKHTestnet[i].trim());
+      }
+      for (const i in P2SHTestnetCashAddr) {
+        const address = Address.fromString(
+            P2SHTestnetCashAddr[i],
+            'testnet' ,
+            Address.PayToScriptHash,
+            Address.CashAddrFormat
+        );
+        address.toString().should.equal(P2SHTestnet[i].trim());
+      }
     });
   });
 

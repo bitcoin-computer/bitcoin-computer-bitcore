@@ -39,6 +39,7 @@
     "bn.js": "=2.0.4",
     "bs58": "=2.0.0",
     "buffer-compare": "=1.0.0",
+    "cashaddrjs": "^0.1.4",
     "elliptic": "=3.0.3",
     "inherits": "=2.0.1",
     "lodash": "^4.17.4"

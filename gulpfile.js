@@ -44,9 +44,18 @@ gulp.task(
 gulp.task(
   'test:mocha',
   shell.task([
-    'npx nyc --reporter=html --reporter=text npx mocha',
+    `npx nyc --reporter=html --reporter=text npx mocha ${getTaskArgs()}`,
   ])
 );
+
+function getTaskArgs() {
+  if (process.argv.length < 4) {
+    return '';
+  }
+  const args = process.argv.splice(3);
+  const argsWithQuotes = args.map(a => a.indexOf(' ') !== -1 ? `"${a}"` : a);
+  return argsWithQuotes.join(' ');
+}
 
 gulp.task(
   'test:karma',

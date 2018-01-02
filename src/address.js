@@ -2,12 +2,16 @@
 
 var _ = require('lodash');
 var $ = require('./util/preconditions');
+var cashaddr = require('cashaddrjs');
 var errors = require('./errors');
 var Base58Check = require('./encoding/base58check');
 var Networks = require('./networks');
 var Hash = require('./crypto/hash');
 var JSUtil = require('./util/js');
 var PublicKey = require('./publickey');
+
+const BITPAY_P2PKH_VERSION_BYTE = 28;
+const BITPAY_P2SH_VERSION_BYTE = 40;
 
 /**
  * Instantiate an address from an address String or Buffer, a public key or script hash Buffer,
@@ -104,13 +108,22 @@ Address.prototype._classifyArguments = function(data, network, type) {
   } else if (data instanceof Script) {
     return Address._transformScript(data, network);
   } else if (typeof(data) === 'string') {
-    return Address._transformString(data, network, type);
+    return Address._transformString(data, network, type, Address.DefaultFormat);
   } else if (_.isObject(data)) {
     return Address._transformObject(data);
   } else {
     throw new TypeError('First argument is an unrecognized data format.');
   }
 };
+
+/** @static */
+Address.LegacyFormat = 'legacy';
+/** @static */
+Address.BitpayFormat = 'bitpay';
+/** @static */
+Address.CashAddrFormat = 'cashaddr';
+/** @static */
+Address.DefaultFormat = Address.LegacyFormat;
 
 /** @static */
 Address.PayToPublicKeyHash = 'pubkeyhash';
@@ -271,14 +284,34 @@ Address.createMultisig = function(publicKeys, threshold, network) {
  * @returns {Object} An object with keys: hashBuffer, network and type
  * @private
  */
-Address._transformString = function(data, network, type) {
+Address._transformString = function(data, network, type, format) {
   if (typeof(data) !== 'string') {
     throw new TypeError('data parameter supplied is not a string.');
   }
   data = data.trim();
-  var addressBuffer = Base58Check.decode(data);
-  var info = Address._transformBuffer(addressBuffer, network, type);
-  return info;
+  if (format === Address.LegacyFormat) {
+    return Address._transformBuffer(Base58Check.decode(data), network, type);
+  }
+  else if (format === Address.BitpayFormat) {
+    var addressBuffer = Base58Check.decode(data);
+    if (format === Address.BitpayFormat) {
+      if (addressBuffer[0] === BITPAY_P2PKH_VERSION_BYTE) {
+        addressBuffer[0] = 0;
+      }
+      else if (addressBuffer[0] === BITPAY_P2SH_VERSION_BYTE) {
+        addressBuffer[0] = 5;
+      }
+    }
+    return Address._transformBuffer(addressBuffer, network, type);
+  }
+  else if (format === Address.CashAddrFormat) {
+    var networkObject = Networks.get(network);
+    var version = new Buffer([networkObject[type]]);
+    var hashBuffer = new Buffer(cashaddr.decode(data).hash);
+    var addressBuffer = Buffer.concat([version, hashBuffer]);
+    return Address._transformBuffer(addressBuffer, network, type);
+  }
+  throw new TypeError('Unrecognized address format.');
 };
 
 /**
@@ -375,8 +408,9 @@ Address.fromBuffer = function(buffer, network, type) {
  * @param {string=} type - The type of address: 'script' or 'pubkey'
  * @returns {Address} A new valid and frozen instance of an Address
  */
-Address.fromString = function(str, network, type) {
-  var info = Address._transformString(str, network, type);
+Address.fromString = function(str, network, type, format) {
+  format = format || Address.DefaultFormat;
+  var info = Address._transformString(str, network, type, format);
   return new Address(info.hashBuffer, info.network, info.type);
 };
 
@@ -480,8 +514,30 @@ Address.prototype.toObject = Address.prototype.toJSON = function toObject() {
  *
  * @returns {string} Bitcoin address
  */
-Address.prototype.toString = function() {
-  return Base58Check.encode(this.toBuffer());
+Address.prototype.toString = function(format) {
+  format = format || Address.DefaultFormat;
+  if (format === Address.LegacyFormat) {
+    return Base58Check.encode(this.toBuffer());
+  }
+  else if (format === Address.BitpayFormat) {
+    var buffer = this.toBuffer();
+    if (this.network.toString() === 'livenet') {
+      if (this.type === Address.PayToPublicKeyHash) {
+        buffer[0] = BITPAY_P2PKH_VERSION_BYTE;
+      }
+      else if (this.type === Address.PayToScriptHash) {
+        buffer[0] = BITPAY_P2SH_VERSION_BYTE;
+      }
+    }
+    return Base58Check.encode(buffer);
+  }
+  else if (format === Address.CashAddrFormat) {
+    var prefix = this.network.toString() === 'livenet' ? 'bitcoincash' : 'bchtest';
+    var type = this.type === Address.PayToPublicKeyHash ? 'P2PKH' : 'P2SH';
+    var hash = [...this.hashBuffer];
+    return cashaddr.encode(prefix, type, hash);
+  }
+  throw new TypeError('Unrecognized address format.');
 };
 
 /**
