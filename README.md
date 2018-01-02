@@ -1,4 +1,4 @@
-# BitcoinCash.js: The simple, safe, and powerful JavaScript library for Bitcoin Cash
+# [BitcoinCash.js](https://bitcoincashjs.github.io/): The simple, safe, and powerful JavaScript library for Bitcoin Cash
 
 [![NPM Package](https://img.shields.io/npm/v/bitcoincashjs.svg?style=flat-square)](https://www.npmjs.org/package/bitcoincashjs)
 [![Build Status](https://img.shields.io/travis/bitcoincashjs/bitcoincashjs.svg?branch=master&style=flat-square)](https://travis-ci.org/bitcoincashjs/bitcoincashjs)
@@ -36,7 +36,7 @@ You may also download the distribution file manually and place it within your th
 
 ## Examples
 
-You can find many useful, up-to-date examples to get you started right away on the [BitcoinCash.js](https://bitcoincashjs.github.io/#Examples) website or following the next links:
+You can find many useful, up-to-date examples to get you started right away on the [BitcoinCash.js](https://bitcoincashjs.github.io/#Examples) website or by following the next links:
 
 * [Generate a random address](https://github.com/bitcoincashjs/bitcoincashjs/blob/master/docs/examples.md#generate-a-random-address)
 * [Generate a address from a SHA256 hash](https://github.com/bitcoincashjs/bitcoincashjs/blob/master/docs/examples.md#generate-a-address-from-a-sha256-hash)
