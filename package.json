@@ -1,11 +1,11 @@
 {
   "name": "bitcoincashjs",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "A simple, safe, and powerful JavaScript Bitcoin Cash library.",
   "author": "Emilio Almansi <hi@ealmansi.com>",
   "main": "index.js",
   "scripts": {
-    "start": "npm install && npx gulp build",
+    "build": "npm install && npx gulp build",
     "test": "npm install && npx gulp test",
     "lint": "npm install && npx gulp lint",
     "coveralls": "npm install && npx gulp coveralls"
@@ -46,6 +46,7 @@
   },
   "devDependencies": {
     "babel-core": "^6.26.0",
+    "babel-minify": "^0.2.0",
     "babel-preset-env": "^1.6.1",
     "babelify": "^8.0.0",
     "brfs": "^1.4.3",

@@ -24,8 +24,8 @@ const npmPackage = require('./package.json');
 gulp.task(
   'build',
   shell.task([[
-    'npx browserify index.js --s bitcoinCash -t [ babelify --presets [ env ] ]', '|',
-    `npx uglifyjs --comments -c -o dist/bitcoincashjs.${npmPackage.version}.min.js`,
+    'npx browserify index.js --s bitcoinCash -t [ babelify ]', '|',
+    `npx minify --out-file dist/bitcoincashjs.${npmPackage.version}.min.js`,
   ].join(' ')])
 );
 
