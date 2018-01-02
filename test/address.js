@@ -742,5 +742,4 @@ describe('Address', function() {
       }
     });
   });
-
 });
