@@ -346,13 +346,29 @@ Address._transformStringBitpay = function(data, network, type) {
  * @private
  */
 Address._transformStringCashAddr = function(data, network, type) {
-  network = network || 'mainnet';
-  type = type || Address.PayToPublicKeyHash;
-  var networkObject = Networks.get(network);
-  $.checkArgument(networkObject, 'Invalid network.');
-  $.checkArgument(type in networkObject, 'Invalid type.');
-  var version = new Buffer([networkObject[type]]);
-  var hashBuffer = new Buffer(cashaddr.decode(data).hash);
+  if (!(typeof network === 'string')) {
+    network = network.toString();
+  }
+  var decoded = cashaddr.decode(data);
+  $.checkArgument(
+      !network ||
+          (network === 'livenet' && decoded.prefix === 'bitcoincash') ||
+          (network === 'testnet' && decoded.prefix === 'bchtest'),
+      'Invalid network.'
+  );
+  $.checkArgument(
+    !type ||
+        (type === Address.PayToPublicKeyHash && decoded.type === 'P2PKH') ||
+        (type === Address.PayToScriptHash && decoded.type === 'P2SH'),
+    'Invalid type.'
+  );
+  network = Networks.get(network ||
+      (decoded.prefix === 'bitcoincash' ? 'livenet' : 'testnet')
+  );
+  type = type ||
+      (decoded.type === 'P2PKH' ? Address.PayToPublicKeyHash : Address.PayToScriptHash);
+  var version = new Buffer([network[type]]);
+  var hashBuffer = new Buffer(decoded.hash);
   var addressBuffer = Buffer.concat([version, hashBuffer]);
   return Address._transformBuffer(addressBuffer, network, type);
 };
