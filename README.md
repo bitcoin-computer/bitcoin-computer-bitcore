@@ -32,7 +32,7 @@ $ bower install --save bitcoincashjs
 
 ### Manually
 
-You may also download the distribution file manually and place it within your third-party scripts directory: [dist/bitcoincashjs.0.1.2.min.js](https://cdn.rawgit.com/bitcoincashjs/bitcoincashjs/master/dist/bitcoincashjs.0.1.2.min.js).
+You may also download the distribution file manually and place it within your third-party scripts directory: [dist/bitcoincashjs.0.1.3.min.js](https://cdn.rawgit.com/bitcoincashjs/bitcoincashjs/master/dist/bitcoincashjs.0.1.3.min.js).
 
 ## Examples
 
