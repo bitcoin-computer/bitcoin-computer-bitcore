@@ -31,7 +31,7 @@ gulp.task(
   shell.task([[
     'rm -rf lib', '&&',
     'mkdir -p lib', '&&',
-    'npx babel src --out-dir lib',
+    'npx babel-cli src --out-dir lib',
   ].join(' ')])
 );
 
