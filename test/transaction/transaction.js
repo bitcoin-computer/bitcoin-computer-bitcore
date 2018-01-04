@@ -7,17 +7,17 @@ var expect = require('chai').expect;
 var _ = require('lodash');
 var sinon = require('sinon');
 
-var bitcoinCash = require('../..');
-var BN = bitcoinCash.crypto.BN;
-var Transaction = bitcoinCash.Transaction;
-var Input = bitcoinCash.Transaction.Input;
-var Output = bitcoinCash.Transaction.Output;
-var PrivateKey = bitcoinCash.PrivateKey;
-var Script = bitcoinCash.Script;
-var Address = bitcoinCash.Address;
-var Networks = bitcoinCash.Networks;
-var Opcode = bitcoinCash.Opcode;
-var errors = bitcoinCash.errors;
+var bch = require('../..');
+var BN = bch.crypto.BN;
+var Transaction = bch.Transaction;
+var Input = bch.Transaction.Input;
+var Output = bch.Transaction.Output;
+var PrivateKey = bch.PrivateKey;
+var Script = bch.Script;
+var Address = bch.Address;
+var Networks = bch.Networks;
+var Opcode = bch.Opcode;
+var errors = bch.errors;
 
 var transactionVector = require('../data/tx_creation');
 
@@ -122,7 +122,7 @@ console.log('[transaction.js.116]'); //TODO
   });
 
   it('fromObject with pay-to-public-key previous outputs', function() {
-    var tx = bitcoinCash.Transaction({
+    var tx = bch.Transaction({
       hash: '132856bf03d6415562a556437d22ac63c37a4595fd986c796eb8e02dc031aa25',
       version: 1,
       inputs: [{
@@ -145,7 +145,7 @@ console.log('[transaction.js.116]'); //TODO
       }],
       nLockTime: 139
     });
-    tx.inputs[0].should.be.instanceof(bitcoinCash.Transaction.Input.PublicKey);
+    tx.inputs[0].should.be.instanceof(bch.Transaction.Input.PublicKey);
     tx.inputs[0].output.satoshis.should.equal(5000000000);
     tx.inputs[0].output.script.toHex().should.equal('2103b1c65d65f1ff3fe145a4ede692460ae0606671d04e8449e99dd11c66ab55a7feac');
   });
@@ -771,7 +771,7 @@ console.log('[transaction.js.116]'); //TODO
         outputIndex: 0,
         script: new Script()
       }), outputScriptString, 10000);
-      transaction.inputs[0].output.script.should.be.instanceof(bitcoinCash.Script);
+      transaction.inputs[0].output.script.should.be.instanceof(bch.Script);
       transaction.inputs[0].output.script.toString().should.equal(outputScriptString);
     });
   });

@@ -3,13 +3,13 @@
 var should = require('chai').should();
 var expect = require('chai').expect;
 
-var bitcoinCash = require('..');
-var Point = bitcoinCash.crypto.Point;
-var BN = bitcoinCash.crypto.BN;
-var PublicKey = bitcoinCash.PublicKey;
-var PrivateKey = bitcoinCash.PrivateKey;
-var Address = bitcoinCash.Address;
-var Networks = bitcoinCash.Networks;
+var bch = require('..');
+var Point = bch.crypto.Point;
+var BN = bch.crypto.BN;
+var PublicKey = bch.PublicKey;
+var PrivateKey = bch.PrivateKey;
+var Address = bch.Address;
+var Networks = bch.Networks;
 
 /* jshint maxlen: 200 */
 

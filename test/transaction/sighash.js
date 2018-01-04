@@ -4,10 +4,10 @@ var buffer = require('buffer');
 
 var chai = require('chai');
 var should = chai.should();
-var bitcoinCash = require('../../');
-var Script = bitcoinCash.Script;
-var BN = bitcoinCash.crypto.BN;
-var Transaction = bitcoinCash.Transaction;
+var bch = require('../../');
+var Script = bch.Script;
+var BN = bch.crypto.BN;
+var Transaction = bch.Transaction;
 var sighash = Transaction.sighash;
 
 var vectors_sighash = require('../data/sighash.json');

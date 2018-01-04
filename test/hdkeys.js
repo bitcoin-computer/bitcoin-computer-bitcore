@@ -14,10 +14,10 @@ var _ = require('lodash');
 var should = require('chai').should();
 var expect = require('chai').expect;
 var sinon = require('sinon');
-var bitcoinCash = require('..');
-var Networks = bitcoinCash.Networks;
-var HDPrivateKey = bitcoinCash.HDPrivateKey;
-var HDPublicKey = bitcoinCash.HDPublicKey;
+var bch = require('..');
+var Networks = bch.Networks;
+var HDPrivateKey = bch.HDPrivateKey;
+var HDPublicKey = bch.HDPublicKey;
 
 describe('HDKeys building with static methods', function() {
   var classes = [HDPublicKey, HDPrivateKey];
@@ -279,9 +279,9 @@ describe('BIP32 compliance', function() {
       var invalid = new Buffer('0000000000000000000000000000000000000000000000000000000000000000', 'hex');
       var privateKeyBuffer = new Buffer('5f72914c48581fc7ddeb944a9616389200a9560177d24f458258e5b04527bcd1', 'hex');
       var chainCodeBuffer = new Buffer('39816057bba9d952fe87fe998b7fd4d690a1bb58c2ff69141469e4d1dffb4b91', 'hex');
-      var unstubbed = bitcoinCash.crypto.BN.prototype.toBuffer;
+      var unstubbed = bch.crypto.BN.prototype.toBuffer;
       var count = 0;
-      var stub = sandbox.stub(bitcoinCash.crypto.BN.prototype, 'toBuffer', function(args) {
+      var stub = sandbox.stub(bch.crypto.BN.prototype, 'toBuffer', function(args) {
         // On the fourth call to the function give back an invalid private key
         // otherwise use the normal behavior.
         count++;
@@ -291,7 +291,7 @@ describe('BIP32 compliance', function() {
         var ret = unstubbed.apply(this, arguments);
         return ret;
       });
-      sandbox.spy(bitcoinCash.PrivateKey, 'isValid');
+      sandbox.spy(bch.PrivateKey, 'isValid');
       var key = HDPrivateKey.fromObject({
         network: 'testnet',
         depth: 0,
@@ -302,7 +302,7 @@ describe('BIP32 compliance', function() {
       });
       var derived = key.derive("m/44'");
       derived.privateKey.toString().should.equal('b15bce3608d607ee3a49069197732c656bca942ee59f3e29b4d56914c1de6825');
-      bitcoinCash.PrivateKey.isValid.callCount.should.equal(2);
+      bch.PrivateKey.isValid.callCount.should.equal(2);
     });
     it('will handle edge case that a derive public key is invalid', function() {
       var publicKeyBuffer = new Buffer('029e58b241790284ef56502667b15157b3fc58c567f044ddc35653860f9455d099', 'hex');
@@ -315,9 +315,9 @@ describe('BIP32 compliance', function() {
         chainCode: chainCodeBuffer,
         publicKey: publicKeyBuffer
       });
-      var unstubbed = bitcoinCash.PublicKey.fromPoint;
-      bitcoinCash.PublicKey.fromPoint = function() {
-        bitcoinCash.PublicKey.fromPoint = unstubbed;
+      var unstubbed = bch.PublicKey.fromPoint;
+      bch.PublicKey.fromPoint = function() {
+        bch.PublicKey.fromPoint = unstubbed;
         throw new Error('Point cannot be equal to Infinity');
       };
       sandbox.spy(key, '_deriveWithNumber');

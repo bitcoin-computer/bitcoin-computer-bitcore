@@ -1,11 +1,11 @@
 'use strict';
 
 var chai = chai || require('chai');
-var bitcoinCash = require('..');
+var bch = require('..');
 var expect = chai.expect;
-var Networks = bitcoinCash.Networks;
+var Networks = bch.Networks;
 var should = chai.should();
-var URI = bitcoinCash.URI;
+var URI = bch.URI;
 
 describe('URI', function() {
   /* jshint maxstatements: 30 */
@@ -79,7 +79,7 @@ describe('URI', function() {
 
     it('parses address', function() {
       uri = new URI('bitcoincash:1DP69gMMvSuYhbnxsi4EJEFufUAbDrEQfj');
-      uri.address.should.be.instanceof(bitcoinCash.Address);
+      uri.address.should.be.instanceof(bch.Address);
       uri.network.should.equal(Networks.livenet);
     });
 
@@ -92,13 +92,13 @@ describe('URI', function() {
 
     it('parses a testnet address', function() {
       uri = new URI('bitcoincash:mkYY5NRvikVBY1EPtaq9fAFgquesdjqECw');
-      uri.address.should.be.instanceof(bitcoinCash.Address);
+      uri.address.should.be.instanceof(bch.Address);
       uri.network.should.equal(Networks.testnet);
     });
 
     it('stores unknown parameters as "extras"', function() {
       uri = new URI('bitcoincash:1DP69gMMvSuYhbnxsi4EJEFufUAbDrEQfj?amount=1.2&other=param');
-      uri.address.should.be.instanceof(bitcoinCash.Address);
+      uri.address.should.be.instanceof(bch.Address);
       expect(uri.other).to.be.undefined();
       uri.extras.other.should.equal('param');
     });
@@ -112,7 +112,7 @@ describe('URI', function() {
     it('has no false negative when checking supported features', function() {
       uri = new URI('bitcoincash:1DP69gMMvSuYhbnxsi4EJEFufUAbDrEQfj?amount=1.2&other=param&' +
                     'req-required=param', ['req-required']);
-      uri.address.should.be.instanceof(bitcoinCash.Address);
+      uri.address.should.be.instanceof(bch.Address);
       uri.amount.should.equal(120000000);
       uri.extras.other.should.equal('param');
       uri.extras['req-required'].should.equal('param');
@@ -127,13 +127,13 @@ describe('URI', function() {
     uri = new URI({
       address: '1DP69gMMvSuYhbnxsi4EJEFufUAbDrEQfj'
     });
-    uri.address.should.be.instanceof(bitcoinCash.Address);
+    uri.address.should.be.instanceof(bch.Address);
     uri.network.should.equal(Networks.livenet);
 
     uri = new URI({
       address: 'mkYY5NRvikVBY1EPtaq9fAFgquesdjqECw'
     });
-    uri.address.should.be.instanceof(bitcoinCash.Address);
+    uri.address.should.be.instanceof(bch.Address);
     uri.network.should.equal(Networks.testnet);
 
     uri = new URI({
@@ -141,7 +141,7 @@ describe('URI', function() {
       amount: 120000000,
       other: 'param'
     });
-    uri.address.should.be.instanceof(bitcoinCash.Address);
+    uri.address.should.be.instanceof(bch.Address);
     uri.amount.should.equal(120000000);
     expect(uri.other).to.be.undefined();
     uri.extras.other.should.equal('param');
@@ -159,7 +159,7 @@ describe('URI', function() {
       other: 'param',
       'req-required': 'param'
     }, ['req-required']);
-    uri.address.should.be.instanceof(bitcoinCash.Address);
+    uri.address.should.be.instanceof(bch.Address);
     uri.amount.should.equal(120000000);
     uri.extras.other.should.equal('param');
     uri.extras['req-required'].should.equal('param');

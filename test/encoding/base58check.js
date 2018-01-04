@@ -1,9 +1,9 @@
 'use strict';
 
 var should = require('chai').should();
-var bitcoinCash = require('../..');
-var Base58Check = bitcoinCash.encoding.Base58Check;
-var Base58 = bitcoinCash.encoding.Base58;
+var bch = require('../..');
+var Base58Check = bch.encoding.Base58Check;
+var Base58 = bch.encoding.Base58;
 
 describe('Base58Check', function() {
   var buf = new Buffer([0, 1, 2, 3, 253, 254, 255]);

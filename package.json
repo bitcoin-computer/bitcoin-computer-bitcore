@@ -3,12 +3,22 @@
   "version": "0.1.4",
   "description": "A simple, safe, and powerful JavaScript Bitcoin Cash library.",
   "author": "Emilio Almansi <hi@ealmansi.com>",
-  "main": "index.js",
+  "main": "lib/bitcoincash.js",
   "scripts": {
     "build": "npm install && npx gulp build",
+    "build:node": "npm install && npx gulp build:node",
+    "build:browser": "npm install && npx gulp build:browser",
+    "build:test": "npm install && npx gulp build:test",
     "test": "npm install && npx gulp test",
+    "test:all": "npm install && npx gulp test:all",
+    "test:node": "npm install && npx gulp test:node",
+    "test:browser": "npm install && npx gulp test:browser",
     "lint": "npm install && npx gulp lint",
-    "coveralls": "npm install && npx gulp coveralls"
+    "coveralls": "npm install && npx gulp coveralls",
+    "preversion": "npm install && npm test",
+    "version": "npm install && npx gulp version",
+    "postversion": "npm install && npx gulp postversion",
+    "bump": "npm version patch -m 'Bump version to %s.'"
   },
   "keywords": [
     "bitcoin",
@@ -63,6 +73,7 @@
     "karma-firefox-launcher": "^1.1.0",
     "karma-mocha": "^1.3.0",
     "mocha": "^4.1.0",
+    "mustache": "^2.3.0",
     "nyc": "^11.4.1",
     "run-sequence": "^2.2.0",
     "sinon": "^1.13.0",

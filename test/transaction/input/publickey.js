@@ -1,9 +1,9 @@
 'use strict';
 
 var should = require('chai').should();
-var bitcoinCash = require('../../..');
-var Transaction = bitcoinCash.Transaction;
-var PrivateKey = bitcoinCash.PrivateKey;
+var bch = require('../../..');
+var Transaction = bch.Transaction;
+var PrivateKey = bch.PrivateKey;
 
 describe('PublicKeyInput', function() {
 

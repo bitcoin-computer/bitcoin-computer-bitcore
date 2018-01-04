@@ -4,9 +4,9 @@
 var should = require('chai').should();
 var expect = require('chai').expect;
 
-var bitcoinCash = require('../..');
-var errors = bitcoinCash.errors;
-var BufferUtil = bitcoinCash.util.buffer;
+var bch = require('../..');
+var errors = bch.errors;
+var BufferUtil = bch.util.buffer;
 
 describe('buffer utils', function() {
 

@@ -2,10 +2,10 @@
 
 var should = require('chai').should();
 
-var bitcoinCash = require('../..');
-var errors = bitcoinCash.errors;
-var $ = bitcoinCash.util.preconditions;
-var PrivateKey = bitcoinCash.PrivateKey;
+var bch = require('../..');
+var errors = bch.errors;
+var $ = bch.util.preconditions;
+var PrivateKey = bch.PrivateKey;
 
 describe('preconditions', function() {
 

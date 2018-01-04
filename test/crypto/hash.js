@@ -1,8 +1,8 @@
 'use strict';
 
 require('chai').should();
-var bitcoinCash = require('../..');
-var Hash = bitcoinCash.crypto.Hash;
+var bch = require('../..');
+var Hash = bch.crypto.Hash;
 
 describe('Hash', function() {
   var buf = new Buffer([0, 1, 2, 3, 253, 254, 255]);

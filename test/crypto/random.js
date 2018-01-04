@@ -1,7 +1,7 @@
 'use strict';
 
-var bitcoinCash = require('../..');
-var Random = bitcoinCash.crypto.Random;
+var bch = require('../..');
+var Random = bch.crypto.Random;
 
 describe('Random', function() {
 

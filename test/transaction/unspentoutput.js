@@ -5,8 +5,8 @@ var chai = require('chai');
 var should = chai.should();
 var expect = chai.expect;
 
-var bitcoinCash = require('../..');
-var UnspentOutput = bitcoinCash.Transaction.UnspentOutput;
+var bch = require('../..');
+var UnspentOutput = bch.Transaction.UnspentOutput;
 
 describe('UnspentOutput', function() {
 

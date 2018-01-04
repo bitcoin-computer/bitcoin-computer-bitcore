@@ -4,8 +4,8 @@
 var should = require('chai').should();
 var expect = require('chai').expect;
 
-var bitcoinCash = require('../..');
-var JSUtil = bitcoinCash.util.js;
+var bch = require('../..');
+var JSUtil = bch.util.js;
 
 describe('js utils', function() {
 

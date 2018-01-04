@@ -5,11 +5,11 @@
  *
  * Summary:
  * <ul>
- *   <li> `test` - an alias for `test:mocha`
- *   <li> `test:mocha` - runs all the tests on node (mocha)
- *   <li> `test:karma` - runs all the tests in the browser (karma)
+ *   <li> `test` - an alias for `test:node`
+ *   <li> `test:node` - runs all the tests on node (mocha)
+ *   <li> `test:browser` - runs all the tests in the browser (karma)
  *   <li> `build` - generate files needed for browser (browserify)
- *   <li> `build:tests` - generate files needed for testing in the browser
+ *   <li> `build:test` - generate files needed for testing in the browser
  *   <li> `lint` - run `jshint`
  *   <li> `coveralls` - updates coveralls info
  * </ul>
@@ -23,29 +23,93 @@ const npmPackage = require('./package.json');
 
 gulp.task(
   'build',
+  ['build:node', 'build:browser']
+);
+
+gulp.task(
+  'build:node',
   shell.task([[
-    'npx browserify index.js --s bitcoinCash -t [ babelify ]', '|',
+    'rm -rf lib', '&&',
+    'mkdir -p lib', '&&',
+    'npx babel src --out-dir lib',
+  ].join(' ')])
+);
+
+gulp.task(
+  'build:browser',
+  ['build:node'],
+  shell.task([[
+    'rm -rf dist', '&&',
+    'mkdir -p dist', '&&',
+    'npx browserify lib/bitcoincash.js --s bch', '|',
     `npx minify --out-file dist/bitcoincashjs.${npmPackage.version}.min.js`,
   ].join(' ')])
 );
 
 gulp.task(
-  'build:tests',
-  shell.task([
+  'build:test',
+  shell.task([[
+    'rm -rf build', '&&',
+    'mkdir -p build', '&&',
     'find test/ -type f -name "*.js" | xargs npx browserify -t brfs -o build/tests.js'
-  ])
+  ].join(' ')])
 );
 
 gulp.task(
   'test',
-  ['test:mocha']
+  ['test:node']
 );
 
 gulp.task(
-  'test:mocha',
+  'test:all',
+  ['test:node', 'test:browser']
+);
+
+gulp.task(
+  'test:node',
   shell.task([
     `npx nyc --reporter=html --reporter=text npx mocha ${getTaskArgs()}`,
   ])
+);
+
+gulp.task(
+  'test:browser',
+  ['build:test'],
+  shell.task([
+    'npx karma start',
+  ])
+);
+
+gulp.task(
+  'lint',
+  shell.task([
+    'find gulpfile.js src/ test/ -type f -name "*.js" | xargs npx jshint',
+  ])
+);
+
+gulp.task(
+  'coveralls',
+  shell.task([
+    'npx nyc report --reporter=text-lcov | npx coveralls',
+  ])
+);
+
+gulp.task(
+  'version',
+  ['build'],
+  shell.task([[
+    'npx mustache package.json README.tpl.md > README.md', '&&',
+    'git add -A lib dist README.md',
+  ].join(' ')])
+);
+
+gulp.task(
+  'postversion',
+  shell.task([[
+    'git push', '&&',
+    'git push --tags', '&&',
+    'npm publish',
+  ].join(' ')])
 );
 
 function getTaskArgs() {
@@ -57,24 +121,3 @@ function getTaskArgs() {
   return argsWithQuotes.join(' ');
 }
 
-gulp.task(
-  'test:karma',
-  ['build:tests'],
-  shell.task([
-    'npx karma start',
-  ])
-);
-
-gulp.task(
-  'lint',
-  shell.task([
-    'find index.js gulpfile.js src/ test/ -type f -name "*.js" | xargs npx jshint',
-  ])
-);
-
-gulp.task(
-  'coveralls',
-  shell.task([
-    'npx nyc report --reporter=text-lcov | npx coveralls',
-  ])
-);

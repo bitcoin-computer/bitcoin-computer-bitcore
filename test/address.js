@@ -6,11 +6,11 @@ var chai = require('chai');
 var should = chai.should();
 var expect = chai.expect;
 
-var bitcoinCash = require('..');
-var PublicKey = bitcoinCash.PublicKey;
-var Address = bitcoinCash.Address;
-var Script = bitcoinCash.Script;
-var Networks = bitcoinCash.Networks;
+var bch = require('..');
+var PublicKey = bch.PublicKey;
+var Address = bch.Address;
+var Script = bch.Script;
+var Networks = bch.Networks;
 
 var validbase58 = require('./data/bitcoind/base58_keys_valid.json');
 var invalidbase58 = require('./data/bitcoind/base58_keys_invalid.json');
@@ -313,7 +313,7 @@ describe('Address', function() {
     it('should error because of unrecognized data format', function() {
       (function() {
         return new Address(new Error());
-      }).should.throw(bitcoinCash.errors.InvalidArgument);
+      }).should.throw(bch.errors.InvalidArgument);
     });
 
     it('should error because of incorrect format for pubkey hash', function() {
@@ -516,7 +516,7 @@ describe('Address', function() {
     it('will fail with invalid state', function() {
       expect(function() {
         return Address.fromObject('¹');
-      }).to.throw(bitcoinCash.errors.InvalidState);
+      }).to.throw(bch.errors.InvalidState);
     });
   });
 

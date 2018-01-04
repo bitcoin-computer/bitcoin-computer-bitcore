@@ -3,7 +3,7 @@
 var chai = require('chai');
 var should = chai.should();
 
-var bitcoinCash = require('..');
+var bch = require('..');
 var fs = require('fs');
 
 describe('Documentation', function() {
@@ -12,6 +12,6 @@ describe('Documentation', function() {
     var versionRE = /v[0-9]+\.[0-9]+/;
     var docIndex = fs.readFileSync('./docs/index.md', 'ascii');
     var docVersion = docIndex.match(versionRE)[0];
-    bitcoinCash.version.indexOf(docVersion).should.equal(0);
+    bch.version.indexOf(docVersion).should.equal(0);
   });
 });
