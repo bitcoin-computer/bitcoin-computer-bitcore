@@ -67,6 +67,7 @@ gulp.task(
 
 gulp.task(
   'test:node',
+  ['build:node'],
   shell.task([
     `npx nyc --reporter=html --reporter=text npx mocha ${getTaskArgs()}`,
   ])

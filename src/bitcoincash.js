@@ -45,6 +45,7 @@ bch.errors = require('./errors');
 bch.Address = require('./address');
 bch.Block = require('./block');
 bch.MerkleBlock = require('./block/merkleblock');
+bch.Message = require('./message');
 bch.BlockHeader = require('./block/blockheader');
 bch.HDPrivateKey = require('./hdprivatekey.js');
 bch.HDPublicKey = require('./hdpublickey.js');

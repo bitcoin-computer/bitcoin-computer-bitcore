@@ -2,6 +2,8 @@
 
 ## Generate a random address
 ```javascript
+const bch = require('bitcoincashjs');
+
 const privateKey = new bch.PrivateKey();
 const address = privateKey.toAddress();
 
@@ -10,6 +12,8 @@ console.log(address.toString()) // 15WZwpw3BofscM2u43ji85BXucai5YGToL
 
 ## Generate a address from a SHA256 hash
 ```javascript
+const bch = require('bitcoincashjs');
+
 const value = new Buffer('Bitcoin Cash - Peer-to-Peer Electronic Cash');
 const hash = bch.crypto.Hash.sha256(value);
 const bn = bch.crypto.BN.fromBuffer(hash);
@@ -20,6 +24,8 @@ console.log(address.toString()) // 126tFHmNHNAXDYT1QeEBEwBbEojib1VZyg
 
 ## Translate an address to any Bitcoin Cash address format
 ```javascript
+const bch = require('bitcoincashjs');
+
 const Address = bch.Address;
 const BitpayFormat = Address.BitpayFormat;
 const CashAddrFormat = Address.CashAddrFormat;
@@ -33,21 +39,25 @@ console.log(address.toString(CashAddrFormat)) // bitcoincash:qr0q67nsn66cf3klfuf
 
 ## Read an address from any Bitcoin Cash address format
 ```javascript
+const bch = require('bitcoincashjs');
+
 const Address = bch.Address;
 const fromString = Address.fromString;
 const BitpayFormat = Address.BitpayFormat;
 const CashAddrFormat = Address.CashAddrFormat;
 
 const legacy = fromString('1MF7A5H2nHYYJMieouip2SkZiFZMBKqSZe',
-                  'mainnet', 'pubkeyhash');
+                  'livenet', 'pubkeyhash');
 const bitpay = fromString('Cchzj7d6fLX5CVd5Vf3jbxNbLNmm4BTYuG',
-                  'mainnet', 'pubkeyhash', BitpayFormat);
+                  'livenet', 'pubkeyhash', BitpayFormat);
 const cashaddr = fromString('bitcoincash:qr0q67nsn66cf3klfufttr0vuswh3w5nt5jqpp20t9',
-                  'mainnet', 'pubkeyhash', CashAddrFormat);
+                  'livenet', 'pubkeyhash', CashAddrFormat);
 ```
 
 ## Import an address via WIF
 ```javascript
+const bch = require('bitcoincashjs');
+
 const wif = 'Kxr9tQED9H44gCmp6HAdmemAzU3n84H3dGkuWTKvE23JgHMW8gct';
 const address = new bch.PrivateKey(wif).toAddress();
 
@@ -56,6 +66,8 @@ console.log(address.toString()) // 19AAjaTUbRjQCMuVczepkoPswiZRhjtg31
 
 ## Create a Transaction
 ```javascript
+const bch = require('bitcoincashjs');
+
 const privateKey = new bch.PrivateKey('L1uyy5qTuGrVXrmrsvHWHgVzW9kKdrp27wBC7Vs6nZDTF2BRUVwy');
 const utxo = {
   'txId' : '115e8f72f39fad874cfab0deed11a80f24f967a84079fb56ddf53ea02e308986',
@@ -74,7 +86,9 @@ console.log(transaction.toString()) // 01000000018689302ea03ef...
 
 ## Verify a Bitcoin message
 ```javascript
-const Message = require('bitcore-message');
+const bch = require('bitcoincashjs');
+
+const Message = bch.Message;
 
 const message = new Message('Bitcoin Cash - Peer-to-Peer Electronic Cash.');
 const address = '13Js7D3q4KvfSqgKN8LpNq57gcahrVc5JZ';
@@ -85,7 +99,9 @@ console.log(message.verify(address, signature)) // true
 
 ## Sign a Bitcoin message
 ```javascript
-const Message = require('bitcore-message');
+const bch = require('bitcoincashjs');
+
+const Message = bch.Message;
 
 const message = new Message('Bitcoin Cash - Peer-to-Peer Electronic Cash.');
 const privateKey =
@@ -97,6 +113,8 @@ console.log(signature.toString()) // IJuZCwN/4HtIRulOb/zRLU1oCP...
 
 ## Create an OP RETURN transaction
 ```javascript
+const bch = require('bitcoincashjs');
+
 const privateKey = new bch.PrivateKey('L1uyy5qTuGrVXrmrsvHWHgVzW9kKdrp27wBC7Vs6nZDTF2BRUVwy');
 const utxo = {
   'txId' : '115e8f72f39fad874cfab0deed11a80f24f967a84079fb56ddf53ea02e308986',
@@ -115,6 +133,8 @@ console.log(transaction.toString()) // 01000000018689302ea03ef...
 
 ## Create a 2-of-3 multisig P2SH address
 ```javascript
+const bch = require('bitcoincashjs');
+
 const publicKeys = [
   '026477115981fe981a6918a6297d9803c4dc04f328f22041bedff886bbc2962e01',
   '02c96db2302d19b43d4c69368babace7854cc84eb9e061cde51cfa77ca4a22b8b9',
@@ -128,6 +148,8 @@ console.log(address.toString()) // 36NUkt6FWUi3LAWBqWRdDmdTWbt91Yvfu7
 
 ## Spend from a 2-of-2 multisig P2SH address
 ```javascript
+const bch = require('bitcoincashjs');
+
 const privateKeys = [
   new bch.PrivateKey('91avARGdfge8E4tZfYLoxeJ5sGBdNJQH4kvjJoQFacbgwmaKkrx'),
   new bch.PrivateKey('91avARGdfge8E4tZfYLoxeJ5sGBdNJQH4kvjJoQFacbgww7vXtT')

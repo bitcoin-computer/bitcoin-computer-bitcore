@@ -45,7 +45,6 @@
   },
   "dependencies": {
     "big-integer": "^1.6.26",
-    "bitcore-message": "^1.0.4",
     "bn.js": "=2.0.4",
     "bs58": "=2.0.0",
     "buffer-compare": "=1.0.0",
