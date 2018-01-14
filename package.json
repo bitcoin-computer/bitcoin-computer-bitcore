@@ -51,7 +51,8 @@
     "cashaddrjs": "^0.1.4",
     "elliptic": "=3.0.3",
     "inherits": "=2.0.1",
-    "lodash": "^4.17.4"
+    "lodash": "^4.17.4",
+    "unorm": "^1.4.1"
   },
   "devDependencies": {
     "babel-cli": "^6.26.0",

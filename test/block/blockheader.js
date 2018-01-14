@@ -1,7 +1,7 @@
 'use strict';
 
 var bch = require('../..');
-var BN = require('../../lib/crypto/bn');
+var BN = bch.crypto.BN;
 var BufferReader = bch.encoding.BufferReader;
 var BufferWriter = bch.encoding.BufferWriter;
 
@@ -9,7 +9,7 @@ var BlockHeader = bch.BlockHeader;
 var fs = require('fs');
 var should = require('chai').should();
 
-// https://test-insight.bitpay.com/block/000000000b99b16390660d79fcc138d2ad0c89a0d044c4201a02bdf1f61ffa11
+// https://test-insight.bitpaycrypto.com/block/000000000b99b16390660d79fcc138d2ad0c89a0d044c4201a02bdf1f61ffa11
 var dataRawBlockBuffer = fs.readFileSync('test/data/blk86756-testnet.dat');
 var dataRawBlockBinary = fs.readFileSync('test/data/blk86756-testnet.dat', 'binary');
 var dataRawId = '000000000b99b16390660d79fcc138d2ad0c89a0d044c4201a02bdf1f61ffa11';

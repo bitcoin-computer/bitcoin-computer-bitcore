@@ -1,12 +1,13 @@
 'use strict';
 
-var ECDSA = require('../../lib/crypto/ecdsa');
-var Hash = require('../../lib/crypto/hash');
-var Privkey = require('../../lib/privatekey');
-var Pubkey = require('../../lib/publickey');
-var Signature = require('../../lib/crypto/signature');
-var BN = require('../../lib/crypto/bn');
-var point = require('../../lib/crypto/point');
+var bch = require('../..');
+var ECDSA = bch.crypto.ECDSA;
+var Hash = bch.crypto.Hash;
+var Privkey = bch.PrivateKey;
+var Pubkey = bch.PublicKey;
+var Signature = bch.crypto.Signature;
+var BN = bch.crypto.BN;
+var point = bch.crypto.Point;
 var should = require('chai').should();
 var vectors = require('../data/ecdsa');
 
