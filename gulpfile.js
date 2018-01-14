@@ -101,7 +101,7 @@ gulp.task(
   ['build'],
   shell.task([[
     'npx mustache package.json README.tpl.md > README.md', '&&',
-    'git add -A lib dist README.md',
+    'git add -A dist README.md',
   ].join(' ')])
 );
 
