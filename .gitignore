@@ -17,3 +17,4 @@ report
 
 build/
 .nyc_output/
+lib/
