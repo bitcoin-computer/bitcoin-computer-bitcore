@@ -48,6 +48,7 @@ gulp.task(
 
 gulp.task(
   'build:test',
+  ['build:node'],
   shell.task([[
     'rm -rf build', '&&',
     'mkdir -p build', '&&',
