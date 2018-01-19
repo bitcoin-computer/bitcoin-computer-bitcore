@@ -15,6 +15,5 @@ bower_components
 report
 .DS_Store
 
-build/
+.build/
 .nyc_output/
-lib/

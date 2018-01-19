@@ -10,8 +10,8 @@ var Hash = require('./crypto/hash');
 var JSUtil = require('./util/js');
 var PublicKey = require('./publickey');
 
-const BITPAY_P2PKH_VERSION_BYTE = 28;
-const BITPAY_P2SH_VERSION_BYTE = 40;
+var BITPAY_P2PKH_VERSION_BYTE = 28;
+var BITPAY_P2SH_VERSION_BYTE = 40;
 
 /**
  * Instantiate an address from an address String or Buffer, a public key or script hash Buffer,
@@ -312,7 +312,7 @@ Address._transformString = function(data, network, type, format) {
  * @private
  */
 Address._transformStringLegacy = function(data, network, type) {
-  const addressBuffer = Base58Check.decode(data);
+  var addressBuffer = Base58Check.decode(data);
   return Address._transformBuffer(addressBuffer, network, type);
 };
 
@@ -326,7 +326,7 @@ Address._transformStringLegacy = function(data, network, type) {
  * @private
  */
 Address._transformStringBitpay = function(data, network, type) {
-  const addressBuffer = Base58Check.decode(data);
+  var addressBuffer = Base58Check.decode(data);
   if (addressBuffer[0] === BITPAY_P2PKH_VERSION_BYTE) {
     addressBuffer[0] = 0;
   }
@@ -604,7 +604,7 @@ Address.prototype._toStringLegacy = function() {
  * @returns {string} Bitcoin address
  */
 Address.prototype._toStringBitpay = function() {
-  let buffer = this.toBuffer();
+  var buffer = this.toBuffer();
   if (this.network.toString() === 'livenet') {
     if (this.type === Address.PayToPublicKeyHash) {
       buffer[0] = BITPAY_P2PKH_VERSION_BYTE;
@@ -622,10 +622,9 @@ Address.prototype._toStringBitpay = function() {
  * @returns {string} Bitcoin address
  */
 Address.prototype._toStringCashAddr = function() {
-  const prefix = this.network.toString() === 'livenet' ? 'bitcoincash' : 'bchtest';
-  const type = this.type === Address.PayToPublicKeyHash ? 'P2PKH' : 'P2SH';
-  const hash = [...this.hashBuffer];
-  return cashaddr.encode(prefix, type, hash);
+  var prefix = this.network.toString() === 'livenet' ? 'bitcoincash' : 'bchtest';
+  var type = this.type === Address.PayToPublicKeyHash ? 'P2PKH' : 'P2SH';
+  return cashaddr.encode(prefix, type, this.hashBuffer);
 }
 
 /**

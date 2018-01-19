@@ -1,12 +1,12 @@
 'use strict';
 
-const bch = module.exports;
+var bch = module.exports;
 
 // module information
 bch.version = 'v' + require('../package.json').version;
 bch.versionGuard = function(version) {
   if (version !== undefined) {
-    const message = 'More than one instance of bitcoincashjs found. ' +
+    var message = 'More than one instance of bitcoincashjs found. ' +
       'Please make sure to require bitcoincashjs and check that submodules do' +
       ' not also include their own bitcoincashjs dependency.';
     throw new Error(message);
