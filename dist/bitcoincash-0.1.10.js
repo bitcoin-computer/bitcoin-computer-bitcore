@@ -49374,7 +49374,7 @@ exports.createContext = Script.createContext = function (context) {
 },{"indexof":144}],213:[function(require,module,exports){
 module.exports={
   "name": "bitcoincashjs",
-  "version": "0.1.9",
+  "version": "0.1.10",
   "description": "A simple, safe, and powerful JavaScript Bitcoin Cash library.",
   "author": "Emilio Almansi <hi@ealmansi.com>",
   "main": "src/bitcoincash.js",
@@ -49392,8 +49392,9 @@ module.exports={
     "lint": "node scripts/lint.js",
     "coveralls": "nyc report --reporter=text-lcov | coveralls",
     "preversion": "npm test",
-    "version": "node scripts/version.js",
-    "postversion": "node scripts/postversion.js",
+    "readme": "mustache package.json README.tpl.md > README.md",
+    "version": "npm run build && npm run readme && git add -A dist README.md",
+    "postversion": "git push && git push --tags && npm publish",
     "bump": "npm version patch -m 'Bump version to %s.'"
   },
   "keywords": [
@@ -50080,8 +50081,7 @@ Address.prototype._toStringBitpay = function() {
 Address.prototype._toStringCashAddr = function() {
   var prefix = this.network.toString() === 'livenet' ? 'bitcoincash' : 'bchtest';
   var type = this.type === Address.PayToPublicKeyHash ? 'P2PKH' : 'P2SH';
-  var hash = Array.prototype.slice.call(this.hashBuffer, 0);
-  return cashaddr.encode(prefix, type, hash);
+  return cashaddr.encode(prefix, type, this.hashBuffer);
 }
 
 /**
