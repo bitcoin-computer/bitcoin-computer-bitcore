@@ -1,6 +1,6 @@
 {
   "name": "bitcoincashflow",
-  "version": "0.1.10",
+  "version": "0.1.11",
   "description": "A simple, safe, and powerful JavaScript Bitcoin Cash library.",
   "author": "Clemens Ley <ley.clemens@gmail.com>",
   "main": "src/bitcoincash.js",
