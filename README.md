@@ -14,8 +14,6 @@ Bitcoin Cash is peer-to-peer electronic cash for the Internet. It is fully decen
 
 BitcoinCashFlow is a JavaScript library for Bitcoin Cash. Our goal is to support all major Bitcoin Cash use cases, keep up-to-date with the latest network upgrades, follow modern JavaScript coding standards and best practices and maintain the highest levels of quality and reliability. This library can be used both in the back-end (Node.js) and the front-end (web browsers).
 
-BitcoinCashFlow is a fork of [bitcore-lib](https://github.com/bitpay/bitcore-lib/), which is an extremely easy-to-use and well-tested JavaScript library for Bitcoin developed by Bitpay, Inc. However, as consensus rules between BTC and BCH become more and more incompatible, BitcoinCashFlow will not add support for functionality specific to BTC, such as SegWit or the bech32 address format, and will continue to support all Bitcoin Cash uses cases as first-class citizens.
-
 ## Installation
 
 ### Using NPM
