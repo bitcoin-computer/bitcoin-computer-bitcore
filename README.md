@@ -6,6 +6,10 @@
 
 [![NPM Stats](https://nodei.co/npm/BitcoinDB/BitcoinCashFlow.png?downloads=true)](https://nodei.co/npm/BitcoinCashFlow/)
 
+## Warning
+
+BitcoinCashFlow is currently undergoing a major refactoring which will break parts of the API. We do not recommed it to be used until the version 1.0.0 is released.
+
 ## About Bitcoin Cash
 
 Bitcoin Cash is peer-to-peer electronic cash for the Internet. It is fully decentralized, has no central bank, and requires no trusted third-parties to operate. Bitcoin Cash is the continuation of the Bitcoin project, upgraded with consensus rules that allow it to grow and scale.
