@@ -14,5 +14,6 @@ shell.config.fatal = false;
 const toTest = [
   'scripts/',
   'src/block/block.js',
+  'src/block/blockheader.js',
 ].join(' ');
 process.exit(shell.exec(`./node_modules/.bin/eslint ${toTest}`).code);
