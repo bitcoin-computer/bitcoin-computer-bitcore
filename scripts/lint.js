@@ -13,7 +13,6 @@ shell.config.fatal = false;
 // Add files and folders to the list as we fix the errors they contain.
 const toTest = [
   'scripts/',
-  'src/block/block.js',
-  'src/block/blockheader.js',
+  'src/block/',
 ].join(' ');
 process.exit(shell.exec(`./node_modules/.bin/eslint ${toTest}`).code);
