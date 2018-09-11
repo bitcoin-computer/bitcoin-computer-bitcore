@@ -1,16 +1,16 @@
-# [BitcoinCashFlow](https://github.com/BitcoinDB/BitcoinCashFlow): The simple, safe, reliable and powerful JavaScript library for Bitcoin Cash
+# [BitcoinCashFlow](https://github.com/BitcoinDB/BitcoinCashFlow): A Bitcoin Cash implementation written in modern Javascript
 
 ## About BitcoinCashFlow
 
 BitcoinCashFlow is a community driven effort to produce a readable, reliable and modern Javascript implementation of Bitcoin. Most current Javascript Bitcoin implementations do not adhere to modern coding standards and are very hard to read as a consequence. We want to create a Bitcoin implementation that every JavaScript programmer can read and understand.
 
-In step one, we want to get the entire codebase to comply with the [Airbnb JavaScript Style Guide](https://github.com/airbnb/javascript). Step two will be to statically typecheck the entire codebase with Facebook’s Flow.
+In step one, we want to get the entire codebase to comply with the [Airbnb JavaScript Style Guide](https://github.com/airbnb/javascript). Step two will be to port the code base to ES6. Step three will be to statically typecheck the entire codebase with Facebook’s Flow. We suspect we will uncover bugs in the process.
 
-We are looking for contributors. You do not have to be a Bitcoin protocol expert to contribute. All you need to be is a good Javascript programmer. If you want to help, check out [CONTRIBUTING.md] or email [clemens@bitcointoken.com](mailto:clemens@bitcointoken.com).
+We are looking for contributors. You do not have to be a Bitcoin protocol expert to contribute. All you need to be is a good Javascript programmer. If you want to help, check out [CONTRIBUTING.md](https://github.com/BitcoinDB/BitcoinCashFlow/blob/master/CONTRIBUTING.md) or email [clemens@bitcointoken.com](mailto:clemens@bitcointoken.com).
 
 ## Warning
 
-BitcoinCashFlow is currently undergoing a major refactoring which might break parts of the API. **We do not recommed it to be used until the version 1.0.0 is released.**
+BitcoinCashFlow is currently undergoing a major refactoring which might break parts of the API. **We do not recommend it to be used until the version 1.0.0 is released.**
 
 ## About Bitcoin Cash
 
@@ -32,7 +32,7 @@ $ bower install --save bitcoincashflow
 
 ### Manually
 
-You may also download the distribution file manually and place it within your third-party scripts directory: [dist/bitcoincashjs.0.1.11.min.js](https://cdn.rawgit.com/BitcoinDB/BitcoinCashFlow/master/dist/bitcoincashjs.0.1.11.min.js).
+You can also download a pre-compiled and minified version here: [dist](https://github.com/BitcoinDB/BitcoinCashFlow/tree/master/dist)
 
 ## Examples
 
@@ -73,6 +73,71 @@ Next, you can check everything is installed correctly by running the full test-s
 ```s
 $ npm test
 ```
+
+## Progress
+
+
+| File       | Airbnb Style Guide | ES6 | Flow
+| ---------- | :---: | :---: | :---: |
+| address.js | <span style="color:red">✖</span> | <span style="color:red">✖</span> | <span style="color:red">✖</span> |
+| bitcoincash.js | <span style="color:red">✖</span> | <span style="color:red">✖</span> | <span style="color:red">✖</span> |
+| block/block.js | <span style="color:green">✔</span> | <span style="color:red">✖</span> | <span style="color:red">✖</span> |
+| block/blockheader.js | <span style="color:green">✔</span> | <span style="color:red">✖</span> | <span style="color:red">✖</span> |
+| block/index.js | <span style="color:green">✔</span> | <span style="color:red">✖</span> | <span style="color:red">✖</span> |
+| block/merkleblock.js | <span style="color:green">✔</span> | <span style="color:red">✖</span> | <span style="color:red">✖</span> |
+| crypto/bn.js | <span style="color:red">✖</span> | <span style="color:red">✖</span> | <span style="color:red">✖</span> |
+| crypto/ecdsa.js | <span style="color:red">✖</span> | <span style="color:red">✖</span> | <span style="color:red">✖</span> |
+| crypto/hash.js | <span style="color:red">✖</span> | <span style="color:red">✖</span> | <span style="color:red">✖</span> |
+| crypto/point.js | <span style="color:red">✖</span> | <span style="color:red">✖</span> | <span style="color:red">✖</span> |
+| crypto/random.js | <span style="color:red">✖</span> | <span style="color:red">✖</span> | <span style="color:red">✖</span> |
+| crypto/signature.js | <span style="color:red">✖</span> | <span style="color:red">✖</span> | <span style="color:red">✖</span> |
+| encoding/base58.js | <span style="color:red">✖</span> | <span style="color:red">✖</span> | <span style="color:red">✖</span> |
+| encoding/base58check.js | <span style="color:red">✖</span> | <span style="color:red">✖</span> | <span style="color:red">✖</span> |
+| encoding/bufferreader.js | <span style="color:red">✖</span> | <span style="color:red">✖</span> | <span style="color:red">✖</span> |
+| encoding/bufferwriter.js | <span style="color:red">✖</span> | <span style="color:red">✖</span> | <span style="color:red">✖</span> |
+| encoding/varint.js | <span style="color:red">✖</span> | <span style="color:red">✖</span> | <span style="color:red">✖</span> |
+| errors/index.js | <span style="color:red">✖</span> | <span style="color:red">✖</span> | <span style="color:red">✖</span> |
+| errors/spec.js | <span style="color:red">✖</span> | <span style="color:red">✖</span> | <span style="color:red">✖</span> |
+| hdprivatekey.js | <span style="color:red">✖</span> | <span style="color:red">✖</span> | <span style="color:red">✖</span> |
+| hdpublickey.js | <span style="color:red">✖</span> | <span style="color:red">✖</span> | <span style="color:red">✖</span> |
+| message.js | <span style="color:red">✖</span> | <span style="color:red">✖</span> | <span style="color:red">✖</span> |
+| mnemonic/index.js | <span style="color:red">✖</span> | <span style="color:red">✖</span> | <span style="color:red">✖</span> |
+| mnemonic/mnemonic.js | <span style="color:red">✖</span> | <span style="color:red">✖</span> | <span style="color:red">✖</span> |
+| mnemonic/pbkdf2.js | <span style="color:red">✖</span> | <span style="color:red">✖</span> | <span style="color:red">✖</span> |
+| mnemonic/words/chinese.js | <span style="color:red">✖</span> | <span style="color:red">✖</span> | <span style="color:red">✖</span> |
+| mnemonic/words/english.js | <span style="color:red">✖</span> | <span style="color:red">✖</span> | <span style="color:red">✖</span> |
+| mnemonic/words/french.js | <span style="color:red">✖</span> | <span style="color:red">✖</span> | <span style="color:red">✖</span> |
+| mnemonic/words/index.js | <span style="color:red">✖</span> | <span style="color:red">✖</span> | <span style="color:red">✖</span> |
+| mnemonic/words/italian.js | <span style="color:red">✖</span> | <span style="color:red">✖</span> | <span style="color:red">✖</span> |
+| mnemonic/words/japanese.js | <span style="color:red">✖</span> | <span style="color:red">✖</span> | <span style="color:red">✖</span> |
+| mnemonic/words/spanish.js | <span style="color:red">✖</span> | <span style="color:red">✖</span> | <span style="color:red">✖</span> |
+| networks.js | <span style="color:red">✖</span> | <span style="color:red">✖</span> | <span style="color:red">✖</span> |
+| opcode.js | <span style="color:red">✖</span> | <span style="color:red">✖</span> | <span style="color:red">✖</span> |
+| privatekey.js | <span style="color:red">✖</span> | <span style="color:red">✖</span> | <span style="color:red">✖</span> |
+| publickey.js | <span style="color:red">✖</span> | <span style="color:red">✖</span> | <span style="color:red">✖</span> |
+| script/index.js | <span style="color:red">✖</span> | <span style="color:red">✖</span> | <span style="color:red">✖</span> |
+| script/interpreter.js | <span style="color:red">✖</span> | <span style="color:red">✖</span> | <span style="color:red">✖</span> |
+| script/script.js | <span style="color:red">✖</span> | <span style="color:red">✖</span> | <span style="color:red">✖</span> |
+| transaction/index.js | <span style="color:red">✖</span> | <span style="color:red">✖</span> | <span style="color:red">✖</span> |
+| transaction/input/index.js | <span style="color:red">✖</span> | <span style="color:red">✖</span> | <span style="color:red">✖</span> |
+| transaction/input/input.js | <span style="color:red">✖</span> | <span style="color:red">✖</span> | <span style="color:red">✖</span> |
+| transaction/input/multisig.js | <span style="color:red">✖</span> | <span style="color:red">✖</span> | <span style="color:red">✖</span> |
+| transaction/input/multisigscripthash.js | <span style="color:red">✖</span> | <span style="color:red">✖</span> | <span style="color:red">✖</span> |
+| transaction/input/publickey.js | <span style="color:red">✖</span> | <span style="color:red">✖</span> | <span style="color:red">✖</span> |
+| transaction/input/publickeyhash.js | <span style="color:red">✖</span> | <span style="color:red">✖</span> | <span style="color:red">✖</span> |
+| transaction/input/scripthash.js | <span style="color:red">✖</span> | <span style="color:red">✖</span> | <span style="color:red">✖</span> |
+| transaction/output.js | <span style="color:red">✖</span> | <span style="color:red">✖</span> | <span style="color:red">✖</span> |
+| transaction/sighash.js | <span style="color:red">✖</span> | <span style="color:red">✖</span> | <span style="color:red">✖</span> |
+| transaction/signature.js | <span style="color:red">✖</span> | <span style="color:red">✖</span> | <span style="color:red">✖</span> |
+| transaction/transaction.js | <span style="color:green">✔</span> | <span style="color:red">✖</span> | <span style="color:red">✖</span> |
+| transaction/unspentoutput.js | <span style="color:red">✖</span> | <span style="color:red">✖</span> | <span style="color:red">✖</span> |
+| unit.js | <span style="color:red">✖</span> | <span style="color:red">✖</span> | <span style="color:red">✖</span> |
+| uri.js | <span style="color:red">✖</span> | <span style="color:red">✖</span> | <span style="color:red">✖</span> |
+| util/buffer.js | <span style="color:red">✖</span> | <span style="color:red">✖</span> | <span style="color:red">✖</span> |
+| util/js.js | <span style="color:red">✖</span> | <span style="color:red">✖</span> | <span style="color:red">✖</span> |
+| util/preconditions.js | <span style="color:red">✖</span> | <span style="color:red">✖</span> | <span style="color:red">✖</span> |
+
+
 
 ## License
 
