@@ -34,12 +34,16 @@ inherits(TransactionSignature, Signature);
 TransactionSignature.prototype._fromObject = function (arg) {
   this._checkObjectArgs(arg);
   this.publicKey = new PublicKey(arg.publicKey);
-  this.prevTxId = BufferUtil.isBuffer(arg.prevTxId) ? arg.prevTxId : new Buffer(arg.prevTxId, 'hex');
+  this.prevTxId = BufferUtil.isBuffer(arg.prevTxId) ? arg.prevTxId : Buffer.from(arg.prevTxId, 'hex');
   this.outputIndex = arg.outputIndex;
   this.inputIndex = arg.inputIndex;
-  this.signature = (arg.signature instanceof Signature) ? arg.signature
-    : BufferUtil.isBuffer(arg.signature) ? Signature.fromBuffer(arg.signature)
-      : Signature.fromString(arg.signature);
+  if (arg.signature instanceof Signature) {
+    this.signature = arg.signature;
+  } else if (BufferUtil.isBuffer(arg.signature)) {
+    this.signature = Signature.fromBuffer(arg.signature);
+  } else {
+    this.signature = Signature.fromString(arg.signature);
+  }
   this.sigtype = arg.sigtype;
   return this;
 };
@@ -65,7 +69,7 @@ TransactionSignature.prototype._checkObjectArgs = function (arg) {
  * Serializes a transaction to a plain JS object
  * @return {Object}
  */
-TransactionSignature.prototype.toObject = TransactionSignature.prototype.toJSON = function toObject() {
+TransactionSignature.prototype.toJSON = function toObject() {
   return {
     publicKey: this.publicKey.toString(),
     prevTxId: this.prevTxId.toString('hex'),
@@ -75,6 +79,8 @@ TransactionSignature.prototype.toObject = TransactionSignature.prototype.toJSON 
     sigtype: this.sigtype,
   };
 };
+
+TransactionSignature.prototype.toObject = TransactionSignature.prototype.toJSON;
 
 /**
  * Builds a TransactionSignature from an object
