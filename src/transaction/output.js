@@ -1,5 +1,3 @@
-
-
 const _ = require('lodash');
 const buffer = require('buffer');
 const BN = require('../crypto/bn');
@@ -25,7 +23,7 @@ function Output(args) {
       if (_.isString(args.script) && JSUtil.isHexa(args.script)) {
         script = new buffer.Buffer(args.script, 'hex');
       } else {
-        script = args.script;
+        ({ script } = args);
       }
       this.setScript(script);
     }
@@ -57,7 +55,7 @@ Object.defineProperty(Output.prototype, 'satoshis', {
       this._satoshisBN = num;
       this._satoshis = num.toNumber();
     } else if (_.isString(num)) {
-      this._satoshis = parseInt(num);
+      this._satoshis = parseInt(num, 10);
       this._satoshisBN = BN.fromNumber(this._satoshis);
     } else {
       $.checkArgument(
@@ -104,8 +102,7 @@ Object.defineProperty(Output.prototype, 'satoshisBN', {
   },
 });
 
-
-Output.prototype.toObject = Output.prototype.toJSON = function toObject() {
+Output.prototype.toJSON = function toObject() {
   const obj = {
     satoshis: this.satoshis,
   };
@@ -113,12 +110,14 @@ Output.prototype.toObject = Output.prototype.toJSON = function toObject() {
   return obj;
 };
 
+Output.prototype.toObject = Output.prototype.toJSON;
+
 Output.fromObject = function (data) {
   return new Output(data);
 };
 
-Output.prototype.setScriptFromBuffer = function (buffer) {
-  this._scriptBuffer = buffer;
+Output.prototype.setScriptFromBuffer = function (buff) {
+  this._scriptBuffer = buff;
   try {
     this._script = Script.fromBuffer(this._scriptBuffer);
     this._script._isOutput = true;

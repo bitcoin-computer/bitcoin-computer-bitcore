@@ -15,5 +15,6 @@ const toTest = [
   'scripts/',
   'src/block/',
   'src/transaction/transaction.js',
+  'src/transaction/output.js',
 ].join(' ');
 process.exit(shell.exec(`./node_modules/.bin/eslint ${toTest}`).code);
