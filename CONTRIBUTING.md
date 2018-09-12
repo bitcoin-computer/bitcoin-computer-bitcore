@@ -1,18 +1,88 @@
-Contributing to BitcoinCash.js
-==============================
+Contributing to BitcoinCashFlow
+===============================
 
-We're working hard to make *BitcoinCashFlow* the most powerful JavaScript library for working with Bitcoin Cash. Our goal is to have *BitcoinCashFlow* be a library that can be used by anyone interested in Bitcoin Cash.
 
-## Quick Checklist
+We are meeting every weekday at 11 am pacific time on Skype. If you want to contribute email clemens@bitcointoken.com and we'll add you to the meeting. Feel free to ask any questions there. Otherwise, to get going on your own, follow the steps below.
 
-Ideally, please make sure to run the following commands before pushing the code:
+## Initial setup
 
-* `npm run` runs all the tests.
-* `npm run lint` checks the code for the linting errors.
+Before contributing, fork the main repository into your personal namespace by clicking the "Fork" button on the [project page](https://github.com/BitcoinDB/BitcoinCashFlow). Then, clone the forked repository.
+```
+git clone git@github.com:[your_github_username]/BitcoinCashFlow.git
+cd BitcoinCashFlow
+```
+
+Now add the main repository as a second remote.
+```
+git remote add upstream git@github.com:BitcoinDB/BitcoinCashFlow.git
+cd BitcoinCashFlow
+```
+
+## For each pull request
+
+### Before you make changes
+
+Update your local master branch with the latest changes.
+```sh
+git checkout master
+git pull upstream master
+```
+
+Create new local feature branch called `[branch_name]`.
+
+```
+git checkout -b [branch_name]
+```
+
+You can now start to make your changes.
+
+### After you have made changes
+
+Before issuing a pull request, make sure that all tests pass.
+
+```
+npm test
+npm run lint
+```
+
+Add and commit your changes
+
+```
+git add [files_you_changed]
+git commit -m [commit_message]
+```
+
+Update your local feature branch with the most recent changes from the remote repository, rebase from master. 
+```sh
+git pull --rebase upstream master
+```
+
+After that, push your changes to your fork.
+```
+git push origin [branch_name]
+```
+
+Please write meaningful commit messages. Consider [squashing minor changes into a single commit](https://stackoverflow.com/questions/5189560/squash-my-last-x-commits-together-using-git) and [rewording commit messages](https://help.github.com/articles/changing-a-commit-message/) as needed.
+
+
+Finally go to [github.com/BitcoinDB/BitcoinCashFlow](https://github.com/BitcoinDB/BitcoinCashFlow) in your web browser and issue a new pull request.
+
+We will review your code and possibly ask for changes before your code is pulled in to the main repository.  If everything is OK, we'll merge your pull request and your code will be part of BitcoinCashFlow.
+
+If you have any questions feel free to post them to
+[github.com/BitcoinDB/BitcoinCashFlow/issues](https://github.com/BitcoinDB/BitcoinCashFlow/issues).
+
+Thanks for your time and code!
+
+
+
+
+
+<!--
 
 ## Design Guidelines
 
-BitcoinCashFlow adopted the [AirBnb JavaScript style guide](https://github.com/airbnb/javascript). We encourage our contributors to review it and follow its recommendations when writing the code. 
+BitcoinCashFlow is using the [AirBnb JavaScript style guide](https://github.com/airbnb/javascript). We encourage our contributors to review it and follow its recommendations when writing the code.
 
 ### Tests
 
@@ -56,57 +126,4 @@ All modules should include a developer guide and API reference. The API referenc
 
 Please proofread documentation to avoid unintentional spelling and grammatical mistakes before submitting a pull request.
 
-## Pull Request Workflow
-
-Our workflow is based on GitHub's pull requests. Before contributing fork the main repository into your personal namespace by clicking the "Fork" button on the project page.
-
-After forking clone the forked repository (replace `[personal_namespace_prefix]` with the namespace prefix (your GitHub username in most cases):
-```sh
-git clone git@github.com:[personal_namespace_prefix]/BitcoinCashFlow.git
-cd BitcoinCashFlow
-```
-
-Now you can add main repository as a second remote:
-```sh
-git remote add upstream git@github.com:BitcoinDB/BitcoinCashFlow.git
-cd BitcoinCashFlow
-```
-
-Before creating new branches it is recommended to update your local master branch with the latest changes:
-```sh
-git checkout master
-git pull upstream master
-```
-
-We use feature branches, prefixed with: `test`, `feature`, `fix`, `refactor`, or `remove` according to the change the branch introduces:
-```sh
-git checkout -b test/some-module
-git checkout -b feature/some-new-stuff
-git checkout -b fix/some-bug
-git checkout -b remove/some-file
-```
-
-We expect pull requests to be rebased to the master branch before merging:
-```sh
-git pull --rebase upstream master
-```
-
-We require feature branches to be rebased instead of merging the upstream changes into it. This significantly improves the commit history readability. 
-
-We also require meaningful commit messages. Consider [squashing minor changes into a single commit](https://stackoverflow.com/questions/5189560/squash-my-last-x-commits-together-using-git) and [rewording commit messages](https://help.github.com/articles/changing-a-commit-message/) as needed.
-
-After that, you can push the changes to your fork, by doing:
-```sh
-git push origin your_branch_name
-git push origin feature/some-new-stuff
-git push origin fix/some-bug
-```
-
-Finally go to [github.com/BitcoinDB/BitcoinCashFlow](https://github.com/BitcoinDB/BitcoinCashFlow) in your web browser and issue a new pull request.
-
-Maintainers and other contributors will review your code and possibly ask for changes before your code is pulled in to the main repository.  We'll check that all tests pass, review the coding style, and check for general code correctness. If everything is OK, we'll merge your pull request and your code will be part of BitcoinCashFlow.
-
-If you have any questions feel free to post them to
-[github.com/BitcoinDB/BitcoinCashFlow/issues](https://github.com/BitcoinDB/BitcoinCashFlow/issues).
-
-Thanks for your time and code!
+-->
