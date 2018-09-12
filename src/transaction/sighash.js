@@ -1,112 +1,91 @@
-'use strict';
+const buffer = require('buffer');
+const _ = require('lodash');
+const Signature = require('../crypto/signature');
+const Script = require('../script');
+const Output = require('./output');
+const BufferReader = require('../encoding/bufferreader');
+const BufferWriter = require('../encoding/bufferwriter');
+const BN = require('../crypto/bn');
+const Hash = require('../crypto/hash');
+const ECDSA = require('../crypto/ecdsa');
+const $ = require('../util/preconditions');
+const BufferUtil = require('../util/buffer');
 
-var buffer = require('buffer');
+const SIGHASH_SINGLE_BUG = '0000000000000000000000000000000000000000000000000000000000000001';
+const BITS_64_ON = 'ffffffffffffffff';
+const ENABLE_SIGHASH_FORKID = true;
 
-var Signature = require('../crypto/signature');
-var Script = require('../script');
-var Output = require('./output');
-var BufferReader = require('../encoding/bufferreader');
-var BufferWriter = require('../encoding/bufferwriter');
-var BN = require('../crypto/bn');
-var Hash = require('../crypto/hash');
-var ECDSA = require('../crypto/ecdsa');
-var $ = require('../util/preconditions');
-var BufferUtil = require('../util/buffer');
-var _ = require('lodash');
-
-var SIGHASH_SINGLE_BUG = '0000000000000000000000000000000000000000000000000000000000000001';
-var BITS_64_ON = 'ffffffffffffffff';
-
-
-var ENABLE_SIGHASH_FORKID = true;
-
-
-var sighashForForkId = function(transaction, sighashType, inputNumber, subscript, satoshisBN) {
-  var input = transaction.inputs[inputNumber];
+function sighashForForkId(transaction, sighashType, inputNumber, subscript, satoshisBN) {
+  const input = transaction.inputs[inputNumber];
   $.checkArgument(
-    satoshisBN instanceof BN, 
-    'For ForkId=0 signatures, satoshis or complete input must be provided'
+    satoshisBN instanceof BN,
+    'For ForkId=0 signatures, satoshis or complete input must be provided',
   );
 
-  
-
-  function GetForkId() {
-    return 0; // In the UAHF, a fork id of 0 is used (see [4] REQ-6-2 NOTE 4)
-  };
-
   function GetPrevoutHash(tx) {
-    var writer = new BufferWriter()
+    const writer = new BufferWriter();
 
-    _.each(tx.inputs, function(input) {
-        writer.writeReverse(input.prevTxId);
-        writer.writeUInt32LE(input.outputIndex);
+    _.each(tx.inputs, (txIn) => {
+      writer.writeReverse(txIn.prevTxId);
+      writer.writeUInt32LE(txIn.outputIndex);
     });
 
-    var buf = writer.toBuffer();
-    var ret = Hash.sha256sha256(buf);
+    const buf = writer.toBuffer();
+    const ret = Hash.sha256sha256(buf);
     return ret;
   }
 
   function GetSequenceHash(tx) {
-    var writer = new BufferWriter()
+    const writer = new BufferWriter();
 
-    _.each(tx.inputs, function(input) {
-      writer.writeUInt32LE(input.sequenceNumber);
+    _.each(tx.inputs, (txIn) => {
+      writer.writeUInt32LE(txIn.sequenceNumber);
     });
 
-    var buf = writer.toBuffer();
-    var ret = Hash.sha256sha256(buf);
+    const buf = writer.toBuffer();
+    const ret = Hash.sha256sha256(buf);
     return ret;
   }
 
   function GetOutputsHash(tx, n) {
-    var writer = new BufferWriter()
+    const writer = new BufferWriter();
 
-    if ( _.isUndefined(n)) {
-      _.each(tx.outputs, function(output) {
+    if (_.isUndefined(n)) {
+      _.each(tx.outputs, (output) => {
         output.toBufferWriter(writer);
       });
     } else {
       tx.outputs[n].toBufferWriter(writer);
     }
-   
-    var buf = writer.toBuffer();
-    var ret = Hash.sha256sha256(buf);
+
+    const buf = writer.toBuffer();
+    const ret = Hash.sha256sha256(buf);
     return ret;
   }
 
-  var hashPrevouts = BufferUtil.emptyBuffer(32);
-  var hashSequence = BufferUtil.emptyBuffer(32);
-  var hashOutputs = BufferUtil.emptyBuffer(32);
+  let hashPrevouts = BufferUtil.emptyBuffer(32);
+  let hashSequence = BufferUtil.emptyBuffer(32);
+  let hashOutputs = BufferUtil.emptyBuffer(32);
 
   if (!(sighashType & Signature.SIGHASH_ANYONECANPAY)) {
     hashPrevouts = GetPrevoutHash(transaction);
   }
 
-  if (!(sighashType & Signature.SIGHASH_ANYONECANPAY) &&
-    (sighashType & 31) != Signature.SIGHASH_SINGLE &&
-    (sighashType & 31) != Signature.SIGHASH_NONE) {
+  if (!(sighashType & Signature.SIGHASH_ANYONECANPAY)
+    && (sighashType & 31) !== Signature.SIGHASH_SINGLE
+    && (sighashType & 31) !== Signature.SIGHASH_NONE) {
     hashSequence = GetSequenceHash(transaction);
   }
 
-  if ((sighashType & 31) != Signature.SIGHASH_SINGLE && (sighashType & 31) != Signature.SIGHASH_NONE) {
+  if ((sighashType & 31) !== Signature.SIGHASH_SINGLE
+    && (sighashType & 31) !== Signature.SIGHASH_NONE) {
     hashOutputs = GetOutputsHash(transaction);
-  } else if ((sighashType & 31) == Signature.SIGHASH_SINGLE && inputNumber < transaction.outputs.length) {
+  } else if ((sighashType & 31) === Signature.SIGHASH_SINGLE
+    && inputNumber < transaction.outputs.length) {
     hashOutputs = GetOutputsHash(transaction, inputNumber);
   }
 
-
-function getHash (w) {
-
-  var buf = w.toBuffer();
-  var ret = Hash.sha256sha256(buf);
-  ret = new BufferReader(ret).readReverse();
-  return ret;
-};  
-
-
-
-  var writer = new BufferWriter()
+  const writer = new BufferWriter();
 
   // Version
   writer.writeInt32LE(transaction.version);
@@ -120,14 +99,14 @@ function getHash (w) {
   writer.writeUInt32LE(input.outputIndex);
 
   // scriptCode of the input (serialized as scripts inside CTxOuts)
-  writer.writeUInt8(subscript.toBuffer().length)
+  writer.writeUInt8(subscript.toBuffer().length);
   writer.write(subscript.toBuffer());
 
   // value of the output spent by this input (8-byte little endian)
   writer.writeUInt64LEBN(satoshisBN);
-  
-  // nSequence of the input (4-byte little endian) 
-  var sequenceNumber = input.sequenceNumber;
+
+  // nSequence of the input (4-byte little endian)
+  const { sequenceNumber } = input;
   writer.writeUInt32LE(sequenceNumber);
 
   // Outputs (none/one/all, depending on flags)
@@ -136,11 +115,11 @@ function getHash (w) {
   // Locktime
   writer.writeUInt32LE(transaction.nLockTime);
 
-  // sighashType 
-  writer.writeUInt32LE(sighashType >>>0);
+  // sighashType
+  writer.writeUInt32LE(sighashType >>> 0);
 
-  var buf = writer.toBuffer();
-  var ret = Hash.sha256sha256(buf);
+  const buf = writer.toBuffer();
+  let ret = Hash.sha256sha256(buf);
   ret = new BufferReader(ret).readReverse();
   return ret;
 }
@@ -157,38 +136,41 @@ function getHash (w) {
  * @param {satoshisBN} sed in ForkId signatures. If not provided, outputs's amount is used.
  *
  */
-var sighash = function sighash(transaction, sighashType, inputNumber, subscript, satoshisBN) {
-  var Transaction = require('./transaction');
-  var Input = require('./input');
+function sighash(transaction, sighashType, inputNumber, subscript, satoshisBN) {
+  /* eslint-disable global-require */
+  // TODO If this is moved in the global scope a bunch of tests fails. This is probably
+  // due to a circular dependency. This file could probably use a major overhaul.
+  // See GitHub isuse #42.
+  const Transaction = require('./transaction');
+  const Input = require('./input');
+  /* eslint-enable global-require */
 
   // Copy transaction
-  var txcopy = Transaction.shallowCopy(transaction);
+  const txcopy = Transaction.shallowCopy(transaction);
 
   // Copy script
   subscript = new Script(subscript);
 
 
-  if ( ( sighashType & Signature.SIGHASH_FORKID) && ENABLE_SIGHASH_FORKID) {
+  if ((sighashType & Signature.SIGHASH_FORKID) && ENABLE_SIGHASH_FORKID) {
     return sighashForForkId(txcopy, sighashType, inputNumber, subscript, satoshisBN);
   }
 
   // For no ForkId sighash, separators need to be removed.
   subscript.removeCodeseparators();
 
-  var i;
-
-  for (i = 0; i < txcopy.inputs.length; i++) {
+  let i;
+  for (i = 0; i < txcopy.inputs.length; i += 1) {
     // Blank signatures for other inputs
     txcopy.inputs[i] = new Input(txcopy.inputs[i]).setScript(Script.empty());
   }
 
   txcopy.inputs[inputNumber] = new Input(txcopy.inputs[inputNumber]).setScript(subscript);
 
-  if ((sighashType & 31) === Signature.SIGHASH_NONE ||
-    (sighashType & 31) === Signature.SIGHASH_SINGLE) {
-
+  if ((sighashType & 31) === Signature.SIGHASH_NONE
+    || (sighashType & 31) === Signature.SIGHASH_SINGLE) {
     // clear all sequenceNumbers
-    for (i = 0; i < txcopy.inputs.length; i++) {
+    for (i = 0; i < txcopy.inputs.length; i += 1) {
       if (i !== inputNumber) {
         txcopy.inputs[i].sequenceNumber = 0;
       }
@@ -197,20 +179,19 @@ var sighash = function sighash(transaction, sighashType, inputNumber, subscript,
 
   if ((sighashType & 31) === Signature.SIGHASH_NONE) {
     txcopy.outputs = [];
-
   } else if ((sighashType & 31) === Signature.SIGHASH_SINGLE) {
     // The SIGHASH_SINGLE bug.
     // https://bitcointalk.org/index.php?topic=260595.0
     if (inputNumber >= txcopy.outputs.length) {
-      return new Buffer(SIGHASH_SINGLE_BUG, 'hex');
+      return Buffer.from(SIGHASH_SINGLE_BUG, 'hex');
     }
 
     txcopy.outputs.length = inputNumber + 1;
 
-    for (i = 0; i < inputNumber; i++) {
+    for (i = 0; i < inputNumber; i += 1) {
       txcopy.outputs[i] = new Output({
         satoshis: BN.fromBuffer(new buffer.Buffer(BITS_64_ON, 'hex')),
-        script: Script.empty()
+        script: Script.empty(),
       });
     }
   }
@@ -219,14 +200,14 @@ var sighash = function sighash(transaction, sighashType, inputNumber, subscript,
     txcopy.inputs = [txcopy.inputs[inputNumber]];
   }
 
-  var buf = new BufferWriter()
+  const buf = new BufferWriter()
     .write(txcopy.toBuffer())
     .writeInt32LE(sighashType)
     .toBuffer();
-  var ret = Hash.sha256sha256(buf);
+  let ret = Hash.sha256sha256(buf);
   ret = new BufferReader(ret).readReverse();
   return ret;
-};
+}
 
 /**
  * Create a signature
@@ -241,9 +222,9 @@ var sighash = function sighash(transaction, sighashType, inputNumber, subscript,
  * @return {Signature}
  */
 function sign(transaction, privateKey, sighashType, inputIndex, subscript, satoshisBN) {
-  var hashbuf = sighash(transaction, sighashType, inputIndex, subscript, satoshisBN);
-  var sig = ECDSA.sign(hashbuf, privateKey, 'little').set({
-    nhashtype: sighashType
+  const hashbuf = sighash(transaction, sighashType, inputIndex, subscript, satoshisBN);
+  const sig = ECDSA.sign(hashbuf, privateKey, 'little').set({
+    nhashtype: sighashType,
   });
   return sig;
 }
@@ -263,7 +244,7 @@ function sign(transaction, privateKey, sighashType, inputIndex, subscript, satos
 function verify(transaction, signature, publicKey, inputIndex, subscript, satoshisBN) {
   $.checkArgument(!_.isUndefined(transaction));
   $.checkArgument(!_.isUndefined(signature) && !_.isUndefined(signature.nhashtype));
-  var hashbuf = sighash(transaction, signature.nhashtype, inputIndex, subscript, satoshisBN);
+  const hashbuf = sighash(transaction, signature.nhashtype, inputIndex, subscript, satoshisBN);
   return ECDSA.verify(hashbuf, signature, publicKey, 'little');
 }
 
@@ -271,7 +252,7 @@ function verify(transaction, signature, publicKey, inputIndex, subscript, satosh
  * @namespace Signing
  */
 module.exports = {
-  sighash: sighash,
-  sign: sign,
-  verify: verify
+  sighash,
+  sign,
+  verify,
 };
