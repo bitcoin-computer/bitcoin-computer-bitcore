@@ -1,14 +1,14 @@
-'use strict';
 
-var _ = require('lodash');
-var $ = require('../util/preconditions');
-var inherits = require('inherits');
-var BufferUtil = require('../util/buffer');
-var JSUtil = require('../util/js');
 
-var PublicKey = require('../publickey');
-var errors = require('../errors');
-var Signature = require('../crypto/signature');
+const _ = require('lodash');
+const inherits = require('inherits');
+const $ = require('../util/preconditions');
+const BufferUtil = require('../util/buffer');
+const JSUtil = require('../util/js');
+
+const PublicKey = require('../publickey');
+const errors = require('../errors');
+const Signature = require('../crypto/signature');
 
 /**
  * @desc
@@ -31,20 +31,24 @@ function TransactionSignature(arg) {
 }
 inherits(TransactionSignature, Signature);
 
-TransactionSignature.prototype._fromObject = function(arg) {
+TransactionSignature.prototype._fromObject = function (arg) {
   this._checkObjectArgs(arg);
   this.publicKey = new PublicKey(arg.publicKey);
-  this.prevTxId = BufferUtil.isBuffer(arg.prevTxId) ? arg.prevTxId : new Buffer(arg.prevTxId, 'hex');
+  this.prevTxId = BufferUtil.isBuffer(arg.prevTxId) ? arg.prevTxId : Buffer.from(arg.prevTxId, 'hex');
   this.outputIndex = arg.outputIndex;
   this.inputIndex = arg.inputIndex;
-  this.signature = (arg.signature instanceof Signature) ? arg.signature :
-                     BufferUtil.isBuffer(arg.signature) ? Signature.fromBuffer(arg.signature) :
-                     Signature.fromString(arg.signature);
+  if (arg.signature instanceof Signature) {
+    this.signature = arg.signature;
+  } else if (BufferUtil.isBuffer(arg.signature)) {
+    this.signature = Signature.fromBuffer(arg.signature);
+  } else {
+    this.signature = Signature.fromString(arg.signature);
+  }
   this.sigtype = arg.sigtype;
   return this;
 };
 
-TransactionSignature.prototype._checkObjectArgs = function(arg) {
+TransactionSignature.prototype._checkObjectArgs = function (arg) {
   $.checkArgument(PublicKey(arg.publicKey), 'publicKey');
   $.checkArgument(!_.isUndefined(arg.inputIndex), 'inputIndex');
   $.checkArgument(!_.isUndefined(arg.outputIndex), 'outputIndex');
@@ -52,11 +56,11 @@ TransactionSignature.prototype._checkObjectArgs = function(arg) {
   $.checkState(_.isNumber(arg.outputIndex), 'outputIndex must be a number');
   $.checkArgument(arg.signature, 'signature');
   $.checkArgument(arg.prevTxId, 'prevTxId');
-  $.checkState(arg.signature instanceof Signature ||
-               BufferUtil.isBuffer(arg.signature) ||
-               JSUtil.isHexa(arg.signature), 'signature must be a buffer or hexa value');
-  $.checkState(BufferUtil.isBuffer(arg.prevTxId) ||
-               JSUtil.isHexa(arg.prevTxId), 'prevTxId must be a buffer or hexa value');
+  $.checkState(arg.signature instanceof Signature
+               || BufferUtil.isBuffer(arg.signature)
+               || JSUtil.isHexa(arg.signature), 'signature must be a buffer or hexa value');
+  $.checkState(BufferUtil.isBuffer(arg.prevTxId)
+               || JSUtil.isHexa(arg.prevTxId), 'prevTxId must be a buffer or hexa value');
   $.checkArgument(arg.sigtype, 'sigtype');
   $.checkState(_.isNumber(arg.sigtype), 'sigtype must be a number');
 };
@@ -65,23 +69,25 @@ TransactionSignature.prototype._checkObjectArgs = function(arg) {
  * Serializes a transaction to a plain JS object
  * @return {Object}
  */
-TransactionSignature.prototype.toObject = TransactionSignature.prototype.toJSON = function toObject() {
+TransactionSignature.prototype.toJSON = function toObject() {
   return {
     publicKey: this.publicKey.toString(),
     prevTxId: this.prevTxId.toString('hex'),
     outputIndex: this.outputIndex,
     inputIndex: this.inputIndex,
     signature: this.signature.toString(),
-    sigtype: this.sigtype
+    sigtype: this.sigtype,
   };
 };
+
+TransactionSignature.prototype.toObject = TransactionSignature.prototype.toJSON;
 
 /**
  * Builds a TransactionSignature from an object
  * @param {Object} object
  * @return {TransactionSignature}
  */
-TransactionSignature.fromObject = function(object) {
+TransactionSignature.fromObject = function (object) {
   $.checkArgument(object);
   return new TransactionSignature(object);
 };
