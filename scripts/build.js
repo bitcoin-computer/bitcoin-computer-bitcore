@@ -14,7 +14,7 @@ const { version } = require('../package.json');
 shell.rm('-rf', 'dist');
 shell.mkdir('-p', 'dist');
 
-shell.exec('npx browserify src/bitcoincash.js --s bch', { silent: true })
+shell.exec('npx browserify src/bitcoincash.js -t babelify --s bch', { silent: true })
   .to(`dist/bitcoincash-${version}.js`);
 shell.echo(`Generated file: dist/bitcoincash-${version}.js.`);
 

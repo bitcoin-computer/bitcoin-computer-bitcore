@@ -13,7 +13,7 @@
     "build:tests": "node scripts/build-tests.js",
     "test": "npm run test:node",
     "test:all": "npm run test:node && npm run test:browser",
-    "test:node": "nyc --reporter=html --reporter=text mocha",
+    "test:node": "nyc --reporter=html --reporter=text mocha --compilers js:@babel/register",
     "test:browser": "npm run build:tests && karma start",
     "lint": "node scripts/lint.js",
     "coveralls": "nyc report --reporter=text-lcov | coveralls",
@@ -58,6 +58,11 @@
     "unorm": "^1.4.1"
   },
   "devDependencies": {
+    "@babel/cli": "^7.0",
+    "@babel/core": "^7.0",
+    "@babel/preset-env": "^7.0.0",
+    "@babel/register": "^7.0.0",
+    "babelify": "^10.0.0",
     "brfs": "^1.4.3",
     "browserify": "^14.5.0",
     "chai": "^1.10.0",

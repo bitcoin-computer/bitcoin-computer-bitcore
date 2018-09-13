@@ -14,6 +14,6 @@ shell.rm('-rf', '.build');
 shell.mkdir('-p', '.build');
 
 shell.exec('find test/ -type f -name "*.js"', { silent: true })
-  .exec('xargs npx browserify -t brfs', { silent: true })
+  .exec('xargs npx browserify -t babelify -t brfs', { silent: true })
   .to('.build/tests.js');
 shell.echo('Generated file: .build/tests.js.');
