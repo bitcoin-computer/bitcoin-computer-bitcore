@@ -122,7 +122,7 @@ $ npm test
 | transaction/input/index.js | <span style="color:green">✔</span> | <span style="color:red">✖</span> | <span style="color:red">✖</span> |
 | transaction/input/input.js | <span style="color:green">✔</span> | <span style="color:red">✖</span> | <span style="color:red">✖</span> |
 | transaction/input/multisig.js | <span style="color:green">✔</span> | <span style="color:red">✖</span> | <span style="color:red">✖</span> |
-| transaction/input/multisigscripthash.js | <span style="color:red">✖</span> | <span style="color:red">✖</span> | <span style="color:red">✖</span> |
+| transaction/input/multisigscripthash.js | <span style="color:green">✔</span> | <span style="color:red">✖</span> | <span style="color:red">✖</span> |
 | transaction/input/publickey.js | <span style="color:red">✖</span> | <span style="color:red">✖</span> | <span style="color:red">✖</span> |
 | transaction/input/publickeyhash.js | <span style="color:red">✖</span> | <span style="color:red">✖</span> | <span style="color:red">✖</span> |
 | transaction/input/scripthash.js | <span style="color:red">✖</span> | <span style="color:red">✖</span> | <span style="color:red">✖</span> |

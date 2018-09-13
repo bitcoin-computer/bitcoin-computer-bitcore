@@ -26,5 +26,6 @@ const toTest = [
   'src/transaction/unspentoutput.js',
   'src/transaction/input/input.js',
   'src/transaction/input/multisig.js',
+  'src/transaction/input/multisigscripthash.js',
 ].join(' ');
 process.exit(shell.exec(`./node_modules/.bin/eslint ${toTest}`).code);
