@@ -23,5 +23,6 @@ const toTest = [
   'src/crypto/ecdsa.js',
   'src/crypto/random.js',
   'src/crypto/signature.js',
+  'src/transaction/unspentoutput.js',
 ].join(' ');
 process.exit(shell.exec(`./node_modules/.bin/eslint ${toTest}`).code);

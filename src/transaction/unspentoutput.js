@@ -1,9 +1,6 @@
-
-
 const _ = require('lodash');
 const $ = require('../util/preconditions');
 const JSUtil = require('../util/js');
-
 const Script = require('../script');
 const Address = require('../address');
 const Unit = require('../unit');
@@ -21,7 +18,8 @@ const Unit = require('../unit');
  * @param {string|Script} data.scriptPubKey the script that must be resolved to release the funds
  * @param {string|Script=} data.script alias for `scriptPubKey`
  * @param {number} data.amount amount of bitcoins associated
- * @param {number=} data.satoshis alias for `amount`, but expressed in satoshis (1 BTC = 1e8 satoshis)
+ * @param {number=} data.satoshis alias for `amount`, but expressed in satoshis
+ *   (1 BTC = 1e8 satoshis)
  * @param {string|Address=} data.address the associated address to the script, if provided
  */
 function UnspentOutput(data) {
@@ -46,7 +44,8 @@ function UnspentOutput(data) {
   const script = new Script(data.scriptPubKey || data.script);
   $.checkArgument(!_.isUndefined(data.amount) || !_.isUndefined(data.satoshis),
     'Must provide an amount for the output');
-  const amount = !_.isUndefined(data.amount) ? new Unit.fromBTC(data.amount).toSatoshis() : data.satoshis;
+  const amount = !_.isUndefined(data.amount)
+    ? Unit.fromBTC(data.amount).toSatoshis() : data.satoshis;
   $.checkArgument(_.isNumber(amount), 'Amount must be a number');
   JSUtil.defineImmutable(this, {
     address,
@@ -87,7 +86,7 @@ UnspentOutput.fromObject = function (data) {
  * Returns a plain object (no prototype or methods) with the associated info for this output
  * @return {object}
  */
-UnspentOutput.prototype.toObject = UnspentOutput.prototype.toJSON = function toObject() {
+UnspentOutput.prototype.toJSON = function toObject() {
   return {
     address: this.address ? this.address.toString() : undefined,
     txid: this.txId,
@@ -96,5 +95,7 @@ UnspentOutput.prototype.toObject = UnspentOutput.prototype.toJSON = function toO
     amount: Unit.fromSatoshis(this.satoshis).toBTC(),
   };
 };
+
+UnspentOutput.prototype.toObject = UnspentOutput.prototype.toJSON;
 
 module.exports = UnspentOutput;
