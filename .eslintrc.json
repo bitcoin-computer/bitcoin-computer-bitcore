@@ -5,5 +5,8 @@
         "no-param-reassign": "off",
         "no-bitwise" : "off",
         "func-names" : "off"
+    },
+    "globals": {
+        "window": true
     }
 }
