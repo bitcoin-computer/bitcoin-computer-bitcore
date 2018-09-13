@@ -1,15 +1,11 @@
-
-
 const _ = require('lodash');
 const inherits = require('inherits');
 const Input = require('./input');
 const Output = require('../output');
 const $ = require('../../util/preconditions');
-
 const Script = require('../../script');
 const Signature = require('../../crypto/signature');
 const Sighash = require('../sighash');
-const PublicKey = require('../../publickey');
 const BufferUtil = require('../../util/buffer');
 const TransactionSignature = require('../signature');
 
@@ -17,8 +13,7 @@ const TransactionSignature = require('../signature');
  * @constructor
  */
 function MultiSigInput(input, pubkeys, threshold, signatures) {
-  Input.apply(this, arguments);
-  const self = this;
+  Input.apply(this, [input, pubkeys, threshold, signatures]);
   pubkeys = pubkeys || input.publicKeys;
   this.threshold = threshold || input.threshold;
   signatures = signatures || input.signatures;
@@ -26,14 +21,17 @@ function MultiSigInput(input, pubkeys, threshold, signatures) {
   $.checkState(Script.buildMultisigOut(this.publicKeys, this.threshold).equals(this.output.script),
     'Provided public keys don\'t match to the provided output script');
   this.publicKeyIndex = {};
-  this.publicKeys.forEach((publicKey, index) => self.publicKeyIndex[publicKey.toString()] = index);
+  this.publicKeys.forEach(
+    (publicKey, index) => { this.publicKeyIndex[publicKey.toString()] = index; },
+  );
   // Empty array of signatures
-  this.signatures = signatures ? this._deserializeSignatures(signatures) : new Array(this.publicKeys.length);
+  this.signatures = signatures
+    ? this._deserializeSignatures(signatures) : new Array(this.publicKeys.length);
 }
 inherits(MultiSigInput, Input);
 
-MultiSigInput.prototype.toObject = function () {
-  const obj = Input.prototype.toObject.apply(this, arguments);
+MultiSigInput.prototype.toObject = function (...args) {
+  const obj = Input.prototype.toObject.apply(this, args);
   obj.threshold = this.threshold;
   obj.publicKeys = this.publicKeys.map(publicKey => publicKey.toString());
   obj.signatures = this._serializeSignatures();
@@ -52,13 +50,22 @@ MultiSigInput.prototype.getSignatures = function (transaction, privateKey, index
   $.checkState(this.output instanceof Output, 'Malformed output found when signing transaction');
   sigtype = sigtype || (Signature.SIGHASH_ALL | Signature.SIGHASH_FORKID);
 
-  const publicKeysForPrivateKey = this.publicKeys.filter(publicKey => publicKey.toString() === privateKey.publicKey.toString());
+  const publicKeysForPrivateKey = this.publicKeys.filter(
+    publicKey => publicKey.toString() === privateKey.publicKey.toString(),
+  );
   return publicKeysForPrivateKey.map(publicKey => new TransactionSignature({
-    publicKey: privateKey.publicKey,
+    publicKey,
     prevTxId: this.prevTxId,
     outputIndex: this.outputIndex,
     inputIndex: index,
-    signature: Sighash.sign(transaction, privateKey, sigtype, index, this.output.script, this.output.satoshisBN),
+    signature: Sighash.sign(
+      transaction,
+      privateKey,
+      sigtype,
+      index,
+      this.output.script,
+      this.output.satoshisBN,
+    ),
     sigtype,
   }));
 };
@@ -112,7 +119,9 @@ MultiSigInput.prototype.countSignatures = function () {
 };
 
 MultiSigInput.prototype.publicKeysWithoutSignature = function () {
-  return this.publicKeys.filter(publicKey => !this.signatures[this.publicKeyIndex[publicKey.toString()]]);
+  return this.publicKeys.filter(
+    publicKey => !this.signatures[this.publicKeyIndex[publicKey.toString()]],
+  );
 };
 
 MultiSigInput.prototype.isValidSignature = function (transaction, signature) {
@@ -136,6 +145,7 @@ MultiSigInput.prototype.isValidSignature = function (transaction, signature) {
  * @param {Input} input
  * @returns {TransactionSignature[]}
  */
+// eslint-disable-next-line max-len
 MultiSigInput.normalizeSignatures = function (transaction, input, inputIndex, signatures, publicKeys) {
   return publicKeys.map((pubKey) => {
     let signatureMatch = null;
