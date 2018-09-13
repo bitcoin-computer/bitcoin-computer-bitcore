@@ -1,10 +1,6 @@
-
-
 const inherits = require('inherits');
-
 const $ = require('../../util/preconditions');
 const BufferUtil = require('../../util/buffer');
-
 const Hash = require('../../crypto/hash');
 const Input = require('./input');
 const Output = require('../output');
@@ -17,20 +13,21 @@ const TransactionSignature = require('../signature');
  * Represents a special kind of input of PayToPublicKeyHash kind.
  * @constructor
  */
-function PublicKeyHashInput() {
-  Input.apply(this, arguments);
+function PublicKeyHashInput(...args) {
+  Input.apply(this, args);
 }
 inherits(PublicKeyHashInput, Input);
 
-/* jshint maxparams: 5 */
 /**
  * @param {Transaction} transaction - the transaction to be signed
  * @param {PrivateKey} privateKey - the private key with which to sign the transaction
  * @param {number} index - the index of the input in the transaction input vector
  * @param {number=} sigtype - the type of signature, defaults to Signature.SIGHASH_ALL
- * @param {Buffer=} hashData - the precalculated hash of the public key associated with the privateKey provided
+ * @param {Buffer=} hashData - the precalculated hash of the public key associated with the
+ *   privateKey provided
  * @return {Array} of objects that can be
  */
+// eslint-disable-next-line max-len
 PublicKeyHashInput.prototype.getSignatures = function (transaction, privateKey, index, sigtype, hashData) {
   $.checkState(this.output instanceof Output, 'Malformed output found when signing transaction');
   hashData = hashData || Hash.sha256ripemd160(privateKey.publicKey.toBuffer());
@@ -42,13 +39,19 @@ PublicKeyHashInput.prototype.getSignatures = function (transaction, privateKey, 
       prevTxId: this.prevTxId,
       outputIndex: this.outputIndex,
       inputIndex: index,
-      signature: Sighash.sign(transaction, privateKey, sigtype, index, this.output.script, this.output.satoshisBN),
+      signature: Sighash.sign(
+        transaction,
+        privateKey,
+        sigtype,
+        index,
+        this.output.script,
+        this.output.satoshisBN,
+      ),
       sigtype,
     })];
   }
   return [];
 };
-/* jshint maxparams: 3 */
 
 /**
  * Add the provided signature
