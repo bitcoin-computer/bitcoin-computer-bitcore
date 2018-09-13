@@ -1,15 +1,10 @@
-
-
-const _ = require('lodash');
 const inherits = require('inherits');
 const Input = require('./input');
 const Output = require('../output');
 const $ = require('../../util/preconditions');
-
 const Script = require('../../script');
 const Signature = require('../../crypto/signature');
 const Sighash = require('../sighash');
-const PublicKey = require('../../publickey');
 const BufferUtil = require('../../util/buffer');
 const TransactionSignature = require('../signature');
 
@@ -17,7 +12,7 @@ const TransactionSignature = require('../signature');
  * @constructor
  */
 function ScriptHashInput(input, pubkeys, redeemScript) {
-  Input.apply(this, arguments);
+  Input.apply(this, [input, pubkeys, redeemScript]);
   const self = this;
   this.publicKeys = pubkeys || input.publicKeys;
   this.threshold = 1;
@@ -33,8 +28,8 @@ function ScriptHashInput(input, pubkeys, redeemScript) {
 }
 inherits(ScriptHashInput, Input);
 
-ScriptHashInput.prototype.toObject = function () {
-  const obj = Input.prototype.toObject.apply(this, arguments);
+ScriptHashInput.prototype.toObject = function (...args) {
+  const obj = Input.prototype.toObject.apply(this, args);
   obj.threshold = this.threshold;
   obj.publicKeys = this.publicKeys.map(publicKey => publicKey.toString());
   obj.signatures = this._serializeSignatures();
@@ -53,13 +48,22 @@ ScriptHashInput.prototype.getSignatures = function (transaction, privateKey, ind
   $.checkState(this.output instanceof Output, 'Malformed output found when signing transaction');
   sigtype = sigtype || (Signature.SIGHASH_ALL | Signature.SIGHASH_FORKID);
 
-  const publicKeysForPrivateKey = this.publicKeys.filter(publicKey => publicKey.toString() === privateKey.publicKey.toString());
+  const publicKeysForPrivateKey = this.publicKeys.filter(
+    publicKey => publicKey.toString() === privateKey.publicKey.toString(),
+  );
   return publicKeysForPrivateKey.map(publicKey => new TransactionSignature({
-    publicKey: privateKey.publicKey,
+    publicKey,
     prevTxId: this.prevTxId,
     outputIndex: this.outputIndex,
     inputIndex: index,
-    signature: Sighash.sign(transaction, privateKey, sigtype, index, this.output.script, this.output.satoshisBN),
+    signature: Sighash.sign(
+      transaction,
+      privateKey,
+      sigtype,
+      index,
+      this.output.script,
+      this.output.satoshisBN,
+    ),
     sigtype,
   }));
 };
@@ -113,7 +117,9 @@ ScriptHashInput.prototype.countSignatures = function () {
 
 ScriptHashInput.prototype.publicKeysWithoutSignature = function () {
   const self = this;
-  return this.publicKeys.filter(publicKey => !(self.signatures[self.publicKeyIndex[publicKey.toString()]]));
+  return this.publicKeys.filter(
+    publicKey => !(self.signatures[self.publicKeyIndex[publicKey.toString()]]),
+  );
 };
 
 ScriptHashInput.prototype.isValidSignature = function (transaction, signature) {
