@@ -29,5 +29,6 @@ const toTest = [
   'src/transaction/input/multisigscripthash.js',
   'src/transaction/input/publickey.js',
   'src/transaction/input/publickeyhash.js',
+  'src/transaction/input/scripthash.js',
 ].join(' ');
 process.exit(shell.exec(`./node_modules/.bin/eslint ${toTest}`).code);
