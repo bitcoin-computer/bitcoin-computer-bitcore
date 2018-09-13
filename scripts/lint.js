@@ -25,5 +25,6 @@ const toTest = [
   'src/crypto/signature.js',
   'src/transaction/unspentoutput.js',
   'src/transaction/input/input.js',
+  'src/transaction/input/multisig.js',
 ].join(' ');
 process.exit(shell.exec(`./node_modules/.bin/eslint ${toTest}`).code);
