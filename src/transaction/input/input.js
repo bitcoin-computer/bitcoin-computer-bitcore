@@ -1,5 +1,3 @@
-
-
 const buffer = require('buffer');
 const $ = require('../../util/preconditions');
 const errors = require('../../errors');
@@ -57,20 +55,28 @@ Input.prototype._fromObject = function (params) {
   this.prevTxId = typeof params.prevTxId === 'string' && JSUtil.isHexa(params.prevTxId)
     ? new buffer.Buffer(params.prevTxId, 'hex')
     : params.prevTxId;
-  this.output = params.output
-    ? (params.output instanceof Output ? params.output : new Output(params.output))
-    : undefined;
+
+  if (params.output) {
+    this.output = (params.output instanceof Output ? params.output : new Output(params.output));
+  }
+
   this.outputIndex = params.outputIndex === undefined
     ? params.txoutnum
     : params.outputIndex;
-  this.sequenceNumber = (params.sequenceNumber === undefined)
-    ? (params.seqnum === undefined ? DEFAULT_SEQNUMBER : params.seqnum)
-    : params.sequenceNumber;
+
+  if (params.sequenceNumber !== undefined) {
+    this.sequenceNumber = params.sequenceNumber;
+  } else if (params.seqnum !== undefined) {
+    this.sequenceNumber = params.seqnum;
+  } else {
+    this.sequenceNumber = DEFAULT_SEQNUMBER;
+  }
+
   this.setScript(params.scriptBuffer || params.script);
   return this;
 };
 
-Input.prototype.toObject = Input.prototype.toJSON = function toObject() {
+Input.prototype.toJSON = function toObject() {
   const obj = {
     prevTxId: this.prevTxId.toString('hex'),
     outputIndex: this.outputIndex,
@@ -86,6 +92,8 @@ Input.prototype.toObject = Input.prototype.toJSON = function toObject() {
   }
   return obj;
 };
+
+Input.prototype.toObject = Input.prototype.toJSON;
 
 Input.fromBufferReader = function (br) {
   const input = new Input();
