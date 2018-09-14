@@ -19,6 +19,7 @@ const toTest = [
   'src/transaction/index.js',
   'src/transaction/signature.js',
   'src/transaction/sighash.js',
+  'src/crypto/ecdsa.js',
   'src/crypto/random.js',
   'src/crypto/signature.js',
 ].join(' ');
