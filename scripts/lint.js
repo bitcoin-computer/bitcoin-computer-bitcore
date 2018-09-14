@@ -14,6 +14,7 @@ shell.config.fatal = false;
 const toTest = [
   'scripts/',
   'src/block/',
+  'src/mnemonic/',
   'src/transaction/transaction.js',
   'src/transaction/output.js',
   'src/transaction/index.js',

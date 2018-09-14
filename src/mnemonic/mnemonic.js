@@ -1,13 +1,13 @@
-'use strict';
 
-var _ = require('lodash');
-var $ = require('../util/preconditions');
-var BN = require('../crypto/bn');
-var errors = require('../errors');
-var Hash = require('../crypto/hash');
-var HDPrivateKey = require('../hdprivatekey');
-var Random = require('../crypto/random');
-var unorm = require('unorm');
+
+const _ = require('lodash');
+const unorm = require('unorm');
+const $ = require('../util/preconditions');
+const BN = require('../crypto/bn');
+const errors = require('../errors');
+const Hash = require('../crypto/hash');
+const HDPrivateKey = require('../hdprivatekey');
+const Random = require('../crypto/random');
 
 /**
  * This is an immutable class that represents a BIP39 Mnemonic code.
@@ -30,7 +30,7 @@ var unorm = require('unorm');
  * @returns {Mnemonic} A new instance of Mnemonic
  * @constructor
  */
-var Mnemonic = function(data, wordlist) {
+var Mnemonic = function (data, wordlist) {
   if (!(this instanceof Mnemonic)) {
     return new Mnemonic(data, wordlist);
   }
@@ -42,7 +42,8 @@ var Mnemonic = function(data, wordlist) {
 
 
   // handle data overloading
-  var ent, phrase, seed;
+  let ent; let phrase; let
+    seed;
   if (Buffer.isBuffer(data)) {
     seed = data;
   } else if (_.isString(data)) {
@@ -79,12 +80,12 @@ var Mnemonic = function(data, wordlist) {
 
   Object.defineProperty(this, 'wordlist', {
     configurable: false,
-    value: wordlist
+    value: wordlist,
   });
 
   Object.defineProperty(this, 'phrase', {
     configurable: false,
-    value: phrase
+    value: phrase,
   });
 };
 
@@ -102,7 +103,7 @@ Mnemonic.Words = require('./words');
  * @param {String} [wordlist] - The wordlist used
  * @returns {boolean}
  */
-Mnemonic.isValid = function(mnemonic, wordlist) {
+Mnemonic.isValid = function (mnemonic, wordlist) {
   mnemonic = unorm.nfkd(mnemonic);
   wordlist = wordlist || Mnemonic._getDictionary(mnemonic);
 
@@ -110,22 +111,22 @@ Mnemonic.isValid = function(mnemonic, wordlist) {
     return false;
   }
 
-  var words = mnemonic.split(' ');
-  var bin = '';
+  const words = mnemonic.split(' ');
+  let bin = '';
   for (var i = 0; i < words.length; i++) {
-    var ind = wordlist.indexOf(words[i]);
+    const ind = wordlist.indexOf(words[i]);
     if (ind < 0) return false;
-    bin = bin + ('00000000000' + ind.toString(2)).slice(-11);
+    bin += (`00000000000${ind.toString(2)}`).slice(-11);
   }
 
-  var cs = bin.length / 33;
-  var hash_bits = bin.slice(-cs);
-  var nonhash_bits = bin.slice(0, bin.length - cs);
-  var buf = new Buffer(nonhash_bits.length / 8);
+  const cs = bin.length / 33;
+  const hash_bits = bin.slice(-cs);
+  const nonhash_bits = bin.slice(0, bin.length - cs);
+  const buf = new Buffer(nonhash_bits.length / 8);
   for (i = 0; i < nonhash_bits.length / 8; i++) {
     buf.writeUInt8(parseInt(bin.slice(i * 8, (i + 1) * 8), 2), i);
   }
-  var expected_hash_bits = Mnemonic._entropyChecksum(buf);
+  const expected_hash_bits = Mnemonic._entropyChecksum(buf);
   return expected_hash_bits === hash_bits;
 };
 
@@ -136,10 +137,10 @@ Mnemonic.isValid = function(mnemonic, wordlist) {
  * @param {String} wordlist - The wordlist
  * @returns {boolean}
  */
-Mnemonic._belongsToWordlist = function(mnemonic, wordlist) {
-  var words = unorm.nfkd(mnemonic).split(' ');
-  for (var i = 0; i < words.length; i++) {
-    var ind = wordlist.indexOf(words[i]);
+Mnemonic._belongsToWordlist = function (mnemonic, wordlist) {
+  const words = unorm.nfkd(mnemonic).split(' ');
+  for (let i = 0; i < words.length; i++) {
+    const ind = wordlist.indexOf(words[i]);
     if (ind < 0) return false;
   }
   return true;
@@ -151,12 +152,12 @@ Mnemonic._belongsToWordlist = function(mnemonic, wordlist) {
  * @param {String} mnemonic - The mnemonic string
  * @returns {Array} the wordlist or null
  */
-Mnemonic._getDictionary = function(mnemonic) {
+Mnemonic._getDictionary = function (mnemonic) {
   if (!mnemonic) return null;
 
-  var dicts = Object.keys(Mnemonic.Words);
-  for (var i = 0; i < dicts.length; i++) {
-    var key = dicts[i];
+  const dicts = Object.keys(Mnemonic.Words);
+  for (let i = 0; i < dicts.length; i++) {
+    const key = dicts[i];
     if (Mnemonic._belongsToWordlist(mnemonic, Mnemonic.Words[key])) {
       return Mnemonic.Words[key];
     }
@@ -170,9 +171,9 @@ Mnemonic._getDictionary = function(mnemonic) {
  * @param {String} [passphrase]
  * @returns {Buffer}
  */
-Mnemonic.prototype.toSeed = function(passphrase) {
+Mnemonic.prototype.toSeed = function (passphrase) {
   passphrase = passphrase || '';
-  return Mnemonic.pbkdf2(unorm.nfkd(this.phrase), unorm.nfkd('mnemonic' + passphrase), 2048, 64);
+  return Mnemonic.pbkdf2(unorm.nfkd(this.phrase), unorm.nfkd(`mnemonic${passphrase}`), 2048, 64);
 };
 
 /**
@@ -182,7 +183,7 @@ Mnemonic.prototype.toSeed = function(passphrase) {
  * @param {string} [wordlist]
  * @returns {Mnemonic}
  */
-Mnemonic.fromSeed = function(seed, wordlist) {
+Mnemonic.fromSeed = function (seed, wordlist) {
   $.checkArgument(Buffer.isBuffer(seed), 'seed must be a Buffer.');
   $.checkArgument(_.isArray(wordlist) || _.isString(wordlist), 'wordlist must be a string or an array.');
   return new Mnemonic(seed, wordlist);
@@ -197,8 +198,8 @@ Mnemonic.fromSeed = function(seed, wordlist) {
  * @param {Network|String|number=} [network] - The network: 'livenet' or 'testnet'
  * @returns {HDPrivateKey}
  */
-Mnemonic.prototype.toHDPrivateKey = function(passphrase, network) {
-  var seed = this.toSeed(passphrase);
+Mnemonic.prototype.toHDPrivateKey = function (passphrase, network) {
+  const seed = this.toSeed(passphrase);
   return HDPrivateKey.fromSeed(seed, network);
 };
 
@@ -207,7 +208,7 @@ Mnemonic.prototype.toHDPrivateKey = function(passphrase, network) {
  *
  * @returns {String} Mnemonic
  */
-Mnemonic.prototype.toString = function() {
+Mnemonic.prototype.toString = function () {
   return this.phrase;
 };
 
@@ -216,8 +217,8 @@ Mnemonic.prototype.toString = function() {
  *
  * @returns {String} Mnemonic
  */
-Mnemonic.prototype.inspect = function() {
-  return '<Mnemonic: ' + this.toString() + ' >';
+Mnemonic.prototype.inspect = function () {
+  return `<Mnemonic: ${this.toString()} >`;
 };
 
 /**
@@ -227,8 +228,8 @@ Mnemonic.prototype.inspect = function() {
  * @param {Array} wordlist - Array of words to generate the mnemonic
  * @returns {String} Mnemonic string
  */
-Mnemonic._mnemonic = function(ENT, wordlist) {
-  var buf = Random.getRandomBuffer(ENT / 8);
+Mnemonic._mnemonic = function (ENT, wordlist) {
+  const buf = Random.getRandomBuffer(ENT / 8);
   return Mnemonic._entropy2mnemonic(buf, wordlist);
 };
 
@@ -239,22 +240,22 @@ Mnemonic._mnemonic = function(ENT, wordlist) {
  * @param {Array} wordlist - Array of words to generate the mnemonic
  * @returns {String} Mnemonic string
  */
-Mnemonic._entropy2mnemonic = function(entropy, wordlist) {
-  var bin = '';
+Mnemonic._entropy2mnemonic = function (entropy, wordlist) {
+  let bin = '';
   for (var i = 0; i < entropy.length; i++) {
-    bin = bin + ('00000000' + entropy[i].toString(2)).slice(-8);
+    bin += (`00000000${entropy[i].toString(2)}`).slice(-8);
   }
 
-  bin = bin + Mnemonic._entropyChecksum(entropy);
+  bin += Mnemonic._entropyChecksum(entropy);
   if (bin.length % 11 !== 0) {
     throw new errors.InvalidEntropy(bin);
   }
-  var mnemonic = [];
+  const mnemonic = [];
   for (i = 0; i < bin.length / 11; i++) {
-    var wi = parseInt(bin.slice(i * 11, (i + 1) * 11), 2);
+    const wi = parseInt(bin.slice(i * 11, (i + 1) * 11), 2);
     mnemonic.push(wordlist[wi]);
   }
-  var ret;
+  let ret;
   if (wordlist === Mnemonic.Words.JAPANESE) {
     ret = mnemonic.join('\u3000');
   } else {
@@ -270,19 +271,19 @@ Mnemonic._entropy2mnemonic = function(entropy, wordlist) {
  * @returns {string} Checksum of entropy length / 32
  * @private
  */
-Mnemonic._entropyChecksum = function(entropy) {
-  var hash = Hash.sha256(entropy);
-  var bits = entropy.length * 8;
-  var cs = bits / 32;
+Mnemonic._entropyChecksum = function (entropy) {
+  const hash = Hash.sha256(entropy);
+  const bits = entropy.length * 8;
+  const cs = bits / 32;
 
-  var hashbits = new BN(hash.toString('hex'), 16).toString(2);
+  let hashbits = new BN(hash.toString('hex'), 16).toString(2);
 
   // zero pad the hash bits
   while (hashbits.length % 256 !== 0) {
-    hashbits = '0' + hashbits;
+    hashbits = `0${hashbits}`;
   }
 
-  var checksum = hashbits.slice(0, cs);
+  const checksum = hashbits.slice(0, cs);
 
   return checksum;
 };

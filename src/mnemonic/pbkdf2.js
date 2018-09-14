@@ -1,6 +1,6 @@
-'use strict';
 
-var crypto = require('crypto');
+
+const crypto = require('crypto');
 
 /**
  * PDKBF2
@@ -11,7 +11,7 @@ function pbkdf2(key, salt, iterations, dkLen) {
   /* jshint maxstatements: 31 */
   /* jshint maxcomplexity: 9 */
 
-  var hLen = 64; //SHA512 Mac length
+  const hLen = 64; // SHA512 Mac length
   if (dkLen > (Math.pow(2, 32) - 1) * hLen) {
     throw Error('Requested key length too long');
   }
@@ -32,36 +32,36 @@ function pbkdf2(key, salt, iterations, dkLen) {
     salt = new Buffer(salt);
   }
 
-  var DK = new Buffer(dkLen);
+  const DK = new Buffer(dkLen);
 
-  var U = new Buffer(hLen);
-  var T = new Buffer(hLen);
-  var block1 = new Buffer(salt.length + 4);
+  let U = new Buffer(hLen);
+  const T = new Buffer(hLen);
+  const block1 = new Buffer(salt.length + 4);
 
-  var l = Math.ceil(dkLen / hLen);
-  var r = dkLen - (l - 1) * hLen;
+  const l = Math.ceil(dkLen / hLen);
+  const r = dkLen - (l - 1) * hLen;
 
   salt.copy(block1, 0, 0, salt.length);
-  for (var i = 1; i <= l; i++) {
+  for (let i = 1; i <= l; i++) {
     block1[salt.length + 0] = (i >> 24 & 0xff);
     block1[salt.length + 1] = (i >> 16 & 0xff);
-    block1[salt.length + 2] = (i >> 8  & 0xff);
-    block1[salt.length + 3] = (i >> 0  & 0xff);
+    block1[salt.length + 2] = (i >> 8 & 0xff);
+    block1[salt.length + 3] = (i >> 0 & 0xff);
 
     U = crypto.createHmac('sha512', key).update(block1).digest();
 
     U.copy(T, 0, 0, hLen);
 
-    for (var j = 1; j < iterations; j++) {
+    for (let j = 1; j < iterations; j++) {
       U = crypto.createHmac('sha512', key).update(U).digest();
 
-      for (var k = 0; k < hLen; k++) {
+      for (let k = 0; k < hLen; k++) {
         T[k] ^= U[k];
       }
     }
 
-    var destPos = (i - 1) * hLen;
-    var len = (i === l ? r : hLen);
+    const destPos = (i - 1) * hLen;
+    const len = (i === l ? r : hLen);
     T.copy(DK, destPos, 0, len);
   }
 
