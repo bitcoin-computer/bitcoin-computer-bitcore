@@ -1,5 +1,3 @@
-
-
 const _ = require('lodash');
 const unorm = require('unorm');
 const $ = require('../util/preconditions');
@@ -30,7 +28,8 @@ const Random = require('../crypto/random');
  * @returns {Mnemonic} A new instance of Mnemonic
  * @constructor
  */
-var Mnemonic = function (data, wordlist) {
+// eslint-disable-next-line consistent-return
+const Mnemonic = function (data, wordlist) {
   if (!(this instanceof Mnemonic)) {
     return new Mnemonic(data, wordlist);
   }
@@ -39,7 +38,6 @@ var Mnemonic = function (data, wordlist) {
     wordlist = data;
     data = null;
   }
-
 
   // handle data overloading
   let ent; let phrase; let
@@ -96,7 +94,9 @@ Mnemonic.Words = require('./words');
  *
  * @example
  *
- * var valid = Mnemonic.isValid('lab rescue lunch elbow recall phrase perfect donkey biology guess moment husband');
+ * const valid = Mnemonic.isValid(
+ *   'lab rescue lunch elbow recall phrase perfect donkey biology guess moment husband',
+ * );
  * // true
  *
  * @param {String} mnemonic - The mnemonic string
@@ -104,6 +104,7 @@ Mnemonic.Words = require('./words');
  * @returns {boolean}
  */
 Mnemonic.isValid = function (mnemonic, wordlist) {
+  let i;
   mnemonic = unorm.nfkd(mnemonic);
   wordlist = wordlist || Mnemonic._getDictionary(mnemonic);
 
@@ -113,21 +114,21 @@ Mnemonic.isValid = function (mnemonic, wordlist) {
 
   const words = mnemonic.split(' ');
   let bin = '';
-  for (var i = 0; i < words.length; i++) {
+  for (i = 0; i < words.length; i += 1) {
     const ind = wordlist.indexOf(words[i]);
     if (ind < 0) return false;
     bin += (`00000000000${ind.toString(2)}`).slice(-11);
   }
 
   const cs = bin.length / 33;
-  const hash_bits = bin.slice(-cs);
-  const nonhash_bits = bin.slice(0, bin.length - cs);
-  const buf = new Buffer(nonhash_bits.length / 8);
-  for (i = 0; i < nonhash_bits.length / 8; i++) {
+  const hashBits = bin.slice(-cs);
+  const nonhashBits = bin.slice(0, bin.length - cs);
+  const buf = Buffer.alloc(nonhashBits.length / 8);
+  for (i = 0; i < nonhashBits.length / 8; i += 1) {
     buf.writeUInt8(parseInt(bin.slice(i * 8, (i + 1) * 8), 2), i);
   }
-  const expected_hash_bits = Mnemonic._entropyChecksum(buf);
-  return expected_hash_bits === hash_bits;
+  const expectedHashBits = Mnemonic._entropyChecksum(buf);
+  return expectedHashBits === hashBits;
 };
 
 /**
@@ -139,7 +140,7 @@ Mnemonic.isValid = function (mnemonic, wordlist) {
  */
 Mnemonic._belongsToWordlist = function (mnemonic, wordlist) {
   const words = unorm.nfkd(mnemonic).split(' ');
-  for (let i = 0; i < words.length; i++) {
+  for (let i = 0; i < words.length; i += 1) {
     const ind = wordlist.indexOf(words[i]);
     if (ind < 0) return false;
   }
@@ -156,7 +157,7 @@ Mnemonic._getDictionary = function (mnemonic) {
   if (!mnemonic) return null;
 
   const dicts = Object.keys(Mnemonic.Words);
-  for (let i = 0; i < dicts.length; i++) {
+  for (let i = 0; i < dicts.length; i += 1) {
     const key = dicts[i];
     if (Mnemonic._belongsToWordlist(mnemonic, Mnemonic.Words[key])) {
       return Mnemonic.Words[key];
@@ -242,7 +243,8 @@ Mnemonic._mnemonic = function (ENT, wordlist) {
  */
 Mnemonic._entropy2mnemonic = function (entropy, wordlist) {
   let bin = '';
-  for (var i = 0; i < entropy.length; i++) {
+  let i;
+  for (i = 0; i < entropy.length; i += 1) {
     bin += (`00000000${entropy[i].toString(2)}`).slice(-8);
   }
 
@@ -251,7 +253,7 @@ Mnemonic._entropy2mnemonic = function (entropy, wordlist) {
     throw new errors.InvalidEntropy(bin);
   }
   const mnemonic = [];
-  for (i = 0; i < bin.length / 11; i++) {
+  for (i = 0; i < bin.length / 11; i += 1) {
     const wi = parseInt(bin.slice(i * 11, (i + 1) * 11), 2);
     mnemonic.push(wordlist[wi]);
   }

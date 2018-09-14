@@ -1,8 +1,15 @@
+const CHINESE = require('./chinese');
+const ENGLISH = require('./english');
+const FRENCH = require('./french');
+const ITALIAN = require('./italian');
+const JAPANESE = require('./japanese');
+const SPANISH = require('./spanish');
+
 module.exports = {
-  CHINESE: require('./chinese'),
-  ENGLISH: require('./english'),
-  FRENCH: require('./french'),
-  ITALIAN: require('./italian'),
-  JAPANESE: require('./japanese'),
-  SPANISH: require('./spanish'),
+  CHINESE,
+  ENGLISH,
+  FRENCH,
+  ITALIAN,
+  JAPANESE,
+  SPANISH,
 };

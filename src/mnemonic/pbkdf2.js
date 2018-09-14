@@ -1,5 +1,3 @@
-
-
 const crypto = require('crypto');
 
 /**
@@ -8,11 +6,8 @@ const crypto = require('crypto');
  * Copyright (c) 2014, JP Richardson Copyright (c) 2010-2011 Intalio Pte, All Rights Reserved
  */
 function pbkdf2(key, salt, iterations, dkLen) {
-  /* jshint maxstatements: 31 */
-  /* jshint maxcomplexity: 9 */
-
   const hLen = 64; // SHA512 Mac length
-  if (dkLen > (Math.pow(2, 32) - 1) * hLen) {
+  if (dkLen > ((2 ** 32) - 1) * hLen) {
     throw Error('Requested key length too long');
   }
 
@@ -25,37 +20,37 @@ function pbkdf2(key, salt, iterations, dkLen) {
   }
 
   if (typeof key === 'string') {
-    key = new Buffer(key);
+    key = Buffer.from(key);
   }
 
   if (typeof salt === 'string') {
-    salt = new Buffer(salt);
+    salt = Buffer.from(salt);
   }
 
-  const DK = new Buffer(dkLen);
+  const DK = Buffer.alloc(dkLen);
 
-  let U = new Buffer(hLen);
-  const T = new Buffer(hLen);
-  const block1 = new Buffer(salt.length + 4);
+  let U = Buffer.alloc(hLen);
+  const T = Buffer.alloc(hLen);
+  const block1 = Buffer.alloc(salt.length + 4);
 
   const l = Math.ceil(dkLen / hLen);
   const r = dkLen - (l - 1) * hLen;
 
   salt.copy(block1, 0, 0, salt.length);
-  for (let i = 1; i <= l; i++) {
-    block1[salt.length + 0] = (i >> 24 & 0xff);
-    block1[salt.length + 1] = (i >> 16 & 0xff);
-    block1[salt.length + 2] = (i >> 8 & 0xff);
-    block1[salt.length + 3] = (i >> 0 & 0xff);
+  for (let i = 1; i <= l; i += 1) {
+    block1[salt.length + 0] = ((i >> 24) & 0xff);
+    block1[salt.length + 1] = ((i >> 16) & 0xff);
+    block1[salt.length + 2] = ((i >> 8) & 0xff);
+    block1[salt.length + 3] = ((i >> 0) & 0xff);
 
     U = crypto.createHmac('sha512', key).update(block1).digest();
 
     U.copy(T, 0, 0, hLen);
 
-    for (let j = 1; j < iterations; j++) {
+    for (let j = 1; j < iterations; j += 1) {
       U = crypto.createHmac('sha512', key).update(U).digest();
 
-      for (let k = 0; k < hLen; k++) {
+      for (let k = 0; k < hLen; k += 1) {
         T[k] ^= U[k];
       }
     }
