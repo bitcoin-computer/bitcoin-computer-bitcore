@@ -52,7 +52,7 @@ git add [files_you_changed]
 git commit -m [commit_message]
 ```
 
-Update your local feature branch with the most recent changes from the remote repository, rebase from master. 
+Update your local feature branch with the most recent changes from the remote repository. 
 ```sh
 git pull --rebase upstream master
 ```
@@ -64,8 +64,7 @@ git push origin [branch_name]
 
 Please write meaningful commit messages. Consider [squashing minor changes into a single commit](https://stackoverflow.com/questions/5189560/squash-my-last-x-commits-together-using-git) and [rewording commit messages](https://help.github.com/articles/changing-a-commit-message/) as needed.
 
-
-Finally go to [github.com/BitcoinDB/BitcoinCashFlow](https://github.com/BitcoinDB/BitcoinCashFlow) in your web browser and issue a new pull request.
+To create a pull request, visit ```https://github.com/[your_github_username]/BitcoinCashFlow/pull/new/[branch_name]``` and click on create pull request or click on the link that appears in the terminal.
 
 We will review your code and possibly ask for changes before your code is pulled in to the main repository.  If everything is OK, we'll merge your pull request and your code will be part of BitcoinCashFlow.
 
