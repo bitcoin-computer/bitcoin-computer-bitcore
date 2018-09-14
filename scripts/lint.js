@@ -20,5 +20,6 @@ const toTest = [
   'src/transaction/signature.js',
   'src/transaction/sighash.js',
   'src/crypto/random.js',
+  'src/crypto/signature.js',
 ].join(' ');
 process.exit(shell.exec(`./node_modules/.bin/eslint ${toTest}`).code);
