@@ -86,7 +86,7 @@ $ npm test
 | block/index.js | <span style="color:green">✔</span> | <span style="color:red">✖</span> | <span style="color:red">✖</span> |
 | block/merkleblock.js | <span style="color:green">✔</span> | <span style="color:red">✖</span> | <span style="color:red">✖</span> |
 | crypto/bn.js | <span style="color:red">✖</span> | <span style="color:red">✖</span> | <span style="color:red">✖</span> |
-| crypto/ecdsa.js | <span style="color:red">✖</span> | <span style="color:red">✖</span> | <span style="color:red">✖</span> |
+| crypto/ecdsa.js | <span style="color:green">✔</span> | <span style="color:red">✖</span> | <span style="color:red">✖</span> |
 | crypto/hash.js | <span style="color:red">✖</span> | <span style="color:red">✖</span> | <span style="color:red">✖</span> |
 | crypto/point.js | <span style="color:red">✖</span> | <span style="color:red">✖</span> | <span style="color:red">✖</span> |
 | crypto/random.js | <span style="color:red">✖</span> | <span style="color:red">✖</span> | <span style="color:red">✖</span> |
