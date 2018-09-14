@@ -1,51 +1,49 @@
-'use strict';
+const _ = require('lodash');
+const BN = require('./bn');
+const $ = require('../util/preconditions');
+const BufferUtil = require('../util/buffer');
+const JSUtil = require('../util/js');
 
-var BN = require('./bn');
-var _ = require('lodash');
-var $ = require('../util/preconditions');
-var BufferUtil = require('../util/buffer');
-var JSUtil = require('../util/js');
-
-var Signature = function Signature(r, s) {
+const Signature = function Signature(r, s) {
   if (!(this instanceof Signature)) {
     return new Signature(r, s);
   }
   if (r instanceof BN) {
     this.set({
-      r: r,
-      s: s
+      r,
+      s,
     });
   } else if (r) {
-    var obj = r;
+    const obj = r;
     this.set(obj);
   }
 };
 
 /* jshint maxcomplexity: 7 */
-Signature.prototype.set = function(obj) {
+Signature.prototype.set = function (obj) {
   this.r = obj.r || this.r || undefined;
   this.s = obj.s || this.s || undefined;
-  this.i = typeof obj.i !== 'undefined' ? obj.i : this.i; //public key recovery parameter in range [0, 3]
-  this.compressed = typeof obj.compressed !== 'undefined' ?
-    obj.compressed : this.compressed; //whether the recovered pubkey is compressed
+  this.i = typeof obj.i !== 'undefined' ? obj.i : this.i; // public key recovery parameter in range [0, 3]
+  this.compressed = typeof obj.compressed !== 'undefined'
+    ? obj.compressed : this.compressed; // whether the recovered pubkey is compressed
   this.nhashtype = obj.nhashtype || this.nhashtype || undefined;
   return this;
 };
 
-Signature.fromCompact = function(buf) {
+Signature.fromCompact = function (buf) {
   $.checkArgument(BufferUtil.isBuffer(buf), 'Argument is expected to be a Buffer');
 
-  var sig = new Signature();
+  const sig = new Signature();
 
-  var compressed = true;
-  var i = buf.slice(0, 1)[0] - 27 - 4;
+  let compressed = true;
+  let i = buf.slice(0, 1)[0] - 27 - 4;
   if (i < 0) {
     compressed = false;
-    i = i + 4;
+    i += 4;
   }
 
-  var b2 = buf.slice(1, 33);
-  var b3 = buf.slice(33, 65);
+  const b2 = buf.slice(1, 33);
+  const b3 = buf.slice(33, 65);
 
   $.checkArgument(i === 0 || i === 1 || i === 2 || i === 3, new Error('i must be 0, 1, 2, or 3'));
   $.checkArgument(b2.length === 32, new Error('r must be 32 bytes'));
@@ -59,9 +57,9 @@ Signature.fromCompact = function(buf) {
   return sig;
 };
 
-Signature.fromDER = Signature.fromBuffer = function(buf, strict) {
-  var obj = Signature.parseDER(buf, strict);
-  var sig = new Signature();
+Signature.fromDER = function (buf, strict) {
+  const obj = Signature.parseDER(buf, strict);
+  const sig = new Signature();
 
   sig.r = obj.r;
   sig.s = obj.s;
@@ -69,17 +67,19 @@ Signature.fromDER = Signature.fromBuffer = function(buf, strict) {
   return sig;
 };
 
+Signature.fromBuffer = Signature.fromDER;
+
 // The format used in a tx
-Signature.fromTxFormat = function(buf) {
-  var nhashtype = buf.readUInt8(buf.length - 1);
-  var derbuf = buf.slice(0, buf.length - 1);
-  var sig = new Signature.fromDER(derbuf, false);
+Signature.fromTxFormat = function (buf) {
+  const nhashtype = buf.readUInt8(buf.length - 1);
+  const derbuf = buf.slice(0, buf.length - 1);
+  const sig = Signature.fromDER(derbuf, false);
   sig.nhashtype = nhashtype;
   return sig;
 };
 
-Signature.fromString = function(str) {
-  var buf = new Buffer(str, 'hex');
+Signature.fromString = function (str) {
+  const buf = Buffer.from(str, 'hex');
   return Signature.fromDER(buf);
 };
 
@@ -87,62 +87,62 @@ Signature.fromString = function(str) {
 /**
  * In order to mimic the non-strict DER encoding of OpenSSL, set strict = false.
  */
-Signature.parseDER = function(buf, strict) {
+Signature.parseDER = function (buf, strict) {
   $.checkArgument(BufferUtil.isBuffer(buf), new Error('DER formatted signature should be a buffer'));
   if (_.isUndefined(strict)) {
     strict = true;
   }
 
-  var header = buf[0];
+  const header = buf[0];
   $.checkArgument(header === 0x30, new Error('Header byte should be 0x30'));
 
-  var length = buf[1];
-  var buflength = buf.slice(2).length;
+  let length = buf[1];
+  const buflength = buf.slice(2).length;
   $.checkArgument(!strict || length === buflength, new Error('Length byte should length of what follows'));
 
   length = length < buflength ? length : buflength;
 
-  var rheader = buf[2 + 0];
+  const rheader = buf[2 + 0];
   $.checkArgument(rheader === 0x02, new Error('Integer byte for r should be 0x02'));
 
-  var rlength = buf[2 + 1];
-  var rbuf = buf.slice(2 + 2, 2 + 2 + rlength);
-  var r = BN.fromBuffer(rbuf);
-  var rneg = buf[2 + 1 + 1] === 0x00 ? true : false;
+  const rlength = buf[2 + 1];
+  const rbuf = buf.slice(2 + 2, 2 + 2 + rlength);
+  const r = BN.fromBuffer(rbuf);
+  const rneg = buf[2 + 1 + 1] === 0x00;
   $.checkArgument(rlength === rbuf.length, new Error('Length of r incorrect'));
 
-  var sheader = buf[2 + 2 + rlength + 0];
+  const sheader = buf[2 + 2 + rlength + 0];
   $.checkArgument(sheader === 0x02, new Error('Integer byte for s should be 0x02'));
 
-  var slength = buf[2 + 2 + rlength + 1];
-  var sbuf = buf.slice(2 + 2 + rlength + 2, 2 + 2 + rlength + 2 + slength);
-  var s = BN.fromBuffer(sbuf);
-  var sneg = buf[2 + 2 + rlength + 2 + 2] === 0x00 ? true : false;
+  const slength = buf[2 + 2 + rlength + 1];
+  const sbuf = buf.slice(2 + 2 + rlength + 2, 2 + 2 + rlength + 2 + slength);
+  const s = BN.fromBuffer(sbuf);
+  const sneg = buf[2 + 2 + rlength + 2 + 2] === 0x00;
   $.checkArgument(slength === sbuf.length, new Error('Length of s incorrect'));
 
-  var sumlength = 2 + 2 + rlength + 2 + slength;
+  const sumlength = 2 + 2 + rlength + 2 + slength;
   $.checkArgument(length === sumlength - 2, new Error('Length of signature incorrect'));
 
-  var obj = {
-    header: header,
-    length: length,
-    rheader: rheader,
-    rlength: rlength,
-    rneg: rneg,
-    rbuf: rbuf,
-    r: r,
-    sheader: sheader,
-    slength: slength,
-    sneg: sneg,
-    sbuf: sbuf,
-    s: s
+  const obj = {
+    header,
+    length,
+    rheader,
+    rlength,
+    rneg,
+    rbuf,
+    r,
+    sheader,
+    slength,
+    sneg,
+    sbuf,
+    s,
   };
 
   return obj;
 };
 
 
-Signature.prototype.toCompact = function(i, compressed) {
+Signature.prototype.toCompact = function (i, compressed) {
   i = typeof i === 'number' ? i : this.i;
   compressed = typeof compressed === 'boolean' ? compressed : this.compressed;
 
@@ -150,43 +150,50 @@ Signature.prototype.toCompact = function(i, compressed) {
     throw new Error('i must be equal to 0, 1, 2, or 3');
   }
 
-  var val = i + 27 + 4;
+  let val = i + 27 + 4;
   if (compressed === false) {
-    val = val - 4;
+    val -= 4;
   }
-  var b1 = new Buffer([val]);
-  var b2 = this.r.toBuffer({
-    size: 32
+  const b1 = Buffer.from([val]);
+  const b2 = this.r.toBuffer({
+    size: 32,
   });
-  var b3 = this.s.toBuffer({
-    size: 32
+  const b3 = this.s.toBuffer({
+    size: 32,
   });
   return Buffer.concat([b1, b2, b3]);
 };
 
-Signature.prototype.toBuffer = Signature.prototype.toDER = function() {
-  var rnbuf = this.r.toBuffer();
-  var snbuf = this.s.toBuffer();
+Signature.prototype.toBuffer = function () {
+  const rnbuf = this.r.toBuffer();
+  const snbuf = this.s.toBuffer();
 
-  var rneg = rnbuf[0] & 0x80 ? true : false;
-  var sneg = snbuf[0] & 0x80 ? true : false;
+  const rneg = !!(rnbuf[0] & 0x80);
+  const sneg = !!(snbuf[0] & 0x80);
 
-  var rbuf = rneg ? Buffer.concat([new Buffer([0x00]), rnbuf]) : rnbuf;
-  var sbuf = sneg ? Buffer.concat([new Buffer([0x00]), snbuf]) : snbuf;
+  const rbuf = rneg ? Buffer.concat([Buffer.from([0x00]), rnbuf]) : rnbuf;
+  const sbuf = sneg ? Buffer.concat([Buffer.from([0x00]), snbuf]) : snbuf;
 
-  var rlength = rbuf.length;
-  var slength = sbuf.length;
-  var length = 2 + rlength + 2 + slength;
-  var rheader = 0x02;
-  var sheader = 0x02;
-  var header = 0x30;
+  const rlength = rbuf.length;
+  const slength = sbuf.length;
+  const length = 2 + rlength + 2 + slength;
+  const rheader = 0x02;
+  const sheader = 0x02;
+  const header = 0x30;
 
-  var der = Buffer.concat([new Buffer([header, length, rheader, rlength]), rbuf, new Buffer([sheader, slength]), sbuf]);
+  const der = Buffer.concat([
+    Buffer.from([header, length, rheader, rlength]),
+    rbuf,
+    Buffer.from([sheader, slength]),
+    sbuf,
+  ]);
   return der;
 };
 
-Signature.prototype.toString = function() {
-  var buf = this.toDER();
+Signature.prototype.toDER = Signature.prototype.toBuffer;
+
+Signature.prototype.toString = function () {
+  const buf = this.toDER();
   return buf.toString('hex');
 };
 
@@ -202,7 +209,7 @@ Signature.prototype.toString = function() {
  *
  * See https://bitcointalk.org/index.php?topic=8392.msg127623#msg127623
  */
-Signature.isTxDER = function(buf) {
+Signature.isTxDER = function (buf) {
   if (buf.length < 9) {
     //  Non-canonical signature: too short
     return false;
@@ -219,18 +226,18 @@ Signature.isTxDER = function(buf) {
     //  Non-canonical signature: wrong length marker
     return false;
   }
-  var nLenR = buf[3];
+  const nLenR = buf[3];
   if (5 + nLenR >= buf.length) {
     //  Non-canonical signature: S length misplaced
     return false;
   }
-  var nLenS = buf[5 + nLenR];
+  const nLenS = buf[5 + nLenR];
   if ((nLenR + nLenS + 7) !== buf.length) {
     //  Non-canonical signature: R+S length mismatch
     return false;
   }
 
-  var R = buf.slice(4);
+  const R = buf.slice(4);
   if (buf[4 - 2] !== 0x02) {
     //  Non-canonical signature: R value type mismatch
     return false;
@@ -248,7 +255,7 @@ Signature.isTxDER = function(buf) {
     return false;
   }
 
-  var S = buf.slice(6 + nLenR);
+  const S = buf.slice(6 + nLenR);
   if (buf[6 + nLenR - 2] !== 0x02) {
     //  Non-canonical signature: S value type mismatch
     return false;
@@ -273,33 +280,33 @@ Signature.isTxDER = function(buf) {
  * See also ECDSA signature algorithm which enforces this.
  * See also BIP 62, "low S values in signatures"
  */
-Signature.prototype.hasLowS = function() {
-  if (this.s.lt(new BN(1)) ||
-    this.s.gt(new BN('7FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF5D576E7357A4501DDFE92F46681B20A0', 'hex'))) {
+Signature.prototype.hasLowS = function () {
+  if (this.s.lt(new BN(1))
+    || this.s.gt(new BN('7FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF5D576E7357A4501DDFE92F46681B20A0', 'hex'))) {
     return false;
   }
   return true;
 };
 
 /**
- * @returns true if the nhashtype is exactly equal to one of the standard options or combinations thereof.
- * Translated from bitcoind's IsDefinedHashtypeSignature
+ * @returns true if the nhashtype is exactly equal to one of the standard options
+ * or combinations thereof. Translated from bitcoind's IsDefinedHashtypeSignature
  */
-Signature.prototype.hasDefinedHashtype = function() {
+Signature.prototype.hasDefinedHashtype = function () {
   if (!JSUtil.isNaturalNumber(this.nhashtype)) {
     return false;
   }
   // accept with or without Signature.SIGHASH_ANYONECANPAY by ignoring the bit
-  var temp = this.nhashtype & ~Signature.SIGHASH_ANYONECANPAY;
+  const temp = this.nhashtype & ~Signature.SIGHASH_ANYONECANPAY;
   if (temp < Signature.SIGHASH_ALL || temp > Signature.SIGHASH_SINGLE) {
     return false;
   }
   return true;
 };
 
-Signature.prototype.toTxFormat = function() {
-  var derbuf = this.toDER();
-  var buf = new Buffer(1);
+Signature.prototype.toTxFormat = function () {
+  const derbuf = this.toDER();
+  const buf = Buffer.alloc(1);
   buf.writeUInt8(this.nhashtype, 0);
   return Buffer.concat([derbuf, buf]);
 };
