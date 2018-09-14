@@ -79,63 +79,63 @@ $ npm test
 
 | File       | Airbnb Style Guide | ES6 | Flow
 | ---------- | :---: | :---: | :---: |
-| address.js | <span style="color:red">✖</span> | <span style="color:red">✖</span> | <span style="color:red">✖</span> |
-| bitcoincash.js | <span style="color:red">✖</span> | <span style="color:red">✖</span> | <span style="color:red">✖</span> |
-| block/block.js | <span style="color:green">✔</span> | <span style="color:red">✖</span> | <span style="color:red">✖</span> |
-| block/blockheader.js | <span style="color:green">✔</span> | <span style="color:red">✖</span> | <span style="color:red">✖</span> |
-| block/index.js | <span style="color:green">✔</span> | <span style="color:red">✖</span> | <span style="color:red">✖</span> |
-| block/merkleblock.js | <span style="color:green">✔</span> | <span style="color:red">✖</span> | <span style="color:red">✖</span> |
-| crypto/bn.js | <span style="color:red">✖</span> | <span style="color:red">✖</span> | <span style="color:red">✖</span> |
-| crypto/ecdsa.js | <span style="color:green">✔</span> | <span style="color:red">✖</span> | <span style="color:red">✖</span> |
-| crypto/hash.js | <span style="color:red">✖</span> | <span style="color:red">✖</span> | <span style="color:red">✖</span> |
-| crypto/point.js | <span style="color:red">✖</span> | <span style="color:red">✖</span> | <span style="color:red">✖</span> |
-| crypto/random.js | <span style="color:green">✔</span> | <span style="color:red">✖</span> | <span style="color:red">✖</span> |
-| crypto/signature.js | <span style="color:green">✔</span> | <span style="color:red">✖</span> | <span style="color:red">✖</span> |
-| encoding/base58.js | <span style="color:red">✖</span> | <span style="color:red">✖</span> | <span style="color:red">✖</span> |
-| encoding/base58check.js | <span style="color:red">✖</span> | <span style="color:red">✖</span> | <span style="color:red">✖</span> |
-| encoding/bufferreader.js | <span style="color:red">✖</span> | <span style="color:red">✖</span> | <span style="color:red">✖</span> |
-| encoding/bufferwriter.js | <span style="color:red">✖</span> | <span style="color:red">✖</span> | <span style="color:red">✖</span> |
-| encoding/varint.js | <span style="color:red">✖</span> | <span style="color:red">✖</span> | <span style="color:red">✖</span> |
-| errors/index.js | <span style="color:red">✖</span> | <span style="color:red">✖</span> | <span style="color:red">✖</span> |
-| errors/spec.js | <span style="color:red">✖</span> | <span style="color:red">✖</span> | <span style="color:red">✖</span> |
-| hdprivatekey.js | <span style="color:red">✖</span> | <span style="color:red">✖</span> | <span style="color:red">✖</span> |
-| hdpublickey.js | <span style="color:red">✖</span> | <span style="color:red">✖</span> | <span style="color:red">✖</span> |
-| message.js | <span style="color:red">✖</span> | <span style="color:red">✖</span> | <span style="color:red">✖</span> |
-| mnemonic/index.js | <span style="color:green">✔</span> | <span style="color:red">✖</span> | <span style="color:red">✖</span> |
-| mnemonic/mnemonic.js | <span style="color:green">✔</span> | <span style="color:red">✖</span> | <span style="color:red">✖</span> |
-| mnemonic/pbkdf2.js | <span style="color:green">✔</span> | <span style="color:red">✖</span> | <span style="color:red">✖</span> |
-| mnemonic/words/chinese.js | <span style="color:green">✔</span> | <span style="color:red">✖</span> | <span style="color:red">✖</span> |
-| mnemonic/words/english.js | <span style="color:green">✔</span> | <span style="color:red">✖</span> | <span style="color:red">✖</span> |
-| mnemonic/words/french.js | <span style="color:green">✔</span> | <span style="color:red">✖</span> | <span style="color:red">✖</span> |
-| mnemonic/words/index.js | <span style="color:green">✔</span> | <span style="color:red">✖</span> | <span style="color:red">✖</span> |
-| mnemonic/words/italian.js | <span style="color:green">✔</span> | <span style="color:red">✖</span> | <span style="color:red">✖</span> |
-| mnemonic/words/japanese.js | <span style="color:green">✔</span> | <span style="color:red">✖</span> | <span style="color:red">✖</span> |
-| mnemonic/words/spanish.js | <span style="color:green">✔</span> | <span style="color:red">✖</span> | <span style="color:red">✖</span> |
-| networks.js | <span style="color:red">✖</span> | <span style="color:red">✖</span> | <span style="color:red">✖</span> |
-| opcode.js | <span style="color:red">✖</span> | <span style="color:red">✖</span> | <span style="color:red">✖</span> |
-| privatekey.js | <span style="color:red">✖</span> | <span style="color:red">✖</span> | <span style="color:red">✖</span> |
-| publickey.js | <span style="color:red">✖</span> | <span style="color:red">✖</span> | <span style="color:red">✖</span> |
-| script/index.js | <span style="color:red">✖</span> | <span style="color:red">✖</span> | <span style="color:red">✖</span> |
-| script/interpreter.js | <span style="color:red">✖</span> | <span style="color:red">✖</span> | <span style="color:red">✖</span> |
-| script/script.js | <span style="color:red">✖</span> | <span style="color:red">✖</span> | <span style="color:red">✖</span> |
-| transaction/index.js | <span style="color:green">✔</span> | <span style="color:red">✖</span> | <span style="color:red">✖</span> |
-| transaction/input/index.js | <span style="color:green">✔</span> | <span style="color:red">✖</span> | <span style="color:red">✖</span> |
-| transaction/input/input.js | <span style="color:green">✔</span> | <span style="color:red">✖</span> | <span style="color:red">✖</span> |
-| transaction/input/multisig.js | <span style="color:green">✔</span> | <span style="color:red">✖</span> | <span style="color:red">✖</span> |
-| transaction/input/multisigscripthash.js | <span style="color:green">✔</span> | <span style="color:red">✖</span> | <span style="color:red">✖</span> |
-| transaction/input/publickey.js | <span style="color:green">✔</span> | <span style="color:red">✖</span> | <span style="color:red">✖</span> |
-| transaction/input/publickeyhash.js | <span style="color:green">✔</span> | <span style="color:red">✖</span> | <span style="color:red">✖</span> |
-| transaction/input/scripthash.js | <span style="color:green">✔</span> | <span style="color:red">✖</span> | <span style="color:red">✖</span> |
-| transaction/output.js | <span style="color:green">✔</span> | <span style="color:red">✖</span> | <span style="color:red">✖</span> |
-| transaction/sighash.js | <span style="color:green">✔</span> | <span style="color:red">✖</span> | <span style="color:red">✖</span> |
-| transaction/signature.js | <span style="color:green">✔</span> | <span style="color:red">✖</span> | <span style="color:red">✖</span> |
-| transaction/transaction.js | <span style="color:green">✔</span> | <span style="color:red">✖</span> | <span style="color:red">✖</span> |
-| transaction/unspentoutput.js | <span style="color:green">✔</span> | <span style="color:red">✖</span> | <span style="color:red">✖</span> |
-| unit.js | <span style="color:red">✖</span> | <span style="color:red">✖</span> | <span style="color:red">✖</span> |
-| uri.js | <span style="color:red">✖</span> | <span style="color:red">✖</span> | <span style="color:red">✖</span> |
-| util/buffer.js | <span style="color:red">✖</span> | <span style="color:red">✖</span> | <span style="color:red">✖</span> |
-| util/js.js | <span style="color:red">✖</span> | <span style="color:red">✖</span> | <span style="color:red">✖</span> |
-| util/preconditions.js | <span style="color:red">✖</span> | <span style="color:red">✖</span> | <span style="color:red">✖</span> |
+| address.js | ![not done](https://i.imgur.com/MleS2Jt.png "Not done") | ![not done](https://i.imgur.com/MleS2Jt.png "Not done") | ![not done](https://i.imgur.com/MleS2Jt.png "Not done") |
+| bitcoincash.js | ![not done](https://i.imgur.com/MleS2Jt.png "Not done") | ![not done](https://i.imgur.com/MleS2Jt.png "Not done") | ![not done](https://i.imgur.com/MleS2Jt.png "Not done") |
+| block/block.js | ![done](https://i.imgur.com/RXSkZTD.png "Done") | ![not done](https://i.imgur.com/MleS2Jt.png "Not done") | ![not done](https://i.imgur.com/MleS2Jt.png "Not done") |
+| block/blockheader.js | ![done](https://i.imgur.com/RXSkZTD.png "Done") | ![not done](https://i.imgur.com/MleS2Jt.png "Not done") | ![not done](https://i.imgur.com/MleS2Jt.png "Not done") |
+| block/index.js | ![done](https://i.imgur.com/RXSkZTD.png "Done") | ![not done](https://i.imgur.com/MleS2Jt.png "Not done") | ![not done](https://i.imgur.com/MleS2Jt.png "Not done") |
+| block/merkleblock.js | ![done](https://i.imgur.com/RXSkZTD.png "Done") | ![not done](https://i.imgur.com/MleS2Jt.png "Not done") | ![not done](https://i.imgur.com/MleS2Jt.png "Not done") |
+| crypto/bn.js | ![not done](https://i.imgur.com/MleS2Jt.png "Not done") | ![not done](https://i.imgur.com/MleS2Jt.png "Not done") | ![not done](https://i.imgur.com/MleS2Jt.png "Not done") |
+| crypto/ecdsa.js | ![done](https://i.imgur.com/RXSkZTD.png "Done") | ![not done](https://i.imgur.com/MleS2Jt.png "Not done") | ![not done](https://i.imgur.com/MleS2Jt.png "Not done") |
+| crypto/hash.js | ![not done](https://i.imgur.com/MleS2Jt.png "Not done") | ![not done](https://i.imgur.com/MleS2Jt.png "Not done") | ![not done](https://i.imgur.com/MleS2Jt.png "Not done") |
+| crypto/point.js | ![not done](https://i.imgur.com/MleS2Jt.png "Not done") | ![not done](https://i.imgur.com/MleS2Jt.png "Not done") | ![not done](https://i.imgur.com/MleS2Jt.png "Not done") |
+| crypto/random.js | ![done](https://i.imgur.com/RXSkZTD.png "Done") | ![not done](https://i.imgur.com/MleS2Jt.png "Not done") | ![not done](https://i.imgur.com/MleS2Jt.png "Not done") |
+| crypto/signature.js | ![done](https://i.imgur.com/RXSkZTD.png "Done") | ![not done](https://i.imgur.com/MleS2Jt.png "Not done") | ![not done](https://i.imgur.com/MleS2Jt.png "Not done") |
+| encoding/base58.js | ![not done](https://i.imgur.com/MleS2Jt.png "Not done") | ![not done](https://i.imgur.com/MleS2Jt.png "Not done") | ![not done](https://i.imgur.com/MleS2Jt.png "Not done") |
+| encoding/base58check.js | ![not done](https://i.imgur.com/MleS2Jt.png "Not done") | ![not done](https://i.imgur.com/MleS2Jt.png "Not done") | ![not done](https://i.imgur.com/MleS2Jt.png "Not done") |
+| encoding/bufferreader.js | ![not done](https://i.imgur.com/MleS2Jt.png "Not done") | ![not done](https://i.imgur.com/MleS2Jt.png "Not done") | ![not done](https://i.imgur.com/MleS2Jt.png "Not done") |
+| encoding/bufferwriter.js | ![not done](https://i.imgur.com/MleS2Jt.png "Not done") | ![not done](https://i.imgur.com/MleS2Jt.png "Not done") | ![not done](https://i.imgur.com/MleS2Jt.png "Not done") |
+| encoding/varint.js | ![not done](https://i.imgur.com/MleS2Jt.png "Not done") | ![not done](https://i.imgur.com/MleS2Jt.png "Not done") | ![not done](https://i.imgur.com/MleS2Jt.png "Not done") |
+| errors/index.js | ![not done](https://i.imgur.com/MleS2Jt.png "Not done") | ![not done](https://i.imgur.com/MleS2Jt.png "Not done") | ![not done](https://i.imgur.com/MleS2Jt.png "Not done") |
+| errors/spec.js | ![not done](https://i.imgur.com/MleS2Jt.png "Not done") | ![not done](https://i.imgur.com/MleS2Jt.png "Not done") | ![not done](https://i.imgur.com/MleS2Jt.png "Not done") |
+| hdprivatekey.js | ![not done](https://i.imgur.com/MleS2Jt.png "Not done") | ![not done](https://i.imgur.com/MleS2Jt.png "Not done") | ![not done](https://i.imgur.com/MleS2Jt.png "Not done") |
+| hdpublickey.js | ![not done](https://i.imgur.com/MleS2Jt.png "Not done") | ![not done](https://i.imgur.com/MleS2Jt.png "Not done") | ![not done](https://i.imgur.com/MleS2Jt.png "Not done") |
+| message.js | ![not done](https://i.imgur.com/MleS2Jt.png "Not done") | ![not done](https://i.imgur.com/MleS2Jt.png "Not done") | ![not done](https://i.imgur.com/MleS2Jt.png "Not done") |
+| mnemonic/index.js | ![done](https://i.imgur.com/RXSkZTD.png "Done") | ![not done](https://i.imgur.com/MleS2Jt.png "Not done") | ![not done](https://i.imgur.com/MleS2Jt.png "Not done") |
+| mnemonic/mnemonic.js | ![done](https://i.imgur.com/RXSkZTD.png "Done") | ![not done](https://i.imgur.com/MleS2Jt.png "Not done") | ![not done](https://i.imgur.com/MleS2Jt.png "Not done") |
+| mnemonic/pbkdf2.js | ![done](https://i.imgur.com/RXSkZTD.png "Done") | ![not done](https://i.imgur.com/MleS2Jt.png "Not done") | ![not done](https://i.imgur.com/MleS2Jt.png "Not done") |
+| mnemonic/words/chinese.js | ![done](https://i.imgur.com/RXSkZTD.png "Done") | ![not done](https://i.imgur.com/MleS2Jt.png "Not done") | ![not done](https://i.imgur.com/MleS2Jt.png "Not done") |
+| mnemonic/words/english.js | ![done](https://i.imgur.com/RXSkZTD.png "Done") | ![not done](https://i.imgur.com/MleS2Jt.png "Not done") | ![not done](https://i.imgur.com/MleS2Jt.png "Not done") |
+| mnemonic/words/french.js | ![done](https://i.imgur.com/RXSkZTD.png "Done") | ![not done](https://i.imgur.com/MleS2Jt.png "Not done") | ![not done](https://i.imgur.com/MleS2Jt.png "Not done") |
+| mnemonic/words/index.js | ![done](https://i.imgur.com/RXSkZTD.png "Done") | ![not done](https://i.imgur.com/MleS2Jt.png "Not done") | ![not done](https://i.imgur.com/MleS2Jt.png "Not done") |
+| mnemonic/words/italian.js | ![done](https://i.imgur.com/RXSkZTD.png "Done") | ![not done](https://i.imgur.com/MleS2Jt.png "Not done") | ![not done](https://i.imgur.com/MleS2Jt.png "Not done") |
+| mnemonic/words/japanese.js | ![done](https://i.imgur.com/RXSkZTD.png "Done") | ![not done](https://i.imgur.com/MleS2Jt.png "Not done") | ![not done](https://i.imgur.com/MleS2Jt.png "Not done") |
+| mnemonic/words/spanish.js | ![done](https://i.imgur.com/RXSkZTD.png "Done") | ![not done](https://i.imgur.com/MleS2Jt.png "Not done") | ![not done](https://i.imgur.com/MleS2Jt.png "Not done") |
+| networks.js | ![not done](https://i.imgur.com/MleS2Jt.png "Not done") | ![not done](https://i.imgur.com/MleS2Jt.png "Not done") | ![not done](https://i.imgur.com/MleS2Jt.png "Not done") |
+| opcode.js | ![not done](https://i.imgur.com/MleS2Jt.png "Not done") | ![not done](https://i.imgur.com/MleS2Jt.png "Not done") | ![not done](https://i.imgur.com/MleS2Jt.png "Not done") |
+| privatekey.js | ![not done](https://i.imgur.com/MleS2Jt.png "Not done") | ![not done](https://i.imgur.com/MleS2Jt.png "Not done") | ![not done](https://i.imgur.com/MleS2Jt.png "Not done") |
+| publickey.js | ![not done](https://i.imgur.com/MleS2Jt.png "Not done") | ![not done](https://i.imgur.com/MleS2Jt.png "Not done") | ![not done](https://i.imgur.com/MleS2Jt.png "Not done") |
+| script/index.js | ![not done](https://i.imgur.com/MleS2Jt.png "Not done") | ![not done](https://i.imgur.com/MleS2Jt.png "Not done") | ![not done](https://i.imgur.com/MleS2Jt.png "Not done") |
+| script/interpreter.js | ![not done](https://i.imgur.com/MleS2Jt.png "Not done") | ![not done](https://i.imgur.com/MleS2Jt.png "Not done") | ![not done](https://i.imgur.com/MleS2Jt.png "Not done") |
+| script/script.js | ![not done](https://i.imgur.com/MleS2Jt.png "Not done") | ![not done](https://i.imgur.com/MleS2Jt.png "Not done") | ![not done](https://i.imgur.com/MleS2Jt.png "Not done") |
+| transaction/index.js | ![done](https://i.imgur.com/RXSkZTD.png "Done") | ![not done](https://i.imgur.com/MleS2Jt.png "Not done") | ![not done](https://i.imgur.com/MleS2Jt.png "Not done") |
+| transaction/input/index.js | ![done](https://i.imgur.com/RXSkZTD.png "Done") | ![not done](https://i.imgur.com/MleS2Jt.png "Not done") | ![not done](https://i.imgur.com/MleS2Jt.png "Not done") |
+| transaction/input/input.js | ![done](https://i.imgur.com/RXSkZTD.png "Done") | ![not done](https://i.imgur.com/MleS2Jt.png "Not done") | ![not done](https://i.imgur.com/MleS2Jt.png "Not done") |
+| transaction/input/multisig.js | ![done](https://i.imgur.com/RXSkZTD.png "Done") | ![not done](https://i.imgur.com/MleS2Jt.png "Not done") | ![not done](https://i.imgur.com/MleS2Jt.png "Not done") |
+| transaction/input/multisigscripthash.js | ![done](https://i.imgur.com/RXSkZTD.png "Done") | ![not done](https://i.imgur.com/MleS2Jt.png "Not done") | ![not done](https://i.imgur.com/MleS2Jt.png "Not done") |
+| transaction/input/publickey.js | ![done](https://i.imgur.com/RXSkZTD.png "Done") | ![not done](https://i.imgur.com/MleS2Jt.png "Not done") | ![not done](https://i.imgur.com/MleS2Jt.png "Not done") |
+| transaction/input/publickeyhash.js | ![done](https://i.imgur.com/RXSkZTD.png "Done") | ![not done](https://i.imgur.com/MleS2Jt.png "Not done") | ![not done](https://i.imgur.com/MleS2Jt.png "Not done") |
+| transaction/input/scripthash.js | ![done](https://i.imgur.com/RXSkZTD.png "Done") | ![not done](https://i.imgur.com/MleS2Jt.png "Not done") | ![not done](https://i.imgur.com/MleS2Jt.png "Not done") |
+| transaction/output.js | ![done](https://i.imgur.com/RXSkZTD.png "Done") | ![not done](https://i.imgur.com/MleS2Jt.png "Not done") | ![not done](https://i.imgur.com/MleS2Jt.png "Not done") |
+| transaction/sighash.js | ![done](https://i.imgur.com/RXSkZTD.png "Done") | ![not done](https://i.imgur.com/MleS2Jt.png "Not done") | ![not done](https://i.imgur.com/MleS2Jt.png "Not done") |
+| transaction/signature.js | ![done](https://i.imgur.com/RXSkZTD.png "Done") | ![not done](https://i.imgur.com/MleS2Jt.png "Not done") | ![not done](https://i.imgur.com/MleS2Jt.png "Not done") |
+| transaction/transaction.js | ![done](https://i.imgur.com/RXSkZTD.png "Done") | ![not done](https://i.imgur.com/MleS2Jt.png "Not done") | ![not done](https://i.imgur.com/MleS2Jt.png "Not done") |
+| transaction/unspentoutput.js | ![done](https://i.imgur.com/RXSkZTD.png "Done") | ![not done](https://i.imgur.com/MleS2Jt.png "Not done") | ![not done](https://i.imgur.com/MleS2Jt.png "Not done") |
+| unit.js | ![not done](https://i.imgur.com/MleS2Jt.png "Not done") | ![not done](https://i.imgur.com/MleS2Jt.png "Not done") | ![not done](https://i.imgur.com/MleS2Jt.png "Not done") |
+| uri.js | ![not done](https://i.imgur.com/MleS2Jt.png "Not done") | ![not done](https://i.imgur.com/MleS2Jt.png "Not done") | ![not done](https://i.imgur.com/MleS2Jt.png "Not done") |
+| util/buffer.js | ![not done](https://i.imgur.com/MleS2Jt.png "Not done") | ![not done](https://i.imgur.com/MleS2Jt.png "Not done") | ![not done](https://i.imgur.com/MleS2Jt.png "Not done") |
+| util/js.js | ![not done](https://i.imgur.com/MleS2Jt.png "Not done") | ![not done](https://i.imgur.com/MleS2Jt.png "Not done") | ![not done](https://i.imgur.com/MleS2Jt.png "Not done") |
+| util/preconditions.js | ![not done](https://i.imgur.com/MleS2Jt.png "Not done") | ![not done](https://i.imgur.com/MleS2Jt.png "Not done") | ![not done](https://i.imgur.com/MleS2Jt.png "Not done") |
 
 
 
