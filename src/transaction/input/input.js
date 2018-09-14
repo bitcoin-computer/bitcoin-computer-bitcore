@@ -1,19 +1,17 @@
-'use strict';
+const buffer = require('buffer');
+const $ = require('../../util/preconditions');
+const errors = require('../../errors');
+const BufferWriter = require('../../encoding/bufferwriter');
+const BufferUtil = require('../../util/buffer');
+const JSUtil = require('../../util/js');
+const Script = require('../../script');
+const Sighash = require('../sighash');
+const Output = require('../output');
 
-var $ = require('../../util/preconditions');
-var errors = require('../../errors');
-var BufferWriter = require('../../encoding/bufferwriter');
-var buffer = require('buffer');
-var BufferUtil = require('../../util/buffer');
-var JSUtil = require('../../util/js');
-var Script = require('../../script');
-var Sighash = require('../sighash');
-var Output = require('../output');
-
-var MAXINT = 0xffffffff; // Math.pow(2, 32) - 1;
-var DEFAULT_RBF_SEQNUMBER = MAXINT - 2;
-var DEFAULT_SEQNUMBER = MAXINT;
-var DEFAULT_LOCKTIME_SEQNUMBER = MAXINT - 1;
+const MAXINT = 0xffffffff; // Math.pow(2, 32) - 1;
+const DEFAULT_RBF_SEQNUMBER = MAXINT - 2;
+const DEFAULT_SEQNUMBER = MAXINT;
+const DEFAULT_LOCKTIME_SEQNUMBER = MAXINT - 1;
 
 function Input(params) {
   if (!(this instanceof Input)) {
@@ -32,7 +30,7 @@ Input.DEFAULT_RBF_SEQNUMBER = DEFAULT_RBF_SEQNUMBER;
 Object.defineProperty(Input.prototype, 'script', {
   configurable: false,
   enumerable: true,
-  get: function() {
+  get() {
     if (this.isNull()) {
       return null;
     }
@@ -41,41 +39,49 @@ Object.defineProperty(Input.prototype, 'script', {
       this._script._isInput = true;
     }
     return this._script;
-  }
+  },
 });
 
-Input.fromObject = function(obj) {
+Input.fromObject = function (obj) {
   $.checkArgument(obj !== null && typeof obj === 'object');
   return new Input()._fromObject(obj);
 };
 
-Input.prototype._fromObject = function(params) {
+Input.prototype._fromObject = function (params) {
   if (params.script === undefined && params.scriptBuffer === undefined) {
     throw new errors.Transaction.Input.MissingScript();
   }
 
   this.prevTxId = typeof params.prevTxId === 'string' && JSUtil.isHexa(params.prevTxId)
     ? new buffer.Buffer(params.prevTxId, 'hex')
-    : params.prevTxId
-  this.output = params.output
-    ? (params.output instanceof Output ? params.output : new Output(params.output))
-    : undefined;
+    : params.prevTxId;
+
+  if (params.output) {
+    this.output = (params.output instanceof Output ? params.output : new Output(params.output));
+  }
+
   this.outputIndex = params.outputIndex === undefined
     ? params.txoutnum
     : params.outputIndex;
-  this.sequenceNumber = (params.sequenceNumber === undefined)
-    ? (params.seqnum === undefined ? DEFAULT_SEQNUMBER : params.seqnum)
-    : params.sequenceNumber;
+
+  if (params.sequenceNumber !== undefined) {
+    this.sequenceNumber = params.sequenceNumber;
+  } else if (params.seqnum !== undefined) {
+    this.sequenceNumber = params.seqnum;
+  } else {
+    this.sequenceNumber = DEFAULT_SEQNUMBER;
+  }
+
   this.setScript(params.scriptBuffer || params.script);
   return this;
 };
 
-Input.prototype.toObject = Input.prototype.toJSON = function toObject() {
-  var obj = {
+Input.prototype.toJSON = function toObject() {
+  const obj = {
     prevTxId: this.prevTxId.toString('hex'),
     outputIndex: this.outputIndex,
     sequenceNumber: this.sequenceNumber,
-    script: this._scriptBuffer.toString('hex')
+    script: this._scriptBuffer.toString('hex'),
   };
   // add human readable form if input contains valid script
   if (this.script) {
@@ -87,8 +93,10 @@ Input.prototype.toObject = Input.prototype.toJSON = function toObject() {
   return obj;
 };
 
-Input.fromBufferReader = function(br) {
-  var input = new Input();
+Input.prototype.toObject = Input.prototype.toJSON;
+
+Input.fromBufferReader = function (br) {
+  const input = new Input();
   input.prevTxId = br.readReverse(32);
   input.outputIndex = br.readUInt32LE();
   input._scriptBuffer = br.readVarLengthBuffer();
@@ -98,18 +106,18 @@ Input.fromBufferReader = function(br) {
   return input;
 };
 
-Input.prototype.toBufferWriter = function(writer) {
-  writer = writer || new BufferWriter()
+Input.prototype.toBufferWriter = function (writer) {
+  writer = writer || new BufferWriter();
   writer.writeReverse(this.prevTxId);
   writer.writeUInt32LE(this.outputIndex);
-  var script = this._scriptBuffer;
+  const script = this._scriptBuffer;
   writer.writeVarintNum(script.length);
   writer.write(script);
   writer.writeUInt32LE(this.sequenceNumber);
   return writer;
 };
 
-Input.prototype.setScript = function(script) {
+Input.prototype.setScript = function (script) {
   this._script = null;
   if (script instanceof Script) {
     this._script = script;
@@ -143,30 +151,30 @@ Input.prototype.setScript = function(script) {
  *     public key associated with the private key provided
  * @abstract
  */
-Input.prototype.getSignatures = function() {
+Input.prototype.getSignatures = function () {
   throw new errors.AbstractMethodInvoked(
-    'Trying to sign unsupported output type (only P2PKH and P2SH multisig inputs are supported)' +
-    ' for input: ' + JSON.stringify(this)
+    `${'Trying to sign unsupported output type (only P2PKH and P2SH multisig inputs are supported)'
+    + ' for input: '}${JSON.stringify(this)}`,
   );
 };
 
-Input.prototype.isFullySigned = function() {
+Input.prototype.isFullySigned = function () {
   throw new errors.AbstractMethodInvoked('Input#isFullySigned');
 };
 
-Input.prototype.isFinal = function() {
+Input.prototype.isFinal = function () {
   return this.sequenceNumber !== 4294967295;
 };
 
-Input.prototype.addSignature = function() {
+Input.prototype.addSignature = function () {
   throw new errors.AbstractMethodInvoked('Input#addSignature');
 };
 
-Input.prototype.clearSignatures = function() {
+Input.prototype.clearSignatures = function () {
   throw new errors.AbstractMethodInvoked('Input#clearSignatures');
 };
 
-Input.prototype.isValidSignature = function(transaction, signature) {
+Input.prototype.isValidSignature = function (transaction, signature) {
   // FIXME: Refactor signature so this is not necessary
   signature.signature.nhashtype = signature.sigtype;
   return Sighash.verify(
@@ -175,19 +183,19 @@ Input.prototype.isValidSignature = function(transaction, signature) {
     signature.publicKey,
     signature.inputIndex,
     this.output.script,
-    this.output.satoshisBN
+    this.output.satoshisBN,
   );
 };
 
 /**
  * @returns true if this is a coinbase input (represents no input)
  */
-Input.prototype.isNull = function() {
-  return this.prevTxId.toString('hex') === '0000000000000000000000000000000000000000000000000000000000000000' &&
-    this.outputIndex === 0xffffffff;
+Input.prototype.isNull = function () {
+  return this.prevTxId.toString('hex') === '0000000000000000000000000000000000000000000000000000000000000000'
+    && this.outputIndex === 0xffffffff;
 };
 
-Input.prototype._estimateSize = function() {
+Input.prototype._estimateSize = function () {
   return this.toBufferWriter().toBuffer().length;
 };
 
