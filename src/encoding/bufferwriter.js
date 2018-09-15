@@ -1,5 +1,3 @@
-
-
 const assert = require('assert');
 const bufferUtil = require('../util/buffer');
 
@@ -35,42 +33,42 @@ BufferWriter.prototype.writeReverse = function (buf) {
 };
 
 BufferWriter.prototype.writeUInt8 = function (n) {
-  const buf = new Buffer(1);
+  const buf = Buffer.alloc(1);
   buf.writeUInt8(n, 0);
   this.write(buf);
   return this;
 };
 
 BufferWriter.prototype.writeUInt16BE = function (n) {
-  const buf = new Buffer(2);
+  const buf = Buffer.alloc(2);
   buf.writeUInt16BE(n, 0);
   this.write(buf);
   return this;
 };
 
 BufferWriter.prototype.writeUInt16LE = function (n) {
-  const buf = new Buffer(2);
+  const buf = Buffer.alloc(2);
   buf.writeUInt16LE(n, 0);
   this.write(buf);
   return this;
 };
 
 BufferWriter.prototype.writeUInt32BE = function (n) {
-  const buf = new Buffer(4);
+  const buf = Buffer.alloc(4);
   buf.writeUInt32BE(n, 0);
   this.write(buf);
   return this;
 };
 
 BufferWriter.prototype.writeInt32LE = function (n) {
-  const buf = new Buffer(4);
+  const buf = Buffer.alloc(4);
   buf.writeInt32LE(n, 0);
   this.write(buf);
   return this;
 };
 
 BufferWriter.prototype.writeUInt32LE = function (n) {
-  const buf = new Buffer(4);
+  const buf = Buffer.alloc(4);
   buf.writeUInt32LE(n, 0);
   this.write(buf);
   return this;
@@ -103,18 +101,18 @@ BufferWriter.prototype.writeVarintBN = function (bn) {
 BufferWriter.varintBufNum = function (n) {
   let buf;
   if (n < 253) {
-    buf = new Buffer(1);
+    buf = Buffer.alloc(1);
     buf.writeUInt8(n, 0);
   } else if (n < 0x10000) {
-    buf = new Buffer(1 + 2);
+    buf = Buffer.alloc(1 + 2);
     buf.writeUInt8(253, 0);
     buf.writeUInt16LE(n, 1);
   } else if (n < 0x100000000) {
-    buf = new Buffer(1 + 4);
+    buf = Buffer.alloc(1 + 4);
     buf.writeUInt8(254, 0);
     buf.writeUInt32LE(n, 1);
   } else {
-    buf = new Buffer(1 + 8);
+    buf = Buffer.alloc(1 + 8);
     buf.writeUInt8(255, 0);
     buf.writeInt32LE(n & -1, 1);
     buf.writeUInt32LE(Math.floor(n / 0x100000000), 5);
@@ -123,24 +121,24 @@ BufferWriter.varintBufNum = function (n) {
 };
 
 BufferWriter.varintBufBN = function (bn) {
-  var buf = undefined;
+  let buf;
   const n = bn.toNumber();
   if (n < 253) {
-    buf = new Buffer(1);
+    buf = Buffer.alloc(1);
     buf.writeUInt8(n, 0);
   } else if (n < 0x10000) {
-    buf = new Buffer(1 + 2);
+    buf = Buffer.alloc(1 + 2);
     buf.writeUInt8(253, 0);
     buf.writeUInt16LE(n, 1);
   } else if (n < 0x100000000) {
-    buf = new Buffer(1 + 4);
+    buf = Buffer.alloc(1 + 4);
     buf.writeUInt8(254, 0);
     buf.writeUInt32LE(n, 1);
   } else {
     const bw = new BufferWriter();
     bw.writeUInt8(255);
     bw.writeUInt64LEBN(bn);
-    var buf = bw.concat();
+    buf = bw.concat();
   }
   return buf;
 };
