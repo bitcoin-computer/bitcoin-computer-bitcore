@@ -1,9 +1,7 @@
-
-
 const _ = require('lodash');
 const buffer = require('buffer');
 const Base58 = require('./base58');
-const sha256sha256 = require('../crypto/hash').sha256sha256;
+const { sha256sha256 } = require('../crypto/hash');
 
 const Base58Check = function Base58Check(obj) {
   if (!(this instanceof Base58Check)) return new Base58Check(obj);
@@ -40,7 +38,7 @@ Base58Check.validChecksum = function validChecksum(data, checksum) {
 Base58Check.decode = function (s) {
   if (typeof s !== 'string') throw new Error('Input must be a string');
 
-  const buf = new Buffer(Base58.decode(s));
+  const buf = Buffer.from(Base58.decode(s));
 
   if (buf.length < 4) throw new Error('Input string too short');
 
@@ -55,13 +53,13 @@ Base58Check.decode = function (s) {
   return data;
 };
 
-Base58Check.checksum = function (buffer) {
-  return sha256sha256(buffer).slice(0, 4);
+Base58Check.checksum = function (buff) {
+  return sha256sha256(buff).slice(0, 4);
 };
 
 Base58Check.encode = function (buf) {
   if (!Buffer.isBuffer(buf)) throw new Error('Input must be a buffer');
-  const checkedBuf = new Buffer(buf.length + 4);
+  const checkedBuf = Buffer.alloc(buf.length + 4);
   const hash = Base58Check.checksum(buf);
   buf.copy(checkedBuf);
   hash.copy(checkedBuf, buf.length);
