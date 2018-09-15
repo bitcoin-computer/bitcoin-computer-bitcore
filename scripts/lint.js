@@ -20,5 +20,6 @@ const toTest = [
   'src/crypto/random.js',
   'src/crypto/signature.js',
   'src/util/buffer.js',
+  'src/util/js.js',
 ].join(' ');
 process.exit(shell.exec(`./node_modules/.bin/eslint ${toTest}`).code);

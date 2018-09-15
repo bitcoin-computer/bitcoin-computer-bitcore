@@ -1,5 +1,3 @@
-
-
 const _ = require('lodash');
 
 /**
@@ -77,7 +75,7 @@ module.exports = {
    */
   isNaturalNumber: function isNaturalNumber(value) {
     return typeof value === 'number'
-      && isFinite(value)
+      && Number.isFinite(value)
       && Math.floor(value) === value
       && value >= 0;
   },
