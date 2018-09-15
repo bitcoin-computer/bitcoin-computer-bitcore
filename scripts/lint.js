@@ -16,10 +16,9 @@ const toTest = [
   'src/block/',
   'src/mnemonic/',
   'src/transaction/',
+  'src/util/',
   'src/crypto/ecdsa.js',
   'src/crypto/random.js',
   'src/crypto/signature.js',
-  'src/util/buffer.js',
-  'src/util/js.js',
 ].join(' ');
 process.exit(shell.exec(`./node_modules/.bin/eslint ${toTest}`).code);

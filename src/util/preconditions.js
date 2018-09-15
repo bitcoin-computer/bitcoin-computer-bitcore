@@ -1,6 +1,5 @@
-
-
 const _ = require('lodash');
+const buffer = require('buffer');
 const errors = require('../errors');
 
 module.exports = {
@@ -18,11 +17,10 @@ module.exports = {
     argumentName = argumentName || '(unknown name)';
     if (_.isString(type)) {
       if (type === 'Buffer') {
-        const buffer = require('buffer'); // './buffer' fails on cordova & RN
         if (!buffer.Buffer.isBuffer(argument)) {
           throw new errors.InvalidArgumentType(argument, type, argumentName);
         }
-      } else if (typeof argument !== type) {
+      } else if (typeof argument !== type) { // eslint-disable-line valid-typeof
         throw new errors.InvalidArgumentType(argument, type, argumentName);
       }
     } else if (!(argument instanceof type)) {
