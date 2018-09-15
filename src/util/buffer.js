@@ -1,5 +1,3 @@
-
-
 const buffer = require('buffer');
 const assert = require('assert');
 
@@ -10,8 +8,8 @@ function equals(a, b) {
   if (a.length !== b.length) {
     return false;
   }
-  const length = a.length;
-  for (let i = 0; i < length; i++) {
+  const { length } = a;
+  for (let i = 0; i < length; i += 1) {
     if (a[i] !== b[i]) {
       return false;
     }
@@ -23,18 +21,18 @@ module.exports = {
   /**
    * Fill a buffer with a value.
    *
-   * @param {Buffer} buffer
+   * @param {Buffer} buff
    * @param {number} value
    * @return {Buffer}
    */
-  fill: function fill(buffer, value) {
-    $.checkArgumentType(buffer, 'Buffer', 'buffer');
+  fill: function fill(buff, value) {
+    $.checkArgumentType(buff, 'Buffer', 'buffer');
     $.checkArgumentType(value, 'number', 'value');
-    const length = buffer.length;
-    for (let i = 0; i < length; i++) {
-      buffer[i] = value;
+    const { length } = buff;
+    for (let i = 0; i < length; i += 1) {
+      buff[i] = value;
     }
-    return buffer;
+    return buff;
   },
 
   /**
@@ -44,9 +42,9 @@ module.exports = {
    * @return {Buffer}
    */
   copy(original) {
-    const buffer = new Buffer(original.length);
-    original.copy(buffer);
-    return buffer;
+    const buff = Buffer.alloc(original.length);
+    original.copy(buff);
+    return buff;
   },
 
   /**
@@ -68,8 +66,8 @@ module.exports = {
    */
   emptyBuffer: function emptyBuffer(bytes) {
     $.checkArgumentType(bytes, 'number', 'bytes');
-    const result = new buffer.Buffer(bytes);
-    for (let i = 0; i < bytes; i++) {
+    const result = Buffer.alloc(bytes);
+    for (let i = 0; i < bytes; i += 1) {
       result.write('\0', i);
     }
     return result;
@@ -93,7 +91,7 @@ module.exports = {
    */
   integerAsSingleByteBuffer: function integerAsSingleByteBuffer(integer) {
     $.checkArgumentType(integer, 'number', 'integer');
-    return new buffer.Buffer([integer & 0xff]);
+    return Buffer.from([integer & 0xff]);
   },
 
   /**
@@ -109,28 +107,28 @@ module.exports = {
     bytes.push((integer >> 16) & 0xff);
     bytes.push((integer >> 8) & 0xff);
     bytes.push(integer & 0xff);
-    return new Buffer(bytes);
+    return Buffer.from(bytes);
   },
 
   /**
    * Transform the first 4 values of a Buffer into a number, in little endian encoding
    *
-   * @param {Buffer} buffer
+   * @param {Buffer} buff
    * @return {number}
    */
-  integerFromBuffer: function integerFromBuffer(buffer) {
-    $.checkArgumentType(buffer, 'Buffer', 'buffer');
-    return buffer[0] << 24 | buffer[1] << 16 | buffer[2] << 8 | buffer[3];
+  integerFromBuffer: function integerFromBuffer(buff) {
+    $.checkArgumentType(buff, 'Buffer', 'buffer');
+    return (buff[0] << 24) | (buff[1] << 16) | (buff[2] << 8) | (buff[3]);
   },
 
   /**
    * Transforms the first byte of an array into a number ranging from -128 to 127
-   * @param {Buffer} buffer
+   * @param {Buffer} buff
    * @return {number}
    */
-  integerFromSingleByteBuffer: function integerFromBuffer(buffer) {
-    $.checkArgumentType(buffer, 'Buffer', 'buffer');
-    return buffer[0];
+  integerFromSingleByteBuffer: function integerFromBuffer(buff) {
+    $.checkArgumentType(buff, 'Buffer', 'buffer');
+    return buff[0];
   },
 
   /**
@@ -138,12 +136,12 @@ module.exports = {
    *
    * Shorthand for <tt>buffer.toString('hex')</tt>
    *
-   * @param {Buffer} buffer
+   * @param {Buffer} buff
    * @return {string}
    */
-  bufferToHex: function bufferToHex(buffer) {
-    $.checkArgumentType(buffer, 'Buffer', 'buffer');
-    return buffer.toString('hex');
+  bufferToHex: function bufferToHex(buff) {
+    $.checkArgumentType(buff, 'Buffer', 'buffer');
+    return buff.toString('hex');
   },
 
   /**
@@ -152,8 +150,8 @@ module.exports = {
    * @return {Buffer}
    */
   reverse: function reverse(param) {
-    const ret = new buffer.Buffer(param.length);
-    for (let i = 0; i < param.length; i++) {
+    const ret = Buffer.alloc(param.length);
+    for (let i = 0; i < param.length; i += 1) {
       ret[i] = param[param.length - i - 1];
     }
     return ret;
@@ -169,9 +167,9 @@ module.exports = {
    */
   hexToBuffer: function hexToBuffer(string) {
     assert(js.isHexa(string));
-    return new buffer.Buffer(string, 'hex');
+    return Buffer.from(string, 'hex');
   },
 };
 
-module.exports.NULL_HASH = module.exports.fill(new Buffer(32), 0);
-module.exports.EMPTY_BUFFER = new Buffer(0);
+module.exports.NULL_HASH = module.exports.fill(Buffer.alloc(32), 0);
+module.exports.EMPTY_BUFFER = Buffer.alloc(0);
