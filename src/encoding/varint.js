@@ -1,5 +1,3 @@
-
-
 const BufferWriter = require('./bufferwriter');
 const BufferReader = require('./bufferreader');
 const BN = require('../crypto/bn');
@@ -27,7 +25,7 @@ Varint.prototype.set = function (obj) {
 
 Varint.prototype.fromString = function (str) {
   this.set({
-    buf: new Buffer(str, 'hex'),
+    buf: Buffer.from(str, 'hex'),
   });
   return this;
 };
