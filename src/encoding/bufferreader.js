@@ -1,5 +1,3 @@
-
-
 const _ = require('lodash');
 const $ = require('../util/preconditions');
 const BufferUtil = require('../util/buffer');
@@ -10,15 +8,15 @@ const BufferReader = function BufferReader(buf) {
     return new BufferReader(buf);
   }
   if (_.isUndefined(buf)) {
-    return;
+    return undefined;
   }
   if (Buffer.isBuffer(buf)) {
     this.set({
       buf,
     });
   } else if (_.isString(buf)) {
-    const b = new Buffer(buf, 'hex');
-    if (b.length * 2 != buf.length) { throw new TypeError('Invalid hex string'); }
+    const b = Buffer.from(buf, 'hex');
+    if ((b.length * 2) !== buf.length) { throw new TypeError('Invalid hex string'); }
 
     this.set({
       buf: b,
@@ -127,15 +125,13 @@ BufferReader.prototype.readVarintNum = function () {
       return this.readUInt16LE();
     case 0xFE:
       return this.readUInt32LE();
-    case 0xFF:
-      var bn = this.readUInt64LEBN();
-      var n = bn.toNumber();
-      if (n <= Math.pow(2, 53)) {
+    case 0xFF: {
+      const n = this.readUInt64LEBN().toNumber();
+      if (n <= (2 ** 53)) {
         return n;
       }
       throw new Error('number too large to retain precision - use readVarintBN');
-
-      break;
+    }
     default:
       return first;
   }
@@ -181,8 +177,8 @@ BufferReader.prototype.readVarintBN = function () {
 };
 
 BufferReader.prototype.reverse = function () {
-  const buf = new Buffer(this.buf.length);
-  for (let i = 0; i < buf.length; i++) {
+  const buf = Buffer.alloc(this.buf.length);
+  for (let i = 0; i < buf.length; i += 1) {
     buf[i] = this.buf[this.buf.length - 1 - i];
   }
   this.buf = buf;

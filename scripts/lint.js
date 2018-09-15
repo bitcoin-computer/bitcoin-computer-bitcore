@@ -23,5 +23,6 @@ const toTest = [
   'src/crypto/hash.js',
   'src/encoding/base58.js',
   'src/encoding/base58check.js',
+  'src/encoding/bufferreader.js',
 ].join(' ');
 process.exit(shell.exec(`./node_modules/.bin/eslint ${toTest}`).code);
