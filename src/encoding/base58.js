@@ -1,5 +1,3 @@
-
-
 const _ = require('lodash');
 const bs58 = require('bs58');
 const buffer = require('buffer');
@@ -7,7 +5,6 @@ const buffer = require('buffer');
 const ALPHABET = '123456789ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz'.split('');
 
 const Base58 = function Base58(obj) {
-  /* jshint maxcomplexity: 8 */
   if (!(this instanceof Base58)) {
     return new Base58(obj);
   }
@@ -45,7 +42,7 @@ Base58.decode = function (str) {
   if (typeof str !== 'string') {
     throw new Error('Input should be a string');
   }
-  return new Buffer(bs58.decode(str));
+  return Buffer.from(bs58.decode(str));
 };
 
 Base58.prototype.fromBuffer = function (buf) {
