@@ -1,5 +1,3 @@
-
-
 const docsURL = 'http://bitcore.io/';
 
 module.exports = [{
@@ -22,17 +20,17 @@ module.exports = [{
   message: 'Invalid network: must be "livenet" or "testnet", got {0}',
 }, {
   name: 'InvalidArgument',
-  message() {
-    return `Invalid Argument${arguments[0] ? (`: ${arguments[0]}`) : ''
-    }${arguments[1] ? (` Documentation: ${docsURL}${arguments[1]}`) : ''}`;
+  message(...args) {
+    return `Invalid Argument${args[0] ? (`: ${args[0]}`) : ''
+    }${args[1] ? (` Documentation: ${docsURL}${args[1]}`) : ''}`;
   },
 }, {
   name: 'AbstractMethodInvoked',
   message: 'Abstract Method Invocation: {0}',
 }, {
   name: 'InvalidArgumentType',
-  message() {
-    return `Invalid Argument for ${arguments[2]}, expected ${arguments[1]} but got ${typeof arguments[0]}`;
+  message(...args) {
+    return `Invalid Argument for ${args[2]}, expected ${args[1]} but got ${typeof args[0]}`;
   },
 }, {
   name: 'Unit',
