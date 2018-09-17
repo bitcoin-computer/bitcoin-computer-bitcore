@@ -1,36 +1,32 @@
-'use strict';
-
 // karma.conf.js
-module.exports = function(config) {
-
+module.exports = function (config) {
   config.set({
     browsers: ['Firefox'],
     frameworks: ['mocha', 'detectBrowsers'],
     detectBrowsers: {
       enabled: true,
       usePhantomJS: false,
-      postDetection: function(availableBrowser) {
+      postDetection(availableBrowser) {
         // modify to enable additional browsers if available
-        var runBrowsers = ['Firefox', 'Chrome'];
-        var browsers = [];
-        for(var i = 0; i < runBrowsers.length; i++) {
-          if(~availableBrowser.indexOf(runBrowsers[i])) {
+        const runBrowsers = ['Firefox', 'Chrome'];
+        const browsers = [];
+        for (let i = 0; i < runBrowsers.length; i += 1) {
+          if (~availableBrowser.indexOf(runBrowsers[i])) {
             browsers.push(runBrowsers[i]);
           }
         }
         return browsers;
-      }
+      },
     },
     singleRun: true,
     files: [
-      '.build/tests.js'
+      '.build/tests.js',
     ],
     plugins: [
       'karma-mocha',
       'karma-chrome-launcher',
       'karma-firefox-launcher',
-      'karma-detect-browsers'
-    ]
+      'karma-detect-browsers',
+    ],
   });
-
 };

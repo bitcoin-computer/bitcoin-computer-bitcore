@@ -12,6 +12,7 @@ shell.config.fatal = false;
 
 // Add files and folders to the list as we fix the errors they contain.
 const toTest = [
+  'karma.conf.js',
   'scripts/',
   'src/block/',
   'src/mnemonic/',
