@@ -1,34 +1,30 @@
-'use strict';
-
-var errors = require('../errors');
-var _ = require('lodash');
+const _ = require('lodash');
+const buffer = require('buffer');
+const errors = require('../errors');
 
 module.exports = {
-  checkState: function(condition, message) {
+  checkState(condition, message) {
     if (!condition) {
       throw new errors.InvalidState(message);
     }
   },
-  checkArgument: function(condition, argumentName, message, docsPath) {
+  checkArgument(condition, argumentName, message, docsPath) {
     if (!condition) {
       throw new errors.InvalidArgument(argumentName, message, docsPath);
     }
   },
-  checkArgumentType: function(argument, type, argumentName) {
+  checkArgumentType(argument, type, argumentName) {
     argumentName = argumentName || '(unknown name)';
     if (_.isString(type)) {
       if (type === 'Buffer') {
-        var buffer = require('buffer'); // './buffer' fails on cordova & RN
         if (!buffer.Buffer.isBuffer(argument)) {
           throw new errors.InvalidArgumentType(argument, type, argumentName);
         }
-      } else if (typeof argument !== type) {
+      } else if (typeof argument !== type) { // eslint-disable-line valid-typeof
         throw new errors.InvalidArgumentType(argument, type, argumentName);
       }
-    } else {
-      if (!(argument instanceof type)) {
-        throw new errors.InvalidArgumentType(argument, type.name, argumentName);
-      }
+    } else if (!(argument instanceof type)) {
+      throw new errors.InvalidArgumentType(argument, type.name, argumentName);
     }
-  }
+  },
 };
