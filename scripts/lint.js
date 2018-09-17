@@ -17,9 +17,14 @@ const toTest = [
   'src/mnemonic/',
   'src/transaction/',
   'src/util/',
+  'src/encoding/',
   'src/crypto/ecdsa.js',
   'src/crypto/random.js',
   'src/crypto/signature.js',
   'src/crypto/hash.js',
+  'src/encoding/base58.js',
+  'src/encoding/base58check.js',
+  'src/encoding/bufferreader.js',
+  'src/encoding/bufferwriter.js',
 ].join(' ');
 process.exit(shell.exec(`./node_modules/.bin/eslint ${toTest}`).code);
