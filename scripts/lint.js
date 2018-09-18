@@ -25,5 +25,6 @@ const toTest = [
   'src/crypto/signature.js',
   'src/crypto/point.js',
   'src/crypto/hash.js',
+  'src/address.js',
 ].join(' ');
 process.exit(shell.exec(`./node_modules/.bin/eslint ${toTest}`).code);
