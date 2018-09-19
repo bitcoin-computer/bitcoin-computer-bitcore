@@ -27,3 +27,18 @@ if (natlen === opts.size) {
       buf = BN.pad(buf, natlen, opts.size);
     }
 ```
+
+
+The last line in the file [src/address.js](https://github.com/BitcoinDB/BitcoinCashFlow/pull/80/files#diff-d388968ff4f0a9adeade95ac380637d2R650) is `const Script = require('./script')`. If we move this line to the top of the file then a lot of unit tests break.
+
+
+In [src/address.js](https://github.com/BitcoinDB/BitcoinCashFlow/pull/80/files#diff-d388968ff4f0a9adeade95ac380637d2R514) an object is constructed in a try catch block and not assigned to anything.
+```
+  var error;
+  try {
+    /* jshint nonew: false */
+    new Address(data, network, type);
+  } catch (e) {
+    error = e;
+  }
+```
