@@ -25,5 +25,10 @@ const toTest = [
   'src/crypto/signature.js',
   'src/crypto/point.js',
   'src/crypto/hash.js',
+  'src/crypto/bn.js',
+  'src/encoding/base58.js',
+  'src/encoding/base58check.js',
+  'src/encoding/bufferreader.js',
+  'src/encoding/bufferwriter.js',
 ].join(' ');
 process.exit(shell.exec(`./node_modules/.bin/eslint ${toTest}`).code);
