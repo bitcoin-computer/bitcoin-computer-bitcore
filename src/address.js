@@ -647,5 +647,5 @@ Address.prototype.inspect = function () {
 
 module.exports = Address;
 
-// Todo: move this to the top of the file. Currently breaks a lot of test cases if we do 
+// Todo: move this to the top of the file. Currently breaks a lot of test cases if we do
 const Script = require('./script');
