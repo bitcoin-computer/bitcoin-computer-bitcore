@@ -31,6 +31,7 @@ const toTest = [
   'src/hdprivatekey.js',
   'src/hdpublickey.js',
   'src/message.js',
+  'src/opcode.js',
   'src/crypto/bn.js',
 ].join(' ');
 process.exit(shell.exec(`./node_modules/.bin/eslint ${toTest}`).code);

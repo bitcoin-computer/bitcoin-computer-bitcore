@@ -1,5 +1,3 @@
-
-
 const _ = require('lodash');
 const $ = require('./util/preconditions');
 const BufferUtil = require('./util/buffer');
@@ -51,7 +49,7 @@ Opcode.prototype.toHex = function () {
 };
 
 Opcode.prototype.toBuffer = function () {
-  return new Buffer(this.toHex(), 'hex');
+  return Buffer.from(this.toHex(), 'hex');
 };
 
 Opcode.prototype.toNumber = function () {
@@ -217,10 +215,7 @@ Opcode.map = {
 };
 
 Opcode.reverseMap = [];
-
-for (const k in Opcode.map) {
-  Opcode.reverseMap[Opcode.map[k]] = k;
-}
+Object.keys(Opcode.map).forEach((k) => { Opcode.reverseMap[Opcode.map[k]] = k; });
 
 // Easier access to opcodes
 _.extend(Opcode, Opcode.map);
