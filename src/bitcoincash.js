@@ -1,11 +1,10 @@
-'use strict';
-
-var bch = module.exports;
+const bch = module.exports;
+const packageInfo = require('../package.json');
 
 // module information
-bch.version = 'v' + require('../package.json').version;
-bch.versionGuard = function(version) {
-  return
+bch.version = `v${packageInfo.version}`;
+
+bch.versionGuard = function (version) { // eslint-disable-line no-unused-vars
   // if (version !== undefined) {
   //   var message = 'More than one instance of bitcoincashjs found. ' +
   //     'Please make sure to require bitcoincashjs and check that submodules do' +
@@ -64,6 +63,7 @@ bch.URI = require('./uri');
 bch.deps = {};
 bch.deps.bnjs = require('bn.js');
 bch.deps.bs58 = require('bs58');
+
 bch.deps.Buffer = Buffer;
 bch.deps.elliptic = require('elliptic');
 bch.deps._ = require('lodash');
