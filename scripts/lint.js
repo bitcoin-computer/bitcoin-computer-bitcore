@@ -19,7 +19,8 @@ const toTest = [
   'src/transaction/',
   'src/util/',
   'src/encoding/',
-  'src/errors',
+  'src/errors/',
+  'src/script/',
   'src/crypto/ecdsa.js',
   'src/crypto/random.js',
   'src/crypto/signature.js',
@@ -27,9 +28,5 @@ const toTest = [
   'src/crypto/hash.js',
   'src/address.js',
   'src/crypto/bn.js',
-  'src/encoding/base58.js',
-  'src/encoding/base58check.js',
-  'src/encoding/bufferreader.js',
-  'src/encoding/bufferwriter.js',
 ].join(' ');
 process.exit(shell.exec(`./node_modules/.bin/eslint ${toTest}`).code);
