@@ -28,6 +28,7 @@ const toTest = [
   'src/crypto/hash.js',
   'src/address.js',
   'src/bitcoincash.js',
+  'src/hdprivatekey.js',
   'src/crypto/bn.js',
 ].join(' ');
 process.exit(shell.exec(`./node_modules/.bin/eslint ${toTest}`).code);
