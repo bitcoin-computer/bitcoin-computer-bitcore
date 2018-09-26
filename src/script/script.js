@@ -182,7 +182,7 @@ Script.fromString = function (str) {
     let opcodenum = opcode.toNumber();
 
     if (_.isUndefined(opcodenum)) {
-      // #wierdstuff
+      // #weirdstuff
       if (token.startsWith('0x')) {
         opcodenum = parseInt(token, 16);
       } else {
@@ -447,7 +447,7 @@ Script.prototype.isDataOut = function () {
  */
 Script.prototype.getData = function () {
   if (this.isDataOut() || this.isScriptHashOut()) {
-    // #wierdstuff
+    // #weirdstuff
     if (this.chunks[1] === undefined) {
       return Buffer.alloc(0);
     }
@@ -703,7 +703,8 @@ Script.buildMultisigOut = function (publicKeys, threshold, opts) {
  *
  * @returns {Script}
  */
-// #wierdstuff - unused function arg
+// #weirdstuff - "opts" is never used in the function, but if we remove it tests go red. We should
+// look into this in more detail and try to figure out what is happening.
 // eslint-disable-next-line no-unused-vars
 Script.buildMultisigIn = function (pubkeys, threshold, signatures, opts) {
   $.checkArgument(_.isArray(pubkeys));
