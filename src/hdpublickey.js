@@ -1,6 +1,5 @@
-
-
 const _ = require('lodash');
+const assert = require('assert');
 const $ = require('./util/preconditions');
 
 const BN = require('./crypto/bn');
@@ -16,7 +15,6 @@ const bitcoreErrors = require('./errors');
 
 const errors = bitcoreErrors;
 const hdErrors = bitcoreErrors.HDPublicKey;
-const assert = require('assert');
 
 const JSUtil = require('./util/js');
 const BufferUtil = require('./util/buffer');
@@ -30,8 +28,6 @@ const BufferUtil = require('./util/buffer');
  * @param {Object|string|Buffer} arg
  */
 function HDPublicKey(arg) {
-  /* jshint maxcomplexity: 12 */
-  /* jshint maxstatements: 20 */
   if (arg instanceof HDPublicKey) {
     return arg;
   }
@@ -180,7 +176,6 @@ HDPublicKey.prototype._deriveWithNumber = function (index, hardened) {
 };
 
 HDPublicKey.prototype._deriveFromString = function (path) {
-  /* jshint maxcomplexity: 8 */
   if (_.includes(path, "'")) {
     throw new hdErrors.InvalidIndexCantDeriveHardened();
   } else if (!HDPublicKey.isValidPath(path)) {
@@ -216,8 +211,6 @@ HDPublicKey.isValidSerialized = function (data, network) {
  * @return {errors|null}
  */
 HDPublicKey.getSerializedError = function (data, network) {
-  /* jshint maxcomplexity: 10 */
-  /* jshint maxstatements: 20 */
   if (!(_.isString(data) || BufferUtil.isBuffer(data))) {
     return new hdErrors.UnrecognizedArgument('expected buffer or string');
   }
@@ -261,7 +254,9 @@ HDPublicKey.prototype._buildFromPrivate = function (arg) {
   const args = _.clone(arg._buffers);
   const point = Point.getG().mul(BN.fromBuffer(args.privateKey));
   args.publicKey = Point.pointToCompressed(point);
-  args.version = BufferUtil.integerAsBuffer(Network.get(BufferUtil.integerFromBuffer(args.version)).xpubkey);
+  args.version = BufferUtil.integerAsBuffer(
+    Network.get(BufferUtil.integerFromBuffer(args.version)).xpubkey,
+  );
   args.privateKey = undefined;
   args.checksum = undefined;
   args.xprivkey = undefined;
@@ -269,16 +264,26 @@ HDPublicKey.prototype._buildFromPrivate = function (arg) {
 };
 
 HDPublicKey.prototype._buildFromObject = function (arg) {
-  /* jshint maxcomplexity: 10 */
   // TODO: Type validation
+  let publicKey;
+  if (_.isString(arg.publicKey)) {
+    publicKey = BufferUtil.hexToBuffer(arg.publicKey);
+  } else if (BufferUtil.isBuffer(arg.publicKey)) {
+    ({ publicKey } = arg);
+  } else {
+    publicKey = arg.publicKey.toBuffer();
+  }
+
   const buffers = {
-    version: arg.network ? BufferUtil.integerAsBuffer(Network.get(arg.network).xpubkey) : arg.version,
+    version: arg.network
+      ? BufferUtil.integerAsBuffer(Network.get(arg.network).xpubkey) : arg.version,
     depth: _.isNumber(arg.depth) ? BufferUtil.integerAsSingleByteBuffer(arg.depth) : arg.depth,
-    parentFingerPrint: _.isNumber(arg.parentFingerPrint) ? BufferUtil.integerAsBuffer(arg.parentFingerPrint) : arg.parentFingerPrint,
-    childIndex: _.isNumber(arg.childIndex) ? BufferUtil.integerAsBuffer(arg.childIndex) : arg.childIndex,
+    parentFingerPrint: _.isNumber(arg.parentFingerPrint)
+      ? BufferUtil.integerAsBuffer(arg.parentFingerPrint) : arg.parentFingerPrint,
+    childIndex: _.isNumber(arg.childIndex)
+      ? BufferUtil.integerAsBuffer(arg.childIndex) : arg.childIndex,
     chainCode: _.isString(arg.chainCode) ? BufferUtil.hexToBuffer(arg.chainCode) : arg.chainCode,
-    publicKey: _.isString(arg.publicKey) ? BufferUtil.hexToBuffer(arg.publicKey)
-      : BufferUtil.isBuffer(arg.publicKey) ? arg.publicKey : arg.publicKey.toBuffer(),
+    publicKey,
     checksum: _.isNumber(arg.checksum) ? BufferUtil.integerAsBuffer(arg.checksum) : arg.checksum,
   };
   return this._buildFromBuffers(buffers);
@@ -317,9 +322,6 @@ HDPublicKey.prototype._buildFromSerialized = function (arg) {
  * @return {HDPublicKey} this
  */
 HDPublicKey.prototype._buildFromBuffers = function (arg) {
-  /* jshint maxcomplexity: 8 */
-  /* jshint maxstatements: 20 */
-
   HDPublicKey._validateBufferArguments(arg);
 
   JSUtil.defineImmutable(this, {
@@ -339,9 +341,8 @@ HDPublicKey.prototype._buildFromBuffers = function (arg) {
   }
   const network = Network.get(BufferUtil.integerFromBuffer(arg.version));
 
-  let xpubkey;
-  xpubkey = Base58Check.encode(BufferUtil.concat(sequence));
-  arg.xpubkey = new Buffer(xpubkey);
+  const xpubkey = Base58Check.encode(BufferUtil.concat(sequence));
+  arg.xpubkey = Buffer.from(xpubkey);
 
   const publicKey = new PublicKey(arg.publicKey, { network });
   const size = HDPublicKey.ParentFingerPrintSize;
@@ -421,7 +422,7 @@ HDPublicKey.prototype.inspect = function () {
  *  <li> checksum: the base58 checksum of xpubkey
  * </ul>
  */
-HDPublicKey.prototype.toObject = HDPublicKey.prototype.toJSON = function toObject() {
+HDPublicKey.prototype.toJSON = function toObject() {
   return {
     network: Network.get(BufferUtil.integerFromBuffer(this._buffers.version)).name,
     depth: BufferUtil.integerFromSingleByteBuffer(this._buffers.depth),
@@ -434,6 +435,8 @@ HDPublicKey.prototype.toObject = HDPublicKey.prototype.toJSON = function toObjec
     xpubkey: this.xpubkey,
   };
 };
+
+HDPublicKey.prototype.toObject = HDPublicKey.prototype.toJSON;
 
 /**
  * Create a HDPublicKey from a buffer argument
@@ -473,7 +476,8 @@ HDPublicKey.VersionEnd = HDPublicKey.VersionStart + HDPublicKey.VersionSize;
 HDPublicKey.DepthStart = HDPublicKey.VersionEnd;
 HDPublicKey.DepthEnd = HDPublicKey.DepthStart + HDPublicKey.DepthSize;
 HDPublicKey.ParentFingerPrintStart = HDPublicKey.DepthEnd;
-HDPublicKey.ParentFingerPrintEnd = HDPublicKey.ParentFingerPrintStart + HDPublicKey.ParentFingerPrintSize;
+HDPublicKey.ParentFingerPrintEnd = HDPublicKey.ParentFingerPrintStart
+  + HDPublicKey.ParentFingerPrintSize;
 HDPublicKey.ChildIndexStart = HDPublicKey.ParentFingerPrintEnd;
 HDPublicKey.ChildIndexEnd = HDPublicKey.ChildIndexStart + HDPublicKey.ChildIndexSize;
 HDPublicKey.ChainCodeStart = HDPublicKey.ChildIndexEnd;
