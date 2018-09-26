@@ -1,5 +1,3 @@
-
-
 const _ = require('lodash');
 const cashaddr = require('cashaddrjs');
 const $ = require('./util/preconditions');
@@ -49,9 +47,6 @@ const BITPAY_P2SH_VERSION_BYTE = 40;
  * @constructor
  */
 function Address(data, network, type) {
-  /* jshint maxcomplexity: 12 */
-  /* jshint maxstatements: 20 */
-
   if (!(this instanceof Address)) {
     return new Address(data, network, type);
   }
@@ -98,7 +93,6 @@ function Address(data, network, type) {
  * @returns {Object} An "info" object with "type", "network", and "hashBuffer"
  */
 Address.prototype._classifyArguments = function (data, network, type) {
-  /* jshint maxcomplexity: 10 */
   // transform and validate input data
   if ((data instanceof Buffer || data instanceof Uint8Array) && data.length === 20) {
     return Address._transformHash(data);
@@ -205,7 +199,6 @@ Address._classifyFromVersion = function (buffer) {
  * @private
  */
 Address._transformBuffer = function (buffer, network, type) {
-  /* jshint maxcomplexity: 9 */
   const info = {};
   if (!(buffer instanceof Buffer) && !(buffer instanceof Uint8Array)) {
     throw new TypeError('Address supplied is not a buffer.');
