@@ -1,5 +1,3 @@
-
-
 const _ = require('lodash');
 const $ = require('./util/preconditions');
 const Address = require('./address');
@@ -8,7 +6,7 @@ const PrivateKey = require('./privatekey');
 const BufferWriter = require('./encoding/bufferwriter');
 const ECDSA = require('./crypto/ecdsa');
 const Signature = require('./crypto/signature');
-const sha256sha256 = require('./crypto/hash').sha256sha256;
+const { sha256sha256 } = require('./crypto/hash');
 const JSUtil = require('./util/js');
 
 /**
@@ -27,11 +25,11 @@ const Message = function Message(message) {
   return this;
 };
 
-Message.MAGIC_BYTES = new Buffer('Bitcoin Signed Message:\n');
+Message.MAGIC_BYTES = Buffer.from('Bitcoin Signed Message:\n');
 
 Message.prototype.magicHash = function magicHash() {
   const prefix1 = BufferWriter.varintBufNum(Message.MAGIC_BYTES.length);
-  const messageBuffer = new Buffer(this.message);
+  const messageBuffer = Buffer.from(this.message);
   const prefix2 = BufferWriter.varintBufNum(messageBuffer.length);
   const buf = Buffer.concat([prefix1, Message.MAGIC_BYTES, prefix2, messageBuffer]);
   const hash = sha256sha256(buf);
@@ -88,7 +86,7 @@ Message.prototype.verify = function verify(bitcoinAddress, signatureString) {
   if (_.isString(bitcoinAddress)) {
     bitcoinAddress = Address.fromString(bitcoinAddress);
   }
-  const signature = Signature.fromCompact(new Buffer(signatureString, 'base64'));
+  const signature = Signature.fromCompact(Buffer.from(signatureString, 'base64'));
 
   // recover the public key
   const ecdsa = new ECDSA();
