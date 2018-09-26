@@ -26,6 +26,7 @@ const toTest = [
   'src/crypto/point.js',
   'src/crypto/hash.js',
   'src/address.js',
+  'src/bitcoincash.js',
   'src/crypto/bn.js',
   'src/encoding/base58.js',
   'src/encoding/base58check.js',
