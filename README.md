@@ -98,9 +98,9 @@ $ npm test
 | encoding/varint.js | ![done](https://i.imgur.com/RXSkZTD.png "Done") | ![not done](https://i.imgur.com/MleS2Jt.png "Not done") | ![not done](https://i.imgur.com/MleS2Jt.png "Not done") |
 | errors/index.js | ![done](https://i.imgur.com/RXSkZTD.png "Done") | ![not done](https://i.imgur.com/MleS2Jt.png "Not done") | ![not done](https://i.imgur.com/MleS2Jt.png "Not done") |
 | errors/spec.js | ![done](https://i.imgur.com/RXSkZTD.png "Done") | ![not done](https://i.imgur.com/MleS2Jt.png "Not done") | ![not done](https://i.imgur.com/MleS2Jt.png "Not done") |
-| hdprivatekey.js | ![not done](https://i.imgur.com/MleS2Jt.png "Not done") | ![not done](https://i.imgur.com/MleS2Jt.png "Not done") | ![not done](https://i.imgur.com/MleS2Jt.png "Not done") |
-| hdpublickey.js | ![not done](https://i.imgur.com/MleS2Jt.png "Not done") | ![not done](https://i.imgur.com/MleS2Jt.png "Not done") | ![not done](https://i.imgur.com/MleS2Jt.png "Not done") |
-| message.js | ![not done](https://i.imgur.com/MleS2Jt.png "Not done") | ![not done](https://i.imgur.com/MleS2Jt.png "Not done") | ![not done](https://i.imgur.com/MleS2Jt.png "Not done") |
+| hdprivatekey.js | ![done](https://i.imgur.com/RXSkZTD.png "Done") | ![not done](https://i.imgur.com/MleS2Jt.png "Not done") | ![not done](https://i.imgur.com/MleS2Jt.png "Not done") |
+| hdpublickey.js | ![done](https://i.imgur.com/RXSkZTD.png "Done") | ![not done](https://i.imgur.com/MleS2Jt.png "Not done") | ![not done](https://i.imgur.com/MleS2Jt.png "Not done") |
+| message.js | ![done](https://i.imgur.com/RXSkZTD.png "Done") | ![not done](https://i.imgur.com/MleS2Jt.png "Not done") | ![not done](https://i.imgur.com/MleS2Jt.png "Not done") |
 | mnemonic/index.js | ![done](https://i.imgur.com/RXSkZTD.png "Done") | ![not done](https://i.imgur.com/MleS2Jt.png "Not done") | ![not done](https://i.imgur.com/MleS2Jt.png "Not done") |
 | mnemonic/mnemonic.js | ![done](https://i.imgur.com/RXSkZTD.png "Done") | ![not done](https://i.imgur.com/MleS2Jt.png "Not done") | ![not done](https://i.imgur.com/MleS2Jt.png "Not done") |
 | mnemonic/pbkdf2.js | ![done](https://i.imgur.com/RXSkZTD.png "Done") | ![not done](https://i.imgur.com/MleS2Jt.png "Not done") | ![not done](https://i.imgur.com/MleS2Jt.png "Not done") |
@@ -112,7 +112,7 @@ $ npm test
 | mnemonic/words/japanese.js | ![done](https://i.imgur.com/RXSkZTD.png "Done") | ![not done](https://i.imgur.com/MleS2Jt.png "Not done") | ![not done](https://i.imgur.com/MleS2Jt.png "Not done") |
 | mnemonic/words/spanish.js | ![done](https://i.imgur.com/RXSkZTD.png "Done") | ![not done](https://i.imgur.com/MleS2Jt.png "Not done") | ![not done](https://i.imgur.com/MleS2Jt.png "Not done") |
 | networks.js | ![not done](https://i.imgur.com/MleS2Jt.png "Not done") | ![not done](https://i.imgur.com/MleS2Jt.png "Not done") | ![not done](https://i.imgur.com/MleS2Jt.png "Not done") |
-| opcode.js | ![not done](https://i.imgur.com/MleS2Jt.png "Not done") | ![not done](https://i.imgur.com/MleS2Jt.png "Not done") | ![not done](https://i.imgur.com/MleS2Jt.png "Not done") |
+| opcode.js | ![done](https://i.imgur.com/RXSkZTD.png "Done") | ![not done](https://i.imgur.com/MleS2Jt.png "Not done") | ![not done](https://i.imgur.com/MleS2Jt.png "Not done") |
 | privatekey.js | ![not done](https://i.imgur.com/MleS2Jt.png "Not done") | ![not done](https://i.imgur.com/MleS2Jt.png "Not done") | ![not done](https://i.imgur.com/MleS2Jt.png "Not done") |
 | publickey.js | ![not done](https://i.imgur.com/MleS2Jt.png "Not done") | ![not done](https://i.imgur.com/MleS2Jt.png "Not done") | ![not done](https://i.imgur.com/MleS2Jt.png "Not done") |
 | script/index.js | ![done](https://i.imgur.com/RXSkZTD.png "Done") | ![not done](https://i.imgur.com/MleS2Jt.png "Not done") | ![not done](https://i.imgur.com/MleS2Jt.png "Not done") |

@@ -1,72 +1,70 @@
-'use strict';
-
-var _ = require('lodash');
-var $ = require('./util/preconditions');
-var BufferUtil = require('./util/buffer');
-var JSUtil = require('./util/js');
+const _ = require('lodash');
+const $ = require('./util/preconditions');
+const BufferUtil = require('./util/buffer');
+const JSUtil = require('./util/js');
 
 function Opcode(num) {
   if (!(this instanceof Opcode)) {
     return new Opcode(num);
   }
 
-  var value;
+  let value;
 
   if (_.isNumber(num)) {
     value = num;
   } else if (_.isString(num)) {
     value = Opcode.map[num];
   } else {
-    throw new TypeError('Unrecognized num type: "' + typeof(num) + '" for Opcode');
+    throw new TypeError(`Unrecognized num type: "${typeof (num)}" for Opcode`);
   }
 
   JSUtil.defineImmutable(this, {
-    num: value
+    num: value,
   });
 
   return this;
 }
 
-Opcode.fromBuffer = function(buf) {
+Opcode.fromBuffer = function (buf) {
   $.checkArgument(BufferUtil.isBuffer(buf));
-  return new Opcode(Number('0x' + buf.toString('hex')));
+  return new Opcode(Number(`0x${buf.toString('hex')}`));
 };
 
-Opcode.fromNumber = function(num) {
+Opcode.fromNumber = function (num) {
   $.checkArgument(_.isNumber(num));
   return new Opcode(num);
 };
 
-Opcode.fromString = function(str) {
+Opcode.fromString = function (str) {
   $.checkArgument(_.isString(str));
-  var value = Opcode.map[str];
+  const value = Opcode.map[str];
   if (typeof value === 'undefined') {
     throw new TypeError('Invalid opcodestr');
   }
   return new Opcode(value);
 };
 
-Opcode.prototype.toHex = function() {
+Opcode.prototype.toHex = function () {
   return this.num.toString(16);
 };
 
-Opcode.prototype.toBuffer = function() {
-  return new Buffer(this.toHex(), 'hex');
+Opcode.prototype.toBuffer = function () {
+  return Buffer.from(this.toHex(), 'hex');
 };
 
-Opcode.prototype.toNumber = function() {
+Opcode.prototype.toNumber = function () {
   return this.num;
 };
 
-Opcode.prototype.toString = function() {
-  var str = Opcode.reverseMap[this.num];
+Opcode.prototype.toString = function () {
+  const str = Opcode.reverseMap[this.num];
   if (typeof str === 'undefined') {
     throw new Error('Opcode does not have a string representation');
   }
   return str;
 };
 
-Opcode.smallInt = function(n) {
+Opcode.smallInt = function (n) {
   $.checkArgument(_.isNumber(n), 'Invalid Argument: n should be number');
   $.checkArgument(n >= 0 && n <= 16, 'Invalid Argument: n must be between 0 and 16');
   if (n === 0) {
@@ -213,14 +211,11 @@ Opcode.map = {
   // template matching params
   OP_PUBKEYHASH: 253,
   OP_PUBKEY: 254,
-  OP_INVALIDOPCODE: 255
+  OP_INVALIDOPCODE: 255,
 };
 
 Opcode.reverseMap = [];
-
-for (var k in Opcode.map) {
-  Opcode.reverseMap[Opcode.map[k]] = k;
-}
+Object.keys(Opcode.map).forEach((k) => { Opcode.reverseMap[Opcode.map[k]] = k; });
 
 // Easier access to opcodes
 _.extend(Opcode, Opcode.map);
@@ -228,12 +223,12 @@ _.extend(Opcode, Opcode.map);
 /**
  * @returns true if opcode is one of OP_0, OP_1, ..., OP_16
  */
-Opcode.isSmallIntOp = function(opcode) {
+Opcode.isSmallIntOp = function (opcode) {
   if (opcode instanceof Opcode) {
     opcode = opcode.toNumber();
   }
-  return ((opcode === Opcode.map.OP_0) ||
-    ((opcode >= Opcode.map.OP_1) && (opcode <= Opcode.map.OP_16)));
+  return ((opcode === Opcode.map.OP_0)
+    || ((opcode >= Opcode.map.OP_1) && (opcode <= Opcode.map.OP_16)));
 };
 
 /**
@@ -241,8 +236,8 @@ Opcode.isSmallIntOp = function(opcode) {
  *
  * @returns {string} Script opcode
  */
-Opcode.prototype.inspect = function() {
-  return '<Opcode: ' + this.toString() + ', hex: '+this.toHex()+', decimal: '+this.num+'>';
+Opcode.prototype.inspect = function () {
+  return `<Opcode: ${this.toString()}, hex: ${this.toHex()}, decimal: ${this.num}>`;
 };
 
 module.exports = Opcode;
