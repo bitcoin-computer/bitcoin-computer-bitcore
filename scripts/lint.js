@@ -33,6 +33,7 @@ const toTest = [
   'src/message.js',
   'src/opcode.js',
   'src/unit.js',
+  'src/uri.js',
   'src/networks.js',
   'src/crypto/bn.js',
 ].join(' ');
