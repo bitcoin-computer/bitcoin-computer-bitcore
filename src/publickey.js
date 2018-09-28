@@ -1,5 +1,3 @@
-
-
 const _ = require('lodash');
 const BN = require('./crypto/bn');
 const Point = require('./crypto/point');
@@ -77,7 +75,7 @@ PublicKey.prototype._classifyArgs = function (data, extra) {
   } else if (data.x && data.y) {
     info = PublicKey._transformObject(data);
   } else if (typeof (data) === 'string') {
-    info = PublicKey._transformDER(new Buffer(data, 'hex'));
+    info = PublicKey._transformDER(Buffer.from(data, 'hex'));
   } else if (PublicKey._isBuffer(data)) {
     info = PublicKey._transformDER(data);
   } else if (PublicKey._isPrivateKey(data)) {
@@ -99,6 +97,8 @@ PublicKey.prototype._classifyArgs = function (data, extra) {
  * @private
  */
 PublicKey._isPrivateKey = function (param) {
+  // #weirdstuff resolve circular dependency.
+  // eslint-disable-next-line global-require
   const PrivateKey = require('./privatekey');
   return param instanceof PrivateKey;
 };
@@ -139,8 +139,6 @@ PublicKey._transformPrivateKey = function (privkey) {
  * @private
  */
 PublicKey._transformDER = function (buf, strict) {
-  /* jshint maxstatements: 30 */
-  /* jshint maxcomplexity: 12 */
   $.checkArgument(PublicKey._isBuffer(buf), 'Must be a hex buffer of DER encoded public key');
   let info = {};
 
@@ -229,13 +227,14 @@ PublicKey.fromPrivateKey = function (privkey) {
  * @param {bool=} strict - if set to false, will loosen some conditions
  * @returns {PublicKey} A new valid instance of PublicKey
  */
-PublicKey.fromDER = PublicKey.fromBuffer = function (buf, strict) {
+PublicKey.fromBuffer = function (buf, strict) {
   $.checkArgument(PublicKey._isBuffer(buf), 'Must be a hex buffer of DER encoded public key');
   const info = PublicKey._transformDER(buf, strict);
   return new PublicKey(info.point, {
     compressed: info.compressed,
   });
 };
+PublicKey.fromDER = PublicKey.fromBuffer;
 
 /**
  * Instantiate a PublicKey from a Point
@@ -259,7 +258,7 @@ PublicKey.fromPoint = function (point, compressed) {
  * @returns {PublicKey} A new valid instance of PublicKey
  */
 PublicKey.fromString = function (str, encoding) {
-  const buf = new Buffer(str, encoding || 'hex');
+  const buf = Buffer.from(str, encoding || 'hex');
   const info = PublicKey._transformDER(buf);
   return new PublicKey(info.point, {
     compressed: info.compressed,
@@ -289,7 +288,8 @@ PublicKey.fromX = function (odd, x) {
 PublicKey.getValidationError = function (data) {
   let error;
   try {
-    /* jshint nonew: false */
+    // #weirdstuff Refactor.
+    // eslint-disable-next-line no-new
     new PublicKey(data);
   } catch (e) {
     error = e;
@@ -310,20 +310,21 @@ PublicKey.isValid = function (data) {
 /**
  * @returns {Object} A plain object of the PublicKey
  */
-PublicKey.prototype.toObject = PublicKey.prototype.toJSON = function toObject() {
+PublicKey.prototype.toJSON = function toObject() {
   return {
     x: this.point.getX().toString('hex', 2),
     y: this.point.getY().toString('hex', 2),
     compressed: this.compressed,
   };
 };
+PublicKey.prototype.toObject = PublicKey.prototype.toJSON;
 
 /**
  * Will output the PublicKey to a DER Buffer
  *
  * @returns {Buffer} A DER hex encoded buffer
  */
-PublicKey.prototype.toBuffer = PublicKey.prototype.toDER = function () {
+PublicKey.prototype.toDER = function () {
   const x = this.point.getX();
   const y = this.point.getY();
 
@@ -336,17 +337,18 @@ PublicKey.prototype.toBuffer = PublicKey.prototype.toDER = function () {
 
   let prefix;
   if (!this.compressed) {
-    prefix = new Buffer([0x04]);
+    prefix = Buffer.from([0x04]);
     return Buffer.concat([prefix, xbuf, ybuf]);
   }
   const odd = ybuf[ybuf.length - 1] % 2;
   if (odd) {
-    prefix = new Buffer([0x03]);
+    prefix = Buffer.from([0x03]);
   } else {
-    prefix = new Buffer([0x02]);
+    prefix = Buffer.from([0x02]);
   }
   return Buffer.concat([prefix, xbuf]);
 };
+PublicKey.prototype.toBuffer = PublicKey.prototype.toDER;
 
 /**
  * Will return a sha256 + ripemd160 hash of the serialized public key
@@ -364,6 +366,8 @@ PublicKey.prototype._getID = function _getID() {
  * @returns {Address} An address generated from the public key
  */
 PublicKey.prototype.toAddress = function (network) {
+  // #weirdstuff resolve circular dependency.
+  // eslint-disable-next-line global-require
   const Address = require('./address');
   return Address.fromPublicKey(this, network || this.network);
 };

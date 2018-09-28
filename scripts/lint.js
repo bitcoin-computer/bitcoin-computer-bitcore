@@ -34,6 +34,7 @@ const toTest = [
   'src/opcode.js',
   'src/unit.js',
   'src/uri.js',
+  'src/publickey.js',
   'src/networks.js',
   'src/crypto/bn.js',
 ].join(' ');
