@@ -1,5 +1,3 @@
-
-
 const _ = require('lodash');
 
 const errors = require('./errors');
@@ -95,9 +93,10 @@ Unit.fromBTC = function (amount) {
  * @param {Number} amount - The amount in mBTC
  * @returns {Unit} A Unit instance
  */
-Unit.fromMillis = Unit.fromMilis = function (amount) {
+Unit.fromMilis = function (amount) {
   return new Unit(amount, Unit.mBTC);
 };
+Unit.fromMillis = Unit.fromMilis;
 
 /**
  * Returns a Unit instance created from an amount in bits
@@ -105,9 +104,10 @@ Unit.fromMillis = Unit.fromMilis = function (amount) {
  * @param {Number} amount - The amount in bits
  * @returns {Unit} A Unit instance
  */
-Unit.fromMicros = Unit.fromBits = function (amount) {
+Unit.fromBits = function (amount) {
   return new Unit(amount, Unit.bits);
 };
+Unit.fromMicros = Unit.fromBits;
 
 /**
  * Returns a Unit instance created from an amount in satoshis
@@ -134,7 +134,7 @@ Unit.prototype._from = function (amount, code) {
   if (!UNITS[code]) {
     throw new errors.Unit.UnknownCode(code);
   }
-  return parseInt((amount * UNITS[code][0]).toFixed());
+  return parseInt((amount * UNITS[code][0]).toFixed(), 10);
 };
 
 /**
@@ -173,18 +173,20 @@ Unit.prototype.toBTC = function () {
  *
  * @returns {Number} The value converted to mBTC
  */
-Unit.prototype.toMillis = Unit.prototype.toMilis = function () {
+Unit.prototype.toMilis = function () {
   return this.to(Unit.mBTC);
 };
+Unit.prototype.toMillis = Unit.prototype.toMilis;
 
 /**
  * Returns the value represented in bits
  *
  * @returns {Number} The value converted to bits
  */
-Unit.prototype.toMicros = Unit.prototype.toBits = function () {
+Unit.prototype.toBits = function () {
   return this.to(Unit.bits);
 };
+Unit.prototype.toMicros = Unit.prototype.toBits;
 
 /**
  * Returns the value represented in satoshis
@@ -219,12 +221,13 @@ Unit.prototype.toString = function () {
  *
  * @returns {Object} An object with the keys: amount and code
  */
-Unit.prototype.toObject = Unit.prototype.toJSON = function toObject() {
+Unit.prototype.toJSON = function toObject() {
   return {
     amount: this.BTC,
     code: Unit.BTC,
   };
 };
+Unit.prototype.toObject = Unit.prototype.toJSON;
 
 /**
  * Returns a string formatted for the console
