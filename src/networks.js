@@ -1,4 +1,3 @@
-
 const _ = require('lodash');
 
 const BufferUtil = require('./util/buffer');
@@ -24,7 +23,8 @@ Network.prototype.toString = function toString() {
  * @member Networks#get
  * Retrieves the network associated with a magic number or string.
  * @param {string|number|Network} arg
- * @param {string|Array} keys - if set, only check if the magic number associated with this name matches
+ * @param {string|Array} keys - if set, only check if the magic number associated with this name
+ *   matches
  * @return Network
  */
 function get(arg, keys) {
@@ -35,14 +35,12 @@ function get(arg, keys) {
     if (!_.isArray(keys)) {
       keys = [keys];
     }
-    const containsArg = function (key) {
-      return networks[index][key] === arg;
-    };
-    for (var index in networks) {
-      if (_.some(keys, containsArg)) {
-        return networks[index];
-      }
+
+    const index = networks.findIndex(network => _.some(keys, key => network[key] === arg));
+    if (index !== -1) {
+      return networks[index];
     }
+
     return undefined;
   }
   return networkMaps[arg];
@@ -113,16 +111,16 @@ function addNetwork(data) {
  * @param {Network} network
  */
 function removeNetwork(network) {
-  for (let i = 0; i < networks.length; i++) {
+  for (let i = 0; i < networks.length; i += 1) {
     if (networks[i] === network) {
       networks.splice(i, 1);
     }
   }
-  for (const key in networkMaps) {
-    if (networkMaps[key] === network) {
-      delete networkMaps[key];
+  Object.keys(networkMaps).forEach((objectKey) => {
+    if (networkMaps[objectKey] === network) {
+      delete networkMaps[objectKey];
     }
-  }
+  });
 }
 
 addNetwork({
@@ -180,11 +178,11 @@ const TESTNET = {
   ],
 };
 
-for (var key in TESTNET) {
-  if (!_.isObject(TESTNET[key])) {
-    networkMaps[TESTNET[key]] = testnet;
+Object.keys(TESTNET).forEach((objectKey) => {
+  if (!_.isObject(TESTNET[objectKey])) {
+    networkMaps[TESTNET[objectKey]] = testnet;
   }
-}
+});
 
 const REGTEST = {
   PORT: 18444,
@@ -192,11 +190,11 @@ const REGTEST = {
   DNS_SEEDS: [],
 };
 
-for (var key in REGTEST) {
-  if (!_.isObject(REGTEST[key])) {
-    networkMaps[REGTEST[key]] = testnet;
+Object.keys(REGTEST).forEach((objectKey) => {
+  if (!_.isObject(REGTEST[objectKey])) {
+    networkMaps[REGTEST[objectKey]] = testnet;
   }
-}
+});
 
 Object.defineProperty(testnet, 'port', {
   enumerable: true,
