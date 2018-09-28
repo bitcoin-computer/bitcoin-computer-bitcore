@@ -1,10 +1,10 @@
-'use strict';
 
-var _ = require('lodash');
-var URL = require('url');
 
-var Address = require('./address');
-var Unit = require('./unit');
+const _ = require('lodash');
+const URL = require('url');
+
+const Address = require('./address');
+const Unit = require('./unit');
 
 /**
  * Bitcore URI
@@ -32,7 +32,7 @@ var Unit = require('./unit');
  * @returns {URI} A new valid and frozen instance of URI
  * @constructor
  */
-var URI = function(data, knownParams) {
+var URI = function (data, knownParams) {
   if (!(this instanceof URI)) {
     return new URI(data, knownParams);
   }
@@ -41,13 +41,13 @@ var URI = function(data, knownParams) {
   this.knownParams = knownParams || [];
   this.address = this.network = this.amount = this.message = null;
 
-  if (typeof(data) === 'string') {
-    var params = URI.parse(data);
+  if (typeof (data) === 'string') {
+    const params = URI.parse(data);
     if (params.amount) {
       params.amount = this._parseAmount(params.amount);
     }
     this._fromObject(params);
-  } else if (typeof(data) === 'object') {
+  } else if (typeof (data) === 'object') {
     this._fromObject(data);
   } else {
     throw new TypeError('Unrecognized data format.');
@@ -61,7 +61,7 @@ var URI = function(data, knownParams) {
  * @returns {URI} A new instance of a URI
  */
 URI.fromString = function fromString(str) {
-  if (typeof(str) !== 'string') {
+  if (typeof (str) !== 'string') {
     throw new TypeError('Expected a string');
   }
   return new URI(str);
@@ -91,7 +91,7 @@ URI.fromObject = function fromObject(json) {
  * @param {Array.<string>=} knownParams - Required non-standard params
  * @returns {boolean} Result of uri validation
  */
-URI.isValid = function(arg, knownParams) {
+URI.isValid = function (arg, knownParams) {
   try {
     new URI(arg, knownParams);
   } catch (err) {
@@ -107,15 +107,15 @@ URI.isValid = function(arg, knownParams) {
  * @throws {TypeError} Invalid bitcoin cash URI
  * @returns {Object} An object with the parsed params
  */
-URI.parse = function(uri) {
-  var info = URL.parse(uri, true);
+URI.parse = function (uri) {
+  const info = URL.parse(uri, true);
 
   if (info.protocol !== 'bitcoincash:') {
     throw new TypeError('Invalid bitcoin cash URI');
   }
 
   // workaround to host insensitiveness
-  var group = /[^:]*:\/?\/?([^?]*)/.exec(uri);
+  const group = /[^:]*:\/?\/?([^?]*)/.exec(uri);
   info.query.address = group && group[1] || undefined;
 
   return info.query;
@@ -131,7 +131,7 @@ URI.Members = ['address', 'amount', 'message', 'label', 'r'];
  * @throws {TypeError} Invalid amount
  * @throws {Error} Unknown required argument
  */
-URI.prototype._fromObject = function(obj) {
+URI.prototype._fromObject = function (obj) {
   /* jshint maxcomplexity: 10 */
 
   if (!Address.isValid(obj.address)) {
@@ -142,16 +142,16 @@ URI.prototype._fromObject = function(obj) {
   this.network = this.address.network;
   this.amount = obj.amount;
 
-  for (var key in obj) {
+  for (const key in obj) {
     if (key === 'address' || key === 'amount') {
       continue;
     }
 
     if (/^req-/.exec(key) && this.knownParams.indexOf(key) === -1) {
-      throw Error('Unknown required argument ' + key);
+      throw Error(`Unknown required argument ${key}`);
     }
 
-    var destination = URI.Members.indexOf(key) > -1 ? this : this.extras;
+    const destination = URI.Members.indexOf(key) > -1 ? this : this.extras;
     destination[key] = obj[key];
   }
 };
@@ -163,7 +163,7 @@ URI.prototype._fromObject = function(obj) {
  * @throws {TypeError} Invalid amount
  * @returns {Object} Amount represented in satoshis
  */
-URI.prototype._parseAmount = function(amount) {
+URI.prototype._parseAmount = function (amount) {
   amount = Number(amount);
   if (isNaN(amount)) {
     throw new TypeError('Invalid amount');
@@ -172,10 +172,10 @@ URI.prototype._parseAmount = function(amount) {
 };
 
 URI.prototype.toObject = URI.prototype.toJSON = function toObject() {
-  var json = {};
-  for (var i = 0; i < URI.Members.length; i++) {
-    var m = URI.Members[i];
-    if (this.hasOwnProperty(m) && typeof(this[m]) !== 'undefined') {
+  const json = {};
+  for (let i = 0; i < URI.Members.length; i++) {
+    const m = URI.Members[i];
+    if (this.hasOwnProperty(m) && typeof (this[m]) !== 'undefined') {
       json[m] = this[m].toString();
     }
   }
@@ -188,8 +188,8 @@ URI.prototype.toObject = URI.prototype.toJSON = function toObject() {
  *
  * @returns {string} Bitcoin cash URI string
  */
-URI.prototype.toString = function() {
-  var query = {};
+URI.prototype.toString = function () {
+  const query = {};
   if (this.amount) {
     query.amount = Unit.fromSatoshis(this.amount).toBTC();
   }
@@ -207,7 +207,7 @@ URI.prototype.toString = function() {
   return URL.format({
     protocol: 'bitcoincash:',
     host: this.address,
-    query: query
+    query,
   });
 };
 
@@ -216,8 +216,8 @@ URI.prototype.toString = function() {
  *
  * @returns {string} Bitcoin cash URI
  */
-URI.prototype.inspect = function() {
-  return '<URI: ' + this.toString() + '>';
+URI.prototype.inspect = function () {
+  return `<URI: ${this.toString()}>`;
 };
 
 module.exports = URI;
