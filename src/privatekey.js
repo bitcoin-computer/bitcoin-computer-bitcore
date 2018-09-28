@@ -1,5 +1,3 @@
-
-
 const _ = require('lodash');
 const Address = require('./address');
 const Base58Check = require('./encoding/base58check');
@@ -102,7 +100,7 @@ PrivateKey.prototype._classifyArguments = function (data, network) {
     info.network = Networks.get(data);
   } else if (typeof (data) === 'string') {
     if (JSUtil.isHexa(data)) {
-      info.bn = new BN(new Buffer(data, 'hex'));
+      info.bn = new BN(Buffer.from(data, 'hex'));
     } else {
       info = PrivateKey._transformWIF(data, network);
     }
@@ -229,10 +227,11 @@ PrivateKey._transformObject = function (json) {
  * @param {string} str - The WIF encoded private key string
  * @returns {PrivateKey} A new valid instance of PrivateKey
  */
-PrivateKey.fromString = PrivateKey.fromWIF = function (str) {
+PrivateKey.fromWIF = function (str) {
   $.checkArgument(_.isString(str), 'First argument is expected to be a string.');
   return new PrivateKey(str);
 };
+PrivateKey.fromString = PrivateKey.fromWIF;
 
 /**
  * Instantiate a PrivateKey from a plain JavaScript object
@@ -266,7 +265,8 @@ PrivateKey.fromRandom = function (network) {
 PrivateKey.getValidationError = function (data, network) {
   let error;
   try {
-    /* jshint nonew: false */
+    // #weirdstuff Refactor.
+    // eslint-disable-next-line no-new
     new PrivateKey(data, network);
   } catch (e) {
     error = e;
@@ -303,16 +303,13 @@ PrivateKey.prototype.toString = function () {
  * @returns {string} A WIP representation of the private key
  */
 PrivateKey.prototype.toWIF = function () {
-  const network = this.network;
-  const compressed = this.compressed;
-
   let buf;
-  if (compressed) {
-    buf = Buffer.concat([new Buffer([network.privatekey]),
+  if (this.compressed) {
+    buf = Buffer.concat([Buffer.from([this.network.privatekey]),
       this.bn.toBuffer({ size: 32 }),
-      new Buffer([0x01])]);
+      Buffer.from([0x01])]);
   } else {
-    buf = Buffer.concat([new Buffer([network.privatekey]),
+    buf = Buffer.concat([Buffer.from([this.network.privatekey]),
       this.bn.toBuffer({ size: 32 })]);
   }
 
@@ -377,13 +374,14 @@ PrivateKey.prototype.toAddress = function (network) {
 /**
  * @returns {Object} A plain object representation
  */
-PrivateKey.prototype.toObject = PrivateKey.prototype.toJSON = function toObject() {
+PrivateKey.prototype.toJSON = function toObject() {
   return {
     bn: this.bn.toString('hex'),
     compressed: this.compressed,
     network: this.network.toString(),
   };
 };
+PrivateKey.prototype.toObject = PrivateKey.prototype.toJSON;
 
 /**
  * Will return a string formatted for the console
