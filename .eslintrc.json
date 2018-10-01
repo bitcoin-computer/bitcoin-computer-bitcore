@@ -1,12 +1,13 @@
 {
-    "extends": "airbnb-base",
+    "extends": ["airbnb-base", "prettier"],
     "rules": {
         "no-underscore-dangle": "off",
         "no-param-reassign": "off",
-        "no-bitwise" : "off",
-        "func-names" : "off"
+        "no-bitwise": "off",
+        "func-names": "off"
     },
     "globals": {
         "window": true
-    }
+    },
+    "plugins": ["prettier"]
 }
