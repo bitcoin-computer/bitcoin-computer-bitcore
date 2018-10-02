@@ -1,15 +1,13 @@
-'use strict';
-
-var _ = require('lodash');
-var Address = require('./address');
-var Base58Check = require('./encoding/base58check');
-var BN = require('./crypto/bn');
-var JSUtil = require('./util/js');
-var Networks = require('./networks');
-var Point = require('./crypto/point');
-var PublicKey = require('./publickey');
-var Random = require('./crypto/random');
-var $ = require('./util/preconditions');
+const _ = require('lodash');
+const Address = require('./address');
+const Base58Check = require('./encoding/base58check');
+const BN = require('./crypto/bn');
+const JSUtil = require('./util/js');
+const Networks = require('./networks');
+const Point = require('./crypto/point');
+const PublicKey = require('./publickey');
+const Random = require('./crypto/random');
+const $ = require('./util/preconditions');
 
 /**
  * Instantiate a PrivateKey from a BN, Buffer and WIF.
@@ -45,34 +43,33 @@ function PrivateKey(data, network) {
     return data;
   }
 
-  var info = this._classifyArguments(data, network);
+  const info = this._classifyArguments(data, network);
 
   // validation
-  if (!info.bn || info.bn.cmp(new BN(0)) === 0){
+  if (!info.bn || info.bn.cmp(new BN(0)) === 0) {
     throw new TypeError('Number can not be equal to zero, undefined, null or false');
   }
   if (!info.bn.lt(Point.getN())) {
     throw new TypeError('Number must be less than N');
   }
-  if (typeof(info.network) === 'undefined') {
+  if (typeof (info.network) === 'undefined') {
     throw new TypeError('Must specify the network ("livenet" or "testnet")');
   }
 
   JSUtil.defineImmutable(this, {
     bn: info.bn,
     compressed: info.compressed,
-    network: info.network
+    network: info.network,
   });
 
   Object.defineProperty(this, 'publicKey', {
     configurable: false,
     enumerable: true,
-    get: this.toPublicKey.bind(this)
+    get: this.toPublicKey.bind(this),
   });
 
   return this;
-
-};
+}
 
 /**
  * Internal helper to instantiate PrivateKey internal `info` object from
@@ -82,28 +79,28 @@ function PrivateKey(data, network) {
  * @param {Network|string=} network - a {@link Network} object, or a string with the network name
  * @return {Object}
  */
-PrivateKey.prototype._classifyArguments = function(data, network) {
+PrivateKey.prototype._classifyArguments = function (data, network) {
   /* jshint maxcomplexity: 10 */
-  var info = {
+  let info = {
     compressed: true,
-    network: network ? Networks.get(network) : Networks.defaultNetwork
+    network: network ? Networks.get(network) : Networks.defaultNetwork,
   };
 
   // detect type of data
-  if (_.isUndefined(data) || _.isNull(data)){
+  if (_.isUndefined(data) || _.isNull(data)) {
     info.bn = PrivateKey._getRandomBN();
   } else if (data instanceof BN) {
     info.bn = data;
   } else if (data instanceof Buffer || data instanceof Uint8Array) {
     info = PrivateKey._transformBuffer(data, network);
-  } else if (data.bn && data.network){
+  } else if (data.bn && data.network) {
     info = PrivateKey._transformObject(data);
   } else if (!network && Networks.get(data)) {
     info.bn = PrivateKey._getRandomBN();
     info.network = Networks.get(data);
-  } else if (typeof(data) === 'string'){
+  } else if (typeof (data) === 'string') {
     if (JSUtil.isHexa(data)) {
-      info.bn = new BN(new Buffer(data, 'hex'));
+      info.bn = new BN(Buffer.from(data, 'hex'));
     } else {
       info = PrivateKey._transformWIF(data, network);
     }
@@ -119,11 +116,11 @@ PrivateKey.prototype._classifyArguments = function(data, network) {
  * @returns {BN} A new randomly generated BN
  * @private
  */
-PrivateKey._getRandomBN = function(){
-  var condition;
-  var bn;
+PrivateKey._getRandomBN = function () {
+  let condition;
+  let bn;
   do {
-    var privbuf = Random.getRandomBuffer(32);
+    const privbuf = Random.getRandomBuffer(32);
     bn = BN.fromBuffer(privbuf);
     condition = bn.lt(Point.getN());
   } while (!condition);
@@ -138,9 +135,8 @@ PrivateKey._getRandomBN = function(){
  * @returns {Object} An object with keys: bn, network and compressed
  * @private
  */
-PrivateKey._transformBuffer = function(buf, network) {
-
-  var info = {};
+PrivateKey._transformBuffer = function (buf, network) {
+  const info = {};
 
   if (buf.length === 32) {
     return PrivateKey._transformBNBuffer(buf, network);
@@ -177,8 +173,8 @@ PrivateKey._transformBuffer = function(buf, network) {
  * @returns {object} an Object with keys: bn, network, and compressed
  * @private
  */
-PrivateKey._transformBNBuffer = function(buf, network) {
-  var info = {};
+PrivateKey._transformBNBuffer = function (buf, network) {
+  const info = {};
   info.network = Networks.get(network) || Networks.defaultNetwork;
   info.bn = BN.fromBuffer(buf);
   info.compressed = false;
@@ -192,7 +188,7 @@ PrivateKey._transformBNBuffer = function(buf, network) {
  * @returns {Object} An object with keys: bn, network and compressed
  * @private
  */
-PrivateKey._transformWIF = function(str, network) {
+PrivateKey._transformWIF = function (str, network) {
   return PrivateKey._transformBuffer(Base58Check.decode(str), network);
 };
 
@@ -203,7 +199,7 @@ PrivateKey._transformWIF = function(str, network) {
  * @param {Network} network
  * @return {PrivateKey}
  */
-PrivateKey.fromBuffer = function(arg, network) {
+PrivateKey.fromBuffer = function (arg, network) {
   return new PrivateKey(arg, network);
 };
 
@@ -215,13 +211,13 @@ PrivateKey.fromBuffer = function(arg, network) {
  * @returns {Object} An object with keys: bn, network and compressed
  * @private
  */
-PrivateKey._transformObject = function(json) {
-  var bn = new BN(json.bn, 'hex');
-  var network = Networks.get(json.network);
+PrivateKey._transformObject = function (json) {
+  const bn = new BN(json.bn, 'hex');
+  const network = Networks.get(json.network);
   return {
-    bn: bn,
-    network: network,
-    compressed: json.compressed
+    bn,
+    network,
+    compressed: json.compressed,
   };
 };
 
@@ -231,17 +227,18 @@ PrivateKey._transformObject = function(json) {
  * @param {string} str - The WIF encoded private key string
  * @returns {PrivateKey} A new valid instance of PrivateKey
  */
-PrivateKey.fromString = PrivateKey.fromWIF = function(str) {
+PrivateKey.fromWIF = function (str) {
   $.checkArgument(_.isString(str), 'First argument is expected to be a string.');
   return new PrivateKey(str);
 };
+PrivateKey.fromString = PrivateKey.fromWIF;
 
 /**
  * Instantiate a PrivateKey from a plain JavaScript object
  *
  * @param {Object} obj - The output from privateKey.toObject()
  */
-PrivateKey.fromObject = function(obj) {
+PrivateKey.fromObject = function (obj) {
   $.checkArgument(_.isObject(obj), 'First argument is expected to be an object.');
   return new PrivateKey(obj);
 };
@@ -252,8 +249,8 @@ PrivateKey.fromObject = function(obj) {
  * @param {string=} network - Either "livenet" or "testnet"
  * @returns {PrivateKey} A new valid instance of PrivateKey
  */
-PrivateKey.fromRandom = function(network) {
-  var bn = PrivateKey._getRandomBN();
+PrivateKey.fromRandom = function (network) {
+  const bn = PrivateKey._getRandomBN();
   return new PrivateKey(bn, network);
 };
 
@@ -265,10 +262,11 @@ PrivateKey.fromRandom = function(network) {
  * @returns {null|Error} An error if exists
  */
 
-PrivateKey.getValidationError = function(data, network) {
-  var error;
+PrivateKey.getValidationError = function (data, network) {
+  let error;
   try {
-    /* jshint nonew: false */
+    // #weirdstuff Refactor.
+    // eslint-disable-next-line no-new
     new PrivateKey(data, network);
   } catch (e) {
     error = e;
@@ -283,7 +281,7 @@ PrivateKey.getValidationError = function(data, network) {
  * @param {string=} network - Either "livenet" or "testnet"
  * @returns {Boolean} If the private key is would be valid
  */
-PrivateKey.isValid = function(data, network){
+PrivateKey.isValid = function (data, network) {
   if (!data) {
     return false;
   }
@@ -295,7 +293,7 @@ PrivateKey.isValid = function(data, network){
  *
  * @returns {string}
  */
-PrivateKey.prototype.toString = function() {
+PrivateKey.prototype.toString = function () {
   return this.toBuffer().toString('hex');
 };
 
@@ -304,18 +302,15 @@ PrivateKey.prototype.toString = function() {
  *
  * @returns {string} A WIP representation of the private key
  */
-PrivateKey.prototype.toWIF = function() {
-  var network = this.network;
-  var compressed = this.compressed;
-
-  var buf;
-  if (compressed) {
-    buf = Buffer.concat([new Buffer([network.privatekey]),
-                         this.bn.toBuffer({size: 32}),
-                         new Buffer([0x01])]);
+PrivateKey.prototype.toWIF = function () {
+  let buf;
+  if (this.compressed) {
+    buf = Buffer.concat([Buffer.from([this.network.privatekey]),
+      this.bn.toBuffer({ size: 32 }),
+      Buffer.from([0x01])]);
   } else {
-    buf = Buffer.concat([new Buffer([network.privatekey]),
-                         this.bn.toBuffer({size: 32})]);
+    buf = Buffer.concat([Buffer.from([this.network.privatekey]),
+      this.bn.toBuffer({ size: 32 })]);
   }
 
   return Base58Check.encode(buf);
@@ -326,7 +321,7 @@ PrivateKey.prototype.toWIF = function() {
  *
  * @returns {BN} A BN instance of the private key
  */
-PrivateKey.prototype.toBigNumber = function(){
+PrivateKey.prototype.toBigNumber = function () {
   return this.bn;
 };
 
@@ -335,7 +330,7 @@ PrivateKey.prototype.toBigNumber = function(){
  *
  * @returns {Buffer} A buffer of the private key
  */
-PrivateKey.prototype.toBuffer = function(){
+PrivateKey.prototype.toBuffer = function () {
   // TODO: use `return this.bn.toBuffer({ size: 32 })` in v1.0.0
   return this.bn.toBuffer();
 };
@@ -348,7 +343,7 @@ PrivateKey.prototype.toBuffer = function(){
  *
  * @returns {Buffer} A buffer of the private key
  */
-PrivateKey.prototype.toBufferNoPadding = function() {
+PrivateKey.prototype.toBufferNoPadding = function () {
   return this.bn.toBuffer();
 };
 
@@ -357,7 +352,7 @@ PrivateKey.prototype.toBufferNoPadding = function() {
  *
  * @returns {PublicKey} A public key generated from the private key
  */
-PrivateKey.prototype.toPublicKey = function(){
+PrivateKey.prototype.toPublicKey = function () {
   if (!this._pubkey) {
     this._pubkey = PublicKey.fromPrivateKey(this);
   }
@@ -371,30 +366,31 @@ PrivateKey.prototype.toPublicKey = function(){
  *
  * @returns {Address} An address generated from the private key
  */
-PrivateKey.prototype.toAddress = function(network) {
-  var pubkey = this.toPublicKey();
+PrivateKey.prototype.toAddress = function (network) {
+  const pubkey = this.toPublicKey();
   return Address.fromPublicKey(pubkey, network || this.network);
 };
 
 /**
  * @returns {Object} A plain object representation
  */
-PrivateKey.prototype.toObject = PrivateKey.prototype.toJSON = function toObject() {
+PrivateKey.prototype.toJSON = function toObject() {
   return {
     bn: this.bn.toString('hex'),
     compressed: this.compressed,
-    network: this.network.toString()
+    network: this.network.toString(),
   };
 };
+PrivateKey.prototype.toObject = PrivateKey.prototype.toJSON;
 
 /**
  * Will return a string formatted for the console
  *
  * @returns {string} Private key
  */
-PrivateKey.prototype.inspect = function() {
-  var uncompressed = !this.compressed ? ', uncompressed' : '';
-  return '<PrivateKey: ' + this.toString() + ', network: ' + this.network + uncompressed + '>';
+PrivateKey.prototype.inspect = function () {
+  const uncompressed = !this.compressed ? ', uncompressed' : '';
+  return `<PrivateKey: ${this.toString()}, network: ${this.network}${uncompressed}>`;
 };
 
 module.exports = PrivateKey;
