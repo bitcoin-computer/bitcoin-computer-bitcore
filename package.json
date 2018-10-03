@@ -4,10 +4,7 @@
   "description": "A simple, safe, and powerful JavaScript Bitcoin Cash library.",
   "author": "Clemens Ley <ley.clemens@gmail.com>",
   "main": "src/bitcoincash.js",
-  "files": [
-    "src/",
-    "dist/"
-  ],
+  "files": ["src/", "dist/"],
   "scripts": {
     "build": "node scripts/build.js",
     "build:tests": "node scripts/build-tests.js",
@@ -83,7 +80,9 @@
   },
   "prettier": {
     "singleQuote": true,
-    "printWidth": 100
+    "printWidth": 120,
+    "trailingComma": "all",
+    "proseWrap" : "preserve"
   },
   "license": "MIT"
 }
