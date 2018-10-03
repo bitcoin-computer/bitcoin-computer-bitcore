@@ -35,7 +35,6 @@ git checkout -b [branch_name]
 ```
 
 You can now start to make your changes.
-
 ### After you have made changes
 
 Before issuing a pull request, make sure that all tests pass.
@@ -61,6 +60,16 @@ After that, push your changes to your fork.
 ```
 git push origin [branch_name]
 ```
+
+Picking up new issues in parallel or after your pull request has been merged in the main BitcoinSource repo <--- Always work on a new branch *** but also keep your fork and local origin/master in sync with upstream/master
+
+git checkout master
+git pull upstream master (Or git fetch upstream master; git merge upstream/master)
+git push
+git checkout -b new-issue
+
+You can skip the push above but your fork is no longer in sync with upstream and would be nice to have every copy in sync with the main source
+
 
 Please write meaningful commit messages. Consider [squashing minor changes into a single commit](https://stackoverflow.com/questions/5189560/squash-my-last-x-commits-together-using-git) and [rewording commit messages](https://help.github.com/articles/changing-a-commit-message/) as needed.
 
