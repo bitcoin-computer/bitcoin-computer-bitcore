@@ -466,7 +466,6 @@ class Address {
    * @returns {Address} A new valid instance of an Address
    */
 
-  // possible error?
   static fromObject(obj) {
     $.checkState(JSUtil.isHexa(obj.hash), `Unexpected hash property, "${obj.hash}", expected to be hex.`);
     const hashBuffer = Buffer.from(obj.hash, 'hex');
@@ -545,7 +544,7 @@ class Address {
   /**
    * @returns {Object} A plain object with the address information
    */
-  // possible error?
+
   toObject() {
     return {
       hash: this.hashBuffer.toString('hex'),
