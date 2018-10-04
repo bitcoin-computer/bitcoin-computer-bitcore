@@ -884,7 +884,7 @@ Script.prototype.toScriptHashOut = function () {
  * @return {Script} an output script built from the address
  */
 Script.fromAddress = function (address) {
-  address = Address(address);
+  address = new Address(address);
   if (address.isPayToScriptHash()) {
     return Script.buildScriptHashOut(address);
   } if (address.isPayToPublicKeyHash()) {
