@@ -17,3 +17,5 @@ report
 
 .build/
 .nyc_output/
+
+dev\.js

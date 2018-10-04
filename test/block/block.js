@@ -37,7 +37,7 @@ describe('Block', function() {
   var blockOneId = '00000000839a8e6886ab5951d76f411475428afc90947ee320161bbf18eb6048';
 
   it('should make a new block', function() {
-    var b = Block(blockbuf);
+    var b = new Block(blockbuf);
     b.toBuffer().toString('hex').should.equal(blockhex);
   });
 

@@ -318,13 +318,13 @@ describe('Address', function() {
 
     it('should error because of incorrect format for pubkey hash', function() {
       (function() {
-        return new Address.fromPublicKeyHash('notahash');
+        return Address.fromPublicKeyHash('notahash');
       }).should.throw('Address supplied is not a buffer.');
     });
 
     it('should error because of incorrect format for script hash', function() {
       (function() {
-        return new Address.fromScriptHash('notascript');
+        return Address.fromScriptHash('notascript');
       }).should.throw('Address supplied is not a buffer.');
     });
 
@@ -458,12 +458,12 @@ describe('Address', function() {
       it('returns the same address if the script is a pay to public key hash out', function() {
         var address = '16JXnhxjJUhxfyx4y6H4sFcxrgt8kQ8ewX';
         var script = Script.buildPublicKeyHashOut(new Address(address));
-        Address(script, Networks.livenet).toString().should.equal(address);
+        new Address(script, Networks.livenet).toString().should.equal(address);
       });
       it('returns the same address if the script is a pay to script hash out', function() {
         var address = '3BYmEwgV2vANrmfRymr1mFnHXgLjD6gAWm';
         var script = Script.buildScriptHashOut(new Address(address));
-        Address(script, Networks.livenet).toString().should.equal(address);
+        new Address(script, Networks.livenet).toString().should.equal(address);
       });
     });
 
