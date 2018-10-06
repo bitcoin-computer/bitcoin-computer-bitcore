@@ -1,48 +1,58 @@
-
-
 const crypto = require('crypto');
 const BufferUtil = require('../util/buffer');
 const $ = require('../util/preconditions');
 
 const Hash = module.exports;
 
-Hash.sha1 = function (buf) {
+Hash.sha1 = buf => {
   $.checkArgument(BufferUtil.isBuffer(buf));
-  return crypto.createHash('sha1').update(buf).digest();
+  return crypto
+    .createHash('sha1')
+    .update(buf)
+    .digest();
 };
 
 Hash.sha1.blocksize = 512;
 
-Hash.sha256 = function (buf) {
+Hash.sha256 = buf => {
   $.checkArgument(BufferUtil.isBuffer(buf));
-  return crypto.createHash('sha256').update(buf).digest();
+  return crypto
+    .createHash('sha256')
+    .update(buf)
+    .digest();
 };
 
 Hash.sha256.blocksize = 512;
 
-Hash.sha256sha256 = function (buf) {
+Hash.sha256sha256 = buf => {
   $.checkArgument(BufferUtil.isBuffer(buf));
   return Hash.sha256(Hash.sha256(buf));
 };
 
-Hash.ripemd160 = function (buf) {
+Hash.ripemd160 = buf => {
   $.checkArgument(BufferUtil.isBuffer(buf));
-  return crypto.createHash('ripemd160').update(buf).digest();
+  return crypto
+    .createHash('ripemd160')
+    .update(buf)
+    .digest();
 };
 
-Hash.sha256ripemd160 = function (buf) {
+Hash.sha256ripemd160 = buf => {
   $.checkArgument(BufferUtil.isBuffer(buf));
   return Hash.ripemd160(Hash.sha256(buf));
 };
 
-Hash.sha512 = function (buf) {
+Hash.sha512 = buf => {
   $.checkArgument(BufferUtil.isBuffer(buf));
-  return crypto.createHash('sha512').update(buf).digest();
+  return crypto
+    .createHash('sha512')
+    .update(buf)
+    .digest();
 };
 
 Hash.sha512.blocksize = 1024;
 
-Hash.hmac = function (hashf, data, key) {
+Hash.hmac = (hashf, data, key) => {
   // http://en.wikipedia.org/wiki/Hash-based_message_authentication_code
   // http://tools.ietf.org/html/rfc4868#section-2
   $.checkArgument(BufferUtil.isBuffer(data));
@@ -76,10 +86,5 @@ Hash.hmac = function (hashf, data, key) {
   return hashf(Buffer.concat([oKeyPad, hashf(Buffer.concat([iKeyPad, data]))]));
 };
 
-Hash.sha256hmac = function (data, key) {
-  return Hash.hmac(Hash.sha256, data, key);
-};
-
-Hash.sha512hmac = function (data, key) {
-  return Hash.hmac(Hash.sha512, data, key);
-};
+Hash.sha256hmac = (data, key) => Hash.hmac(Hash.sha256, data, key);
+Hash.sha512hmac = (data, key) => Hash.hmac(Hash.sha512, data, key);
