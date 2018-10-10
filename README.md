@@ -79,7 +79,7 @@ $ npm test
 
 | File       | Airbnb Style Guide | ES6 | Flow
 | ---------- | :---: | :---: | :---: |
-| address.js | ![done](https://i.imgur.com/RXSkZTD.png "Done") | ![done](https://i.imgur.com/RXSkZTD.png "Done") |
+| address.js | ![done](https://i.imgur.com/RXSkZTD.png "Done") | ![done](https://i.imgur.com/RXSkZTD.png "Done") | ![not done](https://i.imgur.com/MleS2Jt.png "Not done") |
 | bitcoincash.js | ![done](https://i.imgur.com/RXSkZTD.png "Done") | ![done](https://i.imgur.com/RXSkZTD.png "Done") | ![not done](https://i.imgur.com/MleS2Jt.png "Not done") |
 | block/block.js | ![done](https://i.imgur.com/RXSkZTD.png "Done") | ![done](https://i.imgur.com/RXSkZTD.png "Done")| ![not done](https://i.imgur.com/MleS2Jt.png "Not done") |
 | block/blockheader.js | ![done](https://i.imgur.com/RXSkZTD.png "Done") | ![done](https://i.imgur.com/RXSkZTD.png "Done") | ![not done](https://i.imgur.com/MleS2Jt.png "Not done") |
@@ -118,7 +118,7 @@ $ npm test
 | script/index.js | ![done](https://i.imgur.com/RXSkZTD.png "Done") | ![not done](https://i.imgur.com/MleS2Jt.png "Not done") | ![not done](https://i.imgur.com/MleS2Jt.png "Not done") |
 | script/interpreter.js | ![done](https://i.imgur.com/RXSkZTD.png "Done") | ![not done](https://i.imgur.com/MleS2Jt.png "Not done") | ![not done](https://i.imgur.com/MleS2Jt.png "Not done") |
 | script/script.js | ![done](https://i.imgur.com/RXSkZTD.png "Done") | ![not done](https://i.imgur.com/MleS2Jt.png "Not done") | ![not done](https://i.imgur.com/MleS2Jt.png "Not done") |
-| transaction/index.js | ![done](https://i.imgur.com/RXSkZTD.png "Done") | ![not done](https://i.imgur.com/MleS2Jt.png "Not done") | ![not done](https://i.imgur.com/MleS2Jt.png "Not done") |
+| transaction/index.js | ![done](https://i.imgur.com/RXSkZTD.png "Done") | ![done](https://i.imgur.com/RXSkZTD.png "Done") | ![not done](https://i.imgur.com/MleS2Jt.png "Not done") |
 | transaction/input/index.js | ![done](https://i.imgur.com/RXSkZTD.png "Done") | ![not done](https://i.imgur.com/MleS2Jt.png "Not done") | ![not done](https://i.imgur.com/MleS2Jt.png "Not done") |
 | transaction/input/input.js | ![done](https://i.imgur.com/RXSkZTD.png "Done") | ![not done](https://i.imgur.com/MleS2Jt.png "Not done") | ![not done](https://i.imgur.com/MleS2Jt.png "Not done") |
 | transaction/input/multisig.js | ![done](https://i.imgur.com/RXSkZTD.png "Done") | ![not done](https://i.imgur.com/MleS2Jt.png "Not done") | ![not done](https://i.imgur.com/MleS2Jt.png "Not done") |
@@ -126,7 +126,7 @@ $ npm test
 | transaction/input/publickey.js | ![done](https://i.imgur.com/RXSkZTD.png "Done") | ![not done](https://i.imgur.com/MleS2Jt.png "Not done") | ![not done](https://i.imgur.com/MleS2Jt.png "Not done") |
 | transaction/input/publickeyhash.js | ![done](https://i.imgur.com/RXSkZTD.png "Done") | ![not done](https://i.imgur.com/MleS2Jt.png "Not done") | ![not done](https://i.imgur.com/MleS2Jt.png "Not done") |
 | transaction/input/scripthash.js | ![done](https://i.imgur.com/RXSkZTD.png "Done") | ![not done](https://i.imgur.com/MleS2Jt.png "Not done") | ![not done](https://i.imgur.com/MleS2Jt.png "Not done") |
-| transaction/output.js | ![done](https://i.imgur.com/RXSkZTD.png "Done") | ![not done](https://i.imgur.com/MleS2Jt.png "Not done") | ![not done](https://i.imgur.com/MleS2Jt.png "Not done") |
+| transaction/output.js | ![done](https://i.imgur.com/RXSkZTD.png "Done") | ![done](https://i.imgur.com/RXSkZTD.png "Done") | ![not done](https://i.imgur.com/MleS2Jt.png "Not done") |
 | transaction/sighash.js | ![done](https://i.imgur.com/RXSkZTD.png "Done") | ![not done](https://i.imgur.com/MleS2Jt.png "Not done") | ![not done](https://i.imgur.com/MleS2Jt.png "Not done") |
 | transaction/signature.js | ![done](https://i.imgur.com/RXSkZTD.png "Done") | ![not done](https://i.imgur.com/MleS2Jt.png "Not done") | ![not done](https://i.imgur.com/MleS2Jt.png "Not done") |
 | transaction/transaction.js | ![done](https://i.imgur.com/RXSkZTD.png "Done") | ![not done](https://i.imgur.com/MleS2Jt.png "Not done") | ![not done](https://i.imgur.com/MleS2Jt.png "Not done") |
