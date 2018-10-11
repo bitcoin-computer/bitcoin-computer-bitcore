@@ -55,7 +55,7 @@ class Block {
       if (tx instanceof Transaction) {
         transactions.push(tx);
       } else {
-        transactions.push(Transaction().fromObject(tx));
+        transactions.push(new Transaction().fromObject(tx));
       }
     });
     const info = {
@@ -86,7 +86,7 @@ class Block {
     const transactions = br.readVarintNum();
     info.transactions = [];
     for (let i = 0; i < transactions; i += 1) {
-      info.transactions.push(Transaction().fromBufferReader(br));
+      info.transactions.push(new Transaction().fromBufferReader(br));
     }
     return info;
   }
