@@ -1,6 +1,8 @@
 /**
  * @license
- * https://github.com/bitcoincashjs/bitcoincashjs
+ * https://github.com/the-bitcoin-token/BitcoinSource
+ * Copyright (c) 2018 Janez Urevc
+ * Copyright (c) 2018 Clemens Ley
  * Copyright (c) 2017-2018 Emilio Almansi
  * Copyright (c) 2013-2017 BitPay, Inc.
  * Copyright (c) 2009-2015 The Bitcoin Core developers

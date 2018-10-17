@@ -1,5 +1,4 @@
-# BitcoinCash.js v0.1
-
+# BitcoinSource v1.0
 
 ## Bitcoin Cash
 

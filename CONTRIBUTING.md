@@ -1,4 +1,4 @@
-Contributing to BitcoinCashFlow
+Contributing to BitcoinSource
 ===============================
 
 
@@ -6,16 +6,16 @@ We are meeting every weekday at 11 am pacific time on Skype. If you want to cont
 
 ## Initial setup
 
-Before contributing, fork the main repository into your personal namespace by clicking the "Fork" button on the [project page](https://github.com/BitcoinDB/BitcoinCashFlow). Then, clone the forked repository.
+Before contributing, fork the main repository into your personal namespace by clicking the "Fork" button on the [project page](https://github.com/the-bitcoin-token/BitcoinSource). Then, clone the forked repository.
 ```
-git clone git@github.com:[your_github_username]/BitcoinCashFlow.git
-cd BitcoinCashFlow
+git clone git@github.com:[your_github_username]/BitcoinSource.git
+cd BitcoinSource
 ```
 
 Now add the main repository as a second remote.
 ```
-git remote add upstream git@github.com:BitcoinDB/BitcoinCashFlow.git
-cd BitcoinCashFlow
+git remote add upstream git@github.com:BitcoinDB/BitcoinSource.git
+cd BitcoinSource
 ```
 
 ## For each pull request
@@ -64,12 +64,12 @@ git push origin [branch_name]
 
 Please write meaningful commit messages. Consider [squashing minor changes into a single commit](https://stackoverflow.com/questions/5189560/squash-my-last-x-commits-together-using-git) and [rewording commit messages](https://help.github.com/articles/changing-a-commit-message/) as needed.
 
-To create a pull request, visit ```https://github.com/[your_github_username]/BitcoinCashFlow/pull/new/[branch_name]``` and click on create pull request or click on the link that appears in the terminal.
+To create a pull request, visit ```https://github.com/[your_github_username]/BitcoinSource/pull/new/[branch_name]``` and click on create pull request or click on the link that appears in the terminal.
 
-We will review your code and possibly ask for changes before your code is pulled in to the main repository.  If everything is OK, we'll merge your pull request and your code will be part of BitcoinCashFlow.
+We will review your code and possibly ask for changes before your code is pulled in to the main repository.  If everything is OK, we'll merge your pull request and your code will be part of BitcoinSource.
 
 If you have any questions feel free to post them to
-[github.com/BitcoinDB/BitcoinCashFlow/issues](https://github.com/BitcoinDB/BitcoinCashFlow/issues).
+[github.com/the-bitcoin-token/BitcoinSource/issues](https://github.com/the-bitcoin-token/BitcoinSource/issues).
 
 Thanks for your time and code!
 
@@ -81,7 +81,7 @@ Thanks for your time and code!
 
 ## Design Guidelines
 
-BitcoinCashFlow is using the [AirBnb JavaScript style guide](https://github.com/airbnb/javascript). We encourage our contributors to review it and follow its recommendations when writing the code.
+BitcoinSource is using the [AirBnb JavaScript style guide](https://github.com/airbnb/javascript). We encourage our contributors to review it and follow its recommendations when writing the code.
 
 ### Tests
 
@@ -97,14 +97,14 @@ Don't write long tests, write helper functions to make them be as short and conc
 
 Inputs for tests should not be generated randomly. Also, the type and structure of outputs should be checked.
 
-#### Require 'bitcoincashflow' and Look up Classes from There
+#### Require 'bitcoinsource' and Look up Classes from There
 
-This helps to make tests more useful as examples, and more independent of where they are placed. This also helps prevent forgetting to include all sub-modules in the bitcoincashflow object.
+This helps to make tests more useful as examples, and more independent of where they are placed. This also helps prevent forgetting to include all sub-modules in the bitcoinsource object.
 
 DO:
 ```javascript
-var bitcoincashflow = require('../');
-var PublicKey = bitcoincashflow.PublicKey;
+var bitcoinsource = require('../');
+var PublicKey = bitcoinsource.PublicKey;
 ```
 DON'T:
 ```javascript
