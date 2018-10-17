@@ -1,9 +1,9 @@
 {
-  "name": "bitcoincashjs",
+  "name": "bitcoinsource",
   "description": "A simple, safe, and powerful JavaScript Bitcoin Cash library.",
   "main": "index.js",
   "authors": [
-    "Emilio Almansi <hi@ealmansi.com>"
+    "Clemens Ley <ley.clemens@gmail.com>"
   ],
   "license": "MIT",
   "keywords": [
@@ -22,7 +22,7 @@
     "bip70",
     "multisig"
   ],
-  "homepage": "https://bitcoincashjs.github.io/",
+  "homepage": "https://github.com/the-bitcoin-token/BitcoinSource",
   "ignore": [
     "**/.*",
     "node_modules",

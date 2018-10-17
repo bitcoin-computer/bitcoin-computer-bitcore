@@ -2,7 +2,7 @@
 
 # Some bad patterns that we found
 
-Require inside a function def in [src/transaction/sighash.js](https://github.com/BitcoinDB/BitcoinCashFlow/blob/master/src/transaction/sighash.js#L139)
+Require inside a function def in [src/transaction/sighash.js](https://github.com/the-bitcoin-token/BitcoinSource/blob/master/src/transaction/sighash.js#L139)
 
 ```
 function sighash(transaction, sighashType, inputNumber, subscript, satoshisBN) {
@@ -16,7 +16,7 @@ function sighash(transaction, sighashType, inputNumber, subscript, satoshisBN) {
 
 
 
-Dead code in [src/crypto/bn.js](https://github.com/BitcoinDB/BitcoinCashFlow/pull/75/files#diff-7318cf02df7fd57cc2392bffec7369adR79)
+Dead code in [src/crypto/bn.js](https://github.com/the-bitcoin-token/BitcoinSource/pull/75/files#diff-7318cf02df7fd57cc2392bffec7369adR79)
 
 ```
 if (natlen === opts.size) {
@@ -29,10 +29,10 @@ if (natlen === opts.size) {
 ```
 
 
-The last line in the file [src/address.js](https://github.com/BitcoinDB/BitcoinCashFlow/pull/80/files#diff-d388968ff4f0a9adeade95ac380637d2R650) is `const Script = require('./script')`. If we move this line to the top of the file then a lot of unit tests break.
+The last line in the file [src/address.js](https://github.com/the-bitcoin-token/BitcoinSource/pull/80/files#diff-d388968ff4f0a9adeade95ac380637d2R650) is `const Script = require('./script')`. If we move this line to the top of the file then a lot of unit tests break.
 
 
-In [src/address.js](https://github.com/BitcoinDB/BitcoinCashFlow/pull/80/files#diff-d388968ff4f0a9adeade95ac380637d2R514) an object is constructed in a try catch block and not assigned to anything.
+In [src/address.js](https://github.com/the-bitcoin-token/BitcoinSource/pull/80/files#diff-d388968ff4f0a9adeade95ac380637d2R514) an object is constructed in a try catch block and not assigned to anything.
 ```
   var error;
   try {

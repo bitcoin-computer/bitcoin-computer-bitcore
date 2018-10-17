@@ -1,8 +1,8 @@
-# BitcoinCash.js Examples
+# BitcoinSource Examples
 
 ## Generate a random address
 ```javascript
-const bch = require('bitcoincashjs');
+const bch = require('bitcoinsource');
 
 const privateKey = new bch.PrivateKey();
 const address = privateKey.toAddress();
@@ -12,7 +12,7 @@ console.log(address.toString()) // 15WZwpw3BofscM2u43ji85BXucai5YGToL
 
 ## Generate a address from a SHA256 hash
 ```javascript
-const bch = require('bitcoincashjs');
+const bch = require('bitcoinsource');
 
 const value = new Buffer('Bitcoin Cash - Peer-to-Peer Electronic Cash');
 const hash = bch.crypto.Hash.sha256(value);
@@ -24,7 +24,7 @@ console.log(address.toString()) // 126tFHmNHNAXDYT1QeEBEwBbEojib1VZyg
 
 ## Translate an address to any Bitcoin Cash address format
 ```javascript
-const bch = require('bitcoincashjs');
+const bch = require('bitcoinsource');
 
 const Address = bch.Address;
 const BitpayFormat = Address.BitpayFormat;
@@ -39,7 +39,7 @@ console.log(address.toString(CashAddrFormat)) // bitcoincash:qr0q67nsn66cf3klfuf
 
 ## Read an address from any Bitcoin Cash address format
 ```javascript
-const bch = require('bitcoincashjs');
+const bch = require('bitcoinsource');
 
 const Address = bch.Address;
 const fromString = Address.fromString;
@@ -56,7 +56,7 @@ const cashaddr = fromString('bitcoincash:qr0q67nsn66cf3klfufttr0vuswh3w5nt5jqpp2
 
 ## Import an address via WIF
 ```javascript
-const bch = require('bitcoincashjs');
+const bch = require('bitcoinsource');
 
 const wif = 'Kxr9tQED9H44gCmp6HAdmemAzU3n84H3dGkuWTKvE23JgHMW8gct';
 const address = new bch.PrivateKey(wif).toAddress();
@@ -66,7 +66,7 @@ console.log(address.toString()) // 19AAjaTUbRjQCMuVczepkoPswiZRhjtg31
 
 ## Create a Transaction
 ```javascript
-const bch = require('bitcoincashjs');
+const bch = require('bitcoinsource');
 
 const privateKey = new bch.PrivateKey('L1uyy5qTuGrVXrmrsvHWHgVzW9kKdrp27wBC7Vs6nZDTF2BRUVwy');
 const utxo = {
@@ -86,7 +86,7 @@ console.log(transaction.toString()) // 01000000018689302ea03ef...
 
 ## Verify a Bitcoin message
 ```javascript
-const bch = require('bitcoincashjs');
+const bch = require('bitcoinsource');
 
 const Message = bch.Message;
 
@@ -99,7 +99,7 @@ console.log(message.verify(address, signature)) // true
 
 ## Sign a Bitcoin message
 ```javascript
-const bch = require('bitcoincashjs');
+const bch = require('bitcoinsource');
 
 const Message = bch.Message;
 
@@ -113,7 +113,7 @@ console.log(signature.toString()) // IJuZCwN/4HtIRulOb/zRLU1oCP...
 
 ## Create an OP RETURN transaction
 ```javascript
-const bch = require('bitcoincashjs');
+const bch = require('bitcoinsource');
 
 const privateKey = new bch.PrivateKey('L1uyy5qTuGrVXrmrsvHWHgVzW9kKdrp27wBC7Vs6nZDTF2BRUVwy');
 const utxo = {
@@ -133,7 +133,7 @@ console.log(transaction.toString()) // 01000000018689302ea03ef...
 
 ## Create a 2-of-3 multisig P2SH address
 ```javascript
-const bch = require('bitcoincashjs');
+const bch = require('bitcoinsource');
 
 const publicKeys = [
   '026477115981fe981a6918a6297d9803c4dc04f328f22041bedff886bbc2962e01',
@@ -148,7 +148,7 @@ console.log(address.toString()) // 36NUkt6FWUi3LAWBqWRdDmdTWbt91Yvfu7
 
 ## Spend from a 2-of-2 multisig P2SH address
 ```javascript
-const bch = require('bitcoincashjs');
+const bch = require('bitcoinsource');
 
 const privateKeys = [
   new bch.PrivateKey('91avARGdfge8E4tZfYLoxeJ5sGBdNJQH4kvjJoQFacbgwmaKkrx'),
