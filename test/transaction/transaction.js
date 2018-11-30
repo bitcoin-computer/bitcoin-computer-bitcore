@@ -307,6 +307,7 @@ describe('Transaction', function () {
 
   describe('change address', function () {
     it('can calculate simply the output amount', function () {
+      const amount = 500000
       var transaction = new Transaction()
         .from(simpleUtxoWith1000000Satoshis)
         .to(toAddress, 500000)
@@ -314,7 +315,8 @@ describe('Transaction', function () {
         .sign(privateKey);
 
       transaction.outputs.length.should.equal(2);
-      transaction.outputs[1].satoshis.should.equal(400000);
+      transaction.outputs[0].satoshis.should.equal(amount);
+      transaction.outputs[1].satoshis.should.equal(amount - Transaction.FEE_PER_KB);
       transaction.outputs[1].script.toString()
         .should.equal(Script.fromAddress(changeAddress).toString());
       var actual = transaction.getChangeOutput().script.toString();
@@ -937,12 +939,14 @@ describe('Transaction', function () {
       transaction.outputAmount.should.equal(40000000);
     });
     it('returns correct values for transaction with change', function () {
+      const inAmount = 100000000
+      const outAmount = 1000
       var transaction = new Transaction()
         .from(simpleUtxoWith1BTC)
         .change(changeAddress)
-        .to(toAddress, 1000);
-      transaction.inputAmount.should.equal(100000000);
-      transaction.outputAmount.should.equal(99900000);
+        .to(toAddress, outAmount);
+      transaction.inputAmount.should.equal(inAmount);
+      transaction.outputAmount.should.equal(inAmount - Transaction.FEE_PER_KB);
     });
     it('returns correct values for coinjoin transaction', function () {
       // see livenet tx c16467eea05f1f30d50ed6dbc06a38539d9bb15110e4b7dc6653046a3678a718
@@ -1040,7 +1044,7 @@ describe('Transaction', function () {
       tx.outputs.length.should.equal(2);
       tx.outputs[0].satoshis.should.equal(10000000);
       tx.outputs[0].script.toAddress().toString().should.equal(toAddress);
-      tx.outputs[1].satoshis.should.equal(89900000);
+      tx.outputs[1].satoshis.should.equal(89990000);
       tx.outputs[1].script.toAddress().toString().should.equal(changeAddress);
     });
 
