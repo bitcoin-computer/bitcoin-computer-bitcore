@@ -40,8 +40,9 @@ const Mnemonic = function (data, wordlist) {
   }
 
   // handle data overloading
-  let ent; let phrase; let
-    seed;
+  let ent;
+  let phrase;
+  let seed;
   if (Buffer.isBuffer(data)) {
     seed = data;
   } else if (_.isString(data)) {
