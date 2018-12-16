@@ -1044,7 +1044,7 @@ describe('Transaction', function () {
       tx.outputs.length.should.equal(2);
       tx.outputs[0].satoshis.should.equal(10000000);
       tx.outputs[0].script.toAddress().toString().should.equal(toAddress);
-      tx.outputs[1].satoshis.should.equal(89990000);
+      tx.outputs[1].satoshis.should.equal(89980000);
       tx.outputs[1].script.toAddress().toString().should.equal(changeAddress);
     });
 
