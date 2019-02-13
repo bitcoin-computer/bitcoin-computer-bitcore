@@ -6,15 +6,15 @@ We are meeting every weekday at 11 am pacific time on Skype. If you want to cont
 
 ## Initial setup
 
-Before contributing, fork the main repository into your personal namespace by clicking the "Fork" button on the [project page](https://github.com/the-bitcoin-token/BitcoinSource). Then, clone the forked repository.
+Before contributing, fork the main repository into your personal namespace by clicking the "Fork" button on the [project page](https://github.com/the-bitcoin-token/bitcoin-source). Then, clone the forked repository.
 ```
-git clone git@github.com:[your_github_username]/BitcoinSource.git
+git clone git@github.com:[your_github_username]/bitcoin-source.git
 cd BitcoinSource
 ```
 
 Now add the main repository as a second remote.
 ```
-git remote add upstream git@github.com:BitcoinDB/BitcoinSource.git
+git remote add upstream git@github.com:the-bitcoin-token/bitcoin-source.git
 cd BitcoinSource
 ```
 
@@ -64,12 +64,12 @@ git push origin [branch_name]
 
 Please write meaningful commit messages. Consider [squashing minor changes into a single commit](https://stackoverflow.com/questions/5189560/squash-my-last-x-commits-together-using-git) and [rewording commit messages](https://help.github.com/articles/changing-a-commit-message/) as needed.
 
-To create a pull request, visit ```https://github.com/[your_github_username]/BitcoinSource/pull/new/[branch_name]``` and click on create pull request or click on the link that appears in the terminal.
+To create a pull request, visit ```https://github.com/[your_github_username]/bitcoin-source/pull/new/[branch_name]``` and click on create pull request or click on the link that appears in the terminal.
 
 We will review your code and possibly ask for changes before your code is pulled in to the main repository.  If everything is OK, we'll merge your pull request and your code will be part of BitcoinSource.
 
 If you have any questions feel free to post them to
-[github.com/the-bitcoin-token/BitcoinSource/issues](https://github.com/the-bitcoin-token/BitcoinSource/issues).
+[github.com/the-bitcoin-token/bitcoin-source/issues](https://github.com/the-bitcoin-token/bitcoin-source/issues).
 
 Thanks for your time and code!
 
