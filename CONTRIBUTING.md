@@ -9,13 +9,13 @@ We are meeting every weekday at 11 am pacific time on Skype. If you want to cont
 Before contributing, fork the main repository into your personal namespace by clicking the "Fork" button on the [project page](https://github.com/the-bitcoin-token/bitcoin-source). Then, clone the forked repository.
 ```
 git clone git@github.com:[your_github_username]/bitcoin-source.git
-cd BitcoinSource
+cd bitcoin-source
 ```
 
 Now add the main repository as a second remote.
 ```
 git remote add upstream git@github.com:the-bitcoin-token/bitcoin-source.git
-cd BitcoinSource
+cd bitcoin-source
 ```
 
 ## For each pull request
