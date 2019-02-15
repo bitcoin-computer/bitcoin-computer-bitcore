@@ -1,4 +1,4 @@
-# BitcoinSource v0.0.1-dev
+# BitcoinSource vv0.1.12
 
 ## Bitcoin Cash
 
