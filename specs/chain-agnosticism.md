@@ -43,7 +43,7 @@ For reference, here are links to the projects and repositories:
 | BCH             | BSV                             | BTC                   |
 |-----------------|---------------------------------|-----------------------|
 | https://www.bitcoincash.org/ | https://bitcoinsv.io/ | https://bitcoin.org/ |
-| https://github.com/Bitcoin-ABC/bitcoinabc.org | https://github.com/bitcoin-sv/bitcoin-sv | https://github.com/bitcoin/bitcoin |
+| https://github.com/Bitcoin-ABC/bitcoin-abc | https://github.com/bitcoin-sv/bitcoin-sv | https://github.com/bitcoin/bitcoin |
 
 # DNS Seeds
 ### BTC
