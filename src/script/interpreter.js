@@ -166,7 +166,7 @@ Interpreter.prototype.set = function (obj) {
   this.tx = obj.tx || this.tx;
   this.nin = typeof obj.nin !== 'undefined' ? obj.nin : this.nin;
   this.stack = obj.stack || this.stack;
-  this.altstack = obj.altack || this.altstack;
+  this.altstack = obj.altstack || this.altstack;
   this.pc = typeof obj.pc !== 'undefined' ? obj.pc : this.pc;
   this.pbegincodehash = typeof obj.pbegincodehash !== 'undefined' ? obj.pbegincodehash : this.pbegincodehash;
   this.nOpCount = typeof obj.nOpCount !== 'undefined' ? obj.nOpCount : this.nOpCount;

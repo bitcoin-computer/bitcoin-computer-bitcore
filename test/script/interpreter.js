@@ -150,8 +150,43 @@ describe('Interpreter', function() {
       var verified = Interpreter().verify(scriptSig, scriptPubkey, tx, inputIndex, flags);
       verified.should.equal(true);
     });
-  });
 
+    it('should set values on interpreter', function() {
+      const script = Script('OP_1')
+      const tx = new Transaction()
+      const stack = []
+      stack.push(Interpreter.true)
+      const altstack = []
+      altstack.push(Interpreter.false)
+      const vfExec = []
+      vfExec.push(true)
+      const interp = Interpreter({
+        script: script,
+        tx: tx,
+        nin: 9,
+        stack: stack,
+        altstack: altstack,
+        pc: 99,
+        pbegincodehash: 88,
+        nOpCount: 77,
+        vfExec: vfExec,
+        errstr: 'testing',
+        flags: Interpreter.SCRIPT_VERIFY_STRICTENC
+      });
+      interp.script.should.equal(script)
+      interp.tx.should.equal(tx)
+      interp.nin.should.equal(9)
+      interp.stack.should.equal(stack);
+      interp.altstack.should.equal(altstack);
+      interp.pc.should.equal(99);
+      interp.pbegincodehash.should.equal(88);
+      interp.nOpCount.should.equal(77);
+      interp.vfExec[0].should.equal(true);
+      interp.errstr.should.equal('testing');
+      interp.flags.should.equal(Interpreter.SCRIPT_VERIFY_STRICTENC);
+    });
+
+  });
 
   var getFlags = function getFlags(flagstr) {
     var flags = 0;
