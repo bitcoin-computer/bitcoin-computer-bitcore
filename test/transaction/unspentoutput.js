@@ -24,6 +24,16 @@ describe('UnspentOutput', function () {
     'scriptPubKey': '76a914073b7eae2823efa349e3b9155b8a735526463a0f88ac',
     'amount': 0.01080000
   };
+  var sampleDataCashAddr = {
+    "address": "qrqhwrhr5hhsjz2tn2zxsrrdwdf8kgdq4u7wdd8ng3",
+    "txid": "fc2e989716db99d3ac9d71b91262382bd5aea506eace19291e5c91db0563b8c2",
+    "vout": 0,
+    "scriptPubKey": "76a914c1770ee3a5ef09094b9a84680c6d73527b21a0af88ac",
+    "amount": 0.78128264,
+    "satoshis": 78128264,
+    "height": 1287690,
+    "confirmations": 142
+  }
 
   it('roundtrip from raw data', function () {
     expect(new UnspentOutput(sampleData2).toObject()).to.deep.equal(sampleData2);
@@ -48,6 +58,11 @@ describe('UnspentOutput', function () {
       ', satoshis: 1020000, address: mszYqVnqKoQx4jcTdJXxwKAissE3Jbrrc1>';
     expect(new UnspentOutput(sampleData1).inspect()).to.equal(expected);
   });
+
+  it('should work with CashAddr address', () => {
+    const utxo = new UnspentOutput(sampleDataCashAddr)
+    expect(utxo.address).to.not.throw()
+  })
 
   describe('checking the constructor parameters', function () {
     var notDefined = {
