@@ -1,13 +1,13 @@
 'use strict'
 
 const chai = require('chai')
-const expect = chai.expect
-const should = chai.should()
-
 const bch = require('..')
-const Address = bch.Address
-const Signature = bch.crypto.Signature
-const Message = bch.Message
+
+const should = chai.should()
+const { expect } = chai
+const { Address } = bch
+const { Signature } = bch.crypto
+const { Message } = bch
 
 describe('Message', () => {
 
@@ -19,15 +19,13 @@ describe('Message', () => {
 
   const badSignatureString = 'H69qZ4mbZCcvXk7CWjptD5ypnYVLvQ3eMXLM8+1gX21SLH/GaFnAjQrDn37+TDw79i9zHhbiMMwhtvTwnPigZ6k='
 
-  const signature = Signature.fromCompact(new Buffer(signatureString, 'base64'))
-  const badSignature = Signature.fromCompact(new Buffer(badSignatureString, 'base64'))
+  const signature = Signature.fromCompact(Buffer.from(signatureString, 'base64'))
+  const badSignature = Signature.fromCompact(Buffer.from(badSignatureString, 'base64'))
 
   const publicKey = privateKey.toPublicKey()
 
   it('will error with incorrect message type', () => {
-    expect(() => {
-      return new Message(new Date())
-    }).to.throw('First argument should be a string')
+    expect(() => new Message(new Date())).to.throw('First argument should be a string')
   })
 
   let signature2
@@ -93,13 +91,13 @@ describe('Message', () => {
     const verified = message10.verify(badAddress, signatureString)
     should.exist(message10.error)
     verified.should.equal(false)
-  });
+  })
 
   it('will verify with an uncompressed pubkey', () => {
-    const privateKey = new bch.PrivateKey('5KYZdUEo39z3FPrtuX2QbbwGnNP5zTd7yyr2SC1j299sBCnWjss')
+    const privateKey1 = new bch.PrivateKey('5KYZdUEo39z3FPrtuX2QbbwGnNP5zTd7yyr2SC1j299sBCnWjss')
     const message = new Message('This is an example of a signed message.')
-    const signature = message.sign(privateKey)
-    const verified = message.verify(privateKey.toAddress(), signature)
+    const signature9 = message.sign(privateKey1)
+    const verified = message.verify(privateKey1.toAddress(), signature9)
     verified.should.equal(true)
   })
 
@@ -117,9 +115,7 @@ describe('Message', () => {
     })
 
     it('checks that the string parameter is valid JSON', () => {
-      expect(function() {
-        return Message.fromJSON('¹')
-      }).to.throw()
+      expect(() => Message.fromJSON('¹')).to.throw()
     })
 
   })
@@ -142,8 +138,8 @@ describe('Message', () => {
   describe('#inspect', () => {
 
     it('should output formatted output correctly', () => {
-      const message = new Message(text);
-      const output = '<Message: '+text+'>'
+      const message = new Message(text)
+      const output = `<Message: ${text}>`
       message.inspect().should.equal(output)
     })
 
@@ -151,8 +147,7 @@ describe('Message', () => {
 
 
   it('accepts Address for verification', () => {
-    const verified = new Message(text)
-      .verify(new Address(address), signatureString)
+    const verified = new Message(text).verify(new Address(address), signatureString)
     verified.should.equal(true)
   })
 
