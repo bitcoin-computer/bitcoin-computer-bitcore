@@ -9,8 +9,6 @@ const Signature = require('./crypto/signature')
 const { sha256sha256 } = require('./crypto/hash')
 const JSUtil = require('./util/js')
 
-const MAGIC_BYTES = Buffer.from('Bitcoin Signed Message:\n')
-
 /**
  * constructs a new message to sign and verify.
  *
@@ -19,9 +17,6 @@ const MAGIC_BYTES = Buffer.from('Bitcoin Signed Message:\n')
  */
 class Message {
   constructor(message) {
-    if (!(this instanceof Message)) {
-      return new Message(message)
-    }
     $.checkArgument(_.isString(message), 'First argument should be a string')
     this.message = message
 
@@ -29,10 +24,10 @@ class Message {
   }
 
   magicHash() {
-    const prefix1 = BufferWriter.varintBufNum(MAGIC_BYTES.length)
+    const prefix1 = BufferWriter.varintBufNum(Message.MAGIC_BYTES.length)
     const messageBuffer = Buffer.from(this.message)
     const prefix2 = BufferWriter.varintBufNum(messageBuffer.length)
-    const buf = Buffer.concat([prefix1, MAGIC_BYTES, prefix2, messageBuffer])
+    const buf = Buffer.concat([prefix1, Message.MAGIC_BYTES, prefix2, messageBuffer])
     const hash = sha256sha256(buf)
     return hash
   }
@@ -162,5 +157,7 @@ class Message {
     return `<Message: ${this.toString()}>`
   }
 }
+
+Message.MAGIC_BYTES = Buffer.from('Bitcoin Signed Message:\n')
 
 module.exports = Message
