@@ -30,18 +30,13 @@ describe('Message', function() {
     }).to.throw('First argument should be a string');
   });
 
-  it('will instantiate without "new"', function() {
-    var message = Message(text);
-    should.exist(message);
-  });
-
   var signature2;
   var signature3;
 
   it('can sign a message', function() {
     var message2 = new Message(text);
     signature2 = message2._sign(privateKey);
-    signature3 = Message(text).sign(privateKey);
+    signature3 = new Message(text).sign(privateKey);
     should.exist(signature2);
     should.exist(signature3);
   });
@@ -109,7 +104,7 @@ describe('Message', function() {
   });
 
   it('can chain methods', function() {
-    var verified = Message(text).verify(address, signatureString);
+    var verified = new Message(text).verify(address, signatureString);
     verified.should.equal(true);
   });
 
@@ -156,7 +151,7 @@ describe('Message', function() {
 
 
   it('accepts Address for verification', function() {
-    var verified = Message(text)
+    var verified = new Message(text)
       .verify(new Address(address), signatureString);
     verified.should.equal(true);
   });
