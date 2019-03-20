@@ -6,8 +6,8 @@ const TXID_REGEX = /[0-9A-Fa-f]{64}/
 class OutputId {
     /**
       Creates an output id from a transaction id and output index
-     * @param {string} txid Transaction id in hex format
-     * @param {number} vout Output index
+     * @param {string} txId Transaction id in hex format
+     * @param {number} outputIndex Output index
      */
     constructor(txId, outputIndex) {
         if (!TXID_REGEX.test(txId))
