@@ -28,27 +28,22 @@ inherits(PublicKeyHashInput, Input);
  * @return {Array} of objects that can be
  */
 // eslint-disable-next-line max-len
-PublicKeyHashInput.prototype.getSignatures = function (transaction, privateKey, index, sigtype, hashData) {
+PublicKeyHashInput.prototype.getSignatures = function(transaction, privateKey, index, sigtype, hashData) {
   $.checkState(this.output instanceof Output, 'Malformed output found when signing transaction');
   hashData = hashData || Hash.sha256ripemd160(privateKey.publicKey.toBuffer());
-  sigtype = sigtype || (Signature.SIGHASH_ALL | Signature.SIGHASH_FORKID);
+  sigtype = sigtype || Signature.SIGHASH_ALL | Signature.SIGHASH_FORKID;
 
   if (BufferUtil.equals(hashData, this.output.script.getPublicKeyHash())) {
-    return [new TransactionSignature({
-      publicKey: privateKey.toPublicKey(),
-      prevTxId: this.prevTxId,
-      outputIndex: this.outputIndex,
-      inputIndex: index,
-      signature: Sighash.sign(
-        transaction,
-        privateKey,
+    return [
+      new TransactionSignature({
+        publicKey: privateKey.toPublicKey(),
+        prevTxId: this.prevTxId,
+        outputIndex: this.outputIndex,
+        inputIndex: index,
+        signature: Sighash.sign(transaction, privateKey, sigtype, index, this.output.script, this.output.satoshisBN),
         sigtype,
-        index,
-        this.output.script,
-        this.output.satoshisBN,
-      ),
-      sigtype,
-    })];
+      }),
+    ];
   }
   return [];
 };
@@ -62,13 +57,9 @@ PublicKeyHashInput.prototype.getSignatures = function (transaction, privateKey, 
  * @param {number=} signature.sigtype
  * @return {PublicKeyHashInput} this, for chaining
  */
-PublicKeyHashInput.prototype.addSignature = function (transaction, signature) {
+PublicKeyHashInput.prototype.addSignature = function(transaction, signature) {
   $.checkState(this.isValidSignature(transaction, signature), 'Failed adding signature because it is invalid');
-  this.setScript(Script.buildPublicKeyHashIn(
-    signature.publicKey,
-    signature.signature.toDER(),
-    signature.sigtype,
-  ));
+  this.setScript(Script.buildPublicKeyHashIn(signature.publicKey, signature.signature.toDER(), signature.sigtype));
   return this;
 };
 
@@ -76,7 +67,7 @@ PublicKeyHashInput.prototype.addSignature = function (transaction, signature) {
  * Clear the input's signature
  * @return {PublicKeyHashInput} this, for chaining
  */
-PublicKeyHashInput.prototype.clearSignatures = function () {
+PublicKeyHashInput.prototype.clearSignatures = function() {
   this.setScript(Script.empty());
   return this;
 };
@@ -85,13 +76,13 @@ PublicKeyHashInput.prototype.clearSignatures = function () {
  * Query whether the input is signed
  * @return {boolean}
  */
-PublicKeyHashInput.prototype.isFullySigned = function () {
+PublicKeyHashInput.prototype.isFullySigned = function() {
   return this.script.isPublicKeyHashIn();
 };
 
 PublicKeyHashInput.SCRIPT_MAX_SIZE = 73 + 34; // sigsize (1 + 72) + pubkey (1 + 33)
 
-PublicKeyHashInput.prototype._estimateSize = function () {
+PublicKeyHashInput.prototype._estimateSize = function() {
   return PublicKeyHashInput.SCRIPT_MAX_SIZE;
 };
 

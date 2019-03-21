@@ -93,7 +93,7 @@ function addNetwork(data) {
       dnsSeeds: data.dnsSeeds,
     });
   }
-  _.each(network, (value) => {
+  _.each(network, value => {
     if (!_.isUndefined(value) && !_.isObject(value)) {
       networkMaps[value] = network;
     }
@@ -116,7 +116,7 @@ function removeNetwork(network) {
       networks.splice(i, 1);
     }
   }
-  Object.keys(networkMaps).forEach((objectKey) => {
+  Object.keys(networkMaps).forEach(objectKey => {
     if (networkMaps[objectKey] === network) {
       delete networkMaps[objectKey];
     }
@@ -178,7 +178,7 @@ const TESTNET = {
   ],
 };
 
-Object.keys(TESTNET).forEach((objectKey) => {
+Object.keys(TESTNET).forEach(objectKey => {
   if (!_.isObject(TESTNET[objectKey])) {
     networkMaps[TESTNET[objectKey]] = testnet;
   }
@@ -190,7 +190,7 @@ const REGTEST = {
   DNS_SEEDS: [],
 };
 
-Object.keys(REGTEST).forEach((objectKey) => {
+Object.keys(REGTEST).forEach(objectKey => {
   if (!_.isObject(REGTEST[objectKey])) {
     networkMaps[REGTEST[objectKey]] = testnet;
   }

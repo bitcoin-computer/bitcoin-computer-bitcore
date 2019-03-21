@@ -7,7 +7,7 @@ const crypto = require('crypto');
  */
 function pbkdf2(key, salt, iterations, dkLen) {
   const hLen = 64; // SHA512 Mac length
-  if (dkLen > ((2 ** 32) - 1) * hLen) {
+  if (dkLen > (2 ** 32 - 1) * hLen) {
     throw Error('Requested key length too long');
   }
 
@@ -38,17 +38,23 @@ function pbkdf2(key, salt, iterations, dkLen) {
 
   salt.copy(block1, 0, 0, salt.length);
   for (let i = 1; i <= l; i += 1) {
-    block1[salt.length + 0] = ((i >> 24) & 0xff);
-    block1[salt.length + 1] = ((i >> 16) & 0xff);
-    block1[salt.length + 2] = ((i >> 8) & 0xff);
-    block1[salt.length + 3] = ((i >> 0) & 0xff);
+    block1[salt.length + 0] = (i >> 24) & 0xff;
+    block1[salt.length + 1] = (i >> 16) & 0xff;
+    block1[salt.length + 2] = (i >> 8) & 0xff;
+    block1[salt.length + 3] = (i >> 0) & 0xff;
 
-    U = crypto.createHmac('sha512', key).update(block1).digest();
+    U = crypto
+      .createHmac('sha512', key)
+      .update(block1)
+      .digest();
 
     U.copy(T, 0, 0, hLen);
 
     for (let j = 1; j < iterations; j += 1) {
-      U = crypto.createHmac('sha512', key).update(U).digest();
+      U = crypto
+        .createHmac('sha512', key)
+        .update(U)
+        .digest();
 
       for (let k = 0; k < hLen; k += 1) {
         T[k] ^= U[k];
@@ -56,7 +62,7 @@ function pbkdf2(key, salt, iterations, dkLen) {
     }
 
     const destPos = (i - 1) * hLen;
-    const len = (i === l ? r : hLen);
+    const len = i === l ? r : hLen;
     T.copy(DK, destPos, 0, len);
   }
 

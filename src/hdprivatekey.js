@@ -43,7 +43,8 @@ function HDPrivateKey(arg) {
 
   if (Network.get(arg)) {
     return this._generateRandomly(arg);
-  } if (_.isString(arg) || BufferUtil.isBuffer(arg)) {
+  }
+  if (_.isString(arg) || BufferUtil.isBuffer(arg)) {
     if (HDPrivateKey.isValidSerialized(arg)) {
       this._buildFromSerialized(arg);
     } else if (JSUtil.isValidJSON(arg)) {
@@ -67,7 +68,7 @@ function HDPrivateKey(arg) {
  * @param {boolean?} hardened
  * @return {boolean}
  */
-HDPrivateKey.isValidPath = function (arg, hardened) {
+HDPrivateKey.isValidPath = function(arg, hardened) {
   if (_.isString(arg)) {
     const indexes = HDPrivateKey._getDerivationIndexes(arg);
     return indexes !== null && _.every(indexes, HDPrivateKey.isValidPath);
@@ -91,7 +92,7 @@ HDPrivateKey.isValidPath = function (arg, hardened) {
  * @param {string} path
  * @return {Array}
  */
-HDPrivateKey._getDerivationIndexes = function (path) {
+HDPrivateKey._getDerivationIndexes = function(path) {
   const steps = path.split('/');
 
   // Special cases:
@@ -103,8 +104,8 @@ HDPrivateKey._getDerivationIndexes = function (path) {
     return null;
   }
 
-  const indexes = steps.slice(1).map((step) => {
-    const isHardened = step.slice(-1) === '\'';
+  const indexes = steps.slice(1).map(step => {
+    const isHardened = step.slice(-1) === "'";
     if (isHardened) {
       step = step.slice(0, -1);
     }
@@ -149,7 +150,7 @@ HDPrivateKey._getDerivationIndexes = function (path) {
  * @param {string|number} arg
  * @param {boolean?} hardened
  */
-HDPrivateKey.prototype.derive = function (arg, hardened) {
+HDPrivateKey.prototype.derive = function(arg, hardened) {
   return this.deriveNonCompliantChild(arg, hardened);
 };
 
@@ -182,10 +183,11 @@ HDPrivateKey.prototype.derive = function (arg, hardened) {
  * @param {string|number} arg
  * @param {boolean?} hardened
  */
-HDPrivateKey.prototype.deriveChild = function (arg, hardened) {
+HDPrivateKey.prototype.deriveChild = function(arg, hardened) {
   if (_.isNumber(arg)) {
     return this._deriveWithNumber(arg, hardened);
-  } if (_.isString(arg)) {
+  }
+  if (_.isString(arg)) {
     return this._deriveFromString(arg);
   }
   throw new hdErrors.InvalidDerivationArgument(arg);
@@ -207,16 +209,17 @@ HDPrivateKey.prototype.deriveChild = function (arg, hardened) {
  * @param {string|number} arg
  * @param {boolean?} hardened
  */
-HDPrivateKey.prototype.deriveNonCompliantChild = function (arg, hardened) {
+HDPrivateKey.prototype.deriveNonCompliantChild = function(arg, hardened) {
   if (_.isNumber(arg)) {
     return this._deriveWithNumber(arg, hardened, true);
-  } if (_.isString(arg)) {
+  }
+  if (_.isString(arg)) {
     return this._deriveFromString(arg, true);
   }
   throw new hdErrors.InvalidDerivationArgument(arg);
 };
 
-HDPrivateKey.prototype._deriveWithNumber = function (index, hardened, nonCompliant) {
+HDPrivateKey.prototype._deriveWithNumber = function(index, hardened, nonCompliant) {
   /* jshint maxstatements: 20 */
   /* jshint maxcomplexity: 10 */
   if (!HDPrivateKey.isValidPath(index, hardened)) {
@@ -249,9 +252,12 @@ HDPrivateKey.prototype._deriveWithNumber = function (index, hardened, nonComplia
   });
   const chainCode = hash.slice(32, 64);
 
-  const privateKey = leftPart.add(this.privateKey.toBigNumber()).mod(Point.getN()).toBuffer({
-    size: 32,
-  });
+  const privateKey = leftPart
+    .add(this.privateKey.toBigNumber())
+    .mod(Point.getN())
+    .toBuffer({
+      size: 32,
+    });
 
   if (!PrivateKey.isValid(privateKey)) {
     // Index at this point is already hardened, we can pass null as the hardened arg
@@ -270,16 +276,13 @@ HDPrivateKey.prototype._deriveWithNumber = function (index, hardened, nonComplia
   return derived;
 };
 
-HDPrivateKey.prototype._deriveFromString = function (path, nonCompliant) {
+HDPrivateKey.prototype._deriveFromString = function(path, nonCompliant) {
   if (!HDPrivateKey.isValidPath(path)) {
     throw new hdErrors.InvalidPath(path);
   }
 
   const indexes = HDPrivateKey._getDerivationIndexes(path);
-  const derived = indexes.reduce(
-    (prev, index) => prev._deriveWithNumber(index, null, nonCompliant),
-    this,
-  );
+  const derived = indexes.reduce((prev, index) => prev._deriveWithNumber(index, null, nonCompliant), this);
 
   return derived;
 };
@@ -293,7 +296,7 @@ HDPrivateKey.prototype._deriveFromString = function (path, nonCompliant) {
  *     network provided matches the network serialized.
  * @return {boolean}
  */
-HDPrivateKey.isValidSerialized = function (data, network) {
+HDPrivateKey.isValidSerialized = function(data, network) {
   return !HDPrivateKey.getSerializedError(data, network);
 };
 
@@ -306,7 +309,7 @@ HDPrivateKey.isValidSerialized = function (data, network) {
  *     network provided matches the network serialized.
  * @return {errors.InvalidArgument|null}
  */
-HDPrivateKey.getSerializedError = function (data, network) {
+HDPrivateKey.getSerializedError = function(data, network) {
   /* jshint maxcomplexity: 10 */
   if (!(_.isString(data) || BufferUtil.isBuffer(data))) {
     return new hdErrors.UnrecognizedArgument('Expected string or buffer');
@@ -331,7 +334,7 @@ HDPrivateKey.getSerializedError = function (data, network) {
   return null;
 };
 
-HDPrivateKey._validateNetwork = function (data, networkArg) {
+HDPrivateKey._validateNetwork = function(data, networkArg) {
   const network = Network.get(networkArg);
   if (!network) {
     return new errors.InvalidNetworkArgument(networkArg);
@@ -343,21 +346,21 @@ HDPrivateKey._validateNetwork = function (data, networkArg) {
   return null;
 };
 
-HDPrivateKey.fromString = function (arg) {
+HDPrivateKey.fromString = function(arg) {
   $.checkArgument(_.isString(arg), 'No valid string was provided');
   return new HDPrivateKey(arg);
 };
 
-HDPrivateKey.fromObject = function (arg) {
+HDPrivateKey.fromObject = function(arg) {
   $.checkArgument(_.isObject(arg), 'No valid argument was provided');
   return new HDPrivateKey(arg);
 };
 
-HDPrivateKey.prototype._buildFromJSON = function (arg) {
+HDPrivateKey.prototype._buildFromJSON = function(arg) {
   return this._buildFromObject(JSON.parse(arg));
 };
 
-HDPrivateKey.prototype._buildFromObject = function (arg) {
+HDPrivateKey.prototype._buildFromObject = function(arg) {
   // TODO: Type validation
   let checksum;
   if (arg.checksum) {
@@ -369,29 +372,28 @@ HDPrivateKey.prototype._buildFromObject = function (arg) {
   }
 
   const buffers = {
-    version: arg.network
-      ? BufferUtil.integerAsBuffer(Network.get(arg.network).xprivkey) : arg.version,
+    version: arg.network ? BufferUtil.integerAsBuffer(Network.get(arg.network).xprivkey) : arg.version,
     depth: _.isNumber(arg.depth) ? BufferUtil.integerAsSingleByteBuffer(arg.depth) : arg.depth,
     parentFingerPrint: _.isNumber(arg.parentFingerPrint)
-      ? BufferUtil.integerAsBuffer(arg.parentFingerPrint) : arg.parentFingerPrint,
-    childIndex: _.isNumber(arg.childIndex)
-      ? BufferUtil.integerAsBuffer(arg.childIndex) : arg.childIndex,
-    chainCode: _.isString(arg.chainCode)
-      ? BufferUtil.hexToBuffer(arg.chainCode) : arg.chainCode,
-    privateKey: (_.isString(arg.privateKey) && JSUtil.isHexa(arg.privateKey))
-      ? BufferUtil.hexToBuffer(arg.privateKey) : arg.privateKey,
+      ? BufferUtil.integerAsBuffer(arg.parentFingerPrint)
+      : arg.parentFingerPrint,
+    childIndex: _.isNumber(arg.childIndex) ? BufferUtil.integerAsBuffer(arg.childIndex) : arg.childIndex,
+    chainCode: _.isString(arg.chainCode) ? BufferUtil.hexToBuffer(arg.chainCode) : arg.chainCode,
+    privateKey:
+      _.isString(arg.privateKey) && JSUtil.isHexa(arg.privateKey)
+        ? BufferUtil.hexToBuffer(arg.privateKey)
+        : arg.privateKey,
     checksum,
   };
   return this._buildFromBuffers(buffers);
 };
 
-HDPrivateKey.prototype._buildFromSerialized = function (arg) {
+HDPrivateKey.prototype._buildFromSerialized = function(arg) {
   const decoded = Base58Check.decode(arg);
   const buffers = {
     version: decoded.slice(HDPrivateKey.VersionStart, HDPrivateKey.VersionEnd),
     depth: decoded.slice(HDPrivateKey.DepthStart, HDPrivateKey.DepthEnd),
-    parentFingerPrint: decoded.slice(HDPrivateKey.ParentFingerPrintStart,
-      HDPrivateKey.ParentFingerPrintEnd),
+    parentFingerPrint: decoded.slice(HDPrivateKey.ParentFingerPrintStart, HDPrivateKey.ParentFingerPrintEnd),
     childIndex: decoded.slice(HDPrivateKey.ChildIndexStart, HDPrivateKey.ChildIndexEnd),
     chainCode: decoded.slice(HDPrivateKey.ChainCodeStart, HDPrivateKey.ChainCodeEnd),
     privateKey: decoded.slice(HDPrivateKey.PrivateKeyStart, HDPrivateKey.PrivateKeyEnd),
@@ -401,7 +403,7 @@ HDPrivateKey.prototype._buildFromSerialized = function (arg) {
   return this._buildFromBuffers(buffers);
 };
 
-HDPrivateKey.prototype._generateRandomly = function (network) {
+HDPrivateKey.prototype._generateRandomly = function(network) {
   return HDPrivateKey.fromSeed(Random.getRandomBuffer(64), network);
 };
 
@@ -412,7 +414,7 @@ HDPrivateKey.prototype._generateRandomly = function (network) {
  * @param {*} network
  * @return HDPrivateKey
  */
-HDPrivateKey.fromSeed = function (hexa, network) {
+HDPrivateKey.fromSeed = function(hexa, network) {
   /* jshint maxcomplexity: 8 */
   if (JSUtil.isHexaString(hexa)) {
     hexa = BufferUtil.hexToBuffer(hexa);
@@ -438,10 +440,11 @@ HDPrivateKey.fromSeed = function (hexa, network) {
   });
 };
 
-HDPrivateKey.prototype._calcHDPublicKey = function () {
+HDPrivateKey.prototype._calcHDPublicKey = function() {
   if (!this._hdPublicKey) {
     // TODO Try to resolve the circular dependency.
-    const HDPublicKey = require('./hdpublickey'); // eslint-disable-line global-require
+    // eslint-disable-next-line global-require
+    const HDPublicKey = require('./hdpublickey');
     this._hdPublicKey = new HDPublicKey(this);
   }
 };
@@ -462,7 +465,7 @@ HDPrivateKey.prototype._calcHDPublicKey = function () {
  *      representation
  * @return {HDPrivateKey} this
  */
-HDPrivateKey.prototype._buildFromBuffers = function (arg) {
+HDPrivateKey.prototype._buildFromBuffers = function(arg) {
   HDPrivateKey._validateBufferArguments(arg);
 
   JSUtil.defineImmutable(this, {
@@ -470,8 +473,13 @@ HDPrivateKey.prototype._buildFromBuffers = function (arg) {
   });
 
   const sequence = [
-    arg.version, arg.depth, arg.parentFingerPrint, arg.childIndex, arg.chainCode,
-    BufferUtil.emptyBuffer(1), arg.privateKey,
+    arg.version,
+    arg.depth,
+    arg.parentFingerPrint,
+    arg.childIndex,
+    arg.chainCode,
+    BufferUtil.emptyBuffer(1),
+    arg.privateKey,
   ];
   const concat = buffer.Buffer.concat(sequence);
   if (!arg.checksum || !arg.checksum.length) {
@@ -519,14 +527,11 @@ HDPrivateKey.prototype._buildFromBuffers = function (arg) {
   return this;
 };
 
-HDPrivateKey._validateBufferArguments = function (arg) {
-  const checkBuffer = function (name, size) {
+HDPrivateKey._validateBufferArguments = function(arg) {
+  const checkBuffer = function(name, size) {
     const buff = arg[name];
     assert(BufferUtil.isBuffer(buff), `${name} argument is not a buffer`);
-    assert(
-      buff.length === size,
-      `${name} has not the expected size: found ${buff.length}, expected ${size}`,
-    );
+    assert(buff.length === size, `${name} has not the expected size: found ${buff.length}, expected ${size}`);
   };
   checkBuffer('version', HDPrivateKey.VersionSize);
   checkBuffer('depth', HDPrivateKey.DepthSize);
@@ -545,7 +550,7 @@ HDPrivateKey._validateBufferArguments = function (arg) {
  *
  * @return string
  */
-HDPrivateKey.prototype.toString = function () {
+HDPrivateKey.prototype.toString = function() {
   return this.xprivkey;
 };
 
@@ -590,7 +595,7 @@ HDPrivateKey.prototype.toObject = HDPrivateKey.prototype.toJSON;
  * @param {Buffer} arg
  * @return {HDPrivateKey}
  */
-HDPrivateKey.fromBuffer = function (arg) {
+HDPrivateKey.fromBuffer = function(arg) {
   return new HDPrivateKey(arg.toString());
 };
 
@@ -599,7 +604,7 @@ HDPrivateKey.fromBuffer = function (arg) {
  *
  * @return {string}
  */
-HDPrivateKey.prototype.toBuffer = function () {
+HDPrivateKey.prototype.toBuffer = function() {
   return BufferUtil.copy(this._buffers.xprivkey);
 };
 
@@ -609,7 +614,7 @@ HDPrivateKey.DefaultChildIndex = 0;
 HDPrivateKey.Hardened = 0x80000000;
 HDPrivateKey.MaxIndex = 2 * HDPrivateKey.Hardened;
 
-HDPrivateKey.RootElementAlias = ['m', 'M', 'm\'', 'M\''];
+HDPrivateKey.RootElementAlias = ['m', 'M', "m'", "M'"];
 
 HDPrivateKey.VersionSize = 4;
 HDPrivateKey.DepthSize = 1;
@@ -627,8 +632,7 @@ HDPrivateKey.VersionEnd = HDPrivateKey.VersionStart + HDPrivateKey.VersionSize;
 HDPrivateKey.DepthStart = HDPrivateKey.VersionEnd;
 HDPrivateKey.DepthEnd = HDPrivateKey.DepthStart + HDPrivateKey.DepthSize;
 HDPrivateKey.ParentFingerPrintStart = HDPrivateKey.DepthEnd;
-HDPrivateKey.ParentFingerPrintEnd = HDPrivateKey.ParentFingerPrintStart
-  + HDPrivateKey.ParentFingerPrintSize;
+HDPrivateKey.ParentFingerPrintEnd = HDPrivateKey.ParentFingerPrintStart + HDPrivateKey.ParentFingerPrintSize;
 HDPrivateKey.ChildIndexStart = HDPrivateKey.ParentFingerPrintEnd;
 HDPrivateKey.ChildIndexEnd = HDPrivateKey.ChildIndexStart + HDPrivateKey.ChildIndexSize;
 HDPrivateKey.ChainCodeStart = HDPrivateKey.ChildIndexEnd;

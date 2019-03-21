@@ -7,98 +7,98 @@ const BufferWriter = function BufferWriter(obj) {
   else this.bufs = [];
 };
 
-BufferWriter.prototype.set = function (obj) {
+BufferWriter.prototype.set = function(obj) {
   this.bufs = obj.bufs || this.bufs || [];
   return this;
 };
 
-BufferWriter.prototype.toBuffer = function () {
+BufferWriter.prototype.toBuffer = function() {
   return this.concat();
 };
 
-BufferWriter.prototype.concat = function () {
+BufferWriter.prototype.concat = function() {
   return Buffer.concat(this.bufs);
 };
 
-BufferWriter.prototype.write = function (buf) {
+BufferWriter.prototype.write = function(buf) {
   assert(bufferUtil.isBuffer(buf));
   this.bufs.push(buf);
   return this;
 };
 
-BufferWriter.prototype.writeReverse = function (buf) {
+BufferWriter.prototype.writeReverse = function(buf) {
   assert(bufferUtil.isBuffer(buf));
   this.bufs.push(bufferUtil.reverse(buf));
   return this;
 };
 
-BufferWriter.prototype.writeUInt8 = function (n) {
+BufferWriter.prototype.writeUInt8 = function(n) {
   const buf = Buffer.alloc(1);
   buf.writeUInt8(n, 0);
   this.write(buf);
   return this;
 };
 
-BufferWriter.prototype.writeUInt16BE = function (n) {
+BufferWriter.prototype.writeUInt16BE = function(n) {
   const buf = Buffer.alloc(2);
   buf.writeUInt16BE(n, 0);
   this.write(buf);
   return this;
 };
 
-BufferWriter.prototype.writeUInt16LE = function (n) {
+BufferWriter.prototype.writeUInt16LE = function(n) {
   const buf = Buffer.alloc(2);
   buf.writeUInt16LE(n, 0);
   this.write(buf);
   return this;
 };
 
-BufferWriter.prototype.writeUInt32BE = function (n) {
+BufferWriter.prototype.writeUInt32BE = function(n) {
   const buf = Buffer.alloc(4);
   buf.writeUInt32BE(n, 0);
   this.write(buf);
   return this;
 };
 
-BufferWriter.prototype.writeInt32LE = function (n) {
+BufferWriter.prototype.writeInt32LE = function(n) {
   const buf = Buffer.alloc(4);
   buf.writeInt32LE(n, 0);
   this.write(buf);
   return this;
 };
 
-BufferWriter.prototype.writeUInt32LE = function (n) {
+BufferWriter.prototype.writeUInt32LE = function(n) {
   const buf = Buffer.alloc(4);
   buf.writeUInt32LE(n, 0);
   this.write(buf);
   return this;
 };
 
-BufferWriter.prototype.writeUInt64BEBN = function (bn) {
+BufferWriter.prototype.writeUInt64BEBN = function(bn) {
   const buf = bn.toBuffer({ size: 8 });
   this.write(buf);
   return this;
 };
 
-BufferWriter.prototype.writeUInt64LEBN = function (bn) {
+BufferWriter.prototype.writeUInt64LEBN = function(bn) {
   const buf = bn.toBuffer({ size: 8 });
   this.writeReverse(buf);
   return this;
 };
 
-BufferWriter.prototype.writeVarintNum = function (n) {
+BufferWriter.prototype.writeVarintNum = function(n) {
   const buf = BufferWriter.varintBufNum(n);
   this.write(buf);
   return this;
 };
 
-BufferWriter.prototype.writeVarintBN = function (bn) {
+BufferWriter.prototype.writeVarintBN = function(bn) {
   const buf = BufferWriter.varintBufBN(bn);
   this.write(buf);
   return this;
 };
 
-BufferWriter.varintBufNum = function (n) {
+BufferWriter.varintBufNum = function(n) {
   let buf;
   if (n < 253) {
     buf = Buffer.alloc(1);
@@ -120,7 +120,7 @@ BufferWriter.varintBufNum = function (n) {
   return buf;
 };
 
-BufferWriter.varintBufBN = function (bn) {
+BufferWriter.varintBufBN = function(bn) {
   let buf;
   const n = bn.toNumber();
   if (n < 253) {

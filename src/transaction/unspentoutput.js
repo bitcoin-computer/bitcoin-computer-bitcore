@@ -35,13 +35,16 @@ class UnspentOutput {
     if (!_.isNumber(outputIndex)) {
       throw new Error(`Invalid outputIndex, received ${outputIndex}`);
     }
-    $.checkArgument(!_.isUndefined(data.scriptPubKey) || !_.isUndefined(data.script),
-      'Must provide the scriptPubKey for that output!');
+    $.checkArgument(
+      !_.isUndefined(data.scriptPubKey) || !_.isUndefined(data.script),
+      'Must provide the scriptPubKey for that output!',
+    );
     const script = new Script(data.scriptPubKey || data.script);
-    $.checkArgument(!_.isUndefined(data.amount) || !_.isUndefined(data.satoshis),
-      'Must provide an amount for the output');
-    const amount = !_.isUndefined(data.amount)
-      ? Unit.fromBTC(data.amount).toSatoshis() : data.satoshis;
+    $.checkArgument(
+      !_.isUndefined(data.amount) || !_.isUndefined(data.satoshis),
+      'Must provide an amount for the output',
+    );
+    const amount = !_.isUndefined(data.amount) ? Unit.fromBTC(data.amount).toSatoshis() : data.satoshis;
     $.checkArgument(_.isNumber(amount), 'Amount must be a number');
     JSUtil.defineImmutable(this, {
       address,
@@ -57,8 +60,7 @@ class UnspentOutput {
    * @returns string
    */
   inspect() {
-    return `<UnspentOutput: ${this.txId}:${this.outputIndex
-      }, satoshis: ${this.satoshis}, address: ${this.address}>`;
+    return `<UnspentOutput: ${this.txId}:${this.outputIndex}, satoshis: ${this.satoshis}, address: ${this.address}>`;
   }
 
   /**
@@ -95,7 +97,6 @@ class UnspentOutput {
   toObject() {
     return this.toJSON();
   }
-
 }
 
 module.exports = UnspentOutput;

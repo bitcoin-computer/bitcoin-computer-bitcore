@@ -36,11 +36,11 @@ class Output {
     }
     this.setScriptFromBuffer(this._scriptBuffer);
     return this._script;
-  };
+  }
 
   get satoshis() {
     return this._satoshis;
-  };
+  }
 
   set satoshis(num) {
     if (num instanceof BN) {
@@ -50,35 +50,26 @@ class Output {
       this._satoshis = parseInt(num, 10);
       this._satoshisBN = BN.fromNumber(this._satoshis);
     } else {
-      $.checkArgument(
-        JSUtil.isNaturalNumber(num),
-        'Output satoshis is not a natural number',
-      );
+      $.checkArgument(JSUtil.isNaturalNumber(num), 'Output satoshis is not a natural number');
       this._satoshisBN = BN.fromNumber(num);
       this._satoshis = num;
     }
-    $.checkState(
-      JSUtil.isNaturalNumber(this._satoshis),
-      'Output satoshis is not a natural number',
-    );
-  };
+    $.checkState(JSUtil.isNaturalNumber(this._satoshis), 'Output satoshis is not a natural number');
+  }
 
   get satoshisBN() {
     return this._satoshisBN;
-  };
+  }
 
   set satoshisBN(num) {
     this._satoshisBN = num;
     this._satoshis = num.toNumber();
-    $.checkState(
-      JSUtil.isNaturalNumber(this._satoshis),
-      'Output satoshis is not a natural number',
-    );
-  };
+    $.checkState(JSUtil.isNaturalNumber(this._satoshis), 'Output satoshis is not a natural number');
+  }
 
   static fromObject(data) {
     return new Output(data);
-  };
+  }
 
   static fromBufferReader(br) {
     const obj = {};
@@ -90,7 +81,7 @@ class Output {
       obj.script = new buffer.Buffer([]);
     }
     return new Output(obj);
-  };
+  }
 
   invalidSatoshis() {
     if (this._satoshis > MAX_SAFE_INTEGER) {
@@ -103,7 +94,7 @@ class Output {
       return 'transaction txout negative';
     }
     return false;
-  };
+  }
 
   toJSON() {
     const obj = {
@@ -111,7 +102,7 @@ class Output {
     };
     obj.script = this._scriptBuffer.toString('hex');
     return obj;
-  };
+  }
 
   toObject() {
     return this.toJSON();
@@ -129,7 +120,7 @@ class Output {
         throw e;
       }
     }
-  };
+  }
 
   setScript(script) {
     if (script instanceof Script) {
@@ -146,7 +137,7 @@ class Output {
       throw new TypeError('Invalid argument type: script');
     }
     return this;
-  };
+  }
 
   inspect() {
     let scriptStr;
@@ -156,7 +147,7 @@ class Output {
       scriptStr = this._scriptBuffer.toString('hex');
     }
     return `<Output (${this.satoshis} sats) ${scriptStr}>`;
-  };
+  }
 
   toBufferWriter(writer) {
     if (!writer) {
@@ -167,8 +158,7 @@ class Output {
     writer.writeVarintNum(script.length);
     writer.write(script);
     return writer;
-  };
-
+  }
 }
 
 module.exports = Output;

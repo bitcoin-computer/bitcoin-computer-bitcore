@@ -18,15 +18,12 @@ const ENABLE_SIGHASH_FORKID = true;
 class Sighash {
   static sighashForForkId(transaction, sighashType, inputNumber, subscript, satoshisBN) {
     const input = transaction.inputs[inputNumber];
-    $.checkArgument(
-      satoshisBN instanceof BN,
-      'For ForkId=0 signatures, satoshis or complete input must be provided',
-    );
+    $.checkArgument(satoshisBN instanceof BN, 'For ForkId=0 signatures, satoshis or complete input must be provided');
 
     function GetPrevoutHash(tx) {
       const writer = new BufferWriter();
 
-      _.each(tx.inputs, (txIn) => {
+      _.each(tx.inputs, txIn => {
         writer.writeReverse(txIn.prevTxId);
         writer.writeUInt32LE(txIn.outputIndex);
       });
@@ -39,7 +36,7 @@ class Sighash {
     function GetSequenceHash(tx) {
       const writer = new BufferWriter();
 
-      _.each(tx.inputs, (txIn) => {
+      _.each(tx.inputs, txIn => {
         writer.writeUInt32LE(txIn.sequenceNumber);
       });
 
@@ -52,7 +49,7 @@ class Sighash {
       const writer = new BufferWriter();
 
       if (_.isUndefined(n)) {
-        _.each(tx.outputs, (output) => {
+        _.each(tx.outputs, output => {
           output.toBufferWriter(writer);
         });
       } else {
@@ -72,17 +69,17 @@ class Sighash {
       hashPrevouts = GetPrevoutHash(transaction);
     }
 
-    if (!(sighashType & Signature.SIGHASH_ANYONECANPAY)
-      && (sighashType & 31) !== Signature.SIGHASH_SINGLE
-      && (sighashType & 31) !== Signature.SIGHASH_NONE) {
+    if (
+      !(sighashType & Signature.SIGHASH_ANYONECANPAY) &&
+      (sighashType & 31) !== Signature.SIGHASH_SINGLE &&
+      (sighashType & 31) !== Signature.SIGHASH_NONE
+    ) {
       hashSequence = GetSequenceHash(transaction);
     }
 
-    if ((sighashType & 31) !== Signature.SIGHASH_SINGLE
-      && (sighashType & 31) !== Signature.SIGHASH_NONE) {
+    if ((sighashType & 31) !== Signature.SIGHASH_SINGLE && (sighashType & 31) !== Signature.SIGHASH_NONE) {
       hashOutputs = GetOutputsHash(transaction);
-    } else if ((sighashType & 31) === Signature.SIGHASH_SINGLE
-      && inputNumber < transaction.outputs.length) {
+    } else if ((sighashType & 31) === Signature.SIGHASH_SINGLE && inputNumber < transaction.outputs.length) {
       hashOutputs = GetOutputsHash(transaction, inputNumber);
     }
 
@@ -152,8 +149,7 @@ class Sighash {
     // Copy script
     subscript = new Script(subscript);
 
-
-    if ((sighashType & Signature.SIGHASH_FORKID) && ENABLE_SIGHASH_FORKID) {
+    if (sighashType & Signature.SIGHASH_FORKID && ENABLE_SIGHASH_FORKID) {
       return Sighash.sighashForForkId(txcopy, sighashType, inputNumber, subscript, satoshisBN);
     }
 
@@ -168,8 +164,7 @@ class Sighash {
 
     txcopy.inputs[inputNumber] = new Input(txcopy.inputs[inputNumber]).setScript(subscript);
 
-    if ((sighashType & 31) === Signature.SIGHASH_NONE
-      || (sighashType & 31) === Signature.SIGHASH_SINGLE) {
+    if ((sighashType & 31) === Signature.SIGHASH_NONE || (sighashType & 31) === Signature.SIGHASH_SINGLE) {
       // clear all sequenceNumbers
       for (i = 0; i < txcopy.inputs.length; i += 1) {
         if (i !== inputNumber) {

@@ -20,17 +20,16 @@ const Signature = function Signature(r, s) {
 };
 
 /* jshint maxcomplexity: 7 */
-Signature.prototype.set = function (obj) {
+Signature.prototype.set = function(obj) {
   this.r = obj.r || this.r || undefined;
   this.s = obj.s || this.s || undefined;
   this.i = typeof obj.i !== 'undefined' ? obj.i : this.i; // public key recovery parameter in range [0, 3]
-  this.compressed = typeof obj.compressed !== 'undefined'
-    ? obj.compressed : this.compressed; // whether the recovered pubkey is compressed
+  this.compressed = typeof obj.compressed !== 'undefined' ? obj.compressed : this.compressed; // whether the recovered pubkey is compressed
   this.nhashtype = obj.nhashtype || this.nhashtype || undefined;
   return this;
 };
 
-Signature.fromCompact = function (buf) {
+Signature.fromCompact = function(buf) {
   $.checkArgument(BufferUtil.isBuffer(buf), 'Argument is expected to be a Buffer');
 
   const sig = new Signature();
@@ -57,7 +56,7 @@ Signature.fromCompact = function (buf) {
   return sig;
 };
 
-Signature.fromDER = function (buf, strict) {
+Signature.fromDER = function(buf, strict) {
   const obj = Signature.parseDER(buf, strict);
   const sig = new Signature();
 
@@ -70,7 +69,7 @@ Signature.fromDER = function (buf, strict) {
 Signature.fromBuffer = Signature.fromDER;
 
 // The format used in a tx
-Signature.fromTxFormat = function (buf) {
+Signature.fromTxFormat = function(buf) {
   const nhashtype = buf.readUInt8(buf.length - 1);
   const derbuf = buf.slice(0, buf.length - 1);
   const sig = Signature.fromDER(derbuf, false);
@@ -78,16 +77,15 @@ Signature.fromTxFormat = function (buf) {
   return sig;
 };
 
-Signature.fromString = function (str) {
+Signature.fromString = function(str) {
   const buf = Buffer.from(str, 'hex');
   return Signature.fromDER(buf);
 };
 
-
 /**
  * In order to mimic the non-strict DER encoding of OpenSSL, set strict = false.
  */
-Signature.parseDER = function (buf, strict) {
+Signature.parseDER = function(buf, strict) {
   $.checkArgument(BufferUtil.isBuffer(buf), new Error('DER formatted signature should be a buffer'));
   if (_.isUndefined(strict)) {
     strict = true;
@@ -141,8 +139,7 @@ Signature.parseDER = function (buf, strict) {
   return obj;
 };
 
-
-Signature.prototype.toCompact = function (i, compressed) {
+Signature.prototype.toCompact = function(i, compressed) {
   i = typeof i === 'number' ? i : this.i;
   compressed = typeof compressed === 'boolean' ? compressed : this.compressed;
 
@@ -164,7 +161,7 @@ Signature.prototype.toCompact = function (i, compressed) {
   return Buffer.concat([b1, b2, b3]);
 };
 
-Signature.prototype.toBuffer = function () {
+Signature.prototype.toBuffer = function() {
   const rnbuf = this.r.toBuffer();
   const snbuf = this.s.toBuffer();
 
@@ -192,7 +189,7 @@ Signature.prototype.toBuffer = function () {
 
 Signature.prototype.toDER = Signature.prototype.toBuffer;
 
-Signature.prototype.toString = function () {
+Signature.prototype.toString = function() {
   const buf = this.toDER();
   return buf.toString('hex');
 };
@@ -209,7 +206,7 @@ Signature.prototype.toString = function () {
  *
  * See https://bitcointalk.org/index.php?topic=8392.msg127623#msg127623
  */
-Signature.isTxDER = function (buf) {
+Signature.isTxDER = function(buf) {
   if (buf.length < 9) {
     //  Non-canonical signature: too short
     return false;
@@ -232,7 +229,7 @@ Signature.isTxDER = function (buf) {
     return false;
   }
   const nLenS = buf[5 + nLenR];
-  if ((nLenR + nLenS + 7) !== buf.length) {
+  if (nLenR + nLenS + 7 !== buf.length) {
     //  Non-canonical signature: R+S length mismatch
     return false;
   }
@@ -250,7 +247,7 @@ Signature.isTxDER = function (buf) {
     //  Non-canonical signature: R value negative
     return false;
   }
-  if (nLenR > 1 && (R[0] === 0x00) && !(R[1] & 0x80)) {
+  if (nLenR > 1 && R[0] === 0x00 && !(R[1] & 0x80)) {
     //  Non-canonical signature: R value excessively padded
     return false;
   }
@@ -268,7 +265,7 @@ Signature.isTxDER = function (buf) {
     //  Non-canonical signature: S value negative
     return false;
   }
-  if (nLenS > 1 && (S[0] === 0x00) && !(S[1] & 0x80)) {
+  if (nLenS > 1 && S[0] === 0x00 && !(S[1] & 0x80)) {
     //  Non-canonical signature: S value excessively padded
     return false;
   }
@@ -280,9 +277,11 @@ Signature.isTxDER = function (buf) {
  * See also ECDSA signature algorithm which enforces this.
  * See also BIP 62, "low S values in signatures"
  */
-Signature.prototype.hasLowS = function () {
-  if (this.s.lt(new BN(1))
-    || this.s.gt(new BN('7FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF5D576E7357A4501DDFE92F46681B20A0', 'hex'))) {
+Signature.prototype.hasLowS = function() {
+  if (
+    this.s.lt(new BN(1)) ||
+    this.s.gt(new BN('7FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF5D576E7357A4501DDFE92F46681B20A0', 'hex'))
+  ) {
     return false;
   }
   return true;
@@ -292,7 +291,7 @@ Signature.prototype.hasLowS = function () {
  * @returns true if the nhashtype is exactly equal to one of the standard options
  * or combinations thereof. Translated from bitcoind's IsDefinedHashtypeSignature
  */
-Signature.prototype.hasDefinedHashtype = function () {
+Signature.prototype.hasDefinedHashtype = function() {
   if (!JSUtil.isNaturalNumber(this.nhashtype)) {
     return false;
   }
@@ -304,7 +303,7 @@ Signature.prototype.hasDefinedHashtype = function () {
   return true;
 };
 
-Signature.prototype.toTxFormat = function () {
+Signature.prototype.toTxFormat = function() {
   const derbuf = this.toDER();
   const buf = Buffer.alloc(1);
   buf.writeUInt8(this.nhashtype, 0);
