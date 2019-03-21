@@ -3,7 +3,7 @@
   "version": "0.1.12",
   "description": "A simple, safe, and powerful JavaScript Bitcoin Cash library.",
   "author": "Clemens Ley <ley.clemens@gmail.com>",
-  "main": "src/bitcoinsource.js",
+  "main": "src/index.js",
   "files": [
     "src/",
     "dist/"
