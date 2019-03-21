@@ -15,7 +15,7 @@ const { version } = require('../package.json');
 shell.rm('-rf', 'dist');
 shell.mkdir('-p', 'dist');
 
-shell.exec('npx browserify src/bitcoinsource.js --s bch', { silent: true })
+shell.exec('npx browserify src/index.js --s bch', { silent: true })
   .to(`dist/bitcoinsource-${version}.js`);
 shell.echo(`Generated file: dist/bitcoinsource-${version}.js.`);
 
