@@ -2047,6 +2047,6 @@ const spanish = [
   'zorro',
   'zumo',
   'zurdo',
-];
+]
 
-module.exports = spanish;
+module.exports = spanish

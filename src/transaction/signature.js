@@ -1,12 +1,12 @@
-const _ = require('lodash');
-const inherits = require('inherits');
-const $ = require('../util/preconditions');
-const BufferUtil = require('../util/buffer');
-const JSUtil = require('../util/js');
+const _ = require('lodash')
+const inherits = require('inherits')
+const $ = require('../util/preconditions')
+const BufferUtil = require('../util/buffer')
+const JSUtil = require('../util/js')
 
-const PublicKey = require('../publickey');
-const errors = require('../errors');
-const Signature = require('../crypto/signature');
+const PublicKey = require('../publickey')
+const errors = require('../errors')
+const Signature = require('../crypto/signature')
 
 /**
  * @desc
@@ -17,51 +17,51 @@ const Signature = require('../crypto/signature');
  */
 class TransactionSignature extends Signature {
   constructor(arg) {
-    super(arg);
+    super(arg)
     if (arg instanceof TransactionSignature) {
-      return arg;
+      return arg
     }
     if (_.isObject(arg)) {
-      return this._fromObject(arg);
+      return this._fromObject(arg)
     }
-    throw new errors.InvalidArgument('TransactionSignatures must be instantiated from an object');
+    throw new errors.InvalidArgument('TransactionSignatures must be instantiated from an object')
   }
 
   _fromObject(arg) {
-    TransactionSignature._checkObjectArgs(arg);
-    this.publicKey = new PublicKey(arg.publicKey);
-    this.prevTxId = BufferUtil.isBuffer(arg.prevTxId) ? arg.prevTxId : Buffer.from(arg.prevTxId, 'hex');
-    this.outputIndex = arg.outputIndex;
-    this.inputIndex = arg.inputIndex;
+    TransactionSignature._checkObjectArgs(arg)
+    this.publicKey = new PublicKey(arg.publicKey)
+    this.prevTxId = BufferUtil.isBuffer(arg.prevTxId) ? arg.prevTxId : Buffer.from(arg.prevTxId, 'hex')
+    this.outputIndex = arg.outputIndex
+    this.inputIndex = arg.inputIndex
     if (arg.signature instanceof Signature) {
-      this.signature = arg.signature;
+      this.signature = arg.signature
     } else if (BufferUtil.isBuffer(arg.signature)) {
-      this.signature = Signature.fromBuffer(arg.signature);
+      this.signature = Signature.fromBuffer(arg.signature)
     } else {
-      this.signature = Signature.fromString(arg.signature);
+      this.signature = Signature.fromString(arg.signature)
     }
-    this.sigtype = arg.sigtype;
-    return this;
+    this.sigtype = arg.sigtype
+    return this
   }
 
   static _checkObjectArgs(arg) {
-    $.checkArgument(PublicKey(arg.publicKey), 'publicKey');
-    $.checkArgument(!_.isUndefined(arg.inputIndex), 'inputIndex');
-    $.checkArgument(!_.isUndefined(arg.outputIndex), 'outputIndex');
-    $.checkState(_.isNumber(arg.inputIndex), 'inputIndex must be a number');
-    $.checkState(_.isNumber(arg.outputIndex), 'outputIndex must be a number');
-    $.checkArgument(arg.signature, 'signature');
-    $.checkArgument(arg.prevTxId, 'prevTxId');
+    $.checkArgument(PublicKey(arg.publicKey), 'publicKey')
+    $.checkArgument(!_.isUndefined(arg.inputIndex), 'inputIndex')
+    $.checkArgument(!_.isUndefined(arg.outputIndex), 'outputIndex')
+    $.checkState(_.isNumber(arg.inputIndex), 'inputIndex must be a number')
+    $.checkState(_.isNumber(arg.outputIndex), 'outputIndex must be a number')
+    $.checkArgument(arg.signature, 'signature')
+    $.checkArgument(arg.prevTxId, 'prevTxId')
     $.checkState(
       arg.signature instanceof Signature || BufferUtil.isBuffer(arg.signature) || JSUtil.isHexa(arg.signature),
       'signature must be a buffer or hexa value',
-    );
+    )
     $.checkState(
       BufferUtil.isBuffer(arg.prevTxId) || JSUtil.isHexa(arg.prevTxId),
       'prevTxId must be a buffer or hexa value',
-    );
-    $.checkArgument(arg.sigtype, 'sigtype');
-    $.checkState(_.isNumber(arg.sigtype), 'sigtype must be a number');
+    )
+    $.checkArgument(arg.sigtype, 'sigtype')
+    $.checkState(_.isNumber(arg.sigtype), 'sigtype must be a number')
   }
 
   /**
@@ -76,11 +76,11 @@ class TransactionSignature extends Signature {
       inputIndex: this.inputIndex,
       signature: this.signature.toString(),
       sigtype: this.sigtype,
-    };
+    }
   }
 
   toObject() {
-    return this.toJSON();
+    return this.toJSON()
   }
 
   /**
@@ -89,10 +89,10 @@ class TransactionSignature extends Signature {
    * @return {TransactionSignature}
    */
   static fromObject(object) {
-    $.checkArgument(object);
-    return new TransactionSignature(object);
+    $.checkArgument(object)
+    return new TransactionSignature(object)
   }
 }
-inherits(TransactionSignature, Signature);
+inherits(TransactionSignature, Signature)
 
-module.exports = TransactionSignature;
+module.exports = TransactionSignature

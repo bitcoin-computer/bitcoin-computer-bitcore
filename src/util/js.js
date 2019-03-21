@@ -1,4 +1,4 @@
-const _ = require('lodash');
+const _ = require('lodash')
 
 /**
  * Determines whether a string contains only hexadecimal values
@@ -9,10 +9,10 @@ const _ = require('lodash');
  */
 const isHexa = function isHexa(value) {
   if (!_.isString(value)) {
-    return false;
+    return false
   }
-  return /^[0-9a-fA-F]+$/.test(value);
-};
+  return /^[0-9a-fA-F]+$/.test(value)
+}
 
 /**
  * @namespace JSUtil
@@ -26,19 +26,19 @@ module.exports = {
    * @return {Object|boolean} false if the argument is not a JSON string.
    */
   isValidJSON: function isValidJSON(arg) {
-    let parsed;
+    let parsed
     if (!_.isString(arg)) {
-      return false;
+      return false
     }
     try {
-      parsed = JSON.parse(arg);
+      parsed = JSON.parse(arg)
     } catch (e) {
-      return false;
+      return false
     }
     if (typeof parsed === 'object') {
-      return true;
+      return true
     }
-    return false;
+    return false
   },
   isHexa,
   isHexaString: isHexa,
@@ -47,7 +47,7 @@ module.exports = {
    * Clone an array
    */
   cloneArray(array) {
-    return [].concat(array);
+    return [].concat(array)
   },
 
   /**
@@ -63,9 +63,9 @@ module.exports = {
         configurable: false,
         enumerable: true,
         value: values[key],
-      });
-    });
-    return target;
+      })
+    })
+    return target
   },
   /**
    * Checks that a value is a natural number, a positive integer or zero.
@@ -74,6 +74,6 @@ module.exports = {
    * @return {Boolean}
    */
   isNaturalNumber: function isNaturalNumber(value) {
-    return typeof value === 'number' && Number.isFinite(value) && Math.floor(value) === value && value >= 0;
+    return typeof value === 'number' && Number.isFinite(value) && Math.floor(value) === value && value >= 0
   },
-};
+}

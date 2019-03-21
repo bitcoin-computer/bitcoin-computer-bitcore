@@ -1,4 +1,4 @@
-const docsURL = 'http://bitcore.io/';
+const docsURL = 'http://bitcore.io/'
 
 module.exports = [
   {
@@ -28,7 +28,7 @@ module.exports = [
   {
     name: 'InvalidArgument',
     message(...args) {
-      return `Invalid Argument${args[0] ? `: ${args[0]}` : ''}${args[1] ? ` Documentation: ${docsURL}${args[1]}` : ''}`;
+      return `Invalid Argument${args[0] ? `: ${args[0]}` : ''}${args[1] ? ` Documentation: ${docsURL}${args[1]}` : ''}`
     },
   },
   {
@@ -38,7 +38,7 @@ module.exports = [
   {
     name: 'InvalidArgumentType',
     message(...args) {
-      return `Invalid Argument for ${args[2]}, expected ${args[1]} but got ${typeof args[0]}`;
+      return `Invalid Argument for ${args[2]}, expected ${args[1]} but got ${typeof args[0]}`
     },
   },
   {
@@ -252,4 +252,4 @@ module.exports = [
       },
     ],
   },
-];
+]

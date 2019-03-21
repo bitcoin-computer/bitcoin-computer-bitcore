@@ -1,12 +1,12 @@
-const _ = require('lodash');
-const BlockHeader = require('./blockheader');
-const BN = require('../crypto/bn');
-const BufferUtil = require('../util/buffer');
-const BufferReader = require('../encoding/bufferreader');
-const BufferWriter = require('../encoding/bufferwriter');
-const Hash = require('../crypto/hash');
-const Transaction = require('../transaction');
-const $ = require('../util/preconditions');
+const _ = require('lodash')
+const BlockHeader = require('./blockheader')
+const BN = require('../crypto/bn')
+const BufferUtil = require('../util/buffer')
+const BufferReader = require('../encoding/bufferreader')
+const BufferWriter = require('../encoding/bufferwriter')
+const Hash = require('../crypto/hash')
+const Transaction = require('../transaction')
+const $ = require('../util/preconditions')
 
 /**
  * Instantiate a Block from a Buffer, JSON object, or Object with
@@ -20,10 +20,10 @@ const $ = require('../util/preconditions');
 class Block {
   constructor(arg) {
     if (!(this instanceof Block)) {
-      return new Block(arg);
+      return new Block(arg)
     }
-    _.extend(this, Block._from(arg));
-    return this;
+    _.extend(this, Block._from(arg))
+    return this
   }
 
   /**
@@ -33,15 +33,15 @@ class Block {
    * @private
    */
   static _from(arg) {
-    let info = {};
+    let info = {}
     if (BufferUtil.isBuffer(arg)) {
-      info = Block._fromBufferReader(BufferReader(arg));
+      info = Block._fromBufferReader(BufferReader(arg))
     } else if (_.isObject(arg)) {
-      info = Block._fromObject(arg);
+      info = Block._fromObject(arg)
     } else {
-      throw new TypeError('Unrecognized argument for Block');
+      throw new TypeError('Unrecognized argument for Block')
     }
-    return info;
+    return info
   }
 
   /**
@@ -50,19 +50,19 @@ class Block {
    * @private
    */
   static _fromObject(data) {
-    const transactions = [];
+    const transactions = []
     data.transactions.forEach(tx => {
       if (tx instanceof Transaction) {
-        transactions.push(tx);
+        transactions.push(tx)
       } else {
-        transactions.push(new Transaction().fromObject(tx));
+        transactions.push(new Transaction().fromObject(tx))
       }
-    });
+    })
     const info = {
       header: BlockHeader.fromObject(data.header),
       transactions,
-    };
-    return info;
+    }
+    return info
   }
 
   /**
@@ -70,8 +70,8 @@ class Block {
    * @returns {Block} - An instance of block
    */
   static fromObject(obj) {
-    const info = Block._fromObject(obj);
-    return new Block(info);
+    const info = Block._fromObject(obj)
+    return new Block(info)
   }
 
   /**
@@ -80,15 +80,15 @@ class Block {
    * @private
    */
   static _fromBufferReader(br) {
-    const info = {};
-    $.checkState(!br.finished(), 'No block data received');
-    info.header = BlockHeader.fromBufferReader(br);
-    const transactions = br.readVarintNum();
-    info.transactions = [];
+    const info = {}
+    $.checkState(!br.finished(), 'No block data received')
+    info.header = BlockHeader.fromBufferReader(br)
+    const transactions = br.readVarintNum()
+    info.transactions = []
     for (let i = 0; i < transactions; i += 1) {
-      info.transactions.push(new Transaction().fromBufferReader(br));
+      info.transactions.push(new Transaction().fromBufferReader(br))
     }
-    return info;
+    return info
   }
 
   /**
@@ -96,9 +96,9 @@ class Block {
    * @returns {Block} - An instance of block
    */
   static fromBufferReader(br) {
-    $.checkArgument(br, 'br is required');
-    const info = Block._fromBufferReader(br);
-    return new Block(info);
+    $.checkArgument(br, 'br is required')
+    const info = Block._fromBufferReader(br)
+    return new Block(info)
   }
 
   /**
@@ -106,7 +106,7 @@ class Block {
    * @returns {Block} - An instance of block
    */
   static fromBuffer(buf) {
-    return Block.fromBufferReader(new BufferReader(buf));
+    return Block.fromBufferReader(new BufferReader(buf))
   }
 
   /**
@@ -114,8 +114,8 @@ class Block {
    * @returns {Block} - A hex encoded string of the block
    */
   static fromString(str) {
-    const buf = Buffer.from(str, 'hex');
-    return Block.fromBuffer(buf);
+    const buf = Buffer.from(str, 'hex')
+    return Block.fromBuffer(buf)
   }
 
   /**
@@ -124,44 +124,44 @@ class Block {
    */
   static fromRawBlock(data) {
     if (!BufferUtil.isBuffer(data)) {
-      data = Buffer.from(data, 'binary');
+      data = Buffer.from(data, 'binary')
     }
-    const br = BufferReader(data);
-    br.pos = Block.Values.START_OF_BLOCK;
-    const info = Block._fromBufferReader(br);
-    return new Block(info);
+    const br = BufferReader(data)
+    br.pos = Block.Values.START_OF_BLOCK
+    const info = Block._fromBufferReader(br)
+    return new Block(info)
   }
 
   /**
    * @returns {Object} - A plain object with the block properties
    */
   toJSON() {
-    const transactions = [];
+    const transactions = []
     this.transactions.forEach(tx => {
-      transactions.push(tx.toObject());
-    });
+      transactions.push(tx.toObject())
+    })
     return {
       header: this.header.toObject(),
       transactions,
-    };
+    }
   }
 
   toObject() {
-    return this.toJSON();
+    return this.toJSON()
   }
 
   /**
    * @returns {Buffer} - A buffer of the block
    */
   toBuffer() {
-    return this.toBufferWriter().concat();
+    return this.toBufferWriter().concat()
   }
 
   /**
    * @returns {string} - A hex encoded string of the block
    */
   toString() {
-    return this.toBuffer().toString('hex');
+    return this.toBuffer().toString('hex')
   }
 
   /**
@@ -170,14 +170,14 @@ class Block {
    */
   toBufferWriter(bw) {
     if (!bw) {
-      bw = new BufferWriter();
+      bw = new BufferWriter()
     }
-    bw.write(this.header.toBuffer());
-    bw.writeVarintNum(this.transactions.length);
+    bw.write(this.header.toBuffer())
+    bw.writeVarintNum(this.transactions.length)
     for (let i = 0; i < this.transactions.length; i += 1) {
-      this.transactions[i].toBufferWriter(bw);
+      this.transactions[i].toBufferWriter(bw)
     }
-    return bw;
+    return bw
   }
 
   /**
@@ -185,14 +185,14 @@ class Block {
    * @returns {Array} - An array with transaction hashes
    */
   getTransactionHashes() {
-    const hashes = [];
+    const hashes = []
     if (this.transactions.length === 0) {
-      return [Block.Values.NULL_HASH];
+      return [Block.Values.NULL_HASH]
     }
     for (let t = 0; t < this.transactions.length; t += 1) {
-      hashes.push(this.transactions[t]._getHash());
+      hashes.push(this.transactions[t]._getHash())
     }
-    return hashes;
+    return hashes
   }
 
   /**
@@ -202,19 +202,19 @@ class Block {
    * @returns {Array} - An array with each level of the tree after the other.
    */
   getMerkleTree() {
-    const tree = this.getTransactionHashes();
+    const tree = this.getTransactionHashes()
 
-    let j = 0;
+    let j = 0
     for (let size = this.transactions.length; size > 1; size = Math.floor((size + 1) / 2)) {
       for (let i = 0; i < size; i += 2) {
-        const i2 = Math.min(i + 1, size - 1);
-        const buf = Buffer.concat([tree[j + i], tree[j + i2]]);
-        tree.push(Hash.sha256sha256(buf));
+        const i2 = Math.min(i + 1, size - 1)
+        const buf = Buffer.concat([tree[j + i], tree[j + i2]])
+        tree.push(Hash.sha256sha256(buf))
       }
-      j += size;
+      j += size
     }
 
-    return tree;
+    return tree
   }
 
   /**
@@ -222,8 +222,8 @@ class Block {
    * @returns {Buffer} - A buffer of the merkle root hash
    */
   getMerkleRoot() {
-    const tree = this.getMerkleTree();
-    return tree[tree.length - 1];
+    const tree = this.getMerkleTree()
+    return tree[tree.length - 1]
   }
 
   /**
@@ -231,33 +231,33 @@ class Block {
    * @returns {Boolean} - If the merkle roots match
    */
   validMerkleRoot() {
-    const h = new BN(this.header.merkleRoot.toString('hex'), 'hex');
-    const c = new BN(this.getMerkleRoot().toString('hex'), 'hex');
+    const h = new BN(this.header.merkleRoot.toString('hex'), 'hex')
+    const c = new BN(this.getMerkleRoot().toString('hex'), 'hex')
 
     if (h.cmp(c) !== 0) {
-      return false;
+      return false
     }
 
-    return true;
+    return true
   }
 
   /**
    * @returns {Buffer} - The little endian hash buffer of the header
    */
   _getHash() {
-    return this.header._getHash();
+    return this.header._getHash()
   }
 
   /**
    * @returns {string} - A string formatted for the console
    */
   inspect() {
-    return `<Block ${this.id}>`;
+    return `<Block ${this.id}>`
   }
 }
 
 // https://github.com/bitcoin/bitcoin/blob/b5fa132329f0377d787a4a21c1686609c2bfaece/src/primitives/block.h#L14
-Block.MAX_BLOCK_SIZE = 1000000;
+Block.MAX_BLOCK_SIZE = 1000000
 
 const idProperty = {
   configurable: false,
@@ -267,19 +267,19 @@ const idProperty = {
    */
   get() {
     if (!this._id) {
-      this._id = this.header.id;
+      this._id = this.header.id
     }
-    return this._id;
+    return this._id
   },
   set: _.noop,
-};
-Object.defineProperty(Block.prototype, 'id', idProperty);
-Object.defineProperty(Block.prototype, 'hash', idProperty);
+}
+Object.defineProperty(Block.prototype, 'id', idProperty)
+Object.defineProperty(Block.prototype, 'hash', idProperty)
 
 Block.Values = {
   START_OF_BLOCK: 8, // Start of block in raw block data
   NULL_HASH: Buffer.from('0000000000000000000000000000000000000000000000000000000000000000', 'hex'),
-};
+}
 
 // refactor progress
 
@@ -316,4 +316,4 @@ Block.Values = {
 //   },
 // };
 
-module.exports = Block;
+module.exports = Block

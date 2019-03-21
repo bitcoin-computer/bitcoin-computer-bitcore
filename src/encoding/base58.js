@@ -1,67 +1,67 @@
-const _ = require('lodash');
-const bs58 = require('bs58');
-const buffer = require('buffer');
+const _ = require('lodash')
+const bs58 = require('bs58')
+const buffer = require('buffer')
 
-const ALPHABET = '123456789ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz'.split('');
+const ALPHABET = '123456789ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz'.split('')
 
 const Base58 = function Base58(obj) {
   if (!(this instanceof Base58)) {
-    return new Base58(obj);
+    return new Base58(obj)
   }
   if (Buffer.isBuffer(obj)) {
-    const buf = obj;
-    this.fromBuffer(buf);
+    const buf = obj
+    this.fromBuffer(buf)
   } else if (typeof obj === 'string') {
-    const str = obj;
-    this.fromString(str);
+    const str = obj
+    this.fromString(str)
   } else if (obj) {
-    this.set(obj);
+    this.set(obj)
   }
-};
+}
 
 Base58.validCharacters = function validCharacters(chars) {
   if (buffer.Buffer.isBuffer(chars)) {
-    chars = chars.toString();
+    chars = chars.toString()
   }
-  return _.every(_.map(chars, char => _.includes(ALPHABET, char)));
-};
+  return _.every(_.map(chars, char => _.includes(ALPHABET, char)))
+}
 
 Base58.prototype.set = function(obj) {
-  this.buf = obj.buf || this.buf || undefined;
-  return this;
-};
+  this.buf = obj.buf || this.buf || undefined
+  return this
+}
 
 Base58.encode = function(buf) {
   if (!buffer.Buffer.isBuffer(buf)) {
-    throw new Error('Input should be a buffer');
+    throw new Error('Input should be a buffer')
   }
-  return bs58.encode(buf);
-};
+  return bs58.encode(buf)
+}
 
 Base58.decode = function(str) {
   if (typeof str !== 'string') {
-    throw new Error('Input should be a string');
+    throw new Error('Input should be a string')
   }
-  return Buffer.from(bs58.decode(str));
-};
+  return Buffer.from(bs58.decode(str))
+}
 
 Base58.prototype.fromBuffer = function(buf) {
-  this.buf = buf;
-  return this;
-};
+  this.buf = buf
+  return this
+}
 
 Base58.prototype.fromString = function(str) {
-  const buf = Base58.decode(str);
-  this.buf = buf;
-  return this;
-};
+  const buf = Base58.decode(str)
+  this.buf = buf
+  return this
+}
 
 Base58.prototype.toBuffer = function() {
-  return this.buf;
-};
+  return this.buf
+}
 
 Base58.prototype.toString = function() {
-  return Base58.encode(this.buf);
-};
+  return Base58.encode(this.buf)
+}
 
-module.exports = Base58;
+module.exports = Base58

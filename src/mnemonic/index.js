@@ -1,1 +1,1 @@
-module.exports = require('./mnemonic');
+module.exports = require('./mnemonic')

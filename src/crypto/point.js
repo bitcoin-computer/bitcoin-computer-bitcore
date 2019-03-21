@@ -1,9 +1,9 @@
-const ec = require('elliptic').curves.secp256k1;
-const BN = require('./bn');
-const BufferUtil = require('../util/buffer');
+const ec = require('elliptic').curves.secp256k1
+const BN = require('./bn')
+const BufferUtil = require('../util/buffer')
 
-const ecPoint = ec.curve.point.bind(ec.curve);
-const ecPointFromX = ec.curve.pointFromX.bind(ec.curve);
+const ecPoint = ec.curve.point.bind(ec.curve)
+const ecPointFromX = ec.curve.pointFromX.bind(ec.curve)
 
 /**
  *
@@ -18,12 +18,12 @@ const ecPointFromX = ec.curve.pointFromX.bind(ec.curve);
  * @constructor
  */
 const Point = function Point(x, y, isRed) {
-  const point = ecPoint(x, y, isRed);
-  point.validate();
-  return point;
-};
+  const point = ecPoint(x, y, isRed)
+  point.validate()
+  return point
+}
 
-Point.prototype = Object.getPrototypeOf(ec.curve.point());
+Point.prototype = Object.getPrototypeOf(ec.curve.point())
 
 /**
  *
@@ -35,10 +35,10 @@ Point.prototype = Object.getPrototypeOf(ec.curve.point());
  * @returns {Point} An instance of Point
  */
 Point.fromX = function fromX(odd, x) {
-  const point = ecPointFromX(odd, x);
-  point.validate();
-  return point;
-};
+  const point = ecPointFromX(odd, x)
+  point.validate()
+  return point
+}
 
 /**
  *
@@ -48,8 +48,8 @@ Point.fromX = function fromX(odd, x) {
  * @returns {Point} An instance of the base point.
  */
 Point.getG = function getG() {
-  return ec.curve.g;
-};
+  return ec.curve.g
+}
 
 /**
  *
@@ -59,10 +59,10 @@ Point.getG = function getG() {
  * @returns {BN} A BN instance of the number of points on the curve
  */
 Point.getN = function getN() {
-  return new BN(ec.curve.n.toArray());
-};
+  return new BN(ec.curve.n.toArray())
+}
 
-Point.prototype._getX = Point.prototype.getX;
+Point.prototype._getX = Point.prototype.getX
 
 /**
  *
@@ -71,10 +71,10 @@ Point.prototype._getX = Point.prototype.getX;
  * @returns {BN} A BN instance of the X coordinate
  */
 Point.prototype.getX = function getX() {
-  return new BN(this._getX().toArray());
-};
+  return new BN(this._getX().toArray())
+}
 
-Point.prototype._getY = Point.prototype.getY;
+Point.prototype._getY = Point.prototype.getY
 
 /**
  *
@@ -83,8 +83,8 @@ Point.prototype._getY = Point.prototype.getY;
  * @returns {BN} A BN instance of the Y coordinate
  */
 Point.prototype.getY = function getY() {
-  return new BN(this._getY().toArray());
-};
+  return new BN(this._getY().toArray())
+}
 
 /**
  *
@@ -97,46 +97,46 @@ Point.prototype.getY = function getY() {
  */
 Point.prototype.validate = function validate() {
   if (this.isInfinity()) {
-    throw new Error('Point cannot be equal to Infinity');
+    throw new Error('Point cannot be equal to Infinity')
   }
 
   if (this.getX().cmp(BN.Zero) === 0 || this.getY().cmp(BN.Zero) === 0) {
-    throw new Error('Invalid x,y value for curve, cannot equal 0.');
+    throw new Error('Invalid x,y value for curve, cannot equal 0.')
   }
 
-  const p2 = ecPointFromX(this.getY().isOdd(), this.getX());
+  const p2 = ecPointFromX(this.getY().isOdd(), this.getX())
 
   if (p2.y.cmp(this.y) !== 0) {
-    throw new Error('Invalid y value for curve.');
+    throw new Error('Invalid y value for curve.')
   }
 
-  const xValidRange = this.getX().gt(BN.Minus1) && this.getX().lt(Point.getN());
-  const yValidRange = this.getY().gt(BN.Minus1) && this.getY().lt(Point.getN());
+  const xValidRange = this.getX().gt(BN.Minus1) && this.getX().lt(Point.getN())
+  const yValidRange = this.getY().gt(BN.Minus1) && this.getY().lt(Point.getN())
 
   if (!xValidRange || !yValidRange) {
-    throw new Error('Point does not lie on the curve');
+    throw new Error('Point does not lie on the curve')
   }
 
   // todo: needs test case
   if (!this.mul(Point.getN()).isInfinity()) {
-    throw new Error('Point times N must be infinity');
+    throw new Error('Point times N must be infinity')
   }
 
-  return this;
-};
+  return this
+}
 
 Point.pointToCompressed = function pointToCompressed(point) {
-  const xbuf = point.getX().toBuffer({ size: 32 });
-  const ybuf = point.getY().toBuffer({ size: 32 });
+  const xbuf = point.getX().toBuffer({ size: 32 })
+  const ybuf = point.getY().toBuffer({ size: 32 })
 
-  let prefix;
-  const odd = ybuf[ybuf.length - 1] % 2;
+  let prefix
+  const odd = ybuf[ybuf.length - 1] % 2
   if (odd) {
-    prefix = Buffer.from([0x03]);
+    prefix = Buffer.from([0x03])
   } else {
-    prefix = Buffer.from([0x02]);
+    prefix = Buffer.from([0x02])
   }
-  return BufferUtil.concat([prefix, xbuf]);
-};
+  return BufferUtil.concat([prefix, xbuf])
+}
 
-module.exports = Point;
+module.exports = Point
