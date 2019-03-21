@@ -47,7 +47,7 @@
     "request": "browser-request"
   },
   "dependencies": {
-    "big-integer": "^1.6.36",
+    "big-integer": "^1.6.42",
     "bn.js": "=2.0.4",
     "bs58": "=2.0.0",
     "buffer-compare": "=1.0.0",
