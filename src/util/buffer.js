@@ -118,7 +118,7 @@ module.exports = {
    */
   integerFromBuffer: function integerFromBuffer(buff) {
     $.checkArgumentType(buff, 'Buffer', 'buffer');
-    return (buff[0] << 24) | (buff[1] << 16) | (buff[2] << 8) | (buff[3]);
+    return (buff[0] << 24) | (buff[1] << 16) | (buff[2] << 8) | buff[3];
   },
 
   /**

@@ -42,7 +42,7 @@ class TransactionSignature extends Signature {
     }
     this.sigtype = arg.sigtype;
     return this;
-  };
+  }
 
   static _checkObjectArgs(arg) {
     $.checkArgument(PublicKey(arg.publicKey), 'publicKey');
@@ -52,14 +52,17 @@ class TransactionSignature extends Signature {
     $.checkState(_.isNumber(arg.outputIndex), 'outputIndex must be a number');
     $.checkArgument(arg.signature, 'signature');
     $.checkArgument(arg.prevTxId, 'prevTxId');
-    $.checkState(arg.signature instanceof Signature
-      || BufferUtil.isBuffer(arg.signature)
-      || JSUtil.isHexa(arg.signature), 'signature must be a buffer or hexa value');
-    $.checkState(BufferUtil.isBuffer(arg.prevTxId)
-      || JSUtil.isHexa(arg.prevTxId), 'prevTxId must be a buffer or hexa value');
+    $.checkState(
+      arg.signature instanceof Signature || BufferUtil.isBuffer(arg.signature) || JSUtil.isHexa(arg.signature),
+      'signature must be a buffer or hexa value',
+    );
+    $.checkState(
+      BufferUtil.isBuffer(arg.prevTxId) || JSUtil.isHexa(arg.prevTxId),
+      'prevTxId must be a buffer or hexa value',
+    );
     $.checkArgument(arg.sigtype, 'sigtype');
     $.checkState(_.isNumber(arg.sigtype), 'sigtype must be a number');
-  };
+  }
 
   /**
    * Serializes a transaction to a plain JS object
@@ -74,7 +77,7 @@ class TransactionSignature extends Signature {
       signature: this.signature.toString(),
       sigtype: this.sigtype,
     };
-  };
+  }
 
   toObject() {
     return this.toJSON();
@@ -88,7 +91,7 @@ class TransactionSignature extends Signature {
   static fromObject(object) {
     $.checkArgument(object);
     return new TransactionSignature(object);
-  };
+  }
 }
 inherits(TransactionSignature, Signature);
 

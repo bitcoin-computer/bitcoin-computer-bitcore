@@ -20,7 +20,8 @@ module.exports = {
         if (!buffer.Buffer.isBuffer(argument)) {
           throw new errors.InvalidArgumentType(argument, type, argumentName);
         }
-      } else if (typeof argument !== type) { // eslint-disable-line valid-typeof
+        // eslint-disable-next-line valid-typeof
+      } else if (typeof argument !== type) {
         throw new errors.InvalidArgumentType(argument, type, argumentName);
       }
     } else if (!(argument instanceof type)) {

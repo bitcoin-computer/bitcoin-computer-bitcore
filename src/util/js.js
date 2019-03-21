@@ -35,7 +35,7 @@ module.exports = {
     } catch (e) {
       return false;
     }
-    if (typeof (parsed) === 'object') {
+    if (typeof parsed === 'object') {
       return true;
     }
     return false;
@@ -58,7 +58,7 @@ module.exports = {
    * @return {Object} The target object
    */
   defineImmutable: function defineImmutable(target, values) {
-    Object.keys(values).forEach((key) => {
+    Object.keys(values).forEach(key => {
       Object.defineProperty(target, key, {
         configurable: false,
         enumerable: true,
@@ -74,9 +74,6 @@ module.exports = {
    * @return {Boolean}
    */
   isNaturalNumber: function isNaturalNumber(value) {
-    return typeof value === 'number'
-      && Number.isFinite(value)
-      && Math.floor(value) === value
-      && value >= 0;
+    return typeof value === 'number' && Number.isFinite(value) && Math.floor(value) === value && value >= 0;
   },
 };

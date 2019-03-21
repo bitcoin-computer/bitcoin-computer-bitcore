@@ -4,7 +4,8 @@ const packageInfo = require('../package.json');
 // module information
 bch.version = `v${packageInfo.version}`;
 
-bch.versionGuard = function (version) { // eslint-disable-line no-unused-vars
+// eslint-disable-next-line no-unused-vars
+bch.versionGuard = function(version) {
   // if (version !== undefined) {
   //   var message = 'More than one instance of bitcoincashjs found. ' +
   //     'Please make sure to require bitcoincashjs and check that submodules do' +

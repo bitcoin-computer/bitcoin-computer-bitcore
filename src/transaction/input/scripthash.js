@@ -17,8 +17,10 @@ function ScriptHashInput(input, pubkeys, redeemScript) {
   this.publicKeys = pubkeys || input.publicKeys;
   this.threshold = 1;
   this.redeemScript = redeemScript;
-  $.checkState(Script.buildScriptHashOut(this.redeemScript).equals(this.output.script),
-    'Provided redeemScript doesn\'t hash to the provided output');
+  $.checkState(
+    Script.buildScriptHashOut(this.redeemScript).equals(this.output.script),
+    "Provided redeemScript doesn't hash to the provided output",
+  );
   this.publicKeyIndex = {};
   this.publicKeys.forEach((publicKey, index) => {
     self.publicKeyIndex[publicKey.toString()] = index;
@@ -28,7 +30,7 @@ function ScriptHashInput(input, pubkeys, redeemScript) {
 }
 inherits(ScriptHashInput, Input);
 
-ScriptHashInput.prototype.toObject = function (...args) {
+ScriptHashInput.prototype.toObject = function(...args) {
   const obj = Input.prototype.toObject.apply(this, args);
   obj.threshold = this.threshold;
   obj.publicKeys = this.publicKeys.map(publicKey => publicKey.toString());
@@ -36,93 +38,85 @@ ScriptHashInput.prototype.toObject = function (...args) {
   return obj;
 };
 
-ScriptHashInput.prototype._deserializeSignatures = function (signatures) {
+ScriptHashInput.prototype._deserializeSignatures = function(signatures) {
   return signatures.map(signature => (signature ? new TransactionSignature(signature) : undefined));
 };
 
-ScriptHashInput.prototype._serializeSignatures = function () {
+ScriptHashInput.prototype._serializeSignatures = function() {
   return this.signatures.map(signature => (signature ? signature.toObject() : undefined));
 };
 
-ScriptHashInput.prototype.getSignatures = function (transaction, privateKey, index, sigtype) {
+ScriptHashInput.prototype.getSignatures = function(transaction, privateKey, index, sigtype) {
   $.checkState(this.output instanceof Output, 'Malformed output found when signing transaction');
-  sigtype = sigtype || (Signature.SIGHASH_ALL | Signature.SIGHASH_FORKID);
+  sigtype = sigtype || Signature.SIGHASH_ALL | Signature.SIGHASH_FORKID;
 
   const publicKeysForPrivateKey = this.publicKeys.filter(
     publicKey => publicKey.toString() === privateKey.publicKey.toString(),
   );
-  return publicKeysForPrivateKey.map(publicKey => new TransactionSignature({
-    publicKey,
-    prevTxId: this.prevTxId,
-    outputIndex: this.outputIndex,
-    inputIndex: index,
-    signature: Sighash.sign(
-      transaction,
-      privateKey,
-      sigtype,
-      index,
-      this.output.script,
-      this.output.satoshisBN,
-    ),
-    sigtype,
-  }));
+  return publicKeysForPrivateKey.map(
+    publicKey =>
+      new TransactionSignature({
+        publicKey,
+        prevTxId: this.prevTxId,
+        outputIndex: this.outputIndex,
+        inputIndex: index,
+        signature: Sighash.sign(transaction, privateKey, sigtype, index, this.output.script, this.output.satoshisBN),
+        sigtype,
+      }),
+  );
 };
 
-ScriptHashInput.prototype.addSignature = function (transaction, signature) {
+ScriptHashInput.prototype.addSignature = function(transaction, signature) {
   $.checkState(!this.isFullySigned(), 'All needed signatures have already been added');
-  $.checkArgument(this.publicKeyIndex[signature.publicKey.toString()] !== undefined,
-    'Signature has no matching public key');
+  $.checkArgument(
+    this.publicKeyIndex[signature.publicKey.toString()] !== undefined,
+    'Signature has no matching public key',
+  );
   $.checkState(this.isValidSignature(transaction, signature));
   this.signatures[this.publicKeyIndex[signature.publicKey.toString()]] = signature;
   this._updateScript();
   return this;
 };
 
-ScriptHashInput.prototype._updateScript = function () {
-  this.setScript(Script.buildP2SHMultisigIn(
-    this.publicKeys,
-    this.threshold,
-    this._createSignatures(),
-    { cachedMultisig: this.redeemScript },
-  ));
+ScriptHashInput.prototype._updateScript = function() {
+  this.setScript(
+    Script.buildP2SHMultisigIn(this.publicKeys, this.threshold, this._createSignatures(), {
+      cachedMultisig: this.redeemScript,
+    }),
+  );
   return this;
 };
 
-ScriptHashInput.prototype._createSignatures = function () {
+ScriptHashInput.prototype._createSignatures = function() {
   const definedSignatures = this.signatures.filter(signature => signature !== undefined);
-  return definedSignatures.map(
-    signature => BufferUtil.concat([
-      signature.signature.toDER(),
-      BufferUtil.integerAsSingleByteBuffer(signature.sigtype),
-    ]),
+  return definedSignatures.map(signature =>
+    BufferUtil.concat([signature.signature.toDER(), BufferUtil.integerAsSingleByteBuffer(signature.sigtype)]),
   );
 };
 
-ScriptHashInput.prototype.clearSignatures = function () {
+ScriptHashInput.prototype.clearSignatures = function() {
   this.signatures = new Array(this.publicKeys.length);
   this._updateScript();
 };
 
-ScriptHashInput.prototype.isFullySigned = function () {
+ScriptHashInput.prototype.isFullySigned = function() {
   return this.countSignatures() === this.threshold;
 };
 
-ScriptHashInput.prototype.countMissingSignatures = function () {
+ScriptHashInput.prototype.countMissingSignatures = function() {
   return this.threshold - this.countSignatures();
 };
 
-ScriptHashInput.prototype.countSignatures = function () {
+ScriptHashInput.prototype.countSignatures = function() {
   return this.signatures.reduce((sum, signature) => sum + !!signature, 0);
 };
 
-ScriptHashInput.prototype.publicKeysWithoutSignature = function () {
+ScriptHashInput.prototype.publicKeysWithoutSignature = function() {
   const self = this;
-  return this.publicKeys.filter(
-    publicKey => !(self.signatures[self.publicKeyIndex[publicKey.toString()]]),
-  );
+  return this.publicKeys.filter(publicKey => !self.signatures[self.publicKeyIndex[publicKey.toString()]]);
 };
 
-ScriptHashInput.prototype.isValidSignature = function (transaction, signature) {
+ScriptHashInput.prototype.isValidSignature = function(transaction, signature) {
   // FIXME: Refactor signature so this is not necessary
   signature.signature.nhashtype = signature.sigtype;
   return Sighash.verify(
@@ -139,10 +133,12 @@ ScriptHashInput.OPCODES_SIZE = 7; // serialized size (<=3) + 0 .. N .. M OP_CHEC
 ScriptHashInput.SIGNATURE_SIZE = 74; // size (1) + DER (<=72) + sighash (1)
 ScriptHashInput.PUBKEY_SIZE = 34; // size (1) + DER (<=33)
 
-ScriptHashInput.prototype._estimateSize = function () {
-  return ScriptHashInput.OPCODES_SIZE
-    + this.threshold * ScriptHashInput.SIGNATURE_SIZE
-    + this.publicKeys.length * ScriptHashInput.PUBKEY_SIZE;
+ScriptHashInput.prototype._estimateSize = function() {
+  return (
+    ScriptHashInput.OPCODES_SIZE +
+    this.threshold * ScriptHashInput.SIGNATURE_SIZE +
+    this.publicKeys.length * ScriptHashInput.PUBKEY_SIZE
+  );
 };
 
 module.exports = ScriptHashInput;

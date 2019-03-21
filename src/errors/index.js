@@ -8,8 +8,8 @@ function format(message, args) {
     .replace('{2}', args[2]);
 }
 
-const traverseNode = function (parent, errorDefinition) {
-  const NodeError = function (...args) {
+const traverseNode = function(parent, errorDefinition) {
+  const NodeError = function(...args) {
     if (_.isString(errorDefinition.message)) {
       this.message = format(errorDefinition.message, args);
     } else if (_.isFunction(errorDefinition.message)) {
@@ -17,7 +17,7 @@ const traverseNode = function (parent, errorDefinition) {
     } else {
       throw new Error(`Invalid error definition for ${errorDefinition.name}`);
     }
-    this.stack = `${this.message}\n${(new Error()).stack}`;
+    this.stack = `${this.message}\n${new Error().stack}`;
   };
   NodeError.prototype = Object.create(parent.prototype);
   NodeError.prototype.name = parent.prototype.name + errorDefinition.name;
@@ -30,19 +30,19 @@ const traverseNode = function (parent, errorDefinition) {
 };
 
 // TODO Try to get rid of this and copy the body into the callers.
-const childDefinitions = function (parent, children) {
+const childDefinitions = function(parent, children) {
   _.each(children, child => traverseNode(parent, child));
 };
 
-const traverseRoot = function (parent, errorsDefinition) {
+const traverseRoot = function(parent, errorsDefinition) {
   childDefinitions(parent, errorsDefinition);
   return parent;
 };
 
 const bitcore = {};
-bitcore.Error = function () {
+bitcore.Error = function() {
   this.message = 'Internal error';
-  this.stack = `${this.message}\n${(new Error()).stack}`;
+  this.stack = `${this.message}\n${new Error().stack}`;
 };
 bitcore.Error.prototype = Object.create(Error.prototype);
 bitcore.Error.prototype.name = 'bitcore.Error';
@@ -51,6 +51,6 @@ traverseRoot(bitcore.Error, data);
 
 module.exports = bitcore.Error;
 
-module.exports.extend = function (spec) {
+module.exports.extend = function(spec) {
   return traverseNode(bitcore.Error, spec);
 };

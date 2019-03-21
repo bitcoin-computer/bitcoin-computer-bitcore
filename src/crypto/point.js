@@ -1,4 +1,3 @@
-
 const ec = require('elliptic').curves.secp256k1;
 const BN = require('./bn');
 const BufferUtil = require('../util/buffer');
@@ -111,15 +110,15 @@ Point.prototype.validate = function validate() {
     throw new Error('Invalid y value for curve.');
   }
 
-  const xValidRange = (this.getX().gt(BN.Minus1) && this.getX().lt(Point.getN()));
-  const yValidRange = (this.getY().gt(BN.Minus1) && this.getY().lt(Point.getN()));
+  const xValidRange = this.getX().gt(BN.Minus1) && this.getX().lt(Point.getN());
+  const yValidRange = this.getY().gt(BN.Minus1) && this.getY().lt(Point.getN());
 
   if (!xValidRange || !yValidRange) {
     throw new Error('Point does not lie on the curve');
   }
 
   // todo: needs test case
-  if (!(this.mul(Point.getN()).isInfinity())) {
+  if (!this.mul(Point.getN()).isInfinity()) {
     throw new Error('Point times N must be infinity');
   }
 

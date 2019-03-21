@@ -23,26 +23,21 @@ inherits(PublicKeyInput, Input);
  * @param {number=} sigtype - the type of signature, defaults to Signature.SIGHASH_ALL
  * @return {Array} of objects that can be
  */
-PublicKeyInput.prototype.getSignatures = function (transaction, privateKey, index, sigtype) {
+PublicKeyInput.prototype.getSignatures = function(transaction, privateKey, index, sigtype) {
   $.checkState(this.output instanceof Output, 'Malformed output found when signing transaction');
-  sigtype = sigtype || (Signature.SIGHASH_ALL | Signature.SIGHASH_FORKID);
+  sigtype = sigtype || Signature.SIGHASH_ALL | Signature.SIGHASH_FORKID;
   const publicKey = privateKey.toPublicKey();
   if (publicKey.toString() === this.output.script.getPublicKey().toString('hex')) {
-    return [new TransactionSignature({
-      publicKey,
-      prevTxId: this.prevTxId,
-      outputIndex: this.outputIndex,
-      inputIndex: index,
-      signature: Sighash.sign(
-        transaction,
-        privateKey,
+    return [
+      new TransactionSignature({
+        publicKey,
+        prevTxId: this.prevTxId,
+        outputIndex: this.outputIndex,
+        inputIndex: index,
+        signature: Sighash.sign(transaction, privateKey, sigtype, index, this.output.script, this.output.satoshisBN),
         sigtype,
-        index,
-        this.output.script,
-        this.output.satoshisBN,
-      ),
-      sigtype,
-    })];
+      }),
+    ];
   }
   return [];
 };
@@ -56,12 +51,9 @@ PublicKeyInput.prototype.getSignatures = function (transaction, privateKey, inde
  * @param {number=} signature.sigtype
  * @return {PublicKeyInput} this, for chaining
  */
-PublicKeyInput.prototype.addSignature = function (transaction, signature) {
+PublicKeyInput.prototype.addSignature = function(transaction, signature) {
   $.checkState(this.isValidSignature(transaction, signature), 'Failed adding signature because it is invalid');
-  this.setScript(Script.buildPublicKeyIn(
-    signature.signature.toDER(),
-    signature.sigtype,
-  ));
+  this.setScript(Script.buildPublicKeyIn(signature.signature.toDER(), signature.sigtype));
   return this;
 };
 
@@ -69,7 +61,7 @@ PublicKeyInput.prototype.addSignature = function (transaction, signature) {
  * Clear the input's signature
  * @return {PublicKeyHashInput} this, for chaining
  */
-PublicKeyInput.prototype.clearSignatures = function () {
+PublicKeyInput.prototype.clearSignatures = function() {
   this.setScript(Script.empty());
   return this;
 };
@@ -78,13 +70,13 @@ PublicKeyInput.prototype.clearSignatures = function () {
  * Query whether the input is signed
  * @return {boolean}
  */
-PublicKeyInput.prototype.isFullySigned = function () {
+PublicKeyInput.prototype.isFullySigned = function() {
   return this.script.isPublicKeyIn();
 };
 
 PublicKeyInput.SCRIPT_MAX_SIZE = 73; // sigsize (1 + 72)
 
-PublicKeyInput.prototype._estimateSize = function () {
+PublicKeyInput.prototype._estimateSize = function() {
   return PublicKeyInput.SCRIPT_MAX_SIZE;
 };
 
