@@ -24,19 +24,19 @@ describe('Address', function() {
   it('can\'t build without data', function() {
     (function() {
       return new Address();
-    }).should.throw('First argument is required, please include address data.');
+    }).should.throw()
   });
 
   it('should throw an error because of bad network param', function() {
     (function() {
       return new Address(PKHLivenet[0], 'main', 'pubkeyhash');
-    }).should.throw('Second argument must be "livenet" or "testnet".');
+    }).should.throw()
   });
 
   it('should throw an error because of bad type param', function() {
     (function() {
       return new Address(PKHLivenet[0], 'livenet', 'pubkey');
-    }).should.throw('Third argument must be "pubkeyhash" or "scripthash"');
+    }).should.throw()
   });
 
   describe('bitcoind compliance', function() {

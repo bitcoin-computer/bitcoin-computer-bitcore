@@ -1,4 +1,4 @@
-const docsURL = 'http://bitcore.io/';
+const docsURL = 'http://bitcore.io/'
 
 module.exports = [
   {
@@ -28,7 +28,9 @@ module.exports = [
   {
     name: 'InvalidArgument',
     message(...args) {
-      return `Invalid Argument${args[0] ? `: ${args[0]}` : ''}${args[1] ? ` Documentation: ${docsURL}${args[1]}` : ''}`;
+      return `Invalid Argument${args[0] ? `: ${args[0]}` : ''}${
+        args[1] ? ` Documentation: ${docsURL}${args[1]}` : ''
+      }`
     },
   },
   {
@@ -38,7 +40,7 @@ module.exports = [
   {
     name: 'InvalidArgumentType',
     message(...args) {
-      return `Invalid Argument for ${args[2]}, expected ${args[1]} but got ${typeof args[0]}`;
+      return `Invalid Argument for ${args[2]}, expected ${args[1]} but got ${typeof args[0]}`
     },
   },
   {
@@ -83,7 +85,8 @@ module.exports = [
       },
       {
         name: 'InvalidSorting',
-        message: 'The sorting function provided did not return the change output as one of the array elements',
+        message:
+          'The sorting function provided did not return the change output as one of the array elements',
       },
       {
         name: 'InvalidOutputAmountSum',
@@ -196,7 +199,8 @@ module.exports = [
       },
       {
         name: 'UnrecognizedArgument',
-        message: 'Invalid argument: creating a HDPrivateKey requires a string, buffer, json or object, got "{0}"',
+        message:
+          'Invalid argument: creating a HDPrivateKey requires a string, buffer, json or object, got "{0}"',
       },
     ],
   },
@@ -252,4 +256,4 @@ module.exports = [
       },
     ],
   },
-];
+]

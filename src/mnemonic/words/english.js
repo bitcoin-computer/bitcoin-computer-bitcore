@@ -2047,6 +2047,6 @@ const english = [
   'zero',
   'zone',
   'zoo',
-];
+]
 
-module.exports = english;
+module.exports = english

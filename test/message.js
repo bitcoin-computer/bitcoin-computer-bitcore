@@ -45,7 +45,7 @@ describe('Message', function() {
     expect(function() {
       var message3 = new Message(text);
       return message3.sign('not a private key');
-    }).to.throw('First argument should be an instance of PrivateKey');
+    }).to.throw()
   });
 
   it('can verify a message with signature', function() {
@@ -64,14 +64,14 @@ describe('Message', function() {
     expect(function() {
       var message6 = new Message(text);
       return message6._verify('not a public key', signature);
-    }).to.throw('First argument should be an instance of PublicKey');
+    }).to.throw()
   });
 
   it('verify will error with incorrect signature argument', function() {
     expect(function() {
       var message7 = new Message(text);
       return message7._verify(publicKey, 'not a signature');
-    }).to.throw('Second argument should be an instance of Signature');
+    }).to.throw()
   });
 
   it('verify will correctly identify a bad signature', function() {

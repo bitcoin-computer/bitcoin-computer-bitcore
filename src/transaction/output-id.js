@@ -1,4 +1,4 @@
-const TXID_REGEX = /[0-9A-Fa-f]{64}/;
+const TXID_REGEX = /[0-9A-Fa-f]{64}/
 
 /**
  * Output identifier for a Bitcoin transaction
@@ -10,20 +10,20 @@ class OutputId {
      * @param {number} outputIndex Output index
      */
   constructor(txId, outputIndex) {
-    if (!TXID_REGEX.test(txId)) throw new Error(`txId not in a valid hex format: ${txId}`);
+    if (!TXID_REGEX.test(txId)) throw new Error(`txId not in a valid hex format: ${txId}`)
 
     if (outputIndex < 0 || outputIndex > 4294967295 || Number.isNaN(outputIndex))
-      throw new Error(`outputIndex out of range: ${outputIndex}`);
+      throw new Error(`outputIndex out of range: ${outputIndex}`)
 
-    this.txId = txId;
-    this.outputIndex = outputIndex;
+    this.txId = txId
+    this.outputIndex = outputIndex
   }
 
   /**
    * Serializes the output id into a compressed string form
    */
   toString() {
-    return `${this.txId}:${this.outputIndex}`;
+    return `${this.txId}:${this.outputIndex}`
   }
 
   /**
@@ -31,25 +31,25 @@ class OutputId {
    * @param {string} s String to parse
    */
   static fromString(s) {
-    const parts = s.split(':');
+    const parts = s.split(':')
 
-    if (parts.length !== 2) throw new Error('Invalid string format');
+    if (parts.length !== 2) throw new Error('Invalid string format')
 
-    return new OutputId(parts[0], parseInt(parts[1], 10));
+    return new OutputId(parts[0], parseInt(parts[1], 10))
   }
 
   /**
    * Get the transaction id in hex format
    */
   get txid() {
-    return this.txId;
+    return this.txId
   }
 
   /**
    * Get the output index
    */
   get vout() {
-    return this.outputIndex;
+    return this.outputIndex
   }
 
   /**
@@ -58,8 +58,10 @@ class OutputId {
    * @returns {bool} True if the objects refer to the same output, false if not
    */
   equals(other) {
-    return this.outputIndex === other.outputIndex && this.txId.toLowerCase() === other.txId.toLowerCase();
+    return (
+      this.outputIndex === other.outputIndex && this.txId.toLowerCase() === other.txId.toLowerCase()
+    )
   }
 }
 
-module.exports = OutputId;
+module.exports = OutputId

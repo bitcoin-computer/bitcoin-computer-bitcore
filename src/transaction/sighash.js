@@ -1,72 +1,75 @@
-const buffer = require('buffer');
-const _ = require('lodash');
-const Signature = require('../crypto/signature');
-const Script = require('../script');
-const Output = require('./output');
-const BufferReader = require('../encoding/bufferreader');
-const BufferWriter = require('../encoding/bufferwriter');
-const BN = require('../crypto/bn');
-const Hash = require('../crypto/hash');
-const ECDSA = require('../crypto/ecdsa');
-const $ = require('../util/preconditions');
-const BufferUtil = require('../util/buffer');
+const buffer = require('buffer')
+const _ = require('lodash')
+const Signature = require('../crypto/signature')
+const Script = require('../script')
+const Output = require('./output')
+const BufferReader = require('../encoding/bufferreader')
+const BufferWriter = require('../encoding/bufferwriter')
+const BN = require('../crypto/bn')
+const Hash = require('../crypto/hash')
+const ECDSA = require('../crypto/ecdsa')
+const $ = require('../util/preconditions')
+const BufferUtil = require('../util/buffer')
 
-const SIGHASH_SINGLE_BUG = '0000000000000000000000000000000000000000000000000000000000000001';
-const BITS_64_ON = 'ffffffffffffffff';
-const ENABLE_SIGHASH_FORKID = true;
+const SIGHASH_SINGLE_BUG = '0000000000000000000000000000000000000000000000000000000000000001'
+const BITS_64_ON = 'ffffffffffffffff'
+const ENABLE_SIGHASH_FORKID = true
 
 class Sighash {
   static sighashForForkId(transaction, sighashType, inputNumber, subscript, satoshisBN) {
-    const input = transaction.inputs[inputNumber];
-    $.checkArgument(satoshisBN instanceof BN, 'For ForkId=0 signatures, satoshis or complete input must be provided');
+    const input = transaction.inputs[inputNumber]
+    $.checkArgument(
+      satoshisBN instanceof BN,
+      'For ForkId=0 signatures, satoshis or complete input must be provided',
+    )
 
     function GetPrevoutHash(tx) {
-      const writer = new BufferWriter();
+      const writer = new BufferWriter()
 
       _.each(tx.inputs, txIn => {
-        writer.writeReverse(txIn.prevTxId);
-        writer.writeUInt32LE(txIn.outputIndex);
-      });
+        writer.writeReverse(txIn.prevTxId)
+        writer.writeUInt32LE(txIn.outputIndex)
+      })
 
-      const buf = writer.toBuffer();
-      const ret = Hash.sha256sha256(buf);
-      return ret;
+      const buf = writer.toBuffer()
+      const ret = Hash.sha256sha256(buf)
+      return ret
     }
 
     function GetSequenceHash(tx) {
-      const writer = new BufferWriter();
+      const writer = new BufferWriter()
 
       _.each(tx.inputs, txIn => {
-        writer.writeUInt32LE(txIn.sequenceNumber);
-      });
+        writer.writeUInt32LE(txIn.sequenceNumber)
+      })
 
-      const buf = writer.toBuffer();
-      const ret = Hash.sha256sha256(buf);
-      return ret;
+      const buf = writer.toBuffer()
+      const ret = Hash.sha256sha256(buf)
+      return ret
     }
 
     function GetOutputsHash(tx, n) {
-      const writer = new BufferWriter();
+      const writer = new BufferWriter()
 
       if (_.isUndefined(n)) {
         _.each(tx.outputs, output => {
-          output.toBufferWriter(writer);
-        });
+          output.toBufferWriter(writer)
+        })
       } else {
-        tx.outputs[n].toBufferWriter(writer);
+        tx.outputs[n].toBufferWriter(writer)
       }
 
-      const buf = writer.toBuffer();
-      const ret = Hash.sha256sha256(buf);
-      return ret;
+      const buf = writer.toBuffer()
+      const ret = Hash.sha256sha256(buf)
+      return ret
     }
 
-    let hashPrevouts = BufferUtil.emptyBuffer(32);
-    let hashSequence = BufferUtil.emptyBuffer(32);
-    let hashOutputs = BufferUtil.emptyBuffer(32);
+    let hashPrevouts = BufferUtil.emptyBuffer(32)
+    let hashSequence = BufferUtil.emptyBuffer(32)
+    let hashOutputs = BufferUtil.emptyBuffer(32)
 
     if (!(sighashType & Signature.SIGHASH_ANYONECANPAY)) {
-      hashPrevouts = GetPrevoutHash(transaction);
+      hashPrevouts = GetPrevoutHash(transaction)
     }
 
     if (
@@ -74,52 +77,58 @@ class Sighash {
       (sighashType & 31) !== Signature.SIGHASH_SINGLE &&
       (sighashType & 31) !== Signature.SIGHASH_NONE
     ) {
-      hashSequence = GetSequenceHash(transaction);
+      hashSequence = GetSequenceHash(transaction)
     }
 
-    if ((sighashType & 31) !== Signature.SIGHASH_SINGLE && (sighashType & 31) !== Signature.SIGHASH_NONE) {
-      hashOutputs = GetOutputsHash(transaction);
-    } else if ((sighashType & 31) === Signature.SIGHASH_SINGLE && inputNumber < transaction.outputs.length) {
-      hashOutputs = GetOutputsHash(transaction, inputNumber);
+    if (
+      (sighashType & 31) !== Signature.SIGHASH_SINGLE &&
+      (sighashType & 31) !== Signature.SIGHASH_NONE
+    ) {
+      hashOutputs = GetOutputsHash(transaction)
+    } else if (
+      (sighashType & 31) === Signature.SIGHASH_SINGLE &&
+      inputNumber < transaction.outputs.length
+    ) {
+      hashOutputs = GetOutputsHash(transaction, inputNumber)
     }
 
-    const writer = new BufferWriter();
+    const writer = new BufferWriter()
 
     // Version
-    writer.writeInt32LE(transaction.version);
+    writer.writeInt32LE(transaction.version)
 
     // Input prevouts/nSequence (none/all, depending on flags)
-    writer.write(hashPrevouts);
-    writer.write(hashSequence);
+    writer.write(hashPrevouts)
+    writer.write(hashSequence)
 
     //  outpoint (32-byte hash + 4-byte little endian)
-    writer.writeReverse(input.prevTxId);
-    writer.writeUInt32LE(input.outputIndex);
+    writer.writeReverse(input.prevTxId)
+    writer.writeUInt32LE(input.outputIndex)
 
     // scriptCode of the input (serialized as scripts inside CTxOuts)
-    writer.writeVarintNum(subscript.toBuffer().length);
-    writer.write(subscript.toBuffer());
+    writer.writeVarintNum(subscript.toBuffer().length)
+    writer.write(subscript.toBuffer())
 
     // value of the output spent by this input (8-byte little endian)
-    writer.writeUInt64LEBN(satoshisBN);
+    writer.writeUInt64LEBN(satoshisBN)
 
     // nSequence of the input (4-byte little endian)
-    const { sequenceNumber } = input;
-    writer.writeUInt32LE(sequenceNumber);
+    const { sequenceNumber } = input
+    writer.writeUInt32LE(sequenceNumber)
 
     // Outputs (none/one/all, depending on flags)
-    writer.write(hashOutputs);
+    writer.write(hashOutputs)
 
     // Locktime
-    writer.writeUInt32LE(transaction.nLockTime);
+    writer.writeUInt32LE(transaction.nLockTime)
 
     // sighashType
-    writer.writeUInt32LE(sighashType >>> 0);
+    writer.writeUInt32LE(sighashType >>> 0)
 
-    const buf = writer.toBuffer();
-    let ret = Hash.sha256sha256(buf);
-    ret = new BufferReader(ret).readReverse();
-    return ret;
+    const buf = writer.toBuffer()
+    let ret = Hash.sha256sha256(buf)
+    ret = new BufferReader(ret).readReverse()
+    return ret
   }
 
   /**
@@ -139,70 +148,73 @@ class Sighash {
     // TODO If this is moved in the global scope a bunch of tests fails. This is probably
     // due to a circular dependency. This file could probably use a major overhaul.
     // See GitHub isuse #42.
-    const Transaction = require('./transaction');
-    const Input = require('./input');
+    const Transaction = require('./transaction')
+    const Input = require('./input')
     /* eslint-enable global-require */
 
     // Copy transaction
-    const txcopy = Transaction.shallowCopy(transaction);
+    const txcopy = Transaction.shallowCopy(transaction)
 
     // Copy script
-    subscript = new Script(subscript);
+    subscript = new Script(subscript)
 
     if (sighashType & Signature.SIGHASH_FORKID && ENABLE_SIGHASH_FORKID) {
-      return Sighash.sighashForForkId(txcopy, sighashType, inputNumber, subscript, satoshisBN);
+      return Sighash.sighashForForkId(txcopy, sighashType, inputNumber, subscript, satoshisBN)
     }
 
     // For no ForkId sighash, separators need to be removed.
-    subscript.removeCodeseparators();
+    subscript.removeCodeseparators()
 
-    let i;
+    let i
     for (i = 0; i < txcopy.inputs.length; i += 1) {
       // Blank signatures for other inputs
-      txcopy.inputs[i] = new Input(txcopy.inputs[i]).setScript(Script.empty());
+      txcopy.inputs[i] = new Input(txcopy.inputs[i]).setScript(Script.empty())
     }
 
-    txcopy.inputs[inputNumber] = new Input(txcopy.inputs[inputNumber]).setScript(subscript);
+    txcopy.inputs[inputNumber] = new Input(txcopy.inputs[inputNumber]).setScript(subscript)
 
-    if ((sighashType & 31) === Signature.SIGHASH_NONE || (sighashType & 31) === Signature.SIGHASH_SINGLE) {
+    if (
+      (sighashType & 31) === Signature.SIGHASH_NONE ||
+      (sighashType & 31) === Signature.SIGHASH_SINGLE
+    ) {
       // clear all sequenceNumbers
       for (i = 0; i < txcopy.inputs.length; i += 1) {
         if (i !== inputNumber) {
-          txcopy.inputs[i].sequenceNumber = 0;
+          txcopy.inputs[i].sequenceNumber = 0
         }
       }
     }
 
     if ((sighashType & 31) === Signature.SIGHASH_NONE) {
-      txcopy.outputs = [];
+      txcopy.outputs = []
     } else if ((sighashType & 31) === Signature.SIGHASH_SINGLE) {
       // The SIGHASH_SINGLE bug.
       // https://bitcointalk.org/index.php?topic=260595.0
       if (inputNumber >= txcopy.outputs.length) {
-        return Buffer.from(SIGHASH_SINGLE_BUG, 'hex');
+        return Buffer.from(SIGHASH_SINGLE_BUG, 'hex')
       }
 
-      txcopy.outputs.length = inputNumber + 1;
+      txcopy.outputs.length = inputNumber + 1
 
       for (i = 0; i < inputNumber; i += 1) {
         txcopy.outputs[i] = new Output({
           satoshis: BN.fromBuffer(new buffer.Buffer(BITS_64_ON, 'hex')),
           script: Script.empty(),
-        });
+        })
       }
     }
 
     if (sighashType & Signature.SIGHASH_ANYONECANPAY) {
-      txcopy.inputs = [txcopy.inputs[inputNumber]];
+      txcopy.inputs = [txcopy.inputs[inputNumber]]
     }
 
     const buf = new BufferWriter()
       .write(txcopy.toBuffer())
       .writeInt32LE(sighashType)
-      .toBuffer();
-    let ret = Hash.sha256sha256(buf);
-    ret = new BufferReader(ret).readReverse();
-    return ret;
+      .toBuffer()
+    let ret = Hash.sha256sha256(buf)
+    ret = new BufferReader(ret).readReverse()
+    return ret
   }
 
   /**
@@ -218,11 +230,11 @@ class Sighash {
    * @return {Signature}
    */
   static sign(transaction, privateKey, sighashType, inputIndex, subscript, satoshisBN) {
-    const hashbuf = Sighash.sighash(transaction, sighashType, inputIndex, subscript, satoshisBN);
+    const hashbuf = Sighash.sighash(transaction, sighashType, inputIndex, subscript, satoshisBN)
     const sig = ECDSA.sign(hashbuf, privateKey, 'little').set({
       nhashtype: sighashType,
-    });
-    return sig;
+    })
+    return sig
   }
 
   /**
@@ -238,14 +250,20 @@ class Sighash {
    * @return {boolean}
    */
   static verify(transaction, signature, publicKey, inputIndex, subscript, satoshisBN) {
-    $.checkArgument(!_.isUndefined(transaction));
-    $.checkArgument(!_.isUndefined(signature) && !_.isUndefined(signature.nhashtype));
-    const hashbuf = Sighash.sighash(transaction, signature.nhashtype, inputIndex, subscript, satoshisBN);
-    return ECDSA.verify(hashbuf, signature, publicKey, 'little');
+    $.checkArgument(!_.isUndefined(transaction))
+    $.checkArgument(!_.isUndefined(signature) && !_.isUndefined(signature.nhashtype))
+    const hashbuf = Sighash.sighash(
+      transaction,
+      signature.nhashtype,
+      inputIndex,
+      subscript,
+      satoshisBN,
+    )
+    return ECDSA.verify(hashbuf, signature, publicKey, 'little')
   }
 }
 
 /**
  * @namespace Signing
  */
-module.exports = Sighash;
+module.exports = Sighash

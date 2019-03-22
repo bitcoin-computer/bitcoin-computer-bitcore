@@ -2047,6 +2047,6 @@ const french = [
   'zénith',
   'zeste',
   'zoologie',
-];
+]
 
-module.exports = french;
+module.exports = french

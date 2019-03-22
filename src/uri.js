@@ -1,8 +1,8 @@
-const _ = require('lodash');
-const URL = require('url');
+const _ = require('lodash')
+const URL = require('url')
 
-const Address = require('./address');
-const Unit = require('./unit');
+const Address = require('./address')
+const Unit = require('./unit')
 
 /**
  * Bitcore URI
@@ -34,28 +34,28 @@ const Unit = require('./unit');
 const URI = function(data, knownParams) {
   // #weirdstuff refactor
   if (!(this instanceof URI)) {
-    return new URI(data, knownParams);
+    return new URI(data, knownParams)
   }
 
-  this.extras = {};
-  this.knownParams = knownParams || [];
-  this.address = null;
-  this.network = null;
-  this.amount = null;
-  this.message = null;
+  this.extras = {}
+  this.knownParams = knownParams || []
+  this.address = null
+  this.network = null
+  this.amount = null
+  this.message = null
 
   if (typeof data === 'string') {
-    const params = URI.parse(data);
+    const params = URI.parse(data)
     if (params.amount) {
-      params.amount = this._parseAmount(params.amount);
+      params.amount = this._parseAmount(params.amount)
     }
-    this._fromObject(params);
+    this._fromObject(params)
   } else if (typeof data === 'object') {
-    this._fromObject(data);
+    this._fromObject(data)
   } else {
-    throw new TypeError('Unrecognized data format.');
+    throw new TypeError('Unrecognized data format.')
   }
-};
+}
 
 /**
  * Instantiate a URI from a String
@@ -65,10 +65,10 @@ const URI = function(data, knownParams) {
  */
 URI.fromString = function fromString(str) {
   if (typeof str !== 'string') {
-    throw new TypeError('Expected a string');
+    throw new TypeError('Expected a string')
   }
-  return new URI(str);
-};
+  return new URI(str)
+}
 
 /**
  * Instantiate a URI from an Object
@@ -77,8 +77,8 @@ URI.fromString = function fromString(str) {
  * @returns {URI} A new instance of a URI
  */
 URI.fromObject = function fromObject(json) {
-  return new URI(json);
-};
+  return new URI(json)
+}
 
 /**
  * Check if an bitcoin cash URI string is valid
@@ -98,12 +98,12 @@ URI.isValid = function(arg, knownParams) {
   try {
     // #weirdstuff refactor
     // eslint-disable-next-line no-new
-    new URI(arg, knownParams);
+    new URI(arg, knownParams)
   } catch (err) {
-    return false;
+    return false
   }
-  return true;
-};
+  return true
+}
 
 /**
  * Convert a bitcoin cash URI string into a simple object.
@@ -113,20 +113,20 @@ URI.isValid = function(arg, knownParams) {
  * @returns {Object} An object with the parsed params
  */
 URI.parse = function(uri) {
-  const info = URL.parse(uri, true);
+  const info = URL.parse(uri, true)
 
   if (info.protocol !== 'bitcoincash:') {
-    throw new TypeError('Invalid bitcoin cash URI');
+    throw new TypeError('Invalid bitcoin cash URI')
   }
 
   // workaround to host insensitiveness
-  const group = /[^:]*:\/?\/?([^?]*)/.exec(uri);
-  info.query.address = (group && group[1]) || undefined;
+  const group = /[^:]*:\/?\/?([^?]*)/.exec(uri)
+  info.query.address = (group && group[1]) || undefined
 
-  return info.query;
-};
+  return info.query
+}
 
-URI.Members = ['address', 'amount', 'message', 'label', 'r'];
+URI.Members = ['address', 'amount', 'message', 'label', 'r']
 
 /**
  * Internal function to load the URI instance with an object.
@@ -138,24 +138,24 @@ URI.Members = ['address', 'amount', 'message', 'label', 'r'];
  */
 URI.prototype._fromObject = function(obj) {
   if (!Address.isValid(obj.address)) {
-    throw new TypeError('Invalid bitcoin address');
+    throw new TypeError('Invalid bitcoin address')
   }
 
-  this.address = new Address(obj.address);
-  this.network = this.address.network;
-  this.amount = obj.amount;
+  this.address = new Address(obj.address)
+  this.network = this.address.network
+  this.amount = obj.amount
 
   Object.keys(obj).forEach(key => {
     if (key !== 'address' && key !== 'amount') {
       if (/^req-/.exec(key) && this.knownParams.indexOf(key) === -1) {
-        throw Error(`Unknown required argument ${key}`);
+        throw Error(`Unknown required argument ${key}`)
       }
 
-      const destination = URI.Members.indexOf(key) > -1 ? this : this.extras;
-      destination[key] = obj[key];
+      const destination = URI.Members.indexOf(key) > -1 ? this : this.extras
+      destination[key] = obj[key]
     }
-  });
-};
+  })
+}
 
 /**
  * Internal function to transform a BTC string amount into satoshis
@@ -165,25 +165,25 @@ URI.prototype._fromObject = function(obj) {
  * @returns {Object} Amount represented in satoshis
  */
 URI.prototype._parseAmount = function(amount) {
-  amount = Number(amount);
+  amount = Number(amount)
   if (Number.isNaN(amount)) {
-    throw new TypeError('Invalid amount');
+    throw new TypeError('Invalid amount')
   }
-  return Unit.fromBTC(amount).toSatoshis();
-};
+  return Unit.fromBTC(amount).toSatoshis()
+}
 
 URI.prototype.toJSON = function toObject() {
-  const json = {};
+  const json = {}
   for (let i = 0; i < URI.Members.length; i += 1) {
-    const m = URI.Members[i];
+    const m = URI.Members[i]
     if (Object.keys(this).findIndex(key => key === m) !== 1 && typeof this[m] !== 'undefined') {
-      json[m] = this[m].toString();
+      json[m] = this[m].toString()
     }
   }
-  _.extend(json, this.extras);
-  return json;
-};
-URI.prototype.toObject = URI.prototype.toJSON;
+  _.extend(json, this.extras)
+  return json
+}
+URI.prototype.toObject = URI.prototype.toJSON
 
 /**
  * Will return a the string representation of the URI
@@ -191,27 +191,27 @@ URI.prototype.toObject = URI.prototype.toJSON;
  * @returns {string} Bitcoin cash URI string
  */
 URI.prototype.toString = function() {
-  const query = {};
+  const query = {}
   if (this.amount) {
-    query.amount = Unit.fromSatoshis(this.amount).toBTC();
+    query.amount = Unit.fromSatoshis(this.amount).toBTC()
   }
   if (this.message) {
-    query.message = this.message;
+    query.message = this.message
   }
   if (this.label) {
-    query.label = this.label;
+    query.label = this.label
   }
   if (this.r) {
-    query.r = this.r;
+    query.r = this.r
   }
-  _.extend(query, this.extras);
+  _.extend(query, this.extras)
 
   return URL.format({
     protocol: 'bitcoincash:',
     host: this.address,
     query,
-  });
-};
+  })
+}
 
 /**
  * Will return a string formatted for the console
@@ -219,7 +219,7 @@ URI.prototype.toString = function() {
  * @returns {string} Bitcoin cash URI
  */
 URI.prototype.inspect = function() {
-  return `<URI: ${this.toString()}>`;
-};
+  return `<URI: ${this.toString()}>`
+}
 
-module.exports = URI;
+module.exports = URI

@@ -75,7 +75,7 @@ describe('BlockHeader', function() {
           bits: bits,
           nonce: nonce,
         });
-      }.should.throw('Argument object hash property does not match block hash.'));
+      }.should.throw())
     });
   });
 
