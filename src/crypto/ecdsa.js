@@ -140,7 +140,7 @@ ECDSA.prototype.toPublicKey = function() {
   }
 
   // Compute -e from e
-  const eNeg = e.neg().mod(n)
+  const eNeg = e.neg().umod(n)
 
   // 1.6.1 Compute Q = r^-1 (sR - eG)
   // Q = r^-1 (sR + -eG)
@@ -178,8 +178,8 @@ ECDSA.prototype.sigError = function() {
   )
   const n = Point.getN()
   const sinv = s.invm(n)
-  const u1 = sinv.mul(e).mod(n)
-  const u2 = sinv.mul(r).mod(n)
+  const u1 = sinv.mul(e).umod(n)
+  const u2 = sinv.mul(r).umod(n)
 
   const p = Point.getG().mulAdd(u1, this.pubkey.point, u2)
   if (p.isInfinity()) {
@@ -189,7 +189,7 @@ ECDSA.prototype.sigError = function() {
   if (
     p
       .getX()
-      .mod(n)
+      .umod(n)
       .cmp(r) !== 0
   ) {
     return 'Invalid signature'
@@ -222,11 +222,11 @@ ECDSA.prototype._findSignature = function(d, e) {
     badrs += 1
     const { k } = this
     Q = G.mul(k)
-    r = Q.x.mod(N)
+    r = Q.x.umod(N)
     s = k
       .invm(N)
       .mul(e.add(d.mul(r)))
-      .mod(N)
+      .umod(N)
   } while (r.cmp(BN.Zero) <= 0 || s.cmp(BN.Zero) <= 0)
 
   s = ECDSA.toLowS(s)

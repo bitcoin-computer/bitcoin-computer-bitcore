@@ -254,7 +254,7 @@ HDPrivateKey.prototype._deriveWithNumber = function(index, hardened, nonComplian
 
   const privateKey = leftPart
     .add(this.privateKey.toBigNumber())
-    .mod(Point.getN())
+    .umod(Point.getN())
     .toBuffer({
       size: 32,
     })

@@ -1,4 +1,4 @@
-// flow-typed signature: 959e8e6f10571aa0b1676b8bb913f002
+// flow-typed signature: dbd57f6d5e78c2ae725579eeda93de91
 // flow-typed version: <<STUB>>/eslint-plugin-flowtype-errors_v^4.0.0/flow_v0.95.1
 
 /**
@@ -26,6 +26,10 @@ declare module 'eslint-plugin-flowtype-errors/dist/collect' {
   declare module.exports: any;
 }
 
+declare module 'eslint-plugin-flowtype-errors/dist/config/recommended' {
+  declare module.exports: any;
+}
+
 declare module 'eslint-plugin-flowtype-errors/dist/format' {
   declare module.exports: any;
 }
@@ -41,6 +45,9 @@ declare module 'eslint-plugin-flowtype-errors/dist/index' {
 // Filename aliases
 declare module 'eslint-plugin-flowtype-errors/dist/collect.js' {
   declare module.exports: $Exports<'eslint-plugin-flowtype-errors/dist/collect'>;
+}
+declare module 'eslint-plugin-flowtype-errors/dist/config/recommended.js' {
+  declare module.exports: $Exports<'eslint-plugin-flowtype-errors/dist/config/recommended'>;
 }
 declare module 'eslint-plugin-flowtype-errors/dist/format.js' {
   declare module.exports: $Exports<'eslint-plugin-flowtype-errors/dist/format'>;
