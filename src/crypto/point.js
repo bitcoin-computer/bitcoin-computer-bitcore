@@ -21,7 +21,7 @@ const Point = function Point(x, y, isRed) {
   let point
   try {
     point = ecPoint(x, y, isRed)
-  } catch {
+  } catch (e) {
     throw new Error('Invalid point on curve')
   }
   point.validate()
@@ -43,7 +43,7 @@ Point.fromX = function fromX(odd, x) {
   let point
   try {
     point = ecPointFromX(x, odd)
-  } catch {
+  } catch (e) {
     throw new Error('Invalid x value for curve.')
   }
   point.validate()
@@ -113,7 +113,7 @@ Point.prototype.validate = function validate() {
   let p2
   try {
     p2 = ecPointFromX(this.getX(), this.getY().isOdd())
-  } catch {
+  } catch (e) {
     throw new Error('Point does not lie on the curve.')
   }
 
