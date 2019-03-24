@@ -1,7 +1,8 @@
 'use strict';
 
+import bch from '..'
+
 var chai = chai || require('chai');
-var bch = require('..');
 var expect = chai.expect;
 var Networks = bch.Networks;
 var should = chai.should();

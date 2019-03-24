@@ -1,4 +1,4 @@
-const crypto = require('crypto')
+import crypto from 'crypto'
 
 /**
  * PDKBF2
@@ -69,4 +69,4 @@ function pbkdf2(key, salt, iterations, dkLen) {
   return DK
 }
 
-module.exports = pbkdf2
+export default pbkdf2

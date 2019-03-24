@@ -1,7 +1,8 @@
 'use strict';
 
+import bch from '../..'
+
 var should = require('chai').should();
-var bch = require('../..');
 var BufferWriter = bch.encoding.BufferWriter;
 var BufferReader = bch.encoding.BufferReader;
 var BN = bch.crypto.BN;

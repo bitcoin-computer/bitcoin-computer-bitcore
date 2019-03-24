@@ -1,10 +1,11 @@
 'use strict';
 
+import bch from '..'
+
 var chai = require('chai');
 var expect = chai.expect;
 var should = chai.should();
 
-var bch = require('..');
 var Address = bch.Address;
 var Signature = bch.crypto.Signature;
 var Message = bch.Message;

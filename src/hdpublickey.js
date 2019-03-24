@@ -1,23 +1,19 @@
-const _ = require('lodash')
-const assert = require('assert')
-const $ = require('./util/preconditions')
+import _ from 'lodash'
+import assert from 'assert'
+import $ from './util/preconditions'
+import Base58 from './encoding/base58'
+import Base58Check from './encoding/base58check'
+import BN from './crypto/bn'
+import BufferUtil from './util/buffer'
+import errors from './errors'
+import Hash from './crypto/hash'
+import HDPrivateKey from './hdprivatekey'
+import JSUtil from './util/js'
+import Network from './networks'
+import Point from './crypto/point'
+import PublicKey from './publickey'
 
-const BN = require('./crypto/bn')
-const Base58 = require('./encoding/base58')
-const Base58Check = require('./encoding/base58check')
-const Hash = require('./crypto/hash')
-const HDPrivateKey = require('./hdprivatekey')
-const Network = require('./networks')
-const Point = require('./crypto/point')
-const PublicKey = require('./publickey')
-
-const bitcoreErrors = require('./errors')
-
-const errors = bitcoreErrors
-const hdErrors = bitcoreErrors.HDPublicKey
-
-const JSUtil = require('./util/js')
-const BufferUtil = require('./util/buffer')
+const hdErrors = errors.HDPublicKey
 
 /**
  * The representation of an hierarchically derived public key.
@@ -502,4 +498,4 @@ HDPublicKey.ChecksumEnd = HDPublicKey.ChecksumStart + HDPublicKey.CheckSumSize
 assert(HDPublicKey.PublicKeyEnd === HDPublicKey.DataSize)
 assert(HDPublicKey.ChecksumEnd === HDPublicKey.SerializedByteSize)
 
-module.exports = HDPublicKey
+export default HDPublicKey

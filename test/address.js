@@ -1,12 +1,13 @@
 'use strict';
 
+import bch from '..'
+
 /* jshint maxstatements: 30 */
 
 var chai = require('chai');
 var should = chai.should();
 var expect = chai.expect;
 
-var bch = require('..');
 var PublicKey = bch.PublicKey;
 var Address = bch.Address;
 var Script = bch.Script;

@@ -1,9 +1,9 @@
-const _ = require('lodash')
-const $ = require('../util/preconditions')
-const JSUtil = require('../util/js')
-const Script = require('../script')
-const Address = require('../address')
-const Unit = require('../unit')
+import _ from 'lodash'
+import $ from '../util/preconditions'
+import Address from '../address'
+import JSUtil from '../util/js'
+import Unit from '../unit'
+import Script from '../script/script'
 
 /**
  * Represents an unspent output information: its script, associated amount and address,
@@ -104,4 +104,4 @@ class UnspentOutput {
   }
 }
 
-module.exports = UnspentOutput
+export default UnspentOutput

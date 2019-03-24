@@ -1,8 +1,8 @@
-const crypto = require('crypto')
-const BufferUtil = require('../util/buffer')
-const $ = require('../util/preconditions')
+import crypto from 'crypto'
+import $ from '../util/preconditions'
+import BufferUtil from '../util/buffer'
 
-const Hash = module.exports
+const Hash = {}
 
 Hash.sha1 = function(buf) {
   $.checkArgument(BufferUtil.isBuffer(buf))
@@ -93,3 +93,5 @@ Hash.sha256hmac = function(data, key) {
 Hash.sha512hmac = function(data, key) {
   return Hash.hmac(Hash.sha512, data, key)
 }
+
+export default Hash

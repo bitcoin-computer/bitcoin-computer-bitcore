@@ -1,6 +1,6 @@
-const BN = require('bn.js')
-const _ = require('lodash')
-const $ = require('../util/preconditions')
+import _ from 'lodash'
+import BN from 'bn.js'
+import $ from '../util/preconditions'
 
 const reversebuf = function(buf) {
   const buf2 = Buffer.alloc(buf.length)
@@ -183,4 +183,4 @@ BN.pad = function(buf, natlen, size) {
   return rbuf
 }
 
-module.exports = BN
+export default BN

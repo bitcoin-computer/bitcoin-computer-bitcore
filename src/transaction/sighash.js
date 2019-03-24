@@ -1,15 +1,19 @@
-const buffer = require('buffer')
-const _ = require('lodash')
-const Signature = require('../crypto/signature')
-const Script = require('../script')
-const Output = require('./output')
-const BufferReader = require('../encoding/bufferreader')
-const BufferWriter = require('../encoding/bufferwriter')
-const BN = require('../crypto/bn')
-const Hash = require('../crypto/hash')
-const ECDSA = require('../crypto/ecdsa')
-const $ = require('../util/preconditions')
-const BufferUtil = require('../util/buffer')
+import { Buffer as ImportedBuffer } from 'buffer'
+import _ from 'lodash'
+import $ from '../util/preconditions'
+import BN from '../crypto/bn'
+import BufferReader from '../encoding/bufferreader'
+import BufferUtil from '../util/buffer'
+import BufferWriter from '../encoding/bufferwriter'
+import ECDSA from '../crypto/ecdsa'
+import Hash from '../crypto/hash'
+import Input from './input/input'
+import Output from './output'
+import Script from '../script/script'
+import Signature from '../crypto/signature'
+import Transaction from './transaction'
+
+const buffer = { Buffer: ImportedBuffer }
 
 const SIGHASH_SINGLE_BUG = '0000000000000000000000000000000000000000000000000000000000000001'
 const BITS_64_ON = 'ffffffffffffffff'
@@ -144,14 +148,6 @@ class Sighash {
    *
    */
   static sighash(transaction, sighashType, inputNumber, subscript, satoshisBN) {
-    /* eslint-disable global-require */
-    // TODO If this is moved in the global scope a bunch of tests fails. This is probably
-    // due to a circular dependency. This file could probably use a major overhaul.
-    // See GitHub isuse #42.
-    const Transaction = require('./transaction')
-    const Input = require('./input')
-    /* eslint-enable global-require */
-
     // Copy transaction
     const txcopy = Transaction.shallowCopy(transaction)
 
@@ -266,4 +262,4 @@ class Sighash {
 /**
  * @namespace Signing
  */
-module.exports = Sighash
+export default Sighash

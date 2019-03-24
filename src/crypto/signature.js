@@ -1,8 +1,8 @@
-const _ = require('lodash')
-const BN = require('./bn')
-const $ = require('../util/preconditions')
-const BufferUtil = require('../util/buffer')
-const JSUtil = require('../util/js')
+import _ from 'lodash'
+import $ from '../util/preconditions'
+import BN from './bn'
+import BufferUtil from '../util/buffer'
+import JSUtil from '../util/js'
 
 const Signature = function Signature(r, s) {
   if (!(this instanceof Signature)) {
@@ -316,4 +316,4 @@ Signature.SIGHASH_SINGLE = 0x03
 Signature.SIGHASH_FORKID = 0x40
 Signature.SIGHASH_ANYONECANPAY = 0x80
 
-module.exports = Signature
+export default Signature

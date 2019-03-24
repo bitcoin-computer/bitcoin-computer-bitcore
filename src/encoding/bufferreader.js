@@ -1,7 +1,7 @@
-const _ = require('lodash')
-const $ = require('../util/preconditions')
-const BufferUtil = require('../util/buffer')
-const BN = require('../crypto/bn')
+import _ from 'lodash'
+import $ from '../util/preconditions'
+import BN from '../crypto/bn'
+import BufferUtil from '../util/buffer'
 
 const BufferReader = function BufferReader(buf) {
   if (!(this instanceof BufferReader)) {
@@ -198,4 +198,4 @@ BufferReader.prototype.readReverse = function(len) {
   return BufferUtil.reverse(buf)
 }
 
-module.exports = BufferReader
+export default BufferReader

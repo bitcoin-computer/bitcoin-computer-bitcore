@@ -1,10 +1,10 @@
-const _ = require('lodash')
-const BN = require('../crypto/bn')
-const BufferUtil = require('../util/buffer')
-const BufferReader = require('../encoding/bufferreader')
-const BufferWriter = require('../encoding/bufferwriter')
-const Hash = require('../crypto/hash')
-const $ = require('../util/preconditions')
+import _ from 'lodash'
+import $ from '../util/preconditions'
+import BN from '../crypto/bn'
+import BufferReader from '../encoding/bufferreader'
+import BufferWriter from '../encoding/bufferwriter'
+import BufferUtil from '../util/buffer'
+import Hash from '../crypto/hash'
 
 const GENESIS_BITS = 0x1d00ffff
 
@@ -299,4 +299,4 @@ BlockHeader.Constants = {
   LARGEST_HASH: new BN('10000000000000000000000000000000000000000000000000000000000000000', 'hex'),
 }
 
-module.exports = BlockHeader
+export default BlockHeader

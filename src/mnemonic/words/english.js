@@ -1,4 +1,4 @@
-const english = [
+export default [
   'abandon',
   'ability',
   'able',
@@ -2048,5 +2048,3 @@ const english = [
   'zone',
   'zoo',
 ]
-
-module.exports = english

@@ -1,14 +1,15 @@
 'use strict';
 
+import bch from '../..'
+
 var buffer = require('buffer');
 
 var chai = require('chai');
 var should = chai.should();
-var bch = require('../../');
 var Script = bch.Script;
 var BN = bch.crypto.BN;
 var Transaction = bch.Transaction;
-var sighash = Transaction.sighash;
+var sighash = Transaction.Sighash;
 
 var vectors_sighash = require('../data/sighash.json');
 

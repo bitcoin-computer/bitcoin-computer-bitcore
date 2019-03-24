@@ -1,12 +1,12 @@
-const _ = require('lodash')
-const BN = require('./bn')
-const Point = require('./point')
-const Signature = require('./signature')
-const PublicKey = require('../publickey')
-const Random = require('./random')
-const Hash = require('./hash')
-const BufferUtil = require('../util/buffer')
-const $ = require('../util/preconditions')
+import _ from 'lodash'
+import $ from '../util/preconditions'
+import BN from './bn'
+import BufferUtil from '../util/buffer'
+import Hash from './hash'
+import Point from './point'
+import PublicKey from '../publickey'
+import Random from './random'
+import Signature from './signature'
 
 const ECDSA = function ECDSA(obj) {
   if (!(this instanceof ECDSA)) {
@@ -316,4 +316,4 @@ ECDSA.verify = function(hashbuf, sig, pubkey, endian) {
     .verify().verified
 }
 
-module.exports = ECDSA
+export default ECDSA

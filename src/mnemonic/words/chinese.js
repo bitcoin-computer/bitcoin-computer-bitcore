@@ -1,4 +1,4 @@
-const chinese = [
+export default [
   '的',
   '一',
   '是',
@@ -2048,5 +2048,3 @@ const chinese = [
   '矮',
   '歇',
 ]
-
-module.exports = chinese

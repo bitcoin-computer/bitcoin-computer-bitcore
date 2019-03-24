@@ -1,8 +1,10 @@
-const _ = require('lodash')
-const buffer = require('buffer')
-const errors = require('../errors')
+import { Buffer as ImportedBuffer } from 'buffer'
+import _ from 'lodash'
+import errors from '../errors'
 
-module.exports = {
+const buffer = { Buffer: ImportedBuffer }
+
+export default {
   checkState(condition, message) {
     if (!condition) {
       throw new errors.InvalidState(message)

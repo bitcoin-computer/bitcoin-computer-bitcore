@@ -1,31 +1,32 @@
 {
-    "parser": "babel-eslint",
-    "extends": [
-        "airbnb-base",
-        "plugin:flowtype/recommended",
-        "plugin:prettier/recommended",
-        "prettier/flowtype"
+  "parser": "babel-eslint",
+  "extends": [
+    "airbnb-base",
+    "plugin:flowtype/recommended",
+    "plugin:prettier/recommended",
+    "prettier/flowtype"
+  ],
+  "env": {
+    "browser": true
+  },
+  "plugins": [
+    "flowtype",
+    "flowtype-errors"
+  ],
+  "rules": {
+    "class-methods-use-this": "off",
+    "flowtype-errors/show-errors": "error",
+    "func-names": "off",
+    "lines-between-class-members": "off",
+    "no-bitwise": "off",
+    "no-else-return": "off",
+    "no-param-reassign": "off",
+    "no-plusplus": [
+      "error",
+      {
+        "allowForLoopAfterthoughts": true
+      }
     ],
-    "env": {
-        "browser": true
-    },
-    "plugins": [
-        "flowtype",
-        "flowtype-errors"
-    ],
-    "rules": {
-        "flowtype-errors/show-errors": "error",
-        "func-names": "off",
-        "lines-between-class-members": "off",
-        "no-bitwise": "off",
-        "no-else-return": "off",
-        "no-param-reassign": "off",
-        "no-plusplus": [
-            "error",
-            {
-                "allowForLoopAfterthoughts": true
-            }
-        ],
-        "no-underscore-dangle": "off"
-    }
+    "no-underscore-dangle": "off"
+  }
 }

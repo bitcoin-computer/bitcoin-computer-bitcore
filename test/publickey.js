@@ -1,9 +1,10 @@
 'use strict';
 
+import bch from '..'
+
 var should = require('chai').should();
 var expect = require('chai').expect;
 
-var bch = require('..');
 var Point = bch.crypto.Point;
 var BN = bch.crypto.BN;
 var PublicKey = bch.PublicKey;
@@ -363,7 +364,7 @@ describe('PublicKey', function() {
       var address = Address.fromString(d[1]);
       address.hashBuffer.should.deep.equal(publicKey._getID());
     });
-    
+
   });
 
   describe('#toString', function() {

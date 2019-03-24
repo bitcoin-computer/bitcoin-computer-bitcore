@@ -1,6 +1,6 @@
-const BufferWriter = require('./bufferwriter')
-const BufferReader = require('./bufferreader')
-const BN = require('../crypto/bn')
+import BN from '../crypto/bn'
+import BufferReader from './bufferreader'
+import BufferWriter from './bufferwriter'
 
 const Varint = function Varint(buf) {
   if (!(this instanceof Varint)) return new Varint(buf)
@@ -70,4 +70,4 @@ Varint.prototype.toNumber = function() {
   return BufferReader(this.buf).readVarintNum()
 }
 
-module.exports = Varint
+export default Varint

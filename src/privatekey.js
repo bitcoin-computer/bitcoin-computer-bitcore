@@ -1,13 +1,13 @@
-const _ = require('lodash')
-const Address = require('./address')
-const Base58Check = require('./encoding/base58check')
-const BN = require('./crypto/bn')
-const JSUtil = require('./util/js')
-const Networks = require('./networks')
-const Point = require('./crypto/point')
-const PublicKey = require('./publickey')
-const Random = require('./crypto/random')
-const $ = require('./util/preconditions')
+import _ from 'lodash'
+import $ from './util/preconditions'
+import Address from './address'
+import Base58Check from './encoding/base58check'
+import BN from './crypto/bn'
+import JSUtil from './util/js'
+import Networks from './networks'
+import Point from './crypto/point'
+import PublicKey from './publickey'
+import Random from './crypto/random'
 
 /**
  * Instantiate a PrivateKey from a BN, Buffer and WIF.
@@ -394,4 +394,4 @@ PrivateKey.prototype.inspect = function() {
   return `<PrivateKey: ${this.toString()}, network: ${this.network}${uncompressed}>`
 }
 
-module.exports = PrivateKey
+export default PrivateKey

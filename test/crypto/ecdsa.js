@@ -1,6 +1,7 @@
 'use strict';
 
-var bch = require('../..');
+import bch from '../..'
+
 var ECDSA = bch.crypto.ECDSA;
 var Hash = bch.crypto.Hash;
 var Privkey = bch.PrivateKey;

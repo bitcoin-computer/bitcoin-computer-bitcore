@@ -1,4 +1,4 @@
-const italian = [
+export default [
   'abaco',
   'abbaglio',
   'abbinato',
@@ -2048,5 +2048,3 @@ const italian = [
   'zulu',
   'zuppa',
 ]
-
-module.exports = italian

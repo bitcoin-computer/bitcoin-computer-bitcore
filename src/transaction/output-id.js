@@ -64,4 +64,4 @@ class OutputId {
   }
 }
 
-module.exports = OutputId
+export default OutputId

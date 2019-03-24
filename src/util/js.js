@@ -1,4 +1,4 @@
-const _ = require('lodash')
+import _ from 'lodash'
 
 /**
  * Determines whether a string contains only hexadecimal values
@@ -17,7 +17,7 @@ const isHexa = function isHexa(value) {
 /**
  * @namespace JSUtil
  */
-module.exports = {
+export default {
   /**
    * Test if an argument is a valid JSON object. If it is, returns a truthy
    * value (the json object decoded), so no double JSON.parse call is necessary

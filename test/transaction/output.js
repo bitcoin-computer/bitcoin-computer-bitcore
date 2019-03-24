@@ -1,12 +1,13 @@
 'use strict';
 
+import bch from '../..'
+
 /* jshint unused: false */
 /* jshint latedef: false */
 var should = require('chai').should();
 var expect = require('chai').expect;
 var _ = require('lodash');
 
-var bch = require('../..');
 var BN = bch.crypto.BN;
 var BufferWriter = bch.encoding.BufferWriter;
 var BufferReader = bch.encoding.BufferReader;
