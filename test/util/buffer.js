@@ -1,7 +1,7 @@
+import chai from 'chai'
 import Bitcoin from '../bitcoin'
 
-const { expect } = require('chai')
-
+const { expect } = chai
 const { errors } = Bitcoin
 const BufferUtil = Bitcoin.util.buffer
 

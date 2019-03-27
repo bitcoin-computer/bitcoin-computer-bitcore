@@ -1,10 +1,9 @@
+import _ from 'lodash'
+import assert from 'assert'
+import chai from 'chai'
 import Bitcoin from './bitcoin'
 
-const _ = require('lodash')
-const assert = require('assert')
-const { expect } = require('chai')
-const buffer = require('buffer')
-
+const { expect } = chai
 const { errors } = Bitcoin
 const hdErrors = Bitcoin.errors.HDPublicKey
 const BufferUtil = Bitcoin.util.buffer
@@ -77,7 +76,7 @@ describe('HDPublicKey interface', function() {
 
     describe('xpubkey string serialization errors', function() {
       it('fails on invalid length', function() {
-        expectFailBuilding(Base58Check.encode(new buffer.Buffer([1, 2, 3])), hdErrors.InvalidLength)
+        expectFailBuilding(Base58Check.encode(Buffer.from([1, 2, 3])), hdErrors.InvalidLength)
       })
       it('fails on invalid base58 encoding', function() {
         expectFailBuilding(`${xpubkey}1`, errors.InvalidB58Checksum)

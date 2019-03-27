@@ -1,7 +1,7 @@
+import chai from 'chai'
 import Bitcoin from '../bitcoin'
 
-const { expect } = require('chai')
-
+const { expect } = chai
 const { Transaction } = Bitcoin
 const TransactionSignature = Bitcoin.Transaction.Signature
 const { Script } = Bitcoin

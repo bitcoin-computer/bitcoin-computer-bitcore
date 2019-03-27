@@ -1,7 +1,7 @@
+import chai from 'chai'
 import Bitcoin from '../bitcoin'
 
-const should = require('chai').should()
-
+const should = chai.should()
 const { errors } = Bitcoin
 const $ = Bitcoin.util.preconditions
 const { PrivateKey } = Bitcoin

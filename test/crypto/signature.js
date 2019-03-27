@@ -1,15 +1,14 @@
+import _ from 'lodash'
+import chai from 'chai'
 import Bitcoin from '../bitcoin'
+import sigCanonical from '../data/bitcoind/sig_canonical'
+import sigNonCanonical from '../data/bitcoind/sig_noncanonical'
 
-const _ = require('lodash')
-const should = require('chai').should()
-
+const should = chai.should()
 const { BN } = Bitcoin.crypto
 const { Signature } = Bitcoin.crypto
 const JSUtil = Bitcoin.util.js
 const { Interpreter } = Bitcoin.Script
-
-const sigCanonical = require('../data/bitcoind/sig_canonical')
-const sigNonCanonical = require('../data/bitcoind/sig_noncanonical')
 
 describe('Signature', function() {
   it('should make a blank signature', function() {

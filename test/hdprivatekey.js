@@ -1,14 +1,12 @@
+import _ from 'lodash'
+import assert from 'assert'
+import chai from 'chai'
 import Bitcoin from './bitcoin'
 
-const _ = require('lodash')
-const assert = require('assert')
-const should = require('chai').should()
-const { expect } = require('chai')
-
+const should = chai.should()
+const { expect } = chai
 const { errors } = Bitcoin
 const hdErrors = errors.HDPrivateKey
-const buffer = require('buffer')
-
 const { Networks } = Bitcoin
 const BufferUtil = Bitcoin.util.buffer
 const { HDPrivateKey } = Bitcoin
@@ -141,7 +139,7 @@ describe('HDPrivate key interface', function() {
   })
 
   it('returns InvalidLength if data of invalid length is given to getSerializedError', function() {
-    const b58s = Base58Check.encode(new buffer.Buffer('onestring'))
+    const b58s = Base58Check.encode(Buffer.from('onestring'))
     expect(HDPrivateKey.getSerializedError(b58s) instanceof hdErrors.InvalidLength).to.equal(true)
   })
 

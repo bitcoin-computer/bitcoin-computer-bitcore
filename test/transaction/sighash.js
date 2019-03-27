@@ -1,13 +1,10 @@
 import Bitcoin from '../bitcoin'
-
-const buffer = require('buffer')
+import vectorsSighash from '../data/sighash.json'
 
 const { Script } = Bitcoin
 const { BN } = Bitcoin.crypto
 const { Transaction } = Bitcoin
 const sighash = Transaction.Sighash
-
-const vectorsSighash = require('../data/sighash.json')
 
 describe('sighash', function() {
   it('Should require amount for sigHash ForkId=0', function() {
@@ -18,12 +15,12 @@ describe('sighash', function() {
       -1325231124,
       'fbbc83ed610e416d94dcee2bb3bc35dfea8060b8052c59eabd7e998e3e978328',
     ]
-    const txbuf = new buffer.Buffer(vector[0], 'hex')
-    const scriptbuf = new buffer.Buffer(vector[1], 'hex')
+    const txbuf = Buffer.from(vector[0], 'hex')
+    const scriptbuf = Buffer.from(vector[1], 'hex')
     const subscript = Script(scriptbuf)
     const nin = vector[2]
     const nhashtype = vector[3]
-    const sighashbuf = new buffer.Buffer(vector[4], 'hex')
+    const sighashbuf = Buffer.from(vector[4], 'hex')
     const tx = new Transaction(txbuf)
 
     // make sure transacion to/from buffer is isomorphic
@@ -45,13 +42,13 @@ describe('sighash', function() {
       return
     }
     it(`test vector from bitcoind #${i} (${vector[4].substring(0, 16)})`, function() {
-      const txbuf = new buffer.Buffer(vector[0], 'hex')
-      const scriptbuf = new buffer.Buffer(vector[1], 'hex')
+      const txbuf = Buffer.from(vector[0], 'hex')
+      const scriptbuf = Buffer.from(vector[1], 'hex')
       const subscript = Script(scriptbuf)
       const nin = vector[2]
       const nhashtype = vector[3]
       // var nhashtype = vector[3]>>>0;
-      const sighashbuf = new buffer.Buffer(vector[4], 'hex')
+      const sighashbuf = Buffer.from(vector[4], 'hex')
       const tx = new Transaction(txbuf)
 
       // make sure transacion to/from buffer is isomorphic

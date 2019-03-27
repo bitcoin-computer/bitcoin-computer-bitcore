@@ -1,13 +1,14 @@
 /* eslint-disable no-unused-expressions, no-new, camelcase */
 
+import _ from 'lodash'
+import chai from 'chai'
+import sinon from 'sinon'
 import Bitcoin from '../bitcoin'
+import fixture from '../data/bip69.json'
+import transactionVector from '../data/tx_creation'
 
-const should = require('chai').should()
-const { expect } = require('chai')
-const _ = require('lodash')
-const sinon = require('sinon')
-const fixture = require('../data/bip69.json')
-
+const should = chai.should()
+const { expect } = chai
 const { BN } = Bitcoin.crypto
 const { Transaction } = Bitcoin
 const { Input } = Bitcoin.Transaction
@@ -17,8 +18,6 @@ const { Script } = Bitcoin
 const { Address } = Bitcoin
 const { Opcode } = Bitcoin
 const { errors } = Bitcoin
-
-const transactionVector = require('../data/tx_creation')
 
 const tx_empty_hex = '01000000000000000000'
 

@@ -1,7 +1,7 @@
+import chai from 'chai'
 import Bitcoin from '../bitcoin'
 
-const should = require('chai').should()
-
+const should = chai.should()
 const { BN } = Bitcoin.crypto
 const { BufferReader } = Bitcoin.encoding
 const { BufferWriter } = Bitcoin.encoding

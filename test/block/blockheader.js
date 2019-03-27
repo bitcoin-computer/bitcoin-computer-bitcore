@@ -1,20 +1,20 @@
 /* eslint-disable no-new */
 
+import chai from 'chai'
+import fs from 'fs'
 import Bitcoin from '../bitcoin'
+import data from '../data/blk86756-testnet'
 
+const should = chai.should()
 const { BN } = Bitcoin.crypto
 const { BufferReader } = Bitcoin.encoding
 const { BufferWriter } = Bitcoin.encoding
-
 const { BlockHeader } = Bitcoin
-const fs = require('fs')
-const should = require('chai').should()
 
 // https://test-insight.bitpaycrypto.com/block/000000000b99b16390660d79fcc138d2ad0c89a0d044c4201a02bdf1f61ffa11
 const dataRawBlockBuffer = fs.readFileSync('test/data/blk86756-testnet.dat')
 const dataRawBlockBinary = fs.readFileSync('test/data/blk86756-testnet.dat', 'binary')
 const dataRawId = '000000000b99b16390660d79fcc138d2ad0c89a0d044c4201a02bdf1f61ffa11'
-const data = require('../data/blk86756-testnet')
 
 describe('BlockHeader', function() {
   const { version } = data

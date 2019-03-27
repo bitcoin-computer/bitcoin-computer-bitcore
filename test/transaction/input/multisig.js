@@ -1,10 +1,10 @@
 /* eslint-disable no-unused-expressions */
 
+import _ from 'lodash'
+import chai from 'chai'
 import Bitcoin from '../../bitcoin'
 
-const should = require('chai').should()
-const _ = require('lodash')
-
+const should = chai.should()
 const { Transaction } = Bitcoin
 const { PrivateKey } = Bitcoin
 const { Address } = Bitcoin

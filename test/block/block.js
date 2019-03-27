@@ -1,22 +1,21 @@
+import chai from 'chai'
+import fs from 'fs'
 import Bitcoin from '../bitcoin'
+import data from '../data/blk86756-testnet'
+import dataBlocks from '../data/bitcoind/blocks'
 
+const should = chai.should()
 const { BN } = Bitcoin.crypto
 const { BufferReader } = Bitcoin.encoding
 const { BufferWriter } = Bitcoin.encoding
 const { BlockHeader } = Bitcoin
 const { Block } = Bitcoin
-const chai = require('chai')
-const fs = require('fs')
-
-const should = chai.should()
 const { Transaction } = Bitcoin
 
 // https://test-insight.bitpay.com/block/000000000b99b16390660d79fcc138d2ad0c89a0d044c4201a02bdf1f61ffa11
 const dataRawBlockBuffer = fs.readFileSync('test/data/blk86756-testnet.dat')
 const dataRawBlockBinary = fs.readFileSync('test/data/blk86756-testnet.dat', 'binary')
 const dataJson = fs.readFileSync('test/data/blk86756-testnet.json').toString()
-const data = require('../data/blk86756-testnet')
-const dataBlocks = require('../data/bitcoind/blocks')
 
 describe('Block', function() {
   const { blockhex } = data

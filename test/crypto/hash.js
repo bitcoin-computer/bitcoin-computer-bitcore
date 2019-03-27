@@ -1,8 +1,8 @@
+import chai from 'chai'
 import Bitcoin from '../bitcoin'
 
-require('chai').should()
-
 const { Hash } = Bitcoin.crypto
+chai.should()
 
 describe('Hash', function() {
   const buf = Buffer.from([0, 1, 2, 3, 253, 254, 255])

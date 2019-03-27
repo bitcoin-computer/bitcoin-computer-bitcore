@@ -1,17 +1,15 @@
+import chai from 'chai'
 import Bitcoin from './bitcoin'
 
-const chai = require('chai')
+import validbase58 from './data/bitcoind/base58_keys_valid.json'
+import invalidbase58 from './data/bitcoind/base58_keys_invalid.json'
 
 const should = chai.should()
 const { expect } = chai
-
 const { PublicKey } = Bitcoin
 const { Address } = Bitcoin
 const { Script } = Bitcoin
 const { Networks } = Bitcoin
-
-const validbase58 = require('./data/bitcoind/base58_keys_valid.json')
-const invalidbase58 = require('./data/bitcoind/base58_keys_invalid.json')
 
 // livenet valid
 const PKHLivenet = [

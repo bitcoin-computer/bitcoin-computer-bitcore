@@ -1,6 +1,5 @@
+import chai from 'chai'
 import Bitcoin from './bitcoin'
-
-const chai = require('chai')
 
 const { expect } = chai
 const { Networks } = Bitcoin

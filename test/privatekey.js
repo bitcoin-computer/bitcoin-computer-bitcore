@@ -1,18 +1,15 @@
+import chai from 'chai'
 import Bitcoin from './bitcoin'
-
-const chai = require('chai')
+import validbase58 from './data/bitcoind/base58_keys_valid.json'
+import invalidbase58 from './data/bitcoind/base58_keys_invalid.json'
 
 const should = chai.should()
 const { expect } = chai
-
 const { BN } = Bitcoin.crypto
 const { Point } = Bitcoin.crypto
 const { PrivateKey } = Bitcoin
 const { Networks } = Bitcoin
 const { Base58Check } = Bitcoin.encoding
-
-const validbase58 = require('./data/bitcoind/base58_keys_valid.json')
-const invalidbase58 = require('./data/bitcoind/base58_keys_invalid.json')
 
 describe('PrivateKey', function() {
   const hex = '96c132224121b509b7d0a16245e957d9192609c5637c6228311287b1be21627a'
