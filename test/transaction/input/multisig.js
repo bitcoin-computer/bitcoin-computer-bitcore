@@ -1,16 +1,16 @@
 /* eslint-disable no-unused-expressions */
 
-import bch from '../../..'
+import Bitcoin from '../../bitcoin'
 
 const should = require('chai').should()
 const _ = require('lodash')
 
-const { Transaction } = bch
-const { PrivateKey } = bch
-const { Address } = bch
-const { Script } = bch
-const { Signature } = bch.crypto
-const MultiSigInput = bch.Transaction.Input.MultiSig
+const { Transaction } = Bitcoin
+const { PrivateKey } = Bitcoin
+const { Address } = Bitcoin
+const { Script } = Bitcoin
+const { Signature } = Bitcoin.crypto
+const MultiSigInput = Bitcoin.Transaction.Input.MultiSig
 
 describe('MultiSigInput', function() {
   const privateKey1 = new PrivateKey('KwF9LjRraetZuEjR8VqEq539z137LW5anYDUnVK11vM3mNMHTWb4')

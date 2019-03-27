@@ -1,14 +1,14 @@
-import bch from '../..'
+import Bitcoin from '../bitcoin'
 
 const should = require('chai').should()
 const { expect } = require('chai')
 
-const BufferUtil = bch.util.buffer
-const { Script } = bch
-const { Networks } = bch
-const { Opcode } = bch
-const { PublicKey } = bch
-const { Address } = bch
+const BufferUtil = Bitcoin.util.buffer
+const { Script } = Bitcoin
+const { Networks } = Bitcoin
+const { Opcode } = Bitcoin
+const { PublicKey } = Bitcoin
+const { Address } = Bitcoin
 
 describe('Script', function() {
   it('should make a new script', function() {
@@ -293,7 +293,7 @@ describe('Script', function() {
         '483045022050eb59c79435c051f45003d9f82865c8e4df5699d7722e77113ef8cadbd92109022100d4ab233e070070eb8e0e62e3d2d2eb9474a5bf135c9eda32755acb0875a6c20601',
         'hex',
       )
-      const script = bch.Script.fromBuffer(scriptBuffer)
+      const script = Bitcoin.Script.fromBuffer(scriptBuffer)
       script.isPublicKeyIn().should.equal(true)
     })
   })
@@ -1413,7 +1413,7 @@ describe('Script', function() {
     })
     it('should handle P2SH-multisig-in scripts from utility', function() {
       // create a well-formed signature, does not need to match pubkeys
-      const signature = bch.crypto.Signature.fromString('30060201FF0201FF')
+      const signature = Bitcoin.crypto.Signature.fromString('30060201FF0201FF')
       const signatures = [signature.toBuffer()]
       const p2sh = Script.buildP2SHMultisigIn(pubKeyHexes, 1, signatures, {})
       p2sh.getSignatureOperationsCount(true).should.equal(0)

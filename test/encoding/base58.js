@@ -1,9 +1,9 @@
-import bch from '../..'
+import Bitcoin from '../bitcoin'
 
 const should = require('chai').should()
 const buffer = require('buffer')
 
-const { Base58 } = bch.encoding
+const { Base58 } = Bitcoin.encoding
 
 describe('Base58', function() {
   const buf = new buffer.Buffer([0, 1, 2, 3, 253, 254, 255])

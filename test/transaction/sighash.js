@@ -1,10 +1,10 @@
-import bch from '../..'
+import Bitcoin from '../bitcoin'
 
 const buffer = require('buffer')
 
-const { Script } = bch
-const { BN } = bch.crypto
-const { Transaction } = bch
+const { Script } = Bitcoin
+const { BN } = Bitcoin.crypto
+const { Transaction } = Bitcoin
 const sighash = Transaction.Sighash
 
 const vectorsSighash = require('../data/sighash.json')

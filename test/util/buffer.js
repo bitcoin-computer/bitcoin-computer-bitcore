@@ -1,9 +1,9 @@
-import bch from '../..'
+import Bitcoin from '../bitcoin'
 
 const { expect } = require('chai')
 
-const { errors } = bch
-const BufferUtil = bch.util.buffer
+const { errors } = Bitcoin
+const BufferUtil = Bitcoin.util.buffer
 
 describe('buffer utils', function() {
   describe('equals', function() {

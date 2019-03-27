@@ -1,15 +1,15 @@
-import bch from '../../..'
+import Bitcoin from '../../bitcoin'
 
 const should = require('chai').should()
 const { expect } = require('chai')
 const _ = require('lodash')
 
-const { errors } = bch
-const { PrivateKey } = bch
-const { Address } = bch
-const { Script } = bch
-const { Networks } = bch
-const { Input } = bch.Transaction
+const { errors } = Bitcoin
+const { PrivateKey } = Bitcoin
+const { Address } = Bitcoin
+const { Script } = Bitcoin
+const { Networks } = Bitcoin
+const { Input } = Bitcoin.Transaction
 
 describe('Transaction.Input', function() {
   const privateKey = new PrivateKey('KwF9LjRraetZuEjR8VqEq539z137LW5anYDUnVK11vM3mNMHTWb4')

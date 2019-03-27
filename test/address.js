@@ -1,14 +1,14 @@
-import bch from '..'
+import Bitcoin from './bitcoin'
 
 const chai = require('chai')
 
 const should = chai.should()
 const { expect } = chai
 
-const { PublicKey } = bch
-const { Address } = bch
-const { Script } = bch
-const { Networks } = bch
+const { PublicKey } = Bitcoin
+const { Address } = Bitcoin
+const { Script } = Bitcoin
+const { Networks } = Bitcoin
 
 const validbase58 = require('./data/bitcoind/base58_keys_valid.json')
 const invalidbase58 = require('./data/bitcoind/base58_keys_invalid.json')
@@ -317,7 +317,7 @@ describe('Address', function() {
     it('should error because of unrecognized data format', function() {
       ;(function() {
         return new Address(new Error())
-      }.should.throw(bch.errors.InvalidArgument))
+      }.should.throw(Bitcoin.errors.InvalidArgument))
     })
 
     it('should error because of incorrect format for pubkey hash', function() {
@@ -530,7 +530,7 @@ describe('Address', function() {
     it('will fail with invalid state', function() {
       expect(function() {
         return Address.fromObject('¹')
-      }).to.throw(bch.errors.InvalidState)
+      }).to.throw(Bitcoin.errors.InvalidState)
     })
   })
 
