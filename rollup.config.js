@@ -1,3 +1,4 @@
+import babel from 'rollup-plugin-babel'
 import builtins from 'rollup-plugin-node-builtins'
 import commonjs from 'rollup-plugin-commonjs'
 import flow from 'rollup-plugin-flow'
@@ -82,6 +83,22 @@ const main = {
       // Prefer built-in modules like assert and buffer over browser shims
       preferBuiltins: true
     }),
+    // Use babel to support the latest features and minify
+    babel({
+      // Prefer the config here (specific to rollup) to that in babel.rc
+      babelrc: false,
+      presets: [
+        // Disable converting modules because rollup will do this better
+        ["@babel/preset-env", { targets: { esmodules: true } }],
+        // Minify before the terser
+        ["minify", {
+          // Don't minify the built-in objects. This breaks for some reason.
+          builtIns: false,
+          // Our terser will mangle names and this breaks for some reason
+          mangle: false
+        }]
+      ]
+    }),
     // Minify the resulting code
     terser()
   ],
@@ -124,6 +141,22 @@ const browser = {
     globals(),
     // Provide browser shims for node built-ins (ie. buffer, assert, url)
     builtins(),
+    // Use babel to support the latest features and minify
+    babel({
+      // Prefer the config here (specific to rollup) to that in babel.rc
+      babelrc: false,
+      presets: [
+        // Disable converting modules because rollup will do this better
+        ["@babel/preset-env", { targets: { esmodules: true } }],
+        // Minify before the terser
+        ["minify", {
+          // Don't minify the built-in objects. This breaks for some reason.
+          builtIns: false,
+          // Our terser will mangle names and this breaks for some reason
+          mangle: false
+        }]
+      ]
+    }),
     // Minify the resulting code
     terser()
   ],
@@ -165,6 +198,22 @@ const module = {
     resolve({
       // Prefer built-in modules like assert and buffer over browser shims
       preferBuiltins: true
+    }),
+    // Use babel to support the latest features and minify
+    babel({
+      // Prefer the config here (specific to rollup) to that in babel.rc
+      babelrc: false,
+      presets: [
+        // Disable converting modules because rollup will do this better
+        ["@babel/preset-env", { targets: { esmodules: true } }],
+        // Minify before the terser
+        ["minify", {
+          // Don't minify the built-in objects. This breaks for some reason.
+          builtIns: false,
+          // Our terser will mangle names and this breaks for some reason
+          mangle: false
+        }]
+      ]
     }),
     // Minify the resulting code
     terser({
