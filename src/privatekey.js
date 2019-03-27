@@ -33,9 +33,6 @@ import Random from './crypto/random'
  * @constructor
  */
 function PrivateKey(data, network) {
-  /* jshint maxstatements: 20 */
-  /* jshint maxcomplexity: 8 */
-
   if (!(this instanceof PrivateKey)) {
     return new PrivateKey(data, network)
   }
@@ -80,7 +77,6 @@ function PrivateKey(data, network) {
  * @return {Object}
  */
 PrivateKey.prototype._classifyArguments = function(data, network) {
-  /* jshint maxcomplexity: 10 */
   let info = {
     compressed: true,
     network: network ? Networks.get(network) : Networks.defaultNetwork,

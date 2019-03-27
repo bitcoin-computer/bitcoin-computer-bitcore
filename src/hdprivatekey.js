@@ -220,8 +220,6 @@ HDPrivateKey.prototype.deriveNonCompliantChild = function(arg, hardened) {
 }
 
 HDPrivateKey.prototype._deriveWithNumber = function(index, hardened, nonCompliant) {
-  /* jshint maxstatements: 20 */
-  /* jshint maxcomplexity: 10 */
   if (!HDPrivateKey.isValidPath(index, hardened)) {
     throw new hdErrors.InvalidPath(index)
   }
@@ -313,7 +311,6 @@ HDPrivateKey.isValidSerialized = function(data, network) {
  * @return {errors.InvalidArgument|null}
  */
 HDPrivateKey.getSerializedError = function(data, network) {
-  /* jshint maxcomplexity: 10 */
   if (!(_.isString(data) || BufferUtil.isBuffer(data))) {
     return new hdErrors.UnrecognizedArgument('Expected string or buffer')
   }
@@ -425,7 +422,6 @@ HDPrivateKey.prototype._generateRandomly = function(network) {
  * @return HDPrivateKey
  */
 HDPrivateKey.fromSeed = function(hexa, network) {
-  /* jshint maxcomplexity: 8 */
   if (JSUtil.isHexaString(hexa)) {
     hexa = BufferUtil.hexToBuffer(hexa)
   }

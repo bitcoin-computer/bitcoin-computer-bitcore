@@ -16,7 +16,6 @@ import Transaction from '../transaction/transaction'
  * @constructor
  */
 class MerkleBlock {
-  /* jshint maxstatements: 18 */
   constructor(arg) {
     if (!(this instanceof MerkleBlock)) {
       return new MerkleBlock(arg)

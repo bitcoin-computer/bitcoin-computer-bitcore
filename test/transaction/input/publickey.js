@@ -1,72 +1,67 @@
-'use strict';
-
 import bch from '../../..'
 
-var should = require('chai').should();
-var Transaction = bch.Transaction;
-var PrivateKey = bch.PrivateKey;
+const { Transaction } = bch
+const { PrivateKey } = bch
 
 describe('PublicKeyInput', function() {
-
-  var utxo = {
+  const utxo = {
     txid: '7f3b688cb224ed83e12d9454145c26ac913687086a0a62f2ae0bc10934a4030f',
     vout: 0,
     address: 'n4McBrSkw42eYGX5YMACGpkGUJKL3jVSbo',
     scriptPubKey: '2103c9594cb2ebfebcb0cfd29eacd40ba012606a197beef76f0269ed8c101e56ceddac',
     amount: 50,
     confirmations: 104,
-    spendable: true
-  };
-  var privateKey = PrivateKey.fromWIF('cQ7tSSQDEwaxg9usnnP1Aztqvm9nCQVfNWz9kU2rdocDjknF2vd6');
-  var address = privateKey.toAddress();
-  utxo.address.should.equal(address.toString());
+    spendable: true,
+  }
+  const privateKey = PrivateKey.fromWIF('cQ7tSSQDEwaxg9usnnP1Aztqvm9nCQVfNWz9kU2rdocDjknF2vd6')
+  const address = privateKey.toAddress()
+  utxo.address.should.equal(address.toString())
 
-  var destKey = new PrivateKey();
+  const destKey = new PrivateKey()
 
   it('will correctly sign a publickey out transaction', function() {
-    var tx = new Transaction();
-    tx.from(utxo);
-    tx.to(destKey.toAddress(), 10000);
-    tx.sign(privateKey);
-    tx.inputs[0].script.toBuffer().length.should.be.above(0);
-  });
+    const tx = new Transaction()
+    tx.from(utxo)
+    tx.to(destKey.toAddress(), 10000)
+    tx.sign(privateKey)
+    tx.inputs[0].script.toBuffer().length.should.be.above(0)
+  })
 
   it('count can count missing signatures', function() {
-    var tx = new Transaction();
-    tx.from(utxo);
-    tx.to(destKey.toAddress(), 10000);
-    var input = tx.inputs[0];
-    input.isFullySigned().should.equal(false);
-    tx.sign(privateKey);
-    input.isFullySigned().should.equal(true);
-  });
+    const tx = new Transaction()
+    tx.from(utxo)
+    tx.to(destKey.toAddress(), 10000)
+    const input = tx.inputs[0]
+    input.isFullySigned().should.equal(false)
+    tx.sign(privateKey)
+    input.isFullySigned().should.equal(true)
+  })
 
-  it('it\'s size can be estimated', function() {
-    var tx = new Transaction();
-    tx.from(utxo);
-    tx.to(destKey.toAddress(), 10000);
-    var input = tx.inputs[0];
-    input._estimateSize().should.equal(73);
-  });
+  it("it's size can be estimated", function() {
+    const tx = new Transaction()
+    tx.from(utxo)
+    tx.to(destKey.toAddress(), 10000)
+    const input = tx.inputs[0]
+    input._estimateSize().should.equal(73)
+  })
 
-  it('it\'s signature can be removed', function() {
-    var tx = new Transaction();
-    tx.from(utxo);
-    tx.to(destKey.toAddress(), 10000);
-    var input = tx.inputs[0];
-    tx.sign(privateKey);
-    input.isFullySigned().should.equal(true);
-    input.clearSignatures();
-    input.isFullySigned().should.equal(false);
-  });
+  it("it's signature can be removed", function() {
+    const tx = new Transaction()
+    tx.from(utxo)
+    tx.to(destKey.toAddress(), 10000)
+    const input = tx.inputs[0]
+    tx.sign(privateKey)
+    input.isFullySigned().should.equal(true)
+    input.clearSignatures()
+    input.isFullySigned().should.equal(false)
+  })
 
   it('returns an empty array if private key mismatches', function() {
-    var tx = new Transaction();
-    tx.from(utxo);
-    tx.to(destKey.toAddress(), 10000);
-    var input = tx.inputs[0];
-    var signatures = input.getSignatures(tx, new PrivateKey(), 0);
-    signatures.length.should.equal(0);
-  });
-
-});
+    const tx = new Transaction()
+    tx.from(utxo)
+    tx.to(destKey.toAddress(), 10000)
+    const input = tx.inputs[0]
+    const signatures = input.getSignatures(tx, new PrivateKey(), 0)
+    signatures.length.should.equal(0)
+  })
+})
