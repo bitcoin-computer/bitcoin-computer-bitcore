@@ -1,10 +1,10 @@
-import bch from '../..'
+import Bitcoin from '../bitcoin'
 
 const should = require('chai').should()
 
-const { errors } = bch
-const $ = bch.util.preconditions
-const { PrivateKey } = bch
+const { errors } = Bitcoin
+const $ = Bitcoin.util.preconditions
+const { PrivateKey } = Bitcoin
 
 describe('preconditions', function() {
   it('can be used to assert state', function() {

@@ -1,11 +1,11 @@
-import bch from '../..'
+import Bitcoin from '../bitcoin'
 
 const should = require('chai').should()
 
-const { BN } = bch.crypto
-const { BufferReader } = bch.encoding
-const { BufferWriter } = bch.encoding
-const { Varint } = bch.encoding
+const { BN } = Bitcoin.crypto
+const { BufferReader } = Bitcoin.encoding
+const { BufferWriter } = Bitcoin.encoding
+const { Varint } = Bitcoin.encoding
 
 describe('Varint', function() {
   it('should make a new varint', function() {

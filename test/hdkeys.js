@@ -1,6 +1,6 @@
 /* eslint-disable camelcase */
 
-import bch from '..'
+import Bitcoin from './bitcoin'
 
 const _ = require('lodash')
 // eslint-disable-next-line no-unused-vars
@@ -8,9 +8,9 @@ const should = require('chai').should()
 const { expect } = require('chai')
 const sinon = require('sinon')
 
-const { Networks } = bch
-const { HDPrivateKey } = bch
-const { HDPublicKey } = bch
+const { Networks } = Bitcoin
+const { HDPrivateKey } = Bitcoin
+const { HDPublicKey } = Bitcoin
 
 // test vectors: https://github.com/bitcoin/bips/blob/master/bip-0032.mediawiki
 const vector1_master = '000102030405060708090a0b0c0d0e0f'
@@ -379,9 +379,9 @@ describe('BIP32 compliance', function() {
         '39816057bba9d952fe87fe998b7fd4d690a1bb58c2ff69141469e4d1dffb4b91',
         'hex'
       )
-      const unstubbed = bch.crypto.BN.prototype.toBuffer
+      const unstubbed = Bitcoin.crypto.BN.prototype.toBuffer
       let count = 0
-      sandbox.stub(bch.crypto.BN.prototype, 'toBuffer', function(args) {
+      sandbox.stub(Bitcoin.crypto.BN.prototype, 'toBuffer', function(args) {
         // On the fourth call to the function give back an invalid private key
         // otherwise use the normal behavior.
         count += 1
@@ -391,7 +391,7 @@ describe('BIP32 compliance', function() {
         const ret = unstubbed.apply(this, args)
         return ret
       })
-      sandbox.spy(bch.PrivateKey, 'isValid')
+      sandbox.spy(Bitcoin.PrivateKey, 'isValid')
       const key = HDPrivateKey.fromObject({
         network: 'testnet',
         depth: 0,
@@ -404,7 +404,7 @@ describe('BIP32 compliance', function() {
       derived.privateKey
         .toString()
         .should.equal('b15bce3608d607ee3a49069197732c656bca942ee59f3e29b4d56914c1de6825')
-      bch.PrivateKey.isValid.callCount.should.equal(2)
+      Bitcoin.PrivateKey.isValid.callCount.should.equal(2)
     })
     it('will handle edge case that a derive public key is invalid', function() {
       const publicKeyBuffer = Buffer.from(
@@ -423,9 +423,9 @@ describe('BIP32 compliance', function() {
         chainCode: chainCodeBuffer,
         publicKey: publicKeyBuffer
       })
-      const unstubbed = bch.PublicKey.fromPoint
-      bch.PublicKey.fromPoint = function() {
-        bch.PublicKey.fromPoint = unstubbed
+      const unstubbed = Bitcoin.PublicKey.fromPoint
+      Bitcoin.PublicKey.fromPoint = function() {
+        Bitcoin.PublicKey.fromPoint = unstubbed
         throw new Error('Point cannot be equal to Infinity')
       }
       sandbox.spy(key, '_deriveWithNumber')
