@@ -1,6 +1,5 @@
 import _ from 'lodash'
 import assert from 'assert'
-import { Buffer as ImportedBuffer } from 'buffer'
 import $ from './util/preconditions'
 import Base58 from './encoding/base58'
 import Base58Check from './encoding/base58check'
@@ -16,7 +15,6 @@ import PrivateKey from './privatekey'
 import Random from './crypto/random'
 
 const hdErrors = errors.HDPrivateKey
-const buffer = { Buffer: ImportedBuffer }
 
 const MINIMUM_ENTROPY_BITS = 128
 const BITS_TO_BYTES = 1 / 8
@@ -237,12 +235,12 @@ HDPrivateKey.prototype._deriveWithNumber = function(index, hardened, nonComplian
     // The private key serialization in this case will not be exactly 32 bytes and can be
     // any value less, and the value is not zero-padded.
     const nonZeroPadded = this.privateKey.bn.toBuffer()
-    data = BufferUtil.concat([new buffer.Buffer([0]), nonZeroPadded, indexBuffer])
+    data = BufferUtil.concat([Buffer.from([0]), nonZeroPadded, indexBuffer])
   } else if (hardened) {
     // This will use a 32 byte zero padded serialization of the private key
     const privateKeyBuffer = this.privateKey.bn.toBuffer({ size: 32 })
     assert(privateKeyBuffer.length === 32, 'private key buffer is expected to be 32 bytes')
-    data = BufferUtil.concat([new buffer.Buffer([0]), privateKeyBuffer, indexBuffer])
+    data = BufferUtil.concat([Buffer.from([0]), privateKeyBuffer, indexBuffer])
   } else {
     data = BufferUtil.concat([this.publicKey.toBuffer(), indexBuffer])
   }
@@ -438,7 +436,7 @@ HDPrivateKey.fromSeed = function(hexa, network) {
   if (hexa.length > MAXIMUM_ENTROPY_BITS * BITS_TO_BYTES) {
     throw new hdErrors.InvalidEntropyArgument.TooMuchEntropy(hexa)
   }
-  const hash = Hash.sha512hmac(hexa, new buffer.Buffer('Bitcoin seed'))
+  const hash = Hash.sha512hmac(hexa, Buffer.from('Bitcoin seed'))
 
   return new HDPrivateKey({
     network: Network.get(network) || Network.defaultNetwork,
@@ -461,13 +459,13 @@ HDPrivateKey.prototype._calcHDPublicKey = function() {
  * internal structure
  *
  * @param {Object} arg
- * @param {buffer.Buffer} arg.version
- * @param {buffer.Buffer} arg.depth
- * @param {buffer.Buffer} arg.parentFingerPrint
- * @param {buffer.Buffer} arg.childIndex
- * @param {buffer.Buffer} arg.chainCode
- * @param {buffer.Buffer} arg.privateKey
- * @param {buffer.Buffer} arg.checksum
+ * @param {Buffer} arg.version
+ * @param {Buffer} arg.depth
+ * @param {Buffer} arg.parentFingerPrint
+ * @param {Buffer} arg.childIndex
+ * @param {Buffer} arg.chainCode
+ * @param {Buffer} arg.privateKey
+ * @param {Buffer} arg.checksum
  * @param {string=} arg.xprivkey - if set, don't recalculate the base58
  *      representation
  * @return {HDPrivateKey} this
@@ -488,7 +486,7 @@ HDPrivateKey.prototype._buildFromBuffers = function(arg) {
     BufferUtil.emptyBuffer(1),
     arg.privateKey
   ]
-  const concat = buffer.Buffer.concat(sequence)
+  const concat = Buffer.concat(sequence)
   if (!arg.checksum || !arg.checksum.length) {
     arg.checksum = Base58Check.checksum(concat)
   } else if (arg.checksum.toString() !== Base58Check.checksum(concat).toString()) {
@@ -496,7 +494,7 @@ HDPrivateKey.prototype._buildFromBuffers = function(arg) {
   }
 
   const network = Network.get(BufferUtil.integerFromBuffer(arg.version))
-  const xprivkey = Base58Check.encode(buffer.Buffer.concat(sequence))
+  const xprivkey = Base58Check.encode(Buffer.concat(sequence))
   arg.xprivkey = Buffer.from(xprivkey)
 
   const privateKey = new PrivateKey(BN.fromBuffer(arg.privateKey), network)

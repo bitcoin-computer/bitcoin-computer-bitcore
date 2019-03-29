@@ -1,9 +1,6 @@
 import assert from 'assert'
-import { Buffer as ImportedBuffer } from 'buffer'
 import $ from './preconditions'
 import js from './js'
-
-const buffer = { Buffer: ImportedBuffer }
 
 function equals(a, b) {
   if (a.length !== b.length) {
@@ -56,7 +53,7 @@ const BufferUtil = {
    * @return {boolean}
    */
   isBuffer: function isBuffer(arg) {
-    return buffer.Buffer.isBuffer(arg) || arg instanceof Uint8Array
+    return Buffer.isBuffer(arg) || arg instanceof Uint8Array
   },
 
   /**
@@ -77,9 +74,9 @@ const BufferUtil = {
   /**
    * Concatenates a buffer
    *
-   * Shortcut for <tt>buffer.Buffer.concat</tt>
+   * Shortcut for <tt>Buffer.concat</tt>
    */
-  concat: buffer.Buffer.concat,
+  concat: Buffer.concat,
 
   equals,
   equal: equals,

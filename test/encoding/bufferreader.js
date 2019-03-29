@@ -7,31 +7,31 @@ var BufferWriter = bch.encoding.BufferWriter;
 var BufferReader = bch.encoding.BufferReader;
 var BN = bch.crypto.BN;
 
-describe('BufferReader', function() {
+describe('BufferReader', function () {
 
-  it('should make a new BufferReader', function() {
+  it('should make a new BufferReader', function () {
     var br = new BufferReader();
     should.exist(br);
     br = BufferReader();
     should.exist(br);
   });
 
-  it('should create a new bufferreader with a buffer', function() {
-    var buf = new Buffer(0);
+  it('should create a new bufferreader with a buffer', function () {
+    var buf = Buffer.alloc(0);
     var br = new BufferReader(buf);
     should.exist(br);
     Buffer.isBuffer(br.buf).should.equal(true);
   });
-    it('should fail for invalid object', function() {
-      var fail = function() {
-        return new BufferReader(5);
-      };
-      fail.should.throw('Unrecognized argument for BufferReader');
-    });
+  it('should fail for invalid object', function () {
+    var fail = function () {
+      return new BufferReader(5);
+    };
+    fail.should.throw('Unrecognized argument for BufferReader');
+  });
 
-  describe('#set', function() {
+  describe('#set', function () {
 
-    it('should set pos', function() {
+    it('should set pos', function () {
       should.exist(BufferReader().set({
         pos: 1
       }).pos);
@@ -39,25 +39,25 @@ describe('BufferReader', function() {
 
   });
 
-  describe('#eof', function() {
+  describe('#eof', function () {
 
-    it('should return true for a blank br', function() {
-      var br = new BufferReader(new Buffer([]));
+    it('should return true for a blank br', function () {
+      var br = new BufferReader(Buffer.from([]));
       br.finished().should.equal(true);
     });
 
   });
 
-  describe('read', function() {
+  describe('read', function () {
 
-    it('should return the same buffer', function() {
-      var buf = new Buffer([0]);
+    it('should return the same buffer', function () {
+      var buf = Buffer.from([0]);
       var br = new BufferReader(buf);
       br.readAll().toString('hex').should.equal(buf.toString('hex'));
     });
 
-    it('should return a buffer of this length', function() {
-      var buf = new Buffer(10);
+    it('should return a buffer of this length', function () {
+      var buf = Buffer.alloc(10);
       buf.fill(0);
       var br = new BufferReader(buf);
       var buf2 = br.read(2);
@@ -66,8 +66,8 @@ describe('BufferReader', function() {
       br.pos.should.equal(2);
     });
 
-    it('should work with 0 length', function() {
-      var buf = new Buffer(10);
+    it('should work with 0 length', function () {
+      var buf = Buffer.alloc(10);
       buf.fill(1);
       var br = new BufferReader(buf);
       var buf2 = br.read(0);
@@ -78,10 +78,10 @@ describe('BufferReader', function() {
 
   });
 
-  describe('readVarLengthBuffer', function() {
+  describe('readVarLengthBuffer', function () {
 
-    it('returns correct buffer', function() {
-      var buf = new Buffer('73010000003766404f00000000b305434f00000000f203' +
+    it('returns correct buffer', function () {
+      var buf = Buffer.from('73010000003766404f00000000b305434f00000000f203' +
         '0000f1030000001027000048ee00000064000000004653656520626974636f696' +
         'e2e6f72672f666562323020696620796f7520686176652074726f75626c652063' +
         '6f6e6e656374696e6720616674657220323020466562727561727900473045022' +
@@ -99,18 +99,18 @@ describe('BufferReader', function() {
         'c13810ffcae14995bb648340219e353b63b53eb022009ec65e1c1aaeec1fd334c' +
         '6b684bde2b3f573060d5b70c3a46723326e4e8a4f1');
     });
-    it('fails on length too big', function() {
-      var buf = new Buffer('0a00', 'hex');
+    it('fails on length too big', function () {
+      var buf = Buffer.from('0a00', 'hex');
       var br = new BufferReader(buf);
       br.readVarLengthBuffer.bind(br).should.throw('Invalid length while reading varlength buffer');
     });
 
   });
 
-  describe('#readUInt8', function() {
+  describe('#readUInt8', function () {
 
-    it('should return 1', function() {
-      var buf = new Buffer(1);
+    it('should return 1', function () {
+      var buf = Buffer.alloc(1);
       buf.writeUInt8(1, 0);
       var br = new BufferReader(buf);
       br.readUInt8().should.equal(1);
@@ -118,10 +118,10 @@ describe('BufferReader', function() {
 
   });
 
-  describe('#readUInt16BE', function() {
+  describe('#readUInt16BE', function () {
 
-    it('should return 1', function() {
-      var buf = new Buffer(2);
+    it('should return 1', function () {
+      var buf = Buffer.alloc(2);
       buf.writeUInt16BE(1, 0);
       var br = new BufferReader(buf);
       br.readUInt16BE().should.equal(1);
@@ -129,10 +129,10 @@ describe('BufferReader', function() {
 
   });
 
-  describe('#readUInt16LE', function() {
+  describe('#readUInt16LE', function () {
 
-    it('should return 1', function() {
-      var buf = new Buffer(2);
+    it('should return 1', function () {
+      var buf = Buffer.alloc(2);
       buf.writeUInt16LE(1, 0);
       var br = new BufferReader(buf);
       br.readUInt16LE().should.equal(1);
@@ -140,10 +140,10 @@ describe('BufferReader', function() {
 
   });
 
-  describe('#readUInt32BE', function() {
+  describe('#readUInt32BE', function () {
 
-    it('should return 1', function() {
-      var buf = new Buffer(4);
+    it('should return 1', function () {
+      var buf = Buffer.alloc(4);
       buf.writeUInt32BE(1, 0);
       var br = new BufferReader(buf);
       br.readUInt32BE().should.equal(1);
@@ -151,10 +151,10 @@ describe('BufferReader', function() {
 
   });
 
-  describe('#readUInt32LE', function() {
+  describe('#readUInt32LE', function () {
 
-    it('should return 1', function() {
-      var buf = new Buffer(4);
+    it('should return 1', function () {
+      var buf = Buffer.alloc(4);
       buf.writeUInt32LE(1, 0);
       var br = new BufferReader(buf);
       br.readUInt32LE().should.equal(1);
@@ -162,18 +162,18 @@ describe('BufferReader', function() {
 
   });
 
-  describe('#readUInt64BEBN', function() {
+  describe('#readUInt64BEBN', function () {
 
-    it('should return 1', function() {
-      var buf = new Buffer(8);
+    it('should return 1', function () {
+      var buf = Buffer.alloc(8);
       buf.fill(0);
       buf.writeUInt32BE(1, 4);
       var br = new BufferReader(buf);
       br.readUInt64BEBN().toNumber().should.equal(1);
     });
 
-    it('should return 2^64', function() {
-      var buf = new Buffer(8);
+    it('should return 2^64', function () {
+      var buf = Buffer.alloc(8);
       buf.fill(0xff);
       var br = new BufferReader(buf);
       br.readUInt64BEBN().toNumber().should.equal(Math.pow(2, 64));
@@ -181,69 +181,69 @@ describe('BufferReader', function() {
 
   });
 
-  describe('#readUInt64LEBN', function() {
+  describe('#readUInt64LEBN', function () {
 
-    it('should return 1', function() {
-      var buf = new Buffer(8);
+    it('should return 1', function () {
+      var buf = Buffer.alloc(8);
       buf.fill(0);
       buf.writeUInt32LE(1, 0);
       var br = new BufferReader(buf);
       br.readUInt64LEBN().toNumber().should.equal(1);
     });
 
-    it('should return 10BTC', function() {
+    it('should return 10BTC', function () {
       var tenbtc = 10 * 1e8;
-      var tenbtcBuffer = new Buffer('00ca9a3b00000000', 'hex');
+      var tenbtcBuffer = Buffer.from('00ca9a3b00000000', 'hex');
       var br = new BufferReader(tenbtcBuffer);
       br.readUInt64LEBN().toNumber().should.equal(tenbtc);
     });
 
-    it('should return 2^30', function() {
-      var buf = new Buffer(8);
+    it('should return 2^30', function () {
+      var buf = Buffer.alloc(8);
       buf.fill(0);
       buf.writeUInt32LE(Math.pow(2, 30), 0);
       var br = new BufferReader(buf);
       br.readUInt64LEBN().toNumber().should.equal(Math.pow(2, 30));
     });
 
-    it('should return 2^32 + 1', function() {
+    it('should return 2^32 + 1', function () {
       var num = Math.pow(2, 32) + 1;
-      var numBuffer = new Buffer('0100000001000000', 'hex');
+      var numBuffer = Buffer.from('0100000001000000', 'hex');
       var br = new BufferReader(numBuffer);
       br.readUInt64LEBN().toNumber().should.equal(num);
     });
 
-    it('should return max number of satoshis', function() {
+    it('should return max number of satoshis', function () {
       var maxSatoshis = 21000000 * 1e8;
-      var maxSatoshisBuffer = new Buffer('0040075af0750700', 'hex');
+      var maxSatoshisBuffer = Buffer.from('0040075af0750700', 'hex');
       var br = new BufferReader(maxSatoshisBuffer);
       br.readUInt64LEBN().toNumber().should.equal(maxSatoshis);
     });
 
-    it('should return 2^53 - 1', function() {
+    it('should return 2^53 - 1', function () {
       var maxSafe = Math.pow(2, 53) - 1;
-      var maxSafeBuffer = new Buffer('ffffffffffff1f00', 'hex');
+      var maxSafeBuffer = Buffer.from('ffffffffffff1f00', 'hex');
       var br = new BufferReader(maxSafeBuffer);
       br.readUInt64LEBN().toNumber().should.equal(maxSafe);
     });
 
-    it('should return 2^53', function() {
+    it('should return 2^53', function () {
       var bn = new BN('20000000000000', 16);
-      var bnBuffer = new Buffer('0000000000002000', 'hex');
+      var bnBuffer = Buffer.from('0000000000002000', 'hex');
       var br = new BufferReader(bnBuffer);
       var readbn = br.readUInt64LEBN();
       readbn.cmp(bn).should.equal(0);
     });
 
-    it('should return 0', function() {
-      var buf = new Buffer(8);
+    it('should return 0', function () {
+      var buf = Buffer.alloc(8);
       buf.fill(0);
       var br = new BufferReader(buf);
       br.readUInt64LEBN().toNumber().should.equal(0);
     });
 
-    it('should return 2^64', function() {
-      var buf = new Buffer(8);
+    it('should return 2^64', function () {
+      var buf = Buffer.alloc(8);
       buf.fill(0xff);
       var br = new BufferReader(buf);
       br.readUInt64LEBN().toNumber().should.equal(Math.pow(2, 64));
@@ -251,28 +251,28 @@ describe('BufferReader', function() {
 
   });
 
-  describe('#readVarintBuf', function() {
+  describe('#readVarintBuf', function () {
 
-    it('should read a 1 byte varint', function() {
-      var buf = new Buffer([50]);
+    it('should read a 1 byte varint', function () {
+      var buf = Buffer.from([50]);
       var br = new BufferReader(buf);
       br.readVarintBuf().length.should.equal(1);
     });
 
-    it('should read a 3 byte varint', function() {
-      var buf = new Buffer([253, 253, 0]);
+    it('should read a 3 byte varint', function () {
+      var buf = Buffer.from([253, 253, 0]);
       var br = new BufferReader(buf);
       br.readVarintBuf().length.should.equal(3);
     });
 
-    it('should read a 5 byte varint', function() {
-      var buf = new Buffer([254, 0, 0, 0, 0]);
+    it('should read a 5 byte varint', function () {
+      var buf = Buffer.from([254, 0, 0, 0, 0]);
       buf.writeUInt32LE(50000, 1);
       var br = new BufferReader(buf);
       br.readVarintBuf().length.should.equal(5);
     });
 
-    it('should read a 9 byte varint', function() {
+    it('should read a 9 byte varint', function () {
       var buf = BufferWriter().writeVarintBN(new BN(Math.pow(2, 54).toString())).concat();
       var br = new BufferReader(buf);
       br.readVarintBuf().length.should.equal(9);
@@ -280,78 +280,78 @@ describe('BufferReader', function() {
 
   });
 
-  describe('#readVarintNum', function() {
+  describe('#readVarintNum', function () {
 
-    it('should read a 1 byte varint', function() {
-      var buf = new Buffer([50]);
+    it('should read a 1 byte varint', function () {
+      var buf = Buffer.from([50]);
       var br = new BufferReader(buf);
       br.readVarintNum().should.equal(50);
     });
 
-    it('should read a 3 byte varint', function() {
-      var buf = new Buffer([253, 253, 0]);
+    it('should read a 3 byte varint', function () {
+      var buf = Buffer.from([253, 253, 0]);
       var br = new BufferReader(buf);
       br.readVarintNum().should.equal(253);
     });
 
-    it('should read a 5 byte varint', function() {
-      var buf = new Buffer([254, 0, 0, 0, 0]);
+    it('should read a 5 byte varint', function () {
+      var buf = Buffer.from([254, 0, 0, 0, 0]);
       buf.writeUInt32LE(50000, 1);
       var br = new BufferReader(buf);
       br.readVarintNum().should.equal(50000);
     });
 
-    it('should throw an error on a 9 byte varint over the javascript uint precision limit', function() {
+    it('should throw an error on a 9 byte varint over the javascript uint precision limit', function () {
       var buf = BufferWriter().writeVarintBN(new BN(Math.pow(2, 54).toString())).concat();
       var br = new BufferReader(buf);
-      (function() {
+      (function () {
         br.readVarintNum();
       }).should.throw('number too large to retain precision - use readVarintBN');
     });
 
-    it('should not throw an error on a 9 byte varint not over the javascript uint precision limit', function() {
+    it('should not throw an error on a 9 byte varint not over the javascript uint precision limit', function () {
       var buf = BufferWriter().writeVarintBN(new BN(Math.pow(2, 53).toString())).concat();
       var br = new BufferReader(buf);
-      (function() {
+      (function () {
         br.readVarintNum();
       }).should.not.throw('number too large to retain precision - use readVarintBN');
     });
 
   });
 
-  describe('#readVarintBN', function() {
+  describe('#readVarintBN', function () {
 
-    it('should read a 1 byte varint', function() {
-      var buf = new Buffer([50]);
+    it('should read a 1 byte varint', function () {
+      var buf = Buffer.from([50]);
       var br = new BufferReader(buf);
       br.readVarintBN().toNumber().should.equal(50);
     });
 
-    it('should read a 3 byte varint', function() {
-      var buf = new Buffer([253, 253, 0]);
+    it('should read a 3 byte varint', function () {
+      var buf = Buffer.from([253, 253, 0]);
       var br = new BufferReader(buf);
       br.readVarintBN().toNumber().should.equal(253);
     });
 
-    it('should read a 5 byte varint', function() {
-      var buf = new Buffer([254, 0, 0, 0, 0]);
+    it('should read a 5 byte varint', function () {
+      var buf = Buffer.from([254, 0, 0, 0, 0]);
       buf.writeUInt32LE(50000, 1);
       var br = new BufferReader(buf);
       br.readVarintBN().toNumber().should.equal(50000);
     });
 
-    it('should read a 9 byte varint', function() {
-      var buf = Buffer.concat([new Buffer([255]), new Buffer('ffffffffffffffff', 'hex')]);
+    it('should read a 9 byte varint', function () {
+      var buf = Buffer.concat([Buffer.from([255]), Buffer.from('ffffffffffffffff', 'hex')]);
       var br = new BufferReader(buf);
       br.readVarintBN().toNumber().should.equal(Math.pow(2, 64));
     });
 
   });
 
-  describe('#reverse', function() {
+  describe('#reverse', function () {
 
-    it('should reverse this [0, 1]', function() {
-      var buf = new Buffer([0, 1]);
+    it('should reverse this [0, 1]', function () {
+      var buf = Buffer.from([0, 1]);
       var br = new BufferReader(buf);
       br.reverse().readAll().toString('hex').should.equal('0100');
     });

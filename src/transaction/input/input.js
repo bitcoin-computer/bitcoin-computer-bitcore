@@ -1,4 +1,3 @@
-import { Buffer as ImportedBuffer } from 'buffer'
 import $ from '../../util/preconditions'
 import BufferUtil from '../../util/buffer'
 import BufferWriter from '../../encoding/bufferwriter'
@@ -7,8 +6,6 @@ import JSUtil from '../../util/js'
 import Output from '../output'
 import Script from '../../script/script'
 import Sighash from '../sighash'
-
-const buffer = { Buffer: ImportedBuffer }
 
 const MAXINT = 0xffffffff // Math.pow(2, 32) - 1;
 const DEFAULT_RBF_SEQNUMBER = MAXINT - 2
@@ -48,7 +45,7 @@ class Input {
 
     this.prevTxId =
       typeof params.prevTxId === 'string' && JSUtil.isHexa(params.prevTxId)
-        ? new buffer.Buffer(params.prevTxId, 'hex')
+        ? Buffer.from(params.prevTxId, 'hex')
         : params.prevTxId
 
     if (params.output) {
@@ -120,7 +117,7 @@ class Input {
       this._scriptBuffer = script.toBuffer()
     } else if (JSUtil.isHexa(script)) {
       // hex string script
-      this._scriptBuffer = new buffer.Buffer(script, 'hex')
+      this._scriptBuffer = Buffer.from(script, 'hex')
     } else if (typeof script === 'string') {
       // human readable string script
       this._script = new Script(script)
@@ -128,7 +125,7 @@ class Input {
       this._scriptBuffer = this._script.toBuffer()
     } else if (BufferUtil.isBuffer(script)) {
       // buffer script
-      this._scriptBuffer = new buffer.Buffer(script)
+      this._scriptBuffer = Buffer.from(script)
     } else {
       throw new TypeError('Invalid argument type: script')
     }

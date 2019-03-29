@@ -18,7 +18,7 @@ var tx_valid = require('../data/bitcoind/tx_valid');
 var tx_invalid = require('../data/bitcoind/tx_invalid');
 
 //the script string format used in bitcoind data tests
-Script.fromBitcoindString = function(str) {
+Script.fromBitcoindString = function (str) {
   var bw = new BufferWriter();
   var tokens = str.split(' ');
   for (var i = 0; i < tokens.length; i++) {
@@ -32,10 +32,10 @@ Script.fromBitcoindString = function(str) {
     var tbuf;
     if (token[0] === '0' && token[1] === 'x') {
       var hex = token.slice(2);
-      bw.write(new Buffer(hex, 'hex'));
+      bw.write(Buffer.from(hex, 'hex'));
     } else if (token[0] === '\'') {
       var tstr = token.slice(1, token.length - 1);
-      var cbuf = new Buffer(tstr);
+      var cbuf = Buffer.from(tstr);
       tbuf = Script().add(cbuf).toBuffer();
       bw.write(tbuf);
     } else if (typeof Opcode['OP_' + token] !== 'undefined') {
@@ -60,9 +60,9 @@ Script.fromBitcoindString = function(str) {
 
 
 
-describe('Interpreter', function() {
+describe('Interpreter', function () {
 
-  it('should make a new interp', function() {
+  it('should make a new interp', function () {
     var interp = new Interpreter();
     (interp instanceof Interpreter).should.equal(true);
     interp.stack.length.should.equal(0);
@@ -75,13 +75,13 @@ describe('Interpreter', function() {
     interp.flags.should.equal(0);
   });
 
-  describe('@castToBool', function() {
+  describe('@castToBool', function () {
 
-    it('should cast these bufs to bool correctly', function() {
+    it('should cast these bufs to bool correctly', function () {
       Interpreter.castToBool(new BN(0).toSM({
         endian: 'little'
       })).should.equal(false);
-      Interpreter.castToBool(new Buffer('0080', 'hex')).should.equal(false); //negative 0
+      Interpreter.castToBool(Buffer.from('0080', 'hex')).should.equal(false); //negative 0
       Interpreter.castToBool(new BN(1).toSM({
         endian: 'little'
       })).should.equal(true);
@@ -89,7 +89,7 @@ describe('Interpreter', function() {
         endian: 'little'
       })).should.equal(true);
 
-      var buf = new Buffer('00', 'hex');
+      var buf = Buffer.from('00', 'hex');
       var bool = BN.fromSM(buf, {
         endian: 'little'
       }).cmp(BN.Zero) !== 0;
@@ -98,9 +98,9 @@ describe('Interpreter', function() {
 
   });
 
-  describe('#verify', function() {
+  describe('#verify', function () {
 
-    it('should verify these trivial scripts', function() {
+    it('should verify these trivial scripts', function () {
       var verified;
       var si = Interpreter();
       verified = si.verify(Script('OP_1'), Script('OP_1'));
@@ -123,7 +123,7 @@ describe('Interpreter', function() {
       verified.should.equal(true);
     });
 
-    it('should verify these simple transaction', function() {
+    it('should verify these simple transaction', function () {
       // first we create a transaction
       var privateKey = new PrivateKey('cSBnVM4xvxarwGQuAfQFwqDg9k5tErHUHzgWsEfD4zdwUasvqRVY');
       var publicKey = privateKey.publicKey;
@@ -152,7 +152,7 @@ describe('Interpreter', function() {
       verified.should.equal(true);
     });
 
-    it('should set values on interpreter', function() {
+    it('should set values on interpreter', function () {
       const script = Script('OP_1')
       const tx = new Transaction()
       const stack = []
@@ -225,17 +225,17 @@ describe('Interpreter', function() {
   };
 
 
-  var testToFromString = function(script) {
+  var testToFromString = function (script) {
     var s = script.toString();
     Script.fromString(s).toString().should.equal(s);
   };
 
-  var testFixture = function(vector, expected) {
+  var testFixture = function (vector, expected) {
     var scriptSig = Script.fromBitcoindString(vector[0]);
     var scriptPubkey = Script.fromBitcoindString(vector[1]);
     var flags = getFlags(vector[2]);
 
-    var hashbuf = new Buffer(32);
+    var hashbuf = Buffer.alloc(32);
     hashbuf.fill(0);
     var credtx = new Transaction();
     credtx.uncheckedAddInput(new Transaction.Input({
@@ -266,10 +266,10 @@ describe('Interpreter', function() {
     var verified = interp.verify(scriptSig, scriptPubkey, spendtx, 0, flags);
     verified.should.equal(expected);
   };
-  describe('bitcoind script evaluation fixtures', function() {
-    var testAllFixtures = function(set, expected) {
+  describe('bitcoind script evaluation fixtures', function () {
+    var testAllFixtures = function (set, expected) {
       var c = 0;
-      set.forEach(function(vector) {
+      set.forEach(function (vector) {
         if (vector.length === 1) {
           return;
         }
@@ -279,7 +279,7 @@ describe('Interpreter', function() {
         var comment = descstr ? (' (' + descstr + ')') : '';
         it('should pass script_' + (expected ? '' : 'in') + 'valid ' +
           'vector #' + c + ': ' + fullScriptString + comment,
-          function() {
+          function () {
             testFixture(vector, expected);
           });
       });
@@ -288,22 +288,22 @@ describe('Interpreter', function() {
     testAllFixtures(script_invalid, false);
 
   });
-  describe('bitcoind transaction evaluation fixtures', function() {
-    var test_txs = function(set, expected) {
+  describe('bitcoind transaction evaluation fixtures', function () {
+    var test_txs = function (set, expected) {
       var c = 0;
-      set.forEach(function(vector) {
+      set.forEach(function (vector) {
         if (vector.length === 1) {
           return;
         }
         c++;
         var cc = c; //copy to local
-        it('should pass tx_' + (expected ? '' : 'in') + 'valid vector ' + cc, function() {
+        it('should pass tx_' + (expected ? '' : 'in') + 'valid vector ' + cc, function () {
           var inputs = vector[0];
           var txhex = vector[1];
           var flags = getFlags(vector[2]);
 
           var map = {};
-          inputs.forEach(function(input) {
+          inputs.forEach(function (input) {
             var txid = input[0];
             var txoutnum = input[1];
             var scriptPubKeyStr = input[2];
@@ -315,7 +315,7 @@ describe('Interpreter', function() {
 
           var tx = new Transaction(txhex);
           var allInputsVerified = true;
-          tx.inputs.forEach(function(txin, j) {
+          tx.inputs.forEach(function (txin, j) {
             if (txin.isNull()) {
               return;
             }

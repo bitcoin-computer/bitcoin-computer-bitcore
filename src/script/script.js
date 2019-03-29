@@ -1,4 +1,3 @@
-import { Buffer as ImportedBuffer } from 'buffer'
 import _ from 'lodash'
 import $ from '../util/preconditions'
 import Address from '../address'
@@ -12,8 +11,6 @@ import Networks from '../networks'
 import Opcode from '../opcode'
 import PublicKey from '../publickey'
 import Signature from '../crypto/signature'
-
-const buffer = { Buffer: ImportedBuffer }
 
 /**
  * A bitcoin transaction script. Each transaction's inputs and outputs
@@ -174,12 +171,12 @@ Script.fromASM = function(str) {
 }
 
 Script.fromHex = function(str) {
-  return new this(new buffer.Buffer(str, 'hex'))
+  return new this(Buffer.from(str, 'hex'))
 }
 
 Script.fromString = function(str) {
   if (JSUtil.isHexa(str) || str.length === 0) {
-    return new this(new buffer.Buffer(str, 'hex'))
+    return new this(Buffer.from(str, 'hex'))
   }
   const script = new this()
   script.chunks = []
