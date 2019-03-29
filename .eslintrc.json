@@ -7,7 +7,8 @@
     "prettier/flowtype"
   ],
   "env": {
-    "browser": true
+    "browser": true,
+    "mocha": true
   },
   "plugins": [
     "flowtype",
@@ -19,6 +20,7 @@
     "func-names": "off",
     "lines-between-class-members": "off",
     "no-bitwise": "off",
+    "no-continue": "off",
     "no-else-return": "off",
     "no-param-reassign": "off",
     "no-plusplus": [

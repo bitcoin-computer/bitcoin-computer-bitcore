@@ -66,7 +66,6 @@ function PublicKey(data, extra) {
  * @param {Object} extra
  */
 PublicKey.prototype._classifyArgs = function(data, extra) {
-  /* jshint maxcomplexity: 10 */
   let info = {
     compressed: _.isUndefined(extra.compressed) || extra.compressed
   }
