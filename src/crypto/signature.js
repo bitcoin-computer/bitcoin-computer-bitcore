@@ -19,7 +19,6 @@ const Signature = function Signature(r, s) {
   }
 }
 
-/* jshint maxcomplexity: 7 */
 Signature.prototype.set = function(obj) {
   this.r = obj.r || this.r || undefined
   this.s = obj.s || this.s || undefined

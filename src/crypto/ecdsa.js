@@ -17,7 +17,6 @@ const ECDSA = function ECDSA(obj) {
   }
 }
 
-/* jshint maxcomplexity: 9 */
 ECDSA.prototype.set = function(obj) {
   this.hashbuf = obj.hashbuf || this.hashbuf
   this.endian = obj.endian || this.endian // the endianness of hashbuf
@@ -71,7 +70,6 @@ ECDSA.prototype.randomK = function() {
 
 // https://tools.ietf.org/html/rfc6979#section-3.2
 ECDSA.prototype.deterministicK = function(badrs) {
-  /* jshint maxstatements: 25 */
   // if r or s were invalid when this function was used in signing,
   // we do not want to actually compute r, s here for efficiency, so,
   // we can increment badrs. explained at end of RFC 6979 section 3.2
@@ -110,7 +108,6 @@ ECDSA.prototype.deterministicK = function(badrs) {
 // https://bitcointalk.org/index.php?topic=6430.0
 // http://stackoverflow.com/questions/19665491/how-do-i-get-an-ecdsa-public-key-from-just-a-bitcoin-signature-sec1-4-1-6-k
 ECDSA.prototype.toPublicKey = function() {
-  /* jshint maxstatements: 25 */
   const { i } = this.sig
   $.checkArgument(i === 0 || i === 1 || i === 2 || i === 3, 'i must be equal to 0, 1, 2, or 3')
 
@@ -157,7 +154,6 @@ ECDSA.prototype.toPublicKey = function() {
 }
 
 ECDSA.prototype.sigError = function() {
-  /* jshint maxstatements: 25 */
   if (!BufferUtil.isBuffer(this.hashbuf) || this.hashbuf.length !== 32) {
     return 'hashbuf must be a 32 byte buffer'
   }

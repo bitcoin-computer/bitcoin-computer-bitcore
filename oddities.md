@@ -36,7 +36,6 @@ In [src/address.js](https://github.com/the-bitcoin-token/BitcoinSource/pull/80/f
 ```
   var error;
   try {
-    /* jshint nonew: false */
     new Address(data, network, type);
   } catch (e) {
     error = e;
