@@ -1,6 +1,5 @@
+import _ from 'lodash'
 import Bitcoin from '../../bitcoin'
-
-const _ = require('lodash')
 
 const { Transaction } = Bitcoin
 const { PrivateKey } = Bitcoin

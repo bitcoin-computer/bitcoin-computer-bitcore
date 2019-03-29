@@ -1,9 +1,9 @@
+import _ from 'lodash'
+import chai from 'chai'
 import Bitcoin from '../../bitcoin'
 
-const should = require('chai').should()
-const { expect } = require('chai')
-const _ = require('lodash')
-
+const should = chai.should()
+const { expect } = chai
 const { errors } = Bitcoin
 const { PrivateKey } = Bitcoin
 const { Address } = Bitcoin

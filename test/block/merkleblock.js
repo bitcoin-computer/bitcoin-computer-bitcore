@@ -1,13 +1,13 @@
+import chai from 'chai'
 import Bitcoin from '../bitcoin'
+import data from '../data/merkleblocks'
+import transactionVector from '../data/tx_creation'
 
-const should = require('chai').should()
-
+const should = chai.should()
 const { MerkleBlock } = Bitcoin
 const { BufferReader } = Bitcoin.encoding
 const { BufferWriter } = Bitcoin.encoding
 const { Transaction } = Bitcoin
-const data = require('../data/merkleblocks.js')
-const transactionVector = require('../data/tx_creation')
 
 describe('MerkleBlock', function() {
   const blockhex = data.HEX[0]

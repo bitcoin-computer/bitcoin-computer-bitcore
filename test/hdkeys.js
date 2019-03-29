@@ -1,16 +1,15 @@
 /* eslint-disable camelcase */
 
+import _ from 'lodash'
+import chai from 'chai'
+import sinon from 'sinon'
 import Bitcoin from './bitcoin'
 
-const _ = require('lodash')
-// eslint-disable-next-line no-unused-vars
-const should = require('chai').should()
-const { expect } = require('chai')
-const sinon = require('sinon')
-
+const { expect } = chai
 const { Networks } = Bitcoin
 const { HDPrivateKey } = Bitcoin
 const { HDPublicKey } = Bitcoin
+chai.should()
 
 // test vectors: https://github.com/bitcoin/bips/blob/master/bip-0032.mediawiki
 const vector1_master = '000102030405060708090a0b0c0d0e0f'

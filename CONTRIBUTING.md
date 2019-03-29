@@ -103,12 +103,12 @@ This helps to make tests more useful as examples, and more independent of where 
 
 DO:
 ```javascript
-var bitcoinsource = require('../');
-var PublicKey = bitcoinsource.PublicKey;
+import Bitcoin from '../'
+const { PublicKey } = Bitcoin
 ```
 DON'T:
 ```javascript
-var PublicKey = require('../src/publickey');
+import PublicKey from '../src/publickey'
 ```
 
 #### Data for Tests Included in a JSON File

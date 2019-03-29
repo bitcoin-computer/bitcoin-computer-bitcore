@@ -1,11 +1,10 @@
+import chai from 'chai'
 import Bitcoin from '../bitcoin'
-
-const chai = require('chai')
+import bip39Vectors from '../data/mnemonics.json'
 
 const should = chai.should()
 const { Mnemonic } = Bitcoin
 const { errors } = Bitcoin
-const bip39Vectors = require('../data/mnemonics.json')
 
 describe('Mnemonic', function() {
   this.timeout(30000)

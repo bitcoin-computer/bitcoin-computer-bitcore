@@ -1,11 +1,10 @@
 import Bitcoin from '../bitcoin'
+import vectorsSighash from '../data/sighash.json'
 
 const { Script } = Bitcoin
 const { BN } = Bitcoin.crypto
 const { Transaction } = Bitcoin
 const sighash = Transaction.Sighash
-
-const vectorsSighash = require('../data/sighash.json')
 
 describe('sighash', function() {
   it('Should require amount for sigHash ForkId=0', function() {

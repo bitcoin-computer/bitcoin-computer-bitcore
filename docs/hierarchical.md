@@ -10,7 +10,7 @@ An instance of a [PrivateKey](privatekey.md) that also contains information requ
 Sample usage:
 
 ```javascript
-var bitcore = require('bitcore');
+import bitcore from 'bitcore'
 var HDPrivateKey = bitcore.HDPrivateKey;
 
 var hdPrivateKey = new HDPrivateKey();
