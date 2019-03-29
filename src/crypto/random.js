@@ -1,25 +1,13 @@
-const crypto = require('crypto')
+// @flow
 
-function Random() {}
+import crypto from 'crypto'
 
-/* secure random bytes that sometimes throws an error due to lack of entropy */
-Random.getRandomBuffer = function(size) {
-  if (process.browser) {
-    return Random.getRandomBufferBrowser(size)
-  }
-  return Random.getRandomBufferNode(size)
-}
-
-Random.getRandomBufferNode = function(size) {
+export function getRandomBufferNode(size: number) {
   return crypto.randomBytes(size)
 }
 
-Random.getRandomBufferBrowser = function(size) {
+export function getRandomBufferBrowser(size: number) {
   let windowCrypto
-  if (!window.crypto && !window.msCrypto) {
-    throw new Error('window.crypto not available')
-  }
-
   if (window.crypto && window.crypto.getRandomValues) {
     windowCrypto = window.crypto
   } else if (window.msCrypto && window.msCrypto.getRandomValues) {
@@ -36,11 +24,22 @@ Random.getRandomBufferBrowser = function(size) {
   return buf
 }
 
+/* secure random bytes that sometimes throws an error due to lack of entropy */
+export function getRandomBuffer(size: number) {
+  if (
+    typeof window !== 'undefined' &&
+    (typeof window.crypto !== 'undefined' || typeof window.msCrypto !== 'undefined')
+  ) {
+    return getRandomBufferBrowser(size)
+  }
+  return getRandomBufferNode(size)
+}
+
 /* insecure random bytes, but it never fails */
-Random.getPseudoRandomBuffer = function(size) {
+export function getPseudoRandomBuffer(size: number) {
   const b32 = 0x100000000
   const b = Buffer.alloc(size)
-  let r
+  let r = 0
 
   for (let i = 0; i <= size; i += 1) {
     const j = Math.floor(i / 4)
@@ -55,5 +54,3 @@ Random.getPseudoRandomBuffer = function(size) {
 
   return b
 }
-
-module.exports = Random

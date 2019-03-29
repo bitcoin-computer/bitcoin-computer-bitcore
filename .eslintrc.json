@@ -2,12 +2,19 @@
     "parser": "babel-eslint",
     "extends": [
         "airbnb-base",
-        "plugin:prettier/recommended"
+        "plugin:flowtype/recommended",
+        "plugin:prettier/recommended",
+        "prettier/flowtype"
     ],
     "env": {
         "browser": true
     },
+    "plugins": [
+        "flowtype",
+        "flowtype-errors"
+    ],
     "rules": {
+        "flowtype-errors/show-errors": "error",
         "func-names": "off",
         "lines-between-class-members": "off",
         "no-bitwise": "off",
