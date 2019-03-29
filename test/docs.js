@@ -1,6 +1,5 @@
+import fs from 'fs'
 import Bitcoin from './bitcoin'
-
-const fs = require('fs')
 
 describe('Documentation', function() {
   it('major and minor versions should match', function() {

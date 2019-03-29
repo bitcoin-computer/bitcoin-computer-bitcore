@@ -1,8 +1,8 @@
+import chai from 'chai'
 import Bitcoin from './bitcoin'
 
-const should = require('chai').should()
-const { expect } = require('chai')
-
+const should = chai.should()
+const { expect } = chai
 const { Point } = Bitcoin.crypto
 const { BN } = Bitcoin.crypto
 const { PublicKey } = Bitcoin

@@ -1,9 +1,9 @@
+import _ from 'lodash'
+import assert from 'assert'
+import chai from 'chai'
 import Bitcoin from './bitcoin'
 
-const _ = require('lodash')
-const assert = require('assert')
-const { expect } = require('chai')
-
+const { expect } = chai
 const { errors } = Bitcoin
 const hdErrors = Bitcoin.errors.HDPublicKey
 const BufferUtil = Bitcoin.util.buffer

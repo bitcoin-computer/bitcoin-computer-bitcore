@@ -1,10 +1,8 @@
+import chai from 'chai'
 import Bitcoin from './bitcoin'
-
-const chai = require('chai')
 
 const { expect } = chai
 const should = chai.should()
-
 const { Address } = Bitcoin
 const { Signature } = Bitcoin.crypto
 const { Message } = Bitcoin

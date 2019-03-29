@@ -1,8 +1,8 @@
+import chai from 'chai'
 import Bitcoin from './bitcoin'
 
-const { expect } = require('chai')
-const should = require('chai').should()
-
+const { expect } = chai
+const should = chai.should()
 const networks = Bitcoin.Networks
 
 describe('Networks', function() {

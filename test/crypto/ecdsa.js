@@ -1,5 +1,8 @@
+import chai from 'chai'
 import Bitcoin from '../bitcoin'
+import vectors from '../data/ecdsa'
 
+const should = chai.should()
 const { ECDSA } = Bitcoin.crypto
 const { Hash } = Bitcoin.crypto
 const Privkey = Bitcoin.PrivateKey
@@ -7,8 +10,6 @@ const Pubkey = Bitcoin.PublicKey
 const { Signature } = Bitcoin.crypto
 const { BN } = Bitcoin.crypto
 const point = Bitcoin.crypto.Point
-const should = require('chai').should()
-const vectors = require('../data/ecdsa')
 
 describe('ECDSA', function() {
   it('instantiation', function() {

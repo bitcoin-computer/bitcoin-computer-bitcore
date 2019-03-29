@@ -1,9 +1,8 @@
 import Bitcoin from '../bitcoin'
+import vectorsValid from '../data/bitcoind/tx_valid.json'
+import vectorsInvalid from '../data/bitcoind/tx_invalid.json'
 
 const { Transaction } = Bitcoin
-
-const vectorsValid = require('../data/bitcoind/tx_valid.json')
-const vectorsInvalid = require('../data/bitcoind/tx_invalid.json')
 
 describe('Transaction deserialization', function() {
   describe('valid transaction test case', function() {

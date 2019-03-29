@@ -10,8 +10,8 @@ function sighash(transaction, sighashType, inputNumber, subscript, satoshisBN) {
   // TODO If this is moved in the global scope a bunch of tests fails. This is probably
   // due to a circular dependency. This file could probably use a major overhaul.
   // See GitHub isuse #42.
-  const Transaction = require('./transaction');
-  const Input = require('./input');
+  import Transaction from './transaction'
+  import Input from './input/input'
 ```
 
 

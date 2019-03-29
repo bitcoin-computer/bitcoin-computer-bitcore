@@ -32,7 +32,7 @@ It's important to note that there are two possible ways to represent a public ke
 Example:
 
 ```javascript
-> var bitcore = require('bitcore');
+> import bitcore from 'bitcore'
 
 // compressed public key starting with 0x03 (greater than midpoint of curve)
 > var compressedPK = bitcore.PublicKey('030589ee559348bd6a7325994f9c8eff12bd'+

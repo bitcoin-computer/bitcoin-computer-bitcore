@@ -1,7 +1,11 @@
+import chai from 'chai'
 import Bitcoin from '../bitcoin'
+import scriptValid from '../data/bitcoind/script_valid'
+import scriptInvalid from '../data/bitcoind/script_invalid'
+import txValid from '../data/bitcoind/tx_valid'
+import txInvalid from '../data/bitcoind/tx_invalid'
 
-const should = require('chai').should()
-
+const should = chai.should()
 const { Interpreter } = Bitcoin.Script
 const { Transaction } = Bitcoin
 const { PrivateKey } = Bitcoin
@@ -9,11 +13,6 @@ const { Script } = Bitcoin
 const { BN } = Bitcoin.crypto
 const { BufferWriter } = Bitcoin.encoding
 const { Opcode } = Bitcoin
-
-const scriptValid = require('../data/bitcoind/script_valid')
-const scriptInvalid = require('../data/bitcoind/script_invalid')
-const txValid = require('../data/bitcoind/tx_valid')
-const txInvalid = require('../data/bitcoind/tx_invalid')
 
 // the script string format used in bitcoind data tests
 Script.fromBitcoindString = function(str) {
