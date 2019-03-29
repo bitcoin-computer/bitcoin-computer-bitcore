@@ -18,7 +18,12 @@ const ecPointFromX = ec.curve.pointFromX.bind(ec.curve)
  * @constructor
  */
 const Point = function Point(x, y, isRed) {
-  const point = ecPoint(x, y, isRed)
+  let point
+  try {
+    point = ecPoint(x, y, isRed)
+  } catch (e) {
+    throw new Error('Invalid point on curve')
+  }
   point.validate()
   return point
 }
@@ -35,7 +40,12 @@ Point.prototype = Object.getPrototypeOf(ec.curve.point())
  * @returns {Point} An instance of Point
  */
 Point.fromX = function fromX(odd, x) {
-  const point = ecPointFromX(odd, x)
+  let point
+  try {
+    point = ecPointFromX(x, odd)
+  } catch (e) {
+    throw new Error('Invalid x value for curve.')
+  }
   point.validate()
   return point
 }
@@ -100,21 +110,15 @@ Point.prototype.validate = function validate() {
     throw new Error('Point cannot be equal to Infinity')
   }
 
-  if (this.getX().cmp(BN.Zero) === 0 || this.getY().cmp(BN.Zero) === 0) {
-    throw new Error('Invalid x,y value for curve, cannot equal 0.')
+  let p2
+  try {
+    p2 = ecPointFromX(this.getX(), this.getY().isOdd())
+  } catch (e) {
+    throw new Error('Point does not lie on the curve.')
   }
-
-  const p2 = ecPointFromX(this.getY().isOdd(), this.getX())
 
   if (p2.y.cmp(this.y) !== 0) {
     throw new Error('Invalid y value for curve.')
-  }
-
-  const xValidRange = this.getX().gt(BN.Minus1) && this.getX().lt(Point.getN())
-  const yValidRange = this.getY().gt(BN.Minus1) && this.getY().lt(Point.getN())
-
-  if (!xValidRange || !yValidRange) {
-    throw new Error('Point does not lie on the curve')
   }
 
   // todo: needs test case
