@@ -1,8 +1,5 @@
 import bs58 from 'bs58'
-import { Buffer as ImportedBuffer } from 'buffer'
 import _ from 'lodash'
-
-const buffer = { Buffer: ImportedBuffer }
 
 const ALPHABET = '123456789ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz'.split('')
 
@@ -10,7 +7,7 @@ const Base58 = function Base58(obj) {
   if (!(this instanceof Base58)) {
     return new Base58(obj)
   }
-  if (buffer.Buffer.isBuffer(obj)) {
+  if (Buffer.isBuffer(obj)) {
     const buf = obj
     this.fromBuffer(buf)
   } else if (typeof obj === 'string') {
@@ -22,7 +19,7 @@ const Base58 = function Base58(obj) {
 }
 
 Base58.validCharacters = function validCharacters(chars) {
-  if (buffer.Buffer.isBuffer(chars)) {
+  if (Buffer.isBuffer(chars)) {
     chars = chars.toString()
   }
   return _.every(_.map(chars, char => _.includes(ALPHABET, char)))
@@ -34,7 +31,7 @@ Base58.prototype.set = function(obj) {
 }
 
 Base58.encode = function(buf) {
-  if (!buffer.Buffer.isBuffer(buf)) {
+  if (!Buffer.isBuffer(buf)) {
     throw new Error('Input should be a buffer')
   }
   return bs58.encode(buf)
@@ -44,7 +41,7 @@ Base58.decode = function(str) {
   if (typeof str !== 'string') {
     throw new Error('Input should be a string')
   }
-  return buffer.Buffer.from(bs58.decode(str))
+  return Buffer.from(bs58.decode(str))
 }
 
 Base58.prototype.fromBuffer = function(buf) {

@@ -3,11 +3,10 @@
 import bch from '../..'
 
 var should = require('chai').should();
-var buffer = require('buffer');
 var Base58 = bch.encoding.Base58;
 
 describe('Base58', function() {
-  var buf = new buffer.Buffer([0, 1, 2, 3, 253, 254, 255]);
+  var buf = Buffer.from([0, 1, 2, 3, 253, 254, 255]);
   var enc = '1W7N4RuG';
 
   it('should make an instance with "new"', function() {
@@ -22,7 +21,7 @@ describe('Base58', function() {
   });
   it('validates characters from buffer', function() {
     Base58.validCharacters(
-      new buffer.Buffer('123456789ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz')
+      Buffer.from('123456789ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz')
     ).should.equal(true);
   });
 
@@ -44,7 +43,7 @@ describe('Base58', function() {
 
     it('should set a blank buffer', function() {
       Base58().set({
-        buf: new buffer.Buffer([])
+        buf: Buffer.from([])
       });
     });
 

@@ -1,8 +1,5 @@
-import { Buffer as ImportedBuffer } from 'buffer'
 import _ from 'lodash'
 import errors from '../errors'
-
-const buffer = { Buffer: ImportedBuffer }
 
 export default {
   checkState(condition, message) {
@@ -19,7 +16,7 @@ export default {
     argumentName = argumentName || '(unknown name)'
     if (_.isString(type)) {
       if (type === 'Buffer') {
-        if (!buffer.Buffer.isBuffer(argument)) {
+        if (!Buffer.isBuffer(argument)) {
           throw new errors.InvalidArgumentType(argument, type, argumentName)
         }
         // eslint-disable-next-line valid-typeof

@@ -8,7 +8,6 @@ var _ = require('lodash');
 var assert = require('assert');
 var should = require('chai').should();
 var expect = require('chai').expect;
-var buffer = require('buffer');
 var errors = bch.errors;
 var hdErrors = bch.errors.HDPublicKey;
 var BufferUtil = bch.util.buffer;
@@ -80,7 +79,7 @@ describe('HDPublicKey interface', function() {
     describe('xpubkey string serialization errors', function() {
       it('fails on invalid length', function() {
         expectFailBuilding(
-          Base58Check.encode(new buffer.Buffer([1, 2, 3])),
+          Base58Check.encode(Buffer.from([1, 2, 3])),
           hdErrors.InvalidLength
         );
       });

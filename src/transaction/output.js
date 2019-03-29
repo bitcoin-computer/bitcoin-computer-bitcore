@@ -1,4 +1,3 @@
-import { Buffer as ImportedBuffer } from 'buffer'
 import _ from 'lodash'
 import $ from '../util/preconditions'
 import BN from '../crypto/bn'
@@ -7,8 +6,6 @@ import BufferWriter from '../encoding/bufferwriter'
 import errors from '../errors'
 import JSUtil from '../util/js'
 import Script from '../script/script'
-
-const buffer = { Buffer: ImportedBuffer }
 
 const MAX_SAFE_INTEGER = 0x1fffffffffffff
 
@@ -21,7 +18,7 @@ class Output {
       } else {
         let script
         if (_.isString(args.script) && JSUtil.isHexa(args.script)) {
-          script = new buffer.Buffer(args.script, 'hex')
+          script = Buffer.from(args.script, 'hex')
         } else {
           ;({ script } = args)
         }
@@ -80,7 +77,7 @@ class Output {
     if (size !== 0) {
       obj.script = br.read(size)
     } else {
-      obj.script = new buffer.Buffer([])
+      obj.script = Buffer.from([])
     }
     return new Output(obj)
   }

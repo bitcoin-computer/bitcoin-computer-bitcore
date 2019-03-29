@@ -11,7 +11,7 @@ var Varint = bch.encoding.Varint;
 describe('Varint', function() {
 
   it('should make a new varint', function() {
-    var buf = new Buffer('00', 'hex');
+    var buf = Buffer.from('00', 'hex');
     var varint = new Varint(buf);
     should.exist(varint);
     varint.buf.toString('hex').should.equal('00');
@@ -28,7 +28,7 @@ describe('Varint', function() {
   describe('#set', function() {
 
     it('should set a buffer', function() {
-      var buf = new Buffer('00', 'hex');
+      var buf = Buffer.from('00', 'hex');
       var varint = Varint().set({buf: buf});
       varint.buf.toString('hex').should.equal('00');
       varint.set({});

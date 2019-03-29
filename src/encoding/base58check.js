@@ -1,9 +1,6 @@
 import _ from 'lodash'
-import { Buffer as ImportedBuffer } from 'buffer'
 import Base58 from './base58'
 import Hash from '../crypto/hash'
-
-const buffer = { Buffer: ImportedBuffer }
 
 const Base58Check = function Base58Check(obj) {
   if (!(this instanceof Base58Check)) return new Base58Check(obj)
@@ -25,10 +22,10 @@ Base58Check.prototype.set = function(obj) {
 
 Base58Check.validChecksum = function validChecksum(data, checksum) {
   if (_.isString(data)) {
-    data = new buffer.Buffer(Base58.decode(data))
+    data = Buffer.from(Base58.decode(data))
   }
   if (_.isString(checksum)) {
-    checksum = new buffer.Buffer(Base58.decode(checksum))
+    checksum = Buffer.from(Base58.decode(checksum))
   }
   if (!checksum) {
     checksum = data.slice(-4)

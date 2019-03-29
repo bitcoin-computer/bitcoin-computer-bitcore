@@ -1,4 +1,3 @@
-import { Buffer as ImportedBuffer } from 'buffer'
 import _ from 'lodash'
 import $ from '../util/preconditions'
 import BN from '../crypto/bn'
@@ -12,8 +11,6 @@ import Output from './output'
 import Script from '../script/script'
 import Signature from '../crypto/signature'
 import Transaction from './transaction'
-
-const buffer = { Buffer: ImportedBuffer }
 
 const SIGHASH_SINGLE_BUG = '0000000000000000000000000000000000000000000000000000000000000001'
 const BITS_64_ON = 'ffffffffffffffff'
@@ -194,7 +191,7 @@ class Sighash {
 
       for (i = 0; i < inputNumber; i += 1) {
         txcopy.outputs[i] = new Output({
-          satoshis: BN.fromBuffer(new buffer.Buffer(BITS_64_ON, 'hex')),
+          satoshis: BN.fromBuffer(Buffer.from(BITS_64_ON, 'hex')),
           script: Script.empty()
         })
       }
