@@ -1,11 +1,11 @@
-import bch from '..'
+import Bitcoin from './bitcoin'
 
 const chai = require('chai')
 
 const { expect } = chai
-const { Networks } = bch
+const { Networks } = Bitcoin
 const should = chai.should()
-const { URI } = bch
+const { URI } = Bitcoin
 
 describe('URI', function() {
   // TODO: Split this and explain tests
@@ -83,7 +83,7 @@ describe('URI', function() {
 
     it('parses address', function() {
       uri = new URI('bitcoincash:1DP69gMMvSuYhbnxsi4EJEFufUAbDrEQfj')
-      uri.address.should.be.instanceof(bch.Address)
+      uri.address.should.be.instanceof(Bitcoin.Address)
       uri.network.should.equal(Networks.livenet)
     })
 
@@ -96,13 +96,13 @@ describe('URI', function() {
 
     it('parses a testnet address', function() {
       uri = new URI('bitcoincash:mkYY5NRvikVBY1EPtaq9fAFgquesdjqECw')
-      uri.address.should.be.instanceof(bch.Address)
+      uri.address.should.be.instanceof(Bitcoin.Address)
       uri.network.should.equal(Networks.testnet)
     })
 
     it('stores unknown parameters as "extras"', function() {
       uri = new URI('bitcoincash:1DP69gMMvSuYhbnxsi4EJEFufUAbDrEQfj?amount=1.2&other=param')
-      uri.address.should.be.instanceof(bch.Address)
+      uri.address.should.be.instanceof(Bitcoin.Address)
       expect(uri.other).to.be.undefined()
       uri.extras.other.should.equal('param')
     })
@@ -121,7 +121,7 @@ describe('URI', function() {
           'req-required=param',
         ['req-required']
       )
-      uri.address.should.be.instanceof(bch.Address)
+      uri.address.should.be.instanceof(Bitcoin.Address)
       uri.amount.should.equal(120000000)
       uri.extras.other.should.equal('param')
       uri.extras['req-required'].should.equal('param')
@@ -135,13 +135,13 @@ describe('URI', function() {
     uri = new URI({
       address: '1DP69gMMvSuYhbnxsi4EJEFufUAbDrEQfj'
     })
-    uri.address.should.be.instanceof(bch.Address)
+    uri.address.should.be.instanceof(Bitcoin.Address)
     uri.network.should.equal(Networks.livenet)
 
     uri = new URI({
       address: 'mkYY5NRvikVBY1EPtaq9fAFgquesdjqECw'
     })
-    uri.address.should.be.instanceof(bch.Address)
+    uri.address.should.be.instanceof(Bitcoin.Address)
     uri.network.should.equal(Networks.testnet)
 
     uri = new URI({
@@ -149,7 +149,7 @@ describe('URI', function() {
       amount: 120000000,
       other: 'param'
     })
-    uri.address.should.be.instanceof(bch.Address)
+    uri.address.should.be.instanceof(Bitcoin.Address)
     uri.amount.should.equal(120000000)
     expect(uri.other).to.be.undefined()
     uri.extras.other.should.equal('param')
@@ -169,7 +169,7 @@ describe('URI', function() {
       },
       ['req-required']
     )
-    uri.address.should.be.instanceof(bch.Address)
+    uri.address.should.be.instanceof(Bitcoin.Address)
     uri.amount.should.equal(120000000)
     uri.extras.other.should.equal('param')
     uri.extras['req-required'].should.equal('param')

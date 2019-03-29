@@ -1,12 +1,12 @@
 /* eslint-disable no-new */
 
-import bch from '../..'
+import Bitcoin from '../bitcoin'
 
-const { BN } = bch.crypto
-const { BufferReader } = bch.encoding
-const { BufferWriter } = bch.encoding
+const { BN } = Bitcoin.crypto
+const { BufferReader } = Bitcoin.encoding
+const { BufferWriter } = Bitcoin.encoding
 
-const { BlockHeader } = bch
+const { BlockHeader } = Bitcoin
 const fs = require('fs')
 const should = require('chai').should()
 

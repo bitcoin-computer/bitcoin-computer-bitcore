@@ -1,6 +1,6 @@
-import bch from '../..'
+import Bitcoin from '../bitcoin'
 
-const { Random } = bch.crypto
+const { Random } = Bitcoin.crypto
 
 describe('Random', function() {
   describe('@getRandomBuffer', function() {
