@@ -1,22 +1,22 @@
-const inherits = require('inherits');
-const $ = require('../../util/preconditions');
-const BufferUtil = require('../../util/buffer');
-const Hash = require('../../crypto/hash');
-const Input = require('./input');
-const Output = require('../output');
-const Sighash = require('../sighash');
-const Script = require('../../script');
-const Signature = require('../../crypto/signature');
-const TransactionSignature = require('../signature');
+const inherits = require('inherits')
+const $ = require('../../util/preconditions')
+const BufferUtil = require('../../util/buffer')
+const Hash = require('../../crypto/hash')
+const Input = require('./input')
+const Output = require('../output')
+const Sighash = require('../sighash')
+const Script = require('../../script')
+const Signature = require('../../crypto/signature')
+const TransactionSignature = require('../signature')
 
 /**
  * Represents a special kind of input of PayToPublicKeyHash kind.
  * @constructor
  */
 function PublicKeyHashInput(...args) {
-  Input.apply(this, args);
+  Input.apply(this, args)
 }
-inherits(PublicKeyHashInput, Input);
+inherits(PublicKeyHashInput, Input)
 
 /**
  * @param {Transaction} transaction - the transaction to be signed
@@ -29,9 +29,9 @@ inherits(PublicKeyHashInput, Input);
  */
 // eslint-disable-next-line max-len
 PublicKeyHashInput.prototype.getSignatures = function(transaction, privateKey, index, sigtype, hashData) {
-  $.checkState(this.output instanceof Output, 'Malformed output found when signing transaction');
-  hashData = hashData || Hash.sha256ripemd160(privateKey.publicKey.toBuffer());
-  sigtype = sigtype || Signature.SIGHASH_ALL | Signature.SIGHASH_FORKID;
+  $.checkState(this.output instanceof Output, 'Malformed output found when signing transaction')
+  hashData = hashData || Hash.sha256ripemd160(privateKey.publicKey.toBuffer())
+  sigtype = sigtype || Signature.SIGHASH_ALL | Signature.SIGHASH_FORKID
 
   if (BufferUtil.equals(hashData, this.output.script.getPublicKeyHash())) {
     return [
@@ -43,10 +43,10 @@ PublicKeyHashInput.prototype.getSignatures = function(transaction, privateKey, i
         signature: Sighash.sign(transaction, privateKey, sigtype, index, this.output.script, this.output.satoshisBN),
         sigtype,
       }),
-    ];
+    ]
   }
-  return [];
-};
+  return []
+}
 
 /**
  * Add the provided signature
@@ -58,32 +58,32 @@ PublicKeyHashInput.prototype.getSignatures = function(transaction, privateKey, i
  * @return {PublicKeyHashInput} this, for chaining
  */
 PublicKeyHashInput.prototype.addSignature = function(transaction, signature) {
-  $.checkState(this.isValidSignature(transaction, signature), 'Failed adding signature because it is invalid');
-  this.setScript(Script.buildPublicKeyHashIn(signature.publicKey, signature.signature.toDER(), signature.sigtype));
-  return this;
-};
+  $.checkState(this.isValidSignature(transaction, signature), 'Failed adding signature because it is invalid')
+  this.setScript(Script.buildPublicKeyHashIn(signature.publicKey, signature.signature.toDER(), signature.sigtype))
+  return this
+}
 
 /**
  * Clear the input's signature
  * @return {PublicKeyHashInput} this, for chaining
  */
 PublicKeyHashInput.prototype.clearSignatures = function() {
-  this.setScript(Script.empty());
-  return this;
-};
+  this.setScript(Script.empty())
+  return this
+}
 
 /**
  * Query whether the input is signed
  * @return {boolean}
  */
 PublicKeyHashInput.prototype.isFullySigned = function() {
-  return this.script.isPublicKeyHashIn();
-};
+  return this.script.isPublicKeyHashIn()
+}
 
-PublicKeyHashInput.SCRIPT_MAX_SIZE = 73 + 34; // sigsize (1 + 72) + pubkey (1 + 33)
+PublicKeyHashInput.SCRIPT_MAX_SIZE = 73 + 34 // sigsize (1 + 72) + pubkey (1 + 33)
 
 PublicKeyHashInput.prototype._estimateSize = function() {
-  return PublicKeyHashInput.SCRIPT_MAX_SIZE;
-};
+  return PublicKeyHashInput.SCRIPT_MAX_SIZE
+}
 
-module.exports = PublicKeyHashInput;
+module.exports = PublicKeyHashInput

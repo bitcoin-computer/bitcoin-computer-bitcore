@@ -2047,6 +2047,6 @@ const italian = [
   'zufolo',
   'zulu',
   'zuppa',
-];
+]
 
-module.exports = italian;
+module.exports = italian

@@ -1,10 +1,10 @@
-const _ = require('lodash');
+const _ = require('lodash')
 
-const BufferUtil = require('./util/buffer');
-const JSUtil = require('./util/js');
+const BufferUtil = require('./util/buffer')
+const JSUtil = require('./util/js')
 
-const networks = [];
-const networkMaps = {};
+const networks = []
+const networkMaps = {}
 
 /**
  * A network is merely a map containing values that correspond to version
@@ -15,8 +15,8 @@ const networkMaps = {};
 function Network() {}
 
 Network.prototype.toString = function toString() {
-  return this.name;
-};
+  return this.name
+}
 
 /**
  * @function
@@ -29,21 +29,21 @@ Network.prototype.toString = function toString() {
  */
 function get(arg, keys) {
   if (~networks.indexOf(arg)) {
-    return arg;
+    return arg
   }
   if (keys) {
     if (!_.isArray(keys)) {
-      keys = [keys];
+      keys = [keys]
     }
 
-    const index = networks.findIndex(network => _.some(keys, key => network[key] === arg));
+    const index = networks.findIndex(network => _.some(keys, key => network[key] === arg))
     if (index !== -1) {
-      return networks[index];
+      return networks[index]
     }
 
-    return undefined;
+    return undefined
   }
-  return networkMaps[arg];
+  return networkMaps[arg]
 }
 
 /**
@@ -64,7 +64,7 @@ function get(arg, keys) {
  * @return Network
  */
 function addNetwork(data) {
-  const network = new Network();
+  const network = new Network()
 
   JSUtil.defineImmutable(network, {
     name: data.name,
@@ -74,34 +74,34 @@ function addNetwork(data) {
     scripthash: data.scripthash,
     xpubkey: data.xpubkey,
     xprivkey: data.xprivkey,
-  });
+  })
 
   if (data.networkMagic) {
     JSUtil.defineImmutable(network, {
       networkMagic: BufferUtil.integerAsBuffer(data.networkMagic),
-    });
+    })
   }
 
   if (data.port) {
     JSUtil.defineImmutable(network, {
       port: data.port,
-    });
+    })
   }
 
   if (data.dnsSeeds) {
     JSUtil.defineImmutable(network, {
       dnsSeeds: data.dnsSeeds,
-    });
+    })
   }
   _.each(network, value => {
     if (!_.isUndefined(value) && !_.isObject(value)) {
-      networkMaps[value] = network;
+      networkMaps[value] = network
     }
-  });
+  })
 
-  networks.push(network);
+  networks.push(network)
 
-  return network;
+  return network
 }
 
 /**
@@ -113,14 +113,14 @@ function addNetwork(data) {
 function removeNetwork(network) {
   for (let i = 0; i < networks.length; i += 1) {
     if (networks[i] === network) {
-      networks.splice(i, 1);
+      networks.splice(i, 1)
     }
   }
   Object.keys(networkMaps).forEach(objectKey => {
     if (networkMaps[objectKey] === network) {
-      delete networkMaps[objectKey];
+      delete networkMaps[objectKey]
     }
-  });
+  })
 }
 
 addNetwork({
@@ -141,13 +141,13 @@ addNetwork({
     'seed.bitnodes.io',
     'bitseed.xf2.org',
   ],
-});
+})
 
 /**
  * @instance
  * @member Networks#livenet
  */
-const livenet = get('livenet');
+const livenet = get('livenet')
 
 addNetwork({
   name: 'testnet',
@@ -157,13 +157,13 @@ addNetwork({
   scripthash: 0xc4,
   xpubkey: 0x043587cf,
   xprivkey: 0x04358394,
-});
+})
 
 /**
  * @instance
  * @member Networks#testnet
  */
-const testnet = get('testnet');
+const testnet = get('testnet')
 
 // Add configurable values for testnet/regtest
 
@@ -176,58 +176,58 @@ const TESTNET = {
     'testnet-seed.alexykot.me',
     'testnet-seed.bitcoin.schildbach.de',
   ],
-};
+}
 
 Object.keys(TESTNET).forEach(objectKey => {
   if (!_.isObject(TESTNET[objectKey])) {
-    networkMaps[TESTNET[objectKey]] = testnet;
+    networkMaps[TESTNET[objectKey]] = testnet
   }
-});
+})
 
 const REGTEST = {
   PORT: 18444,
   NETWORK_MAGIC: BufferUtil.integerAsBuffer(0xfabfb5da),
   DNS_SEEDS: [],
-};
+}
 
 Object.keys(REGTEST).forEach(objectKey => {
   if (!_.isObject(REGTEST[objectKey])) {
-    networkMaps[REGTEST[objectKey]] = testnet;
+    networkMaps[REGTEST[objectKey]] = testnet
   }
-});
+})
 
 Object.defineProperty(testnet, 'port', {
   enumerable: true,
   configurable: false,
   get() {
     if (this.regtestEnabled) {
-      return REGTEST.PORT;
+      return REGTEST.PORT
     }
-    return TESTNET.PORT;
+    return TESTNET.PORT
   },
-});
+})
 
 Object.defineProperty(testnet, 'networkMagic', {
   enumerable: true,
   configurable: false,
   get() {
     if (this.regtestEnabled) {
-      return REGTEST.NETWORK_MAGIC;
+      return REGTEST.NETWORK_MAGIC
     }
-    return TESTNET.NETWORK_MAGIC;
+    return TESTNET.NETWORK_MAGIC
   },
-});
+})
 
 Object.defineProperty(testnet, 'dnsSeeds', {
   enumerable: true,
   configurable: false,
   get() {
     if (this.regtestEnabled) {
-      return REGTEST.DNS_SEEDS;
+      return REGTEST.DNS_SEEDS
     }
-    return TESTNET.DNS_SEEDS;
+    return TESTNET.DNS_SEEDS
   },
-});
+})
 
 /**
  * @function
@@ -235,7 +235,7 @@ Object.defineProperty(testnet, 'dnsSeeds', {
  * Will enable regtest features for testnet
  */
 function enableRegtest() {
-  testnet.regtestEnabled = true;
+  testnet.regtestEnabled = true
 }
 
 /**
@@ -244,7 +244,7 @@ function enableRegtest() {
  * Will disable regtest features for testnet
  */
 function disableRegtest() {
-  testnet.regtestEnabled = false;
+  testnet.regtestEnabled = false
 }
 
 /**
@@ -260,4 +260,4 @@ module.exports = {
   get,
   enableRegtest,
   disableRegtest,
-};
+}

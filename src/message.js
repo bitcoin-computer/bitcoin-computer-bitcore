@@ -1,13 +1,13 @@
-const _ = require('lodash');
-const $ = require('./util/preconditions');
-const Address = require('./address');
-const PublicKey = require('./publickey');
-const PrivateKey = require('./privatekey');
-const BufferWriter = require('./encoding/bufferwriter');
-const ECDSA = require('./crypto/ecdsa');
-const Signature = require('./crypto/signature');
-const { sha256sha256 } = require('./crypto/hash');
-const JSUtil = require('./util/js');
+const _ = require('lodash')
+const $ = require('./util/preconditions')
+const Address = require('./address')
+const PublicKey = require('./publickey')
+const PrivateKey = require('./privatekey')
+const BufferWriter = require('./encoding/bufferwriter')
+const ECDSA = require('./crypto/ecdsa')
+const Signature = require('./crypto/signature')
+const { sha256sha256 } = require('./crypto/hash')
+const JSUtil = require('./util/js')
 
 /**
  * constructs a new message to sign and verify.
@@ -17,31 +17,31 @@ const JSUtil = require('./util/js');
  */
 class Message {
   constructor(message) {
-    $.checkArgument(_.isString(message), 'First argument should be a string');
-    this.message = message;
+    $.checkArgument(_.isString(message), 'First argument should be a string')
+    this.message = message
 
-    return this;
+    return this
   }
 
   magicHash() {
-    const prefix1 = BufferWriter.varintBufNum(Message.MAGIC_BYTES.length);
-    const messageBuffer = Buffer.from(this.message);
-    const prefix2 = BufferWriter.varintBufNum(messageBuffer.length);
-    const buf = Buffer.concat([prefix1, Message.MAGIC_BYTES, prefix2, messageBuffer]);
-    const hash = sha256sha256(buf);
-    return hash;
+    const prefix1 = BufferWriter.varintBufNum(Message.MAGIC_BYTES.length)
+    const messageBuffer = Buffer.from(this.message)
+    const prefix2 = BufferWriter.varintBufNum(messageBuffer.length)
+    const buf = Buffer.concat([prefix1, Message.MAGIC_BYTES, prefix2, messageBuffer])
+    const hash = sha256sha256(buf)
+    return hash
   }
 
   _sign(privateKey) {
-    $.checkArgument(privateKey instanceof PrivateKey, 'First argument should be an instance of PrivateKey');
-    const hash = this.magicHash();
-    const ecdsa = new ECDSA();
-    ecdsa.hashbuf = hash;
-    ecdsa.privkey = privateKey;
-    ecdsa.pubkey = privateKey.toPublicKey();
-    ecdsa.signRandomK();
-    ecdsa.calci();
-    return ecdsa.sig;
+    $.checkArgument(privateKey instanceof PrivateKey, 'First argument should be an instance of PrivateKey')
+    const hash = this.magicHash()
+    const ecdsa = new ECDSA()
+    ecdsa.hashbuf = hash
+    ecdsa.privkey = privateKey
+    ecdsa.pubkey = privateKey.toPublicKey()
+    ecdsa.signRandomK()
+    ecdsa.calci()
+    return ecdsa.sig
   }
 
   /**
@@ -51,19 +51,19 @@ class Message {
    * @returns {String} A base64 encoded compact signature
    */
   sign(privateKey) {
-    const signature = this._sign(privateKey);
-    return signature.toCompact().toString('base64');
+    const signature = this._sign(privateKey)
+    return signature.toCompact().toString('base64')
   }
 
   _verify(publicKey, signature) {
-    $.checkArgument(publicKey instanceof PublicKey, 'First argument should be an instance of PublicKey');
-    $.checkArgument(signature instanceof Signature, 'Second argument should be an instance of Signature');
-    const hash = this.magicHash();
-    const verified = ECDSA.verify(hash, signature, publicKey);
+    $.checkArgument(publicKey instanceof PublicKey, 'First argument should be an instance of PublicKey')
+    $.checkArgument(signature instanceof Signature, 'Second argument should be an instance of Signature')
+    const hash = this.magicHash()
+    const verified = ECDSA.verify(hash, signature, publicKey)
     if (!verified) {
-      this.error = 'The signature was invalid';
+      this.error = 'The signature was invalid'
     }
-    return verified;
+    return verified
   }
 
   /**
@@ -75,29 +75,29 @@ class Message {
    * @returns {Boolean}
    */
   verify(bitcoinAddress, signatureString) {
-    $.checkArgument(bitcoinAddress);
-    $.checkArgument(signatureString && _.isString(signatureString));
+    $.checkArgument(bitcoinAddress)
+    $.checkArgument(signatureString && _.isString(signatureString))
 
     if (_.isString(bitcoinAddress)) {
-      bitcoinAddress = Address.fromString(bitcoinAddress);
+      bitcoinAddress = Address.fromString(bitcoinAddress)
     }
-    const signature = Signature.fromCompact(Buffer.from(signatureString, 'base64'));
+    const signature = Signature.fromCompact(Buffer.from(signatureString, 'base64'))
 
     // recover the public key
-    const ecdsa = new ECDSA();
-    ecdsa.hashbuf = this.magicHash();
-    ecdsa.sig = signature;
-    const publicKey = ecdsa.toPublicKey();
+    const ecdsa = new ECDSA()
+    ecdsa.hashbuf = this.magicHash()
+    ecdsa.sig = signature
+    const publicKey = ecdsa.toPublicKey()
 
-    const signatureAddress = Address.fromPublicKey(publicKey, bitcoinAddress.network);
+    const signatureAddress = Address.fromPublicKey(publicKey, bitcoinAddress.network)
 
     // check that the recovered address and specified address match
     if (bitcoinAddress.toString() !== signatureAddress.toString()) {
-      this.error = 'The signature did not match the message digest';
-      return false;
+      this.error = 'The signature did not match the message digest'
+      return false
     }
 
-    return this._verify(publicKey, signature);
+    return this._verify(publicKey, signature)
   }
 
   /**
@@ -107,7 +107,7 @@ class Message {
    * @returns {Message} A new instance of a Message
    */
   static fromString(str) {
-    return new Message(str);
+    return new Message(str)
   }
 
   /**
@@ -118,9 +118,9 @@ class Message {
    */
   static fromJSON(json) {
     if (JSUtil.isValidJSON(json)) {
-      json = JSON.parse(json);
+      json = JSON.parse(json)
     }
-    return new Message(json.message);
+    return new Message(json.message)
   }
 
   /**
@@ -129,14 +129,14 @@ class Message {
   toObject() {
     return {
       message: this.message,
-    };
+    }
   }
 
   /**
    * @returns {String} A JSON representation of the message information
    */
   toJSON() {
-    return JSON.stringify(this.toObject());
+    return JSON.stringify(this.toObject())
   }
 
   /**
@@ -145,7 +145,7 @@ class Message {
    * @returns {String} Message
    */
   toString() {
-    return this.message;
+    return this.message
   }
 
   /**
@@ -154,10 +154,10 @@ class Message {
    * @returns {String} Message
    */
   inspect() {
-    return `<Message: ${this.toString()}>`;
+    return `<Message: ${this.toString()}>`
   }
 }
 
-Message.MAGIC_BYTES = Buffer.from('Bitcoin Signed Message:\n');
+Message.MAGIC_BYTES = Buffer.from('Bitcoin Signed Message:\n')
 
-module.exports = Message;
+module.exports = Message

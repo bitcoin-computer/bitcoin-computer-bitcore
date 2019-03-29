@@ -1,20 +1,20 @@
-const buffer = require('buffer');
-const assert = require('assert');
+const buffer = require('buffer')
+const assert = require('assert')
 
-const js = require('./js');
-const $ = require('./preconditions');
+const js = require('./js')
+const $ = require('./preconditions')
 
 function equals(a, b) {
   if (a.length !== b.length) {
-    return false;
+    return false
   }
-  const { length } = a;
+  const { length } = a
   for (let i = 0; i < length; i += 1) {
     if (a[i] !== b[i]) {
-      return false;
+      return false
     }
   }
-  return true;
+  return true
 }
 
 module.exports = {
@@ -26,13 +26,13 @@ module.exports = {
    * @return {Buffer}
    */
   fill: function fill(buff, value) {
-    $.checkArgumentType(buff, 'Buffer', 'buffer');
-    $.checkArgumentType(value, 'number', 'value');
-    const { length } = buff;
+    $.checkArgumentType(buff, 'Buffer', 'buffer')
+    $.checkArgumentType(value, 'number', 'value')
+    const { length } = buff
     for (let i = 0; i < length; i += 1) {
-      buff[i] = value;
+      buff[i] = value
     }
-    return buff;
+    return buff
   },
 
   /**
@@ -42,9 +42,9 @@ module.exports = {
    * @return {Buffer}
    */
   copy(original) {
-    const buff = Buffer.alloc(original.length);
-    original.copy(buff);
-    return buff;
+    const buff = Buffer.alloc(original.length)
+    original.copy(buff)
+    return buff
   },
 
   /**
@@ -55,7 +55,7 @@ module.exports = {
    * @return {boolean}
    */
   isBuffer: function isBuffer(arg) {
-    return buffer.Buffer.isBuffer(arg) || arg instanceof Uint8Array;
+    return buffer.Buffer.isBuffer(arg) || arg instanceof Uint8Array
   },
 
   /**
@@ -65,12 +65,12 @@ module.exports = {
    * @return {Buffer}
    */
   emptyBuffer: function emptyBuffer(bytes) {
-    $.checkArgumentType(bytes, 'number', 'bytes');
-    const result = Buffer.alloc(bytes);
+    $.checkArgumentType(bytes, 'number', 'bytes')
+    const result = Buffer.alloc(bytes)
     for (let i = 0; i < bytes; i += 1) {
-      result.write('\0', i);
+      result.write('\0', i)
     }
-    return result;
+    return result
   },
 
   /**
@@ -90,8 +90,8 @@ module.exports = {
    * @return {Buffer}
    */
   integerAsSingleByteBuffer: function integerAsSingleByteBuffer(integer) {
-    $.checkArgumentType(integer, 'number', 'integer');
-    return Buffer.from([integer & 0xff]);
+    $.checkArgumentType(integer, 'number', 'integer')
+    return Buffer.from([integer & 0xff])
   },
 
   /**
@@ -101,13 +101,13 @@ module.exports = {
    * @return {Buffer}
    */
   integerAsBuffer: function integerAsBuffer(integer) {
-    $.checkArgumentType(integer, 'number', 'integer');
-    const bytes = [];
-    bytes.push((integer >> 24) & 0xff);
-    bytes.push((integer >> 16) & 0xff);
-    bytes.push((integer >> 8) & 0xff);
-    bytes.push(integer & 0xff);
-    return Buffer.from(bytes);
+    $.checkArgumentType(integer, 'number', 'integer')
+    const bytes = []
+    bytes.push((integer >> 24) & 0xff)
+    bytes.push((integer >> 16) & 0xff)
+    bytes.push((integer >> 8) & 0xff)
+    bytes.push(integer & 0xff)
+    return Buffer.from(bytes)
   },
 
   /**
@@ -117,8 +117,8 @@ module.exports = {
    * @return {number}
    */
   integerFromBuffer: function integerFromBuffer(buff) {
-    $.checkArgumentType(buff, 'Buffer', 'buffer');
-    return (buff[0] << 24) | (buff[1] << 16) | (buff[2] << 8) | buff[3];
+    $.checkArgumentType(buff, 'Buffer', 'buffer')
+    return (buff[0] << 24) | (buff[1] << 16) | (buff[2] << 8) | buff[3]
   },
 
   /**
@@ -127,8 +127,8 @@ module.exports = {
    * @return {number}
    */
   integerFromSingleByteBuffer: function integerFromBuffer(buff) {
-    $.checkArgumentType(buff, 'Buffer', 'buffer');
-    return buff[0];
+    $.checkArgumentType(buff, 'Buffer', 'buffer')
+    return buff[0]
   },
 
   /**
@@ -140,8 +140,8 @@ module.exports = {
    * @return {string}
    */
   bufferToHex: function bufferToHex(buff) {
-    $.checkArgumentType(buff, 'Buffer', 'buffer');
-    return buff.toString('hex');
+    $.checkArgumentType(buff, 'Buffer', 'buffer')
+    return buff.toString('hex')
   },
 
   /**
@@ -150,11 +150,11 @@ module.exports = {
    * @return {Buffer}
    */
   reverse: function reverse(param) {
-    const ret = Buffer.alloc(param.length);
+    const ret = Buffer.alloc(param.length)
     for (let i = 0; i < param.length; i += 1) {
-      ret[i] = param[param.length - i - 1];
+      ret[i] = param[param.length - i - 1]
     }
-    return ret;
+    return ret
   },
 
   /**
@@ -166,10 +166,10 @@ module.exports = {
    * @return {Buffer}
    */
   hexToBuffer: function hexToBuffer(string) {
-    assert(js.isHexa(string));
-    return Buffer.from(string, 'hex');
+    assert(js.isHexa(string))
+    return Buffer.from(string, 'hex')
   },
-};
+}
 
-module.exports.NULL_HASH = module.exports.fill(Buffer.alloc(32), 0);
-module.exports.EMPTY_BUFFER = Buffer.alloc(0);
+module.exports.NULL_HASH = module.exports.fill(Buffer.alloc(32), 0)
+module.exports.EMPTY_BUFFER = Buffer.alloc(0)

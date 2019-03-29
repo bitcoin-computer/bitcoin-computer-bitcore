@@ -85,6 +85,7 @@
     "uglify-js": "^3.4.9"
   },
   "prettier": {
+    "semi": false,
     "singleQuote": true,
     "printWidth": 120,
     "trailingComma": "all",

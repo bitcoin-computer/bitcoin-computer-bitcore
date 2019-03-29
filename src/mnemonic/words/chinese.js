@@ -2047,6 +2047,6 @@ const chinese = [
   '怨',
   '矮',
   '歇',
-];
+]
 
-module.exports = chinese;
+module.exports = chinese

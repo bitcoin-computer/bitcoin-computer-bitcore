@@ -1,58 +1,58 @@
-const inherits = require('inherits');
-const Input = require('./input');
-const Output = require('../output');
-const $ = require('../../util/preconditions');
-const Script = require('../../script');
-const Signature = require('../../crypto/signature');
-const Sighash = require('../sighash');
-const BufferUtil = require('../../util/buffer');
-const TransactionSignature = require('../signature');
+const inherits = require('inherits')
+const Input = require('./input')
+const Output = require('../output')
+const $ = require('../../util/preconditions')
+const Script = require('../../script')
+const Signature = require('../../crypto/signature')
+const Sighash = require('../sighash')
+const BufferUtil = require('../../util/buffer')
+const TransactionSignature = require('../signature')
 
 /**
  * @constructor
  */
 function ScriptHashInput(input, pubkeys, redeemScript) {
-  Input.apply(this, [input, pubkeys, redeemScript]);
-  const self = this;
-  this.publicKeys = pubkeys || input.publicKeys;
-  this.threshold = 1;
-  this.redeemScript = redeemScript;
+  Input.apply(this, [input, pubkeys, redeemScript])
+  const self = this
+  this.publicKeys = pubkeys || input.publicKeys
+  this.threshold = 1
+  this.redeemScript = redeemScript
   $.checkState(
     Script.buildScriptHashOut(this.redeemScript).equals(this.output.script),
     "Provided redeemScript doesn't hash to the provided output",
-  );
-  this.publicKeyIndex = {};
+  )
+  this.publicKeyIndex = {}
   this.publicKeys.forEach((publicKey, index) => {
-    self.publicKeyIndex[publicKey.toString()] = index;
-  });
+    self.publicKeyIndex[publicKey.toString()] = index
+  })
   // Empty array of signatures
-  this.signatures = new Array(this.publicKeys.length);
+  this.signatures = new Array(this.publicKeys.length)
 }
-inherits(ScriptHashInput, Input);
+inherits(ScriptHashInput, Input)
 
 ScriptHashInput.prototype.toObject = function(...args) {
-  const obj = Input.prototype.toObject.apply(this, args);
-  obj.threshold = this.threshold;
-  obj.publicKeys = this.publicKeys.map(publicKey => publicKey.toString());
-  obj.signatures = this._serializeSignatures();
-  return obj;
-};
+  const obj = Input.prototype.toObject.apply(this, args)
+  obj.threshold = this.threshold
+  obj.publicKeys = this.publicKeys.map(publicKey => publicKey.toString())
+  obj.signatures = this._serializeSignatures()
+  return obj
+}
 
 ScriptHashInput.prototype._deserializeSignatures = function(signatures) {
-  return signatures.map(signature => (signature ? new TransactionSignature(signature) : undefined));
-};
+  return signatures.map(signature => (signature ? new TransactionSignature(signature) : undefined))
+}
 
 ScriptHashInput.prototype._serializeSignatures = function() {
-  return this.signatures.map(signature => (signature ? signature.toObject() : undefined));
-};
+  return this.signatures.map(signature => (signature ? signature.toObject() : undefined))
+}
 
 ScriptHashInput.prototype.getSignatures = function(transaction, privateKey, index, sigtype) {
-  $.checkState(this.output instanceof Output, 'Malformed output found when signing transaction');
-  sigtype = sigtype || Signature.SIGHASH_ALL | Signature.SIGHASH_FORKID;
+  $.checkState(this.output instanceof Output, 'Malformed output found when signing transaction')
+  sigtype = sigtype || Signature.SIGHASH_ALL | Signature.SIGHASH_FORKID
 
   const publicKeysForPrivateKey = this.publicKeys.filter(
     publicKey => publicKey.toString() === privateKey.publicKey.toString(),
-  );
+  )
   return publicKeysForPrivateKey.map(
     publicKey =>
       new TransactionSignature({
@@ -63,62 +63,62 @@ ScriptHashInput.prototype.getSignatures = function(transaction, privateKey, inde
         signature: Sighash.sign(transaction, privateKey, sigtype, index, this.output.script, this.output.satoshisBN),
         sigtype,
       }),
-  );
-};
+  )
+}
 
 ScriptHashInput.prototype.addSignature = function(transaction, signature) {
-  $.checkState(!this.isFullySigned(), 'All needed signatures have already been added');
+  $.checkState(!this.isFullySigned(), 'All needed signatures have already been added')
   $.checkArgument(
     this.publicKeyIndex[signature.publicKey.toString()] !== undefined,
     'Signature has no matching public key',
-  );
-  $.checkState(this.isValidSignature(transaction, signature));
-  this.signatures[this.publicKeyIndex[signature.publicKey.toString()]] = signature;
-  this._updateScript();
-  return this;
-};
+  )
+  $.checkState(this.isValidSignature(transaction, signature))
+  this.signatures[this.publicKeyIndex[signature.publicKey.toString()]] = signature
+  this._updateScript()
+  return this
+}
 
 ScriptHashInput.prototype._updateScript = function() {
   this.setScript(
     Script.buildP2SHMultisigIn(this.publicKeys, this.threshold, this._createSignatures(), {
       cachedMultisig: this.redeemScript,
     }),
-  );
-  return this;
-};
+  )
+  return this
+}
 
 ScriptHashInput.prototype._createSignatures = function() {
-  const definedSignatures = this.signatures.filter(signature => signature !== undefined);
+  const definedSignatures = this.signatures.filter(signature => signature !== undefined)
   return definedSignatures.map(signature =>
     BufferUtil.concat([signature.signature.toDER(), BufferUtil.integerAsSingleByteBuffer(signature.sigtype)]),
-  );
-};
+  )
+}
 
 ScriptHashInput.prototype.clearSignatures = function() {
-  this.signatures = new Array(this.publicKeys.length);
-  this._updateScript();
-};
+  this.signatures = new Array(this.publicKeys.length)
+  this._updateScript()
+}
 
 ScriptHashInput.prototype.isFullySigned = function() {
-  return this.countSignatures() === this.threshold;
-};
+  return this.countSignatures() === this.threshold
+}
 
 ScriptHashInput.prototype.countMissingSignatures = function() {
-  return this.threshold - this.countSignatures();
-};
+  return this.threshold - this.countSignatures()
+}
 
 ScriptHashInput.prototype.countSignatures = function() {
-  return this.signatures.reduce((sum, signature) => sum + !!signature, 0);
-};
+  return this.signatures.reduce((sum, signature) => sum + !!signature, 0)
+}
 
 ScriptHashInput.prototype.publicKeysWithoutSignature = function() {
-  const self = this;
-  return this.publicKeys.filter(publicKey => !self.signatures[self.publicKeyIndex[publicKey.toString()]]);
-};
+  const self = this
+  return this.publicKeys.filter(publicKey => !self.signatures[self.publicKeyIndex[publicKey.toString()]])
+}
 
 ScriptHashInput.prototype.isValidSignature = function(transaction, signature) {
   // FIXME: Refactor signature so this is not necessary
-  signature.signature.nhashtype = signature.sigtype;
+  signature.signature.nhashtype = signature.sigtype
   return Sighash.verify(
     transaction,
     signature.signature,
@@ -126,19 +126,19 @@ ScriptHashInput.prototype.isValidSignature = function(transaction, signature) {
     signature.inputIndex,
     this.redeemScript,
     this.output.satoshisBN,
-  );
-};
+  )
+}
 
-ScriptHashInput.OPCODES_SIZE = 7; // serialized size (<=3) + 0 .. N .. M OP_CHECKMULTISIG
-ScriptHashInput.SIGNATURE_SIZE = 74; // size (1) + DER (<=72) + sighash (1)
-ScriptHashInput.PUBKEY_SIZE = 34; // size (1) + DER (<=33)
+ScriptHashInput.OPCODES_SIZE = 7 // serialized size (<=3) + 0 .. N .. M OP_CHECKMULTISIG
+ScriptHashInput.SIGNATURE_SIZE = 74 // size (1) + DER (<=72) + sighash (1)
+ScriptHashInput.PUBKEY_SIZE = 34 // size (1) + DER (<=33)
 
 ScriptHashInput.prototype._estimateSize = function() {
   return (
     ScriptHashInput.OPCODES_SIZE +
     this.threshold * ScriptHashInput.SIGNATURE_SIZE +
     this.publicKeys.length * ScriptHashInput.PUBKEY_SIZE
-  );
-};
+  )
+}
 
-module.exports = ScriptHashInput;
+module.exports = ScriptHashInput

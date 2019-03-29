@@ -2047,6 +2047,6 @@ const japanese = [
   'わすれもの',
   'わらう',
   'われる',
-];
+]
 
-module.exports = japanese;
+module.exports = japanese
