@@ -1,11 +1,11 @@
-import Bitcoin from './bitcoin'
+import bch from '..'
 
 const _ = require('lodash')
 const chai = require('chai')
 
 const should = chai.should()
 const { expect } = chai
-const { Opcode } = Bitcoin
+const { Opcode } = bch
 
 describe('Opcode', function() {
   it('should create a new Opcode', function() {

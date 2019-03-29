@@ -1,9 +1,9 @@
-import Bitcoin from './bitcoin'
+import bch from '..'
 
 const { expect } = require('chai')
 const should = require('chai').should()
 
-const networks = Bitcoin.Networks
+const networks = bch.Networks
 
 describe('Networks', function() {
   let customnet

@@ -1,6 +1,6 @@
-import Bitcoin from '../bitcoin'
+import bch from '../..'
 
-const { Transaction } = Bitcoin
+const { Transaction } = bch
 
 const vectorsValid = require('../data/bitcoind/tx_valid.json')
 const vectorsInvalid = require('../data/bitcoind/tx_invalid.json')

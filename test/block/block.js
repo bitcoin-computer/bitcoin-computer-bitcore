@@ -1,15 +1,15 @@
-import Bitcoin from '../bitcoin'
+import bch from '../..'
 
-const { BN } = Bitcoin.crypto
-const { BufferReader } = Bitcoin.encoding
-const { BufferWriter } = Bitcoin.encoding
-const { BlockHeader } = Bitcoin
-const { Block } = Bitcoin
+const { BN } = bch.crypto
+const { BufferReader } = bch.encoding
+const { BufferWriter } = bch.encoding
+const { BlockHeader } = bch
+const { Block } = bch
 const chai = require('chai')
 const fs = require('fs')
 
 const should = chai.should()
-const { Transaction } = Bitcoin
+const { Transaction } = bch
 
 // https://test-insight.bitpay.com/block/000000000b99b16390660d79fcc138d2ad0c89a0d044c4201a02bdf1f61ffa11
 const dataRawBlockBuffer = fs.readFileSync('test/data/blk86756-testnet.dat')

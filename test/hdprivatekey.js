@@ -1,17 +1,17 @@
-import Bitcoin from './bitcoin'
+import bch from '..'
 
 const _ = require('lodash')
 const assert = require('assert')
 const should = require('chai').should()
 const { expect } = require('chai')
 
-const { errors } = Bitcoin
+const { errors } = bch
 const hdErrors = errors.HDPrivateKey
 
-const { Networks } = Bitcoin
-const BufferUtil = Bitcoin.util.buffer
-const { HDPrivateKey } = Bitcoin
-const { Base58Check } = Bitcoin.encoding
+const { Networks } = bch
+const BufferUtil = bch.util.buffer
+const { HDPrivateKey } = bch
+const { Base58Check } = bch.encoding
 
 const xprivkey =
   'xprv9s21ZrQH143K3QTDL4LXw2F7HEK3wJUD2nW2nRk4stbPy6cq3jPPqjiChkVvvNKmPGJxWUtg6LnF5kejMRNNU3TGtRBeJgk33yuGBxrMPHi'

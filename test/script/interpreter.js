@@ -1,14 +1,14 @@
-import Bitcoin from '../bitcoin'
+import bch from '../..'
 
 const should = require('chai').should()
 
-const { Interpreter } = Bitcoin.Script
-const { Transaction } = Bitcoin
-const { PrivateKey } = Bitcoin
-const { Script } = Bitcoin
-const { BN } = Bitcoin.crypto
-const { BufferWriter } = Bitcoin.encoding
-const { Opcode } = Bitcoin
+const { Interpreter } = bch.Script
+const { Transaction } = bch
+const { PrivateKey } = bch
+const { Script } = bch
+const { BN } = bch.crypto
+const { BufferWriter } = bch.encoding
+const { Opcode } = bch
 
 const scriptValid = require('../data/bitcoind/script_valid')
 const scriptInvalid = require('../data/bitcoind/script_invalid')

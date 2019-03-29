@@ -1,13 +1,13 @@
-import Bitcoin from '../../bitcoin'
+import bch from '../../..'
 
 const _ = require('lodash')
 
-const { Transaction } = Bitcoin
-const { PrivateKey } = Bitcoin
-const { Address } = Bitcoin
-const { Script } = Bitcoin
-const { Signature } = Bitcoin.crypto
-const MultiSigScriptHashInput = Bitcoin.Transaction.Input.MultiSigScriptHash
+const { Transaction } = bch
+const { PrivateKey } = bch
+const { Address } = bch
+const { Script } = bch
+const { Signature } = bch.crypto
+const MultiSigScriptHashInput = bch.Transaction.Input.MultiSigScriptHash
 
 describe('MultiSigScriptHashInput', function() {
   const privateKey1 = new PrivateKey('KwF9LjRraetZuEjR8VqEq539z137LW5anYDUnVK11vM3mNMHTWb4')

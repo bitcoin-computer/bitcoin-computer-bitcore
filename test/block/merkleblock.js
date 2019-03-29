@@ -1,11 +1,11 @@
-import Bitcoin from '../bitcoin'
+import bch from '../..'
 
 const should = require('chai').should()
 
-const { MerkleBlock } = Bitcoin
-const { BufferReader } = Bitcoin.encoding
-const { BufferWriter } = Bitcoin.encoding
-const { Transaction } = Bitcoin
+const { MerkleBlock } = bch
+const { BufferReader } = bch.encoding
+const { BufferWriter } = bch.encoding
+const { Transaction } = bch
 const data = require('../data/merkleblocks.js')
 const transactionVector = require('../data/tx_creation')
 

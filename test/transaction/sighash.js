@@ -1,8 +1,8 @@
-import Bitcoin from '../bitcoin'
+import bch from '../..'
 
-const { Script } = Bitcoin
-const { BN } = Bitcoin.crypto
-const { Transaction } = Bitcoin
+const { Script } = bch
+const { BN } = bch.crypto
+const { Transaction } = bch
 const sighash = Transaction.Sighash
 
 const vectorsSighash = require('../data/sighash.json')

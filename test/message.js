@@ -1,20 +1,18 @@
-import Bitcoin from './bitcoin'
+import bch from '..'
 
 const chai = require('chai')
 
 const { expect } = chai
 const should = chai.should()
 
-const { Address } = Bitcoin
-const { Signature } = Bitcoin.crypto
-const { Message } = Bitcoin
+const { Address } = bch
+const { Signature } = bch.crypto
+const { Message } = bch
 
 describe('Message', function() {
   const address = 'n1ZCYg9YXtB5XCZazLxSmPDa8iwJRZHhGx'
   const badAddress = 'mmRcrB5fTwgxaFJmVLNtaG8SV454y1E3kC'
-  const privateKey = Bitcoin.PrivateKey.fromWIF(
-    'cPBn5A4ikZvBTQ8D7NnvHZYCAxzDZ5Z2TSGW2LkyPiLxqYaJPBW4'
-  )
+  const privateKey = bch.PrivateKey.fromWIF('cPBn5A4ikZvBTQ8D7NnvHZYCAxzDZ5Z2TSGW2LkyPiLxqYaJPBW4')
   const text = 'hello, world'
   const signatureString =
     'H/DIn8uA1scAuKLlCx+/9LnAcJtwQQ0PmcPrJUq90aboLv3fH5fFvY+vmbfOSFEtGarznYli6ShPr9RXwY9UrIY='
@@ -99,7 +97,7 @@ describe('Message', function() {
   })
 
   it('will verify with an uncompressed pubkey', function() {
-    const privKey = new Bitcoin.PrivateKey('5KYZdUEo39z3FPrtuX2QbbwGnNP5zTd7yyr2SC1j299sBCnWjss')
+    const privKey = new bch.PrivateKey('5KYZdUEo39z3FPrtuX2QbbwGnNP5zTd7yyr2SC1j299sBCnWjss')
     const message = new Message('This is an example of a signed message.')
     const sig = message.sign(privKey)
     const verified = message.verify(privKey.toAddress(), sig)

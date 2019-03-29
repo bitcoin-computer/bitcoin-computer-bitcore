@@ -1,7 +1,7 @@
-import Bitcoin from '../../bitcoin'
+import bch from '../../..'
 
-const { Transaction } = Bitcoin
-const { PrivateKey } = Bitcoin
+const { Transaction } = bch
+const { PrivateKey } = bch
 
 describe('PublicKeyInput', function() {
   const utxo = {

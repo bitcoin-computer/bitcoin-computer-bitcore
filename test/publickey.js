@@ -1,14 +1,14 @@
-import Bitcoin from './bitcoin'
+import bch from '..'
 
 const should = require('chai').should()
 const { expect } = require('chai')
 
-const { Point } = Bitcoin.crypto
-const { BN } = Bitcoin.crypto
-const { PublicKey } = Bitcoin
-const { PrivateKey } = Bitcoin
-const { Address } = Bitcoin
-const { Networks } = Bitcoin
+const { Point } = bch.crypto
+const { BN } = bch.crypto
+const { PublicKey } = bch
+const { PrivateKey } = bch
+const { Address } = bch
+const { Networks } = bch
 
 describe('PublicKey', function() {
   const invalidPoint =

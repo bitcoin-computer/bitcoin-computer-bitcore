@@ -1,10 +1,10 @@
-import Bitcoin from '../bitcoin'
+import bch from '../..'
 
 const _ = require('lodash')
 const chai = require('chai')
 
 const { expect } = chai
-const { UnspentOutput } = Bitcoin.Transaction
+const { UnspentOutput } = bch.Transaction
 
 describe('UnspentOutput', function() {
   const sampleData1 = {

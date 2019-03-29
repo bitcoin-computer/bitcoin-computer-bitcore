@@ -1,10 +1,10 @@
-import Bitcoin from '../bitcoin'
+import bch from '../..'
 
 const chai = require('chai')
 
 const should = chai.should()
-const { Mnemonic } = Bitcoin
-const { errors } = Bitcoin
+const { Mnemonic } = bch
+const { errors } = bch
 const bip39Vectors = require('../data/mnemonics.json')
 
 describe('Mnemonic', function() {

@@ -1,12 +1,12 @@
-import Bitcoin from '../bitcoin'
+import bch from '../..'
 
-const { ECDSA } = Bitcoin.crypto
-const { Hash } = Bitcoin.crypto
-const Privkey = Bitcoin.PrivateKey
-const Pubkey = Bitcoin.PublicKey
-const { Signature } = Bitcoin.crypto
-const { BN } = Bitcoin.crypto
-const point = Bitcoin.crypto.Point
+const { ECDSA } = bch.crypto
+const { Hash } = bch.crypto
+const Privkey = bch.PrivateKey
+const Pubkey = bch.PublicKey
+const { Signature } = bch.crypto
+const { BN } = bch.crypto
+const point = bch.crypto.Point
 const should = require('chai').should()
 const vectors = require('../data/ecdsa')
 

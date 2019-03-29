@@ -1,8 +1,8 @@
-import Bitcoin from '../bitcoin'
+import bch from '../..'
 
 const should = require('chai').should()
 
-const { BN } = Bitcoin.crypto
+const { BN } = bch.crypto
 
 describe('BN', function() {
   it('should create a bn', function() {

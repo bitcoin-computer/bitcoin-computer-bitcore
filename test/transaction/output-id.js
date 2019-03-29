@@ -1,8 +1,8 @@
-import Bitcoin from '../bitcoin'
+import bch from '../..'
 
 const { expect } = require('chai')
 
-const { OutputId } = Bitcoin.Transaction
+const { OutputId } = bch.Transaction
 
 const DUMMY_TXID = 'b18d0e8bd48c62124f5db85e2d5b3d288e23f72937f513bb009299607f253089'
 

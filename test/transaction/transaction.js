@@ -1,6 +1,6 @@
 /* eslint-disable no-unused-expressions, no-new, camelcase */
 
-import Bitcoin from '../bitcoin'
+import bch from '../..'
 
 const should = require('chai').should()
 const { expect } = require('chai')
@@ -8,15 +8,15 @@ const _ = require('lodash')
 const sinon = require('sinon')
 const fixture = require('../data/bip69.json')
 
-const { BN } = Bitcoin.crypto
-const { Transaction } = Bitcoin
-const { Input } = Bitcoin.Transaction
-const { Output } = Bitcoin.Transaction
-const { PrivateKey } = Bitcoin
-const { Script } = Bitcoin
-const { Address } = Bitcoin
-const { Opcode } = Bitcoin
-const { errors } = Bitcoin
+const { BN } = bch.crypto
+const { Transaction } = bch
+const { Input } = bch.Transaction
+const { Output } = bch.Transaction
+const { PrivateKey } = bch
+const { Script } = bch
+const { Address } = bch
+const { Opcode } = bch
+const { errors } = bch
 
 const transactionVector = require('../data/tx_creation')
 
@@ -200,7 +200,7 @@ describe('Transaction', function() {
   })
 
   it('fromObject with pay-to-public-key previous outputs', function() {
-    const tx = new Bitcoin.Transaction({
+    const tx = new bch.Transaction({
       hash: '132856bf03d6415562a556437d22ac63c37a4595fd986c796eb8e02dc031aa25',
       version: 1,
       inputs: [
@@ -230,7 +230,7 @@ describe('Transaction', function() {
       ],
       nLockTime: 139
     })
-    tx.inputs[0].should.be.instanceof(Bitcoin.Transaction.Input.PublicKey)
+    tx.inputs[0].should.be.instanceof(bch.Transaction.Input.PublicKey)
     tx.inputs[0].output.satoshis.should.equal(5000000000)
     tx.inputs[0].output.script
       .toHex()
@@ -826,7 +826,7 @@ describe('Transaction', function() {
         outputScriptString,
         10000
       )
-      transaction.inputs[0].output.script.should.be.instanceof(Bitcoin.Script)
+      transaction.inputs[0].output.script.should.be.instanceof(bch.Script)
       transaction.inputs[0].output.script.toString().should.equal(outputScriptString)
     })
   })

@@ -1,10 +1,10 @@
-import Bitcoin from '../../bitcoin'
+import bch from '../../..'
 
-const { Transaction } = Bitcoin
-const { PrivateKey } = Bitcoin
-const { Address } = Bitcoin
-const { Script } = Bitcoin
-const { Networks } = Bitcoin
+const { Transaction } = bch
+const { PrivateKey } = bch
+const { Address } = bch
+const { Script } = bch
+const { Networks } = bch
 
 describe('PublicKeyHashInput', function() {
   const privateKey = new PrivateKey('KwF9LjRraetZuEjR8VqEq539z137LW5anYDUnVK11vM3mNMHTWb4')

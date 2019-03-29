@@ -1,6 +1,6 @@
-import Bitcoin from '../bitcoin'
+import bch from '../..'
 
-const JSUtil = Bitcoin.util.js
+const JSUtil = bch.util.js
 
 describe('js utils', function() {
   describe('isValidJSON', function() {

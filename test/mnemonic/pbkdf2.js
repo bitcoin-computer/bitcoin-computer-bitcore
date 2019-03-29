@@ -1,6 +1,6 @@
-import Bitcoin from '../bitcoin'
+import bch from '../..'
 
-const { pbkdf2 } = Bitcoin.Mnemonic
+const { pbkdf2 } = bch.Mnemonic
 
 describe('pbkdf2', function() {
   this.timeout(10000)
