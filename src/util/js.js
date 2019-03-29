@@ -62,7 +62,7 @@ module.exports = {
       Object.defineProperty(target, key, {
         configurable: false,
         enumerable: true,
-        value: values[key],
+        value: values[key]
       })
     })
     return target
@@ -75,5 +75,5 @@ module.exports = {
    */
   isNaturalNumber: function isNaturalNumber(value) {
     return typeof value === 'number' && Number.isFinite(value) && Math.floor(value) === value && value >= 0
-  },
+  }
 }

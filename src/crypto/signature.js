@@ -11,7 +11,7 @@ const Signature = function Signature(r, s) {
   if (r instanceof BN) {
     this.set({
       r,
-      s,
+      s
     })
   } else if (r) {
     const obj = r
@@ -133,7 +133,7 @@ Signature.parseDER = function(buf, strict) {
     slength,
     sneg,
     sbuf,
-    s,
+    s
   }
 
   return obj
@@ -153,10 +153,10 @@ Signature.prototype.toCompact = function(i, compressed) {
   }
   const b1 = Buffer.from([val])
   const b2 = this.r.toBuffer({
-    size: 32,
+    size: 32
   })
   const b3 = this.s.toBuffer({
-    size: 32,
+    size: 32
   })
   return Buffer.concat([b1, b2, b3])
 }
@@ -182,7 +182,7 @@ Signature.prototype.toBuffer = function() {
     Buffer.from([header, length, rheader, rlength]),
     rbuf,
     Buffer.from([sheader, slength]),
-    sbuf,
+    sbuf
   ])
   return der
 }

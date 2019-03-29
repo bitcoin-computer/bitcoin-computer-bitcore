@@ -83,7 +83,7 @@ ECDSA.prototype.deterministicK = function(badrs) {
   let k = Buffer.alloc(32)
   k.fill(0x00)
   const x = this.privkey.bn.toBuffer({
-    size: 32,
+    size: 32
   })
   const hashbuf = this.endian === 'little' ? BufferUtil.reverse(this.hashbuf) : this.hashbuf
   k = Hash.sha256hmac(Buffer.concat([v, Buffer.from([0x00]), x, hashbuf]), k)
@@ -172,9 +172,9 @@ ECDSA.prototype.sigError = function() {
     this.hashbuf,
     this.endian
       ? {
-          endian: this.endian,
+          endian: this.endian
         }
-      : undefined,
+      : undefined
   )
   const n = Point.getN()
   const sinv = s.invm(n)
@@ -231,7 +231,7 @@ ECDSA.prototype._findSignature = function(d, e) {
   s = ECDSA.toLowS(s)
   return {
     s,
-    r,
+    r
   }
 }
 
@@ -247,9 +247,9 @@ ECDSA.prototype.sign = function() {
     hashbuf,
     this.endian
       ? {
-          endian: this.endian,
+          endian: this.endian
         }
-      : undefined,
+      : undefined
   )
 
   const obj = this._findSignature(d, e)
@@ -298,7 +298,7 @@ ECDSA.sign = function(hashbuf, privkey, endian) {
     .set({
       hashbuf,
       endian,
-      privkey,
+      privkey
     })
     .sign().sig
 }
@@ -309,7 +309,7 @@ ECDSA.verify = function(hashbuf, sig, pubkey, endian) {
       hashbuf,
       endian,
       sig,
-      pubkey,
+      pubkey
     })
     .verify().verified
 }

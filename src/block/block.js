@@ -60,7 +60,7 @@ class Block {
     })
     const info = {
       header: BlockHeader.fromObject(data.header),
-      transactions,
+      transactions
     }
     return info
   }
@@ -142,7 +142,7 @@ class Block {
     })
     return {
       header: this.header.toObject(),
-      transactions,
+      transactions
     }
   }
 
@@ -271,14 +271,14 @@ const idProperty = {
     }
     return this._id
   },
-  set: _.noop,
+  set: _.noop
 }
 Object.defineProperty(Block.prototype, 'id', idProperty)
 Object.defineProperty(Block.prototype, 'hash', idProperty)
 
 Block.Values = {
   START_OF_BLOCK: 8, // Start of block in raw block data
-  NULL_HASH: Buffer.from('0000000000000000000000000000000000000000000000000000000000000000', 'hex'),
+  NULL_HASH: Buffer.from('0000000000000000000000000000000000000000000000000000000000000000', 'hex')
 }
 
 // refactor progress

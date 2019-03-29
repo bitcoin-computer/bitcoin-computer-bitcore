@@ -19,7 +19,7 @@ function Opcode(num) {
   }
 
   JSUtil.defineImmutable(this, {
-    num: value,
+    num: value
   })
 
   return this
@@ -211,7 +211,7 @@ Opcode.map = {
   // template matching params
   OP_PUBKEYHASH: 253,
   OP_PUBKEY: 254,
-  OP_INVALIDOPCODE: 255,
+  OP_INVALIDOPCODE: 255
 }
 
 Opcode.reverseMap = []

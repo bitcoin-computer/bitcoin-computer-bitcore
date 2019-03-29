@@ -52,7 +52,7 @@ class MerkleBlock {
          * @name MerkleBlock#flags
          * @type {Number[]}
          */
-        flags: arg.flags,
+        flags: arg.flags
       }
     } else {
       throw new TypeError('Unrecognized argument for MerkleBlock')
@@ -116,7 +116,7 @@ class MerkleBlock {
       header: this.header.toObject(),
       numTransactions: this.numTransactions,
       hashes: this.hashes,
-      flags: this.flags,
+      flags: this.flags
     }
   }
 
@@ -225,7 +225,7 @@ class MerkleBlock {
     $.checkArgument(!_.isUndefined(tx), 'tx cannot be undefined')
     $.checkArgument(
       tx instanceof Transaction || typeof tx === 'string',
-      'Invalid tx given, tx must be a "string" or "Transaction"',
+      'Invalid tx given, tx must be a "string" or "Transaction"'
     )
 
     let hash = tx

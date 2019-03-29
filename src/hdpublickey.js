@@ -163,7 +163,7 @@ HDPublicKey.prototype._deriveWithNumber = function(index, hardened) {
     publicKey = PublicKey.fromPoint(
       Point.getG()
         .mul(leftPart)
-        .add(this.publicKey.point),
+        .add(this.publicKey.point)
     )
   } catch (e) {
     return this._deriveWithNumber(index + 1)
@@ -175,7 +175,7 @@ HDPublicKey.prototype._deriveWithNumber = function(index, hardened) {
     parentFingerPrint: this.fingerPrint,
     childIndex: index,
     chainCode,
-    publicKey,
+    publicKey
   })
 
   return derived
@@ -287,7 +287,7 @@ HDPublicKey.prototype._buildFromObject = function(arg) {
     childIndex: _.isNumber(arg.childIndex) ? BufferUtil.integerAsBuffer(arg.childIndex) : arg.childIndex,
     chainCode: _.isString(arg.chainCode) ? BufferUtil.hexToBuffer(arg.chainCode) : arg.chainCode,
     publicKey,
-    checksum: _.isNumber(arg.checksum) ? BufferUtil.integerAsBuffer(arg.checksum) : arg.checksum,
+    checksum: _.isNumber(arg.checksum) ? BufferUtil.integerAsBuffer(arg.checksum) : arg.checksum
   }
   return this._buildFromBuffers(buffers)
 }
@@ -302,7 +302,7 @@ HDPublicKey.prototype._buildFromSerialized = function(arg) {
     chainCode: decoded.slice(HDPublicKey.ChainCodeStart, HDPublicKey.ChainCodeEnd),
     publicKey: decoded.slice(HDPublicKey.PublicKeyStart, HDPublicKey.PublicKeyEnd),
     checksum: decoded.slice(HDPublicKey.ChecksumStart, HDPublicKey.ChecksumEnd),
-    xpubkey: arg,
+    xpubkey: arg
   }
   return this._buildFromBuffers(buffers)
 }
@@ -327,7 +327,7 @@ HDPublicKey.prototype._buildFromBuffers = function(arg) {
   HDPublicKey._validateBufferArguments(arg)
 
   JSUtil.defineImmutable(this, {
-    _buffers: arg,
+    _buffers: arg
   })
 
   const sequence = [arg.version, arg.depth, arg.parentFingerPrint, arg.childIndex, arg.chainCode, arg.publicKey]
@@ -352,7 +352,7 @@ HDPublicKey.prototype._buildFromBuffers = function(arg) {
     network,
     depth: BufferUtil.integerFromSingleByteBuffer(arg.depth),
     publicKey,
-    fingerPrint,
+    fingerPrint
   })
 
   return this
@@ -428,7 +428,7 @@ HDPublicKey.prototype.toJSON = function toObject() {
     chainCode: BufferUtil.bufferToHex(this._buffers.chainCode),
     publicKey: this.publicKey.toString(),
     checksum: BufferUtil.integerFromBuffer(this._buffers.checksum),
-    xpubkey: this.xpubkey,
+    xpubkey: this.xpubkey
   }
 }
 

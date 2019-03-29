@@ -193,7 +193,7 @@ class Transaction {
     if (!opts.disableDustOutputs) {
       // eslint-disable-next-line max-len
       const dustOutputs = this.outputs.filter(
-        output => output.satoshis < Transaction.DUST_AMOUNT && !output.script.isDataOut(),
+        output => output.satoshis < Transaction.DUST_AMOUNT && !output.script.isDataOut()
       )
       if (dustOutputs.length > 0) {
         return new errors.Transaction.DustOutputs()
@@ -260,7 +260,7 @@ class Transaction {
       version: this.version,
       inputs,
       outputs,
-      nLockTime: this.nLockTime,
+      nLockTime: this.nLockTime
     }
     if (this._changeScript) {
       obj.changeScript = this._changeScript.toString()
@@ -327,7 +327,7 @@ class Transaction {
       $.checkState(this.outputs[this._changeIndex], 'Change output missing')
       $.checkState(
         this.outputs[this._changeIndex].script.toString() === this._changeScript.toString(),
-        'Script in argument does not match script in transaction',
+        'Script in argument does not match script in transaction'
       )
     }
     if (arg && arg.hash) {
@@ -462,7 +462,7 @@ class Transaction {
     // TODO: Maybe prevTxId should be a string? Or defined as read only property?
     // Check if the utxo has already been added as an input
     const utxoExists = this.inputs.some(
-      input => input.prevTxId.toString('hex') === txs.txId && input.outputIndex === txs.outputIndex,
+      input => input.prevTxId.toString('hex') === txs.txId && input.outputIndex === txs.outputIndex
     )
     let Clazz
     const utxo = new UnspentOutput(txs)
@@ -473,7 +473,7 @@ class Transaction {
     if (pubkeys && threshold) {
       $.checkArgument(
         threshold <= pubkeys.length,
-        'Number of signatures must be greater than the number of public keys',
+        'Number of signatures must be greater than the number of public keys'
       )
       if (utxo.script.isMultisigOut()) {
         Clazz = MultiSigInput
@@ -494,14 +494,14 @@ class Transaction {
       {
         output: new Output({
           script: utxo.script,
-          satoshis: utxo.satoshis,
+          satoshis: utxo.satoshis
         }),
         prevTxId: utxo.txId,
         outputIndex: utxo.outputIndex,
-        script: Script.empty(),
+        script: Script.empty()
       },
       pubkeys,
-      threshold,
+      threshold
     )
     this.addInput(input)
     return this
@@ -527,7 +527,7 @@ class Transaction {
       $.checkArgumentType(satoshis, 'number', 'Satoshis must be a number when adding input')
       input.output = new Output({
         script: outputScript,
-        satoshis,
+        satoshis
       })
     }
     return this.uncheckedAddInput(input)
@@ -634,8 +634,8 @@ class Transaction {
     this.addOutput(
       new Output({
         script: Script(new Address(address)),
-        satoshis: amount,
-      }),
+        satoshis: amount
+      })
     )
     return this
   }
@@ -654,8 +654,8 @@ class Transaction {
     this.addOutput(
       new Output({
         script: Script.buildDataOut(value),
-        satoshis: 0,
-      }),
+        satoshis: 0
+      })
     )
     return this
   }
@@ -739,8 +739,8 @@ class Transaction {
       this._addOutput(
         new Output({
           script: this._changeScript,
-          satoshis: changeAmount,
-        }),
+          satoshis: changeAmount
+        })
       )
     } else {
       this._changeIndex = undefined
@@ -830,7 +830,7 @@ class Transaction {
       const copy = Array.prototype.concat.apply([], outputs)
       copy.sort(
         (first, second) =>
-          first.satoshis - second.satoshis || compare(first.script.toBuffer(), second.script.toBuffer()),
+          first.satoshis - second.satoshis || compare(first.script.toBuffer(), second.script.toBuffer())
       )
       return copy
     })
@@ -899,7 +899,7 @@ class Transaction {
     } else {
       index = _.findIndex(
         this.inputs,
-        input => input.prevTxId.toString('hex') === txId && input.outputIndex === outputIndex,
+        input => input.prevTxId.toString('hex') === txId && input.outputIndex === outputIndex
       )
     }
     if (index < 0 || index >= this.inputs.length) {
@@ -941,7 +941,7 @@ class Transaction {
     const results = []
     const hashData = Hash.sha256ripemd160(privKey.publicKey.toBuffer())
     this.inputs.forEach((input, index) =>
-      input.getSignatures(transaction, privKey, index, sigtype, hashData).forEach(signature => results.push(signature)),
+      input.getSignatures(transaction, privKey, index, sigtype, hashData).forEach(signature => results.push(signature))
     )
     return results
   }
@@ -966,7 +966,7 @@ class Transaction {
       if (input.isFullySigned === Input.prototype.isFullySigned) {
         throw new errors.Transaction.UnableToVerifySignature(
           'Unrecognized script kind, or not enough information to execute script.' +
-            'This usually happens when creating a transaction from a serialized transaction',
+            'This usually happens when creating a transaction from a serialized transaction'
         )
       }
     })
@@ -978,7 +978,7 @@ class Transaction {
     if (this.inputs[signature.inputIndex].isValidSignature === Input.prototype.isValidSignature) {
       throw new errors.Transaction.UnableToVerifySignature(
         'Unrecognized script kind, or not enough information to execute script.' +
-          'This usually happens when creating a transaction from a serialized transaction',
+          'This usually happens when creating a transaction from a serialized transaction'
       )
     }
     return this.inputs[signature.inputIndex].isValidSignature(self, signature)

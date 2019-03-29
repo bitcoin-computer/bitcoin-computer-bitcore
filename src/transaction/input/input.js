@@ -39,7 +39,7 @@ Object.defineProperty(Input.prototype, 'script', {
       this._script._isInput = true
     }
     return this._script
-  },
+  }
 })
 
 Input.fromObject = function(obj) {
@@ -80,7 +80,7 @@ Input.prototype.toJSON = function toObject() {
     prevTxId: this.prevTxId.toString('hex'),
     outputIndex: this.outputIndex,
     sequenceNumber: this.sequenceNumber,
-    script: this._scriptBuffer.toString('hex'),
+    script: this._scriptBuffer.toString('hex')
   }
   // add human readable form if input contains valid script
   if (this.script) {
@@ -153,7 +153,7 @@ Input.prototype.setScript = function(script) {
 Input.prototype.getSignatures = function() {
   throw new errors.AbstractMethodInvoked(
     `${'Trying to sign unsupported output type (only P2PKH and P2SH multisig inputs are supported)' +
-      ' for input: '}${JSON.stringify(this)}`,
+      ' for input: '}${JSON.stringify(this)}`
   )
 }
 
@@ -182,7 +182,7 @@ Input.prototype.isValidSignature = function(transaction, signature) {
     signature.publicKey,
     signature.inputIndex,
     this.output.script,
-    this.output.satoshisBN,
+    this.output.satoshisBN
   )
 }
 

@@ -59,13 +59,13 @@ function PrivateKey(data, network) {
   JSUtil.defineImmutable(this, {
     bn: info.bn,
     compressed: info.compressed,
-    network: info.network,
+    network: info.network
   })
 
   Object.defineProperty(this, 'publicKey', {
     configurable: false,
     enumerable: true,
-    get: this.toPublicKey.bind(this),
+    get: this.toPublicKey.bind(this)
   })
 
   return this
@@ -83,7 +83,7 @@ PrivateKey.prototype._classifyArguments = function(data, network) {
   /* jshint maxcomplexity: 10 */
   let info = {
     compressed: true,
-    network: network ? Networks.get(network) : Networks.defaultNetwork,
+    network: network ? Networks.get(network) : Networks.defaultNetwork
   }
 
   // detect type of data
@@ -217,7 +217,7 @@ PrivateKey._transformObject = function(json) {
   return {
     bn,
     network,
-    compressed: json.compressed,
+    compressed: json.compressed
   }
 }
 
@@ -375,7 +375,7 @@ PrivateKey.prototype.toJSON = function toObject() {
   return {
     bn: this.bn.toString('hex'),
     compressed: this.compressed,
-    network: this.network.toString(),
+    network: this.network.toString()
   }
 }
 PrivateKey.prototype.toObject = PrivateKey.prototype.toJSON

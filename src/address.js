@@ -81,7 +81,7 @@ class Address {
     JSUtil.defineImmutable(this, {
       hashBuffer: info.hashBuffer,
       network: info.network,
-      type: info.type,
+      type: info.type
     })
   }
 
@@ -147,7 +147,7 @@ class Address {
     return {
       hashBuffer: data.hash ? Buffer.from(data.hash, 'hex') : data.hashBuffer,
       network: Networks.get(data.network) || Networks.defaultNetwork,
-      type: data.type,
+      type: data.type
     }
   }
 
@@ -340,13 +340,13 @@ class Address {
       !network ||
         (network === 'livenet' && decoded.prefix === 'bitcoincash') ||
         (network === 'testnet' && decoded.prefix === 'bchtest'),
-      'Invalid network.',
+      'Invalid network.'
     )
     $.checkArgument(
       !type ||
         (type === this.PayToPublicKeyHash && decoded.type === 'P2PKH') ||
         (type === this.PayToScriptHash && decoded.type === 'P2SH'),
-      'Invalid type.',
+      'Invalid type.'
     )
     network = Networks.get(network || (decoded.prefix === 'bitcoincash' ? 'livenet' : 'testnet'))
     type = type || (decoded.type === 'P2PKH' ? this.PayToPublicKeyHash : this.PayToScriptHash)
@@ -549,7 +549,7 @@ class Address {
     return {
       hash: this.hashBuffer.toString('hex'),
       type: this.type,
-      network: this.network.toString(),
+      network: this.network.toString()
     }
   }
 

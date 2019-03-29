@@ -35,8 +35,8 @@ PublicKeyInput.prototype.getSignatures = function(transaction, privateKey, index
         outputIndex: this.outputIndex,
         inputIndex: index,
         signature: Sighash.sign(transaction, privateKey, sigtype, index, this.output.script, this.output.satoshisBN),
-        sigtype,
-      }),
+        sigtype
+      })
     ]
   }
   return []

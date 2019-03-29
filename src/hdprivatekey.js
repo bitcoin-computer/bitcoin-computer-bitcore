@@ -248,7 +248,7 @@ HDPrivateKey.prototype._deriveWithNumber = function(index, hardened, nonComplian
   }
   const hash = Hash.sha512hmac(data, this._buffers.chainCode)
   const leftPart = BN.fromBuffer(hash.slice(0, 32), {
-    size: 32,
+    size: 32
   })
   const chainCode = hash.slice(32, 64)
 
@@ -256,7 +256,7 @@ HDPrivateKey.prototype._deriveWithNumber = function(index, hardened, nonComplian
     .add(this.privateKey.toBigNumber())
     .mod(Point.getN())
     .toBuffer({
-      size: 32,
+      size: 32
     })
 
   if (!PrivateKey.isValid(privateKey)) {
@@ -270,7 +270,7 @@ HDPrivateKey.prototype._deriveWithNumber = function(index, hardened, nonComplian
     parentFingerPrint: this.fingerPrint,
     childIndex: index,
     chainCode,
-    privateKey,
+    privateKey
   })
 
   return derived
@@ -383,7 +383,7 @@ HDPrivateKey.prototype._buildFromObject = function(arg) {
       _.isString(arg.privateKey) && JSUtil.isHexa(arg.privateKey)
         ? BufferUtil.hexToBuffer(arg.privateKey)
         : arg.privateKey,
-    checksum,
+    checksum
   }
   return this._buildFromBuffers(buffers)
 }
@@ -398,7 +398,7 @@ HDPrivateKey.prototype._buildFromSerialized = function(arg) {
     chainCode: decoded.slice(HDPrivateKey.ChainCodeStart, HDPrivateKey.ChainCodeEnd),
     privateKey: decoded.slice(HDPrivateKey.PrivateKeyStart, HDPrivateKey.PrivateKeyEnd),
     checksum: decoded.slice(HDPrivateKey.ChecksumStart, HDPrivateKey.ChecksumEnd),
-    xprivkey: arg,
+    xprivkey: arg
   }
   return this._buildFromBuffers(buffers)
 }
@@ -436,7 +436,7 @@ HDPrivateKey.fromSeed = function(hexa, network) {
     parentFingerPrint: 0,
     childIndex: 0,
     privateKey: hash.slice(0, 32),
-    chainCode: hash.slice(32, 64),
+    chainCode: hash.slice(32, 64)
   })
 }
 
@@ -469,7 +469,7 @@ HDPrivateKey.prototype._buildFromBuffers = function(arg) {
   HDPrivateKey._validateBufferArguments(arg)
 
   JSUtil.defineImmutable(this, {
-    _buffers: arg,
+    _buffers: arg
   })
 
   const sequence = [
@@ -479,7 +479,7 @@ HDPrivateKey.prototype._buildFromBuffers = function(arg) {
     arg.childIndex,
     arg.chainCode,
     BufferUtil.emptyBuffer(1),
-    arg.privateKey,
+    arg.privateKey
   ]
   const concat = buffer.Buffer.concat(sequence)
   if (!arg.checksum || !arg.checksum.length) {
@@ -503,7 +503,7 @@ HDPrivateKey.prototype._buildFromBuffers = function(arg) {
     depth: BufferUtil.integerFromSingleByteBuffer(arg.depth),
     privateKey,
     publicKey,
-    fingerPrint,
+    fingerPrint
   })
 
   this._hdPublicKey = null
@@ -514,7 +514,7 @@ HDPrivateKey.prototype._buildFromBuffers = function(arg) {
     get() {
       this._calcHDPublicKey()
       return this._hdPublicKey
-    },
+    }
   })
   Object.defineProperty(this, 'xpubkey', {
     configurable: false,
@@ -522,7 +522,7 @@ HDPrivateKey.prototype._buildFromBuffers = function(arg) {
     get() {
       this._calcHDPublicKey()
       return this._hdPublicKey.xpubkey
-    },
+    }
   })
   return this
 }
@@ -583,7 +583,7 @@ HDPrivateKey.prototype.toJSON = function toObject() {
     chainCode: BufferUtil.bufferToHex(this._buffers.chainCode),
     privateKey: this.privateKey.toBuffer().toString('hex'),
     checksum: BufferUtil.integerFromBuffer(this._buffers.checksum),
-    xprivkey: this.xprivkey,
+    xprivkey: this.xprivkey
   }
 }
 
