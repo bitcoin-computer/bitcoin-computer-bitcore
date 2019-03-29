@@ -3,13 +3,14 @@
   "version": "0.1.12",
   "description": "A simple, safe, and powerful JavaScript Bitcoin Cash library.",
   "author": "Clemens Ley <ley.clemens@gmail.com>",
-  "main": "src/index.js",
+  "license": "MIT",
+  "main": "dist/bitcoin-source.cjs.min.js",
+  "module": "dist/bitcoin-source.es.min.js",
   "files": [
-    "src/",
-    "dist/"
+    "dist"
   ],
   "scripts": {
-    "build": "node scripts/build.js",
+    "build": "rollup -c",
     "build:tests": "node scripts/build-tests.js",
     "test": "npm run test:node",
     "test:all": "npm run test:node && npm run test:browser",
@@ -45,9 +46,6 @@
     "type": "git",
     "url": "https://github.com/the-bitcoin-token/BitcoinSource"
   },
-  "browser": {
-    "request": "browser-request"
-  },
   "prettier": {
     "printWidth": 100,
     "proseWrap": "preserve",
@@ -60,8 +58,7 @@
     "bs58": "=2.0.0",
     "buffer-compare": "=1.0.0",
     "cashaddrjs": "^0.2.9",
-    "elliptic": "^6.4.1",
-    "inherits": "=2.0.1",
+    "elliptic": "https://github.com/indutny/elliptic.git#8a6bb9",
     "lodash": "^4.17.11",
     "unorm": "^1.4.1"
   },
@@ -95,9 +92,16 @@
     "mustache": "^2.3.2",
     "nyc": "^11.9.0",
     "prettier": "^1.14.3",
+    "rollup": "^1.7.3",
+    "rollup-plugin-commonjs": "^9.2.2",
+    "rollup-plugin-flow": "^1.1.1",
+    "rollup-plugin-json": "^4.0.0",
+    "rollup-plugin-node-builtins": "^2.1.2",
+    "rollup-plugin-node-globals": "^1.4.0",
+    "rollup-plugin-node-resolve": "^4.0.1",
+    "rollup-plugin-terser": "^4.0.4",
     "shelljs": "^0.8.2",
     "sinon": "^1.13.0",
     "uglify-js": "^3.4.9"
-  },
-  "license": "MIT"
+  }
 }
