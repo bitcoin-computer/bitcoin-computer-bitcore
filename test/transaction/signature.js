@@ -1,12 +1,12 @@
-import bch from '../..'
+import Bitcoin from '../bitcoin'
 
 const { expect } = require('chai')
 
-const { Transaction } = bch
-const TransactionSignature = bch.Transaction.Signature
-const { Script } = bch
-const { PrivateKey } = bch
-const { errors } = bch
+const { Transaction } = Bitcoin
+const TransactionSignature = Bitcoin.Transaction.Signature
+const { Script } = Bitcoin
+const { PrivateKey } = Bitcoin
+const { errors } = Bitcoin
 
 const testJSON =
   '{"publicKey":"0223078d2942df62c45621d209fab84ea9a7a23346201b7727b9b45a29c4e76f5e","prevTxId":"a477af6b2667c29670467e4e0728b685ee07b240235771862318e29ddbe58458","outputIndex":0,"inputIndex":0,"signature":"3045022100c728eac064154edba15d4f3e6cbd9be6da3498f80a783ab3391f992b4d9d71ca0220729eff4564dc06aa1d80ab73100540fe5ebb6f280b4a87bc32399f861a7b2563","sigtype":1}'

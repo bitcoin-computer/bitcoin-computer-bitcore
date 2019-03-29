@@ -1,10 +1,10 @@
-import bch from '..'
+import Bitcoin from './bitcoin'
 
 const should = require('chai').should()
 const { expect } = require('chai')
 
-const { errors } = bch
-const { Unit } = bch
+const { errors } = Bitcoin
+const { Unit } = Bitcoin
 
 describe('Unit', function() {
   it('can be created from a number and unit', function() {

@@ -47,13 +47,13 @@ import Unit from './unit'
 import URI from './uri'
 import Varint from './encoding/varint'
 
-const bch = {}
+const Bitcoin = {}
 
 // module information
-bch.version = `v${PackageInfo.version}`
+Bitcoin.version = `v${PackageInfo.version}`
 
 // eslint-disable-next-line no-unused-vars
-bch.versionGuard = function(version) {
+Bitcoin.versionGuard = function(version) {
   // if (version !== undefined) {
   //   var message = 'More than one instance of bitcoincashjs found. ' +
   //     'Please make sure to require bitcoincashjs and check that submodules do' +
@@ -61,73 +61,73 @@ bch.versionGuard = function(version) {
   //   throw new Error(message);
   // }
 }
-bch.versionGuard(global._bch)
-global._bch = bch.version
+Bitcoin.versionGuard(global._bitcoin)
+global._bitcoin = Bitcoin.version
 
 // crypto
-bch.crypto = {}
-bch.crypto.BN = BN
-bch.crypto.ECDSA = ECDSA
-bch.crypto.Hash = Hash
-bch.crypto.Random = Random
-bch.crypto.Point = Point
-bch.crypto.Signature = Signature
+Bitcoin.crypto = {}
+Bitcoin.crypto.BN = BN
+Bitcoin.crypto.ECDSA = ECDSA
+Bitcoin.crypto.Hash = Hash
+Bitcoin.crypto.Random = Random
+Bitcoin.crypto.Point = Point
+Bitcoin.crypto.Signature = Signature
 
 // encoding
-bch.encoding = {}
-bch.encoding.Base58 = Base58
-bch.encoding.Base58Check = Base58Check
-bch.encoding.BufferReader = BufferReader
-bch.encoding.BufferWriter = BufferWriter
-bch.encoding.Varint = Varint
+Bitcoin.encoding = {}
+Bitcoin.encoding.Base58 = Base58
+Bitcoin.encoding.Base58Check = Base58Check
+Bitcoin.encoding.BufferReader = BufferReader
+Bitcoin.encoding.BufferWriter = BufferWriter
+Bitcoin.encoding.Varint = Varint
 
 // utilities
-bch.util = {}
-bch.util.buffer = BufferUtil
-bch.util.js = JSUtil
-bch.util.preconditions = preconditions
+Bitcoin.util = {}
+Bitcoin.util.buffer = BufferUtil
+Bitcoin.util.js = JSUtil
+Bitcoin.util.preconditions = preconditions
 
 // errors thrown by the library
-bch.errors = errors
+Bitcoin.errors = errors
 
 // main bitcoin library
-bch.Address = Address
-bch.Block = Block
-bch.Block.BlockHeader = BlockHeader
-bch.Block.MerkleBlock = MerkleBlock
-bch.BlockHeader = BlockHeader
-bch.HDPrivateKey = HDPrivateKey
-bch.HDPublicKey = HDPublicKey
-bch.MerkleBlock = MerkleBlock
-bch.Message = Message
-bch.Mnemonic = Mnemonic
-bch.Networks = Networks
-bch.Opcode = Opcode
-bch.PrivateKey = PrivateKey
-bch.PublicKey = PublicKey
-bch.Script = Script
-bch.Script.Interpreter = ScriptInterpreter
-bch.Transaction = Transaction
-bch.Transaction.Input = TransactionInput
-bch.Transaction.Input.MultiSig = TransactionMultiSigInput
-bch.Transaction.Input.MultiSigScriptHash = TransactionMultiSigScriptHashInput
-bch.Transaction.Input.PublicKey = TransactionPublicKeyInput
-bch.Transaction.Input.PublicKeyHash = TransactionPublicKeyHashInput
-bch.Transaction.Input.ScriptHash = TransactionScriptHashInput
-bch.Transaction.Output = TransactionOutput
-bch.Transaction.OutputId = TransactionOutputId
-bch.Transaction.Sighash = TransactionSighash
-bch.Transaction.Signature = TransactionSignature
-bch.Transaction.UnspentOutput = TransactionUnspentOutput
-bch.Unit = Unit
-bch.URI = URI
+Bitcoin.Address = Address
+Bitcoin.Block = Block
+Bitcoin.Block.BlockHeader = BlockHeader
+Bitcoin.Block.MerkleBlock = MerkleBlock
+Bitcoin.BlockHeader = BlockHeader
+Bitcoin.HDPrivateKey = HDPrivateKey
+Bitcoin.HDPublicKey = HDPublicKey
+Bitcoin.MerkleBlock = MerkleBlock
+Bitcoin.Message = Message
+Bitcoin.Mnemonic = Mnemonic
+Bitcoin.Networks = Networks
+Bitcoin.Opcode = Opcode
+Bitcoin.PrivateKey = PrivateKey
+Bitcoin.PublicKey = PublicKey
+Bitcoin.Script = Script
+Bitcoin.Script.Interpreter = ScriptInterpreter
+Bitcoin.Transaction = Transaction
+Bitcoin.Transaction.Input = TransactionInput
+Bitcoin.Transaction.Input.MultiSig = TransactionMultiSigInput
+Bitcoin.Transaction.Input.MultiSigScriptHash = TransactionMultiSigScriptHashInput
+Bitcoin.Transaction.Input.PublicKey = TransactionPublicKeyInput
+Bitcoin.Transaction.Input.PublicKeyHash = TransactionPublicKeyHashInput
+Bitcoin.Transaction.Input.ScriptHash = TransactionScriptHashInput
+Bitcoin.Transaction.Output = TransactionOutput
+Bitcoin.Transaction.OutputId = TransactionOutputId
+Bitcoin.Transaction.Sighash = TransactionSighash
+Bitcoin.Transaction.Signature = TransactionSignature
+Bitcoin.Transaction.UnspentOutput = TransactionUnspentOutput
+Bitcoin.Unit = Unit
+Bitcoin.URI = URI
 
 // dependencies, subject to change
-bch.deps = {}
-bch.deps.bnjs = bnjs
-bch.deps.bs58 = bs58
-bch.deps.Buffer = Buffer
-bch.deps.elliptic = elliptic
-bch.deps._ = _
+Bitcoin.deps = {}
+Bitcoin.deps.bnjs = bnjs
+Bitcoin.deps.bs58 = bs58
+Bitcoin.deps.Buffer = Buffer
+Bitcoin.deps.elliptic = elliptic
+Bitcoin.deps._ = _
 
-export default bch
+export default Bitcoin

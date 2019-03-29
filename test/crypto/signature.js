@@ -1,12 +1,12 @@
-import bch from '../..'
+import Bitcoin from '../bitcoin'
 
 const _ = require('lodash')
 const should = require('chai').should()
 
-const { BN } = bch.crypto
-const { Signature } = bch.crypto
-const JSUtil = bch.util.js
-const { Interpreter } = bch.Script
+const { BN } = Bitcoin.crypto
+const { Signature } = Bitcoin.crypto
+const JSUtil = Bitcoin.util.js
+const { Interpreter } = Bitcoin.Script
 
 const sigCanonical = require('../data/bitcoind/sig_canonical')
 const sigNonCanonical = require('../data/bitcoind/sig_noncanonical')
