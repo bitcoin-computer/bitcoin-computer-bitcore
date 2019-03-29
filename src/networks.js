@@ -1,7 +1,6 @@
-const _ = require('lodash')
-
-const BufferUtil = require('./util/buffer')
-const JSUtil = require('./util/js')
+import _ from 'lodash'
+import BufferUtil from './util/buffer'
+import JSUtil from './util/js'
 
 const networks = []
 const networkMaps = {}
@@ -250,7 +249,7 @@ function disableRegtest() {
 /**
  * @namespace Networks
  */
-module.exports = {
+export default {
   add: addNetwork,
   remove: removeNetwork,
   defaultNetwork: livenet,

@@ -1,7 +1,8 @@
 'use strict';
 
+import bch from '../..'
+
 var should = require('chai').should();
-var bch = require('../..');
 var Interpreter = bch.Script.Interpreter;
 var Transaction = bch.Transaction;
 var PrivateKey = bch.PrivateKey;

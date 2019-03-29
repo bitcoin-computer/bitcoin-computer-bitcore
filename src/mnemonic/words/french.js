@@ -1,4 +1,4 @@
-const french = [
+export default [
   'abaisser',
   'abandon',
   'abdiquer',
@@ -2048,5 +2048,3 @@ const french = [
   'zeste',
   'zoologie'
 ]
-
-module.exports = french

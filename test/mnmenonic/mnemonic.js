@@ -1,9 +1,10 @@
 'use strict';
 
+import bch from '../..'
+
 var chai = require('chai');
 var should = chai.should();
 
-var bch = require('../..');
 var Mnemonic = bch.Mnemonic;
 var errors = bch.errors;
 var bip39_vectors = require('../data/mnemonics.json');

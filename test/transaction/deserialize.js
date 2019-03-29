@@ -1,6 +1,7 @@
 'use strict';
 
-var bch = require('../..');
+import bch from '../..'
+
 var Transaction = bch.Transaction;
 
 var vectors_valid = require('../data/bitcoind/tx_valid.json');

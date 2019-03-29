@@ -1,29 +1,27 @@
-const _ = require('lodash')
-// eslint-disable-next-line global-require
-const compare = Buffer.compare || require('buffer-compare')
-const $ = require('../util/preconditions')
+import _ from 'lodash'
+import bufferCompare from 'buffer-compare'
+import $ from '../util/preconditions'
+import Address from '../address'
+import BN from '../crypto/bn'
+import BufferReader from '../encoding/bufferreader'
+import BufferUtil from '../util/buffer'
+import BufferWriter from '../encoding/bufferwriter'
+import errors from '../errors'
+import Hash from '../crypto/hash'
+import Input from './input/input'
+import JSUtil from '../util/js'
+import MultiSigScriptHashInput from './input/multisigscripthash'
+import MultiSigInput from './input/multisig'
+import Output from './output'
+import PrivateKey from '../privatekey'
+import PublicKeyInput from './input/publickey'
+import PublicKeyHashInput from './input/publickeyhash'
+import Script from '../script/script'
+import Sighash from './sighash'
+import Signature from '../crypto/signature'
+import UnspentOutput from './unspentoutput'
 
-const errors = require('../errors')
-const BufferUtil = require('../util/buffer')
-const JSUtil = require('../util/js')
-const BufferReader = require('../encoding/bufferreader')
-const BufferWriter = require('../encoding/bufferwriter')
-const Hash = require('../crypto/hash')
-const Signature = require('../crypto/signature')
-const Sighash = require('./sighash')
-
-const Address = require('../address')
-const UnspentOutput = require('./unspentoutput')
-const Input = require('./input')
-
-const PublicKeyHashInput = Input.PublicKeyHash
-const PublicKeyInput = Input.PublicKey
-const MultiSigScriptHashInput = Input.MultiSigScriptHash
-const MultiSigInput = Input.MultiSig
-const Output = require('./output')
-const Script = require('../script')
-const PrivateKey = require('../privatekey')
-const BN = require('../crypto/bn')
+const compare = Buffer.compare || bufferCompare
 
 const CURRENT_VERSION = 1
 const DEFAULT_NLOCKTIME = 0
@@ -308,16 +306,16 @@ class Transaction {
       const script = new Script(input.output.script)
       let txin
       if (script.isPublicKeyHashOut()) {
-        txin = new Input.PublicKeyHash(input)
+        txin = new PublicKeyHashInput(input)
       } else if (script.isScriptHashOut() && input.publicKeys && input.threshold) {
-        txin = new Input.MultiSigScriptHash(
+        txin = new MultiSigScriptHashInput(
           input,
           input.publicKeys,
           input.threshold,
           input.signatures
         )
       } else if (script.isPublicKeyOut()) {
-        txin = new Input.PublicKey(input)
+        txin = new PublicKeyInput(input)
       } else {
         throw new errors.Transaction.Input.UnsupportedScript(input.output.script)
       }
@@ -1154,4 +1152,4 @@ Transaction.FEE_PER_KB = 20000
 Transaction.CHANGE_OUTPUT_MAX_SIZE = 20 + 4 + 34 + 4
 Transaction.MAXIMUM_EXTRA_SIZE = 4 + 9 + 9 + 4
 
-module.exports = Transaction
+export default Transaction

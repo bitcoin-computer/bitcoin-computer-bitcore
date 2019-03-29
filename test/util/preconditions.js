@@ -1,8 +1,9 @@
 'use strict';
 
+import bch from '../..'
+
 var should = require('chai').should();
 
-var bch = require('../..');
 var errors = bch.errors;
 var $ = bch.util.preconditions;
 var PrivateKey = bch.PrivateKey;

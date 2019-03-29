@@ -1,8 +1,9 @@
 'use strict';
 
+import bch from '../..'
+
 var should = require('chai').should();
 var expect = require('chai').expect;
-var bch = require('../..');
 
 var BufferUtil = bch.util.buffer;
 var Script = bch.Script;

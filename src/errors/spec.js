@@ -1,6 +1,6 @@
 const docsURL = 'http://bitcore.io/'
 
-module.exports = [
+export default [
   {
     name: 'InvalidB58Char',
     message: 'Invalid Base58 character: {0} in {1}'

@@ -1,8 +1,9 @@
-const buffer = require('buffer')
-const assert = require('assert')
+import assert from 'assert'
+import { Buffer as ImportedBuffer } from 'buffer'
+import $ from './preconditions'
+import js from './js'
 
-const js = require('./js')
-const $ = require('./preconditions')
+const buffer = { Buffer: ImportedBuffer }
 
 function equals(a, b) {
   if (a.length !== b.length) {
@@ -17,7 +18,7 @@ function equals(a, b) {
   return true
 }
 
-module.exports = {
+const BufferUtil = {
   /**
    * Fill a buffer with a value.
    *
@@ -171,5 +172,7 @@ module.exports = {
   }
 }
 
-module.exports.NULL_HASH = module.exports.fill(Buffer.alloc(32), 0)
-module.exports.EMPTY_BUFFER = Buffer.alloc(0)
+BufferUtil.NULL_HASH = BufferUtil.fill(Buffer.alloc(32), 0)
+BufferUtil.EMPTY_BUFFER = Buffer.alloc(0)
+
+export default BufferUtil

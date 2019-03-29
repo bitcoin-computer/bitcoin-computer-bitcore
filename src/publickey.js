@@ -1,10 +1,12 @@
-const _ = require('lodash')
-const BN = require('./crypto/bn')
-const Point = require('./crypto/point')
-const Hash = require('./crypto/hash')
-const JSUtil = require('./util/js')
-const Network = require('./networks')
-const $ = require('./util/preconditions')
+import _ from 'lodash'
+import Address from './address'
+import $ from './util/preconditions'
+import BN from './crypto/bn'
+import Hash from './crypto/hash'
+import JSUtil from './util/js'
+import Network from './networks'
+import Point from './crypto/point'
+import PrivateKey from './privatekey'
 
 /**
  * Instantiate a PublicKey from a {@link PrivateKey}, {@link Point}, `string`, or `Buffer`.
@@ -97,9 +99,6 @@ PublicKey.prototype._classifyArgs = function(data, extra) {
  * @private
  */
 PublicKey._isPrivateKey = function(param) {
-  // #weirdstuff resolve circular dependency.
-  // eslint-disable-next-line global-require
-  const PrivateKey = require('./privatekey')
   return param instanceof PrivateKey
 }
 
@@ -366,9 +365,6 @@ PublicKey.prototype._getID = function _getID() {
  * @returns {Address} An address generated from the public key
  */
 PublicKey.prototype.toAddress = function(network) {
-  // #weirdstuff resolve circular dependency.
-  // eslint-disable-next-line global-require
-  const Address = require('./address')
   return Address.fromPublicKey(this, network || this.network)
 }
 
@@ -390,4 +386,4 @@ PublicKey.prototype.inspect = function() {
   return `<PublicKey: ${this.toString()}${this.compressed ? '' : ', uncompressed'}>`
 }
 
-module.exports = PublicKey
+export default PublicKey

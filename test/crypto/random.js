@@ -1,6 +1,7 @@
 'use strict';
 
-var bch = require('../..');
+import bch from '../..'
+
 var Random = bch.crypto.Random;
 
 describe('Random', function() {

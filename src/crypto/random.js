@@ -2,11 +2,13 @@
 
 import crypto from 'crypto'
 
-export function getRandomBufferNode(size: number) {
+const Random = {}
+
+Random.getRandomBufferNode = function(size: number) {
   return crypto.randomBytes(size)
 }
 
-export function getRandomBufferBrowser(size: number) {
+Random.getRandomBufferBrowser = function(size: number) {
   let windowCrypto
   if (window.crypto && window.crypto.getRandomValues) {
     windowCrypto = window.crypto
@@ -25,18 +27,18 @@ export function getRandomBufferBrowser(size: number) {
 }
 
 /* secure random bytes that sometimes throws an error due to lack of entropy */
-export function getRandomBuffer(size: number) {
+Random.getRandomBuffer = function(size: number) {
   if (
     typeof window !== 'undefined' &&
     (typeof window.crypto !== 'undefined' || typeof window.msCrypto !== 'undefined')
   ) {
-    return getRandomBufferBrowser(size)
+    return Random.getRandomBufferBrowser(size)
   }
-  return getRandomBufferNode(size)
+  return Random.getRandomBufferNode(size)
 }
 
 /* insecure random bytes, but it never fails */
-export function getPseudoRandomBuffer(size: number) {
+Random.getPseudoRandomBuffer = function(size: number) {
   const b32 = 0x100000000
   const b = Buffer.alloc(size)
   let r = 0
@@ -54,3 +56,5 @@ export function getPseudoRandomBuffer(size: number) {
 
   return b
 }
+
+export default Random

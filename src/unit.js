@@ -1,7 +1,6 @@
-const _ = require('lodash')
-
-const errors = require('./errors')
-const $ = require('./util/preconditions')
+import _ from 'lodash'
+import $ from './util/preconditions'
+import errors from './errors'
 
 const UNITS = {
   BTC: [1e8, 8],
@@ -240,4 +239,4 @@ Unit.prototype.inspect = function() {
   return `<Unit: ${this.toString()}>`
 }
 
-module.exports = Unit
+export default Unit

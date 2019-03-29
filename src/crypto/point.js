@@ -1,7 +1,8 @@
-const ec = require('elliptic').curves.secp256k1
-const BN = require('./bn')
-const BufferUtil = require('../util/buffer')
+import elliptic from 'elliptic'
+import BN from './bn'
+import BufferUtil from '../util/buffer'
 
+const ec = elliptic.curves.secp256k1
 const ecPoint = ec.curve.point.bind(ec.curve)
 const ecPointFromX = ec.curve.pointFromX.bind(ec.curve)
 
@@ -143,4 +144,4 @@ Point.pointToCompressed = function pointToCompressed(point) {
   return BufferUtil.concat([prefix, xbuf])
 }
 
-module.exports = Point
+export default Point

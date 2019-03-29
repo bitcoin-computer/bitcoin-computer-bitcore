@@ -1,12 +1,12 @@
-const _ = require('lodash')
-const BlockHeader = require('./blockheader')
-const BN = require('../crypto/bn')
-const BufferUtil = require('../util/buffer')
-const BufferReader = require('../encoding/bufferreader')
-const BufferWriter = require('../encoding/bufferwriter')
-const Hash = require('../crypto/hash')
-const Transaction = require('../transaction')
-const $ = require('../util/preconditions')
+import _ from 'lodash'
+import $ from '../util/preconditions'
+import BlockHeader from './blockheader'
+import BN from '../crypto/bn'
+import BufferReader from '../encoding/bufferreader'
+import BufferWriter from '../encoding/bufferwriter'
+import BufferUtil from '../util/buffer'
+import Hash from '../crypto/hash'
+import Transaction from '../transaction/transaction'
 
 /**
  * Instantiate a Block from a Buffer, JSON object, or Object with
@@ -316,4 +316,4 @@ Block.Values = {
 //   },
 // };
 
-module.exports = Block
+export default Block

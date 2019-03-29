@@ -1,6 +1,7 @@
 'use strict';
 
-var bch = require('../..');
+import bch from '../..'
+
 var ECDSA = bch.crypto.ECDSA;
 var Hash = bch.crypto.Hash;
 var Privkey = bch.PrivateKey;
@@ -196,7 +197,7 @@ describe('ECDSA', function() {
         privkey: ecdsa.privkey
       });
       ecdsa2.randomK();
-      ecdsa2.sign.bind(ecdsa2).should.throw('hashbuf must be 32 bytes');
+      ecdsa2.sign.bind(ecdsa2).should.throw()
     });
 
     it('should default to deterministicK', function() {

@@ -1,5 +1,5 @@
-const assert = require('assert')
-const bufferUtil = require('../util/buffer')
+import assert from 'assert'
+import BufferUtil from '../util/buffer'
 
 const BufferWriter = function BufferWriter(obj) {
   if (!(this instanceof BufferWriter)) return new BufferWriter(obj)
@@ -21,14 +21,14 @@ BufferWriter.prototype.concat = function() {
 }
 
 BufferWriter.prototype.write = function(buf) {
-  assert(bufferUtil.isBuffer(buf))
+  assert(BufferUtil.isBuffer(buf))
   this.bufs.push(buf)
   return this
 }
 
 BufferWriter.prototype.writeReverse = function(buf) {
-  assert(bufferUtil.isBuffer(buf))
-  this.bufs.push(bufferUtil.reverse(buf))
+  assert(BufferUtil.isBuffer(buf))
+  this.bufs.push(BufferUtil.reverse(buf))
   return this
 }
 
@@ -143,4 +143,4 @@ BufferWriter.varintBufBN = function(bn) {
   return buf
 }
 
-module.exports = BufferWriter
+export default BufferWriter

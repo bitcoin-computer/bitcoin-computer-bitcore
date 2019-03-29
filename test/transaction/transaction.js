@@ -2,12 +2,14 @@
 
 /* jshint unused: false */
 /* jshint latedef: false */
+
+import bch from '../..'
+
 var should = require('chai').should();
 var expect = require('chai').expect;
 var _ = require('lodash');
 var sinon = require('sinon');
 
-var bch = require('../..');
 var BN = bch.crypto.BN;
 var Transaction = bch.Transaction;
 var Input = bch.Transaction.Input;

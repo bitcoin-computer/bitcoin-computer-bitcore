@@ -1,10 +1,11 @@
 'use strict';
 
+import bch from '../..'
+
 var should = require('chai').should();
 var expect = require('chai').expect;
 var _ = require('lodash');
 
-var bch = require('../..');
 var Transaction = bch.Transaction;
 var TransactionSignature = bch.Transaction.Signature;
 var Script = bch.Script;

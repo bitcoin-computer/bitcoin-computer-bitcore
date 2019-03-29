@@ -1,9 +1,10 @@
 'use strict';
 
+import bch from '../..'
+
 var chai = require('chai');
 var should = chai.should();
 
-var bch = require('../..');
 var pbkdf2 = bch.Mnemonic.pbkdf2;
 
 describe('pbkdf2', function() {
@@ -40,5 +41,5 @@ describe('pbkdf2', function() {
 
     var res = pbkdf2(key, salt, 4096, 64);
     res.toString('hex').should.equal('8c0511f4c6e597c6ac6315d8f0362e225f3c501495ba23b868c005174dc4ee71115b59f9e60cd9532fa33e0f75aefe30225c583a186cd82bd4daea9724a3d3b8');
-  });  
+  });
 });

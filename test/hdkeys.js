@@ -10,11 +10,12 @@
 /* jshint maxstatements: 100 */
 /* jshint unused: false */
 
+import bch from '..'
+
 var _ = require('lodash');
 var should = require('chai').should();
 var expect = require('chai').expect;
 var sinon = require('sinon');
-var bch = require('..');
 var Networks = bch.Networks;
 var HDPrivateKey = bch.HDPrivateKey;
 var HDPublicKey = bch.HDPublicKey;

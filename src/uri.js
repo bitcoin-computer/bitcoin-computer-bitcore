@@ -1,8 +1,7 @@
-const _ = require('lodash')
-const URL = require('url')
-
-const Address = require('./address')
-const Unit = require('./unit')
+import _ from 'lodash'
+import URL from 'url'
+import Address from './address'
+import Unit from './unit'
 
 /**
  * Bitcore URI
@@ -222,4 +221,4 @@ URI.prototype.inspect = function() {
   return `<URI: ${this.toString()}>`
 }
 
-module.exports = URI
+export default URI
