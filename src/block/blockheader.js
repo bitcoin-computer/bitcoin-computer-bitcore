@@ -32,7 +32,7 @@ class BlockHeader {
     this.nonce = info.nonce
 
     if (info.hash) {
-      $.checkState(this.hash === info.hash, 'Argument object hash property does not match block hash.')
+      $.checkState(this.hash === info.hash, 'Argument object hash does not match block hash.')
     }
 
     return this
@@ -227,7 +227,9 @@ class BlockHeader {
 
     let difficultyString = difficulty1TargetBN.div(currentTargetBN).toString(10)
     const decimalPos = difficultyString.length - 8
-    difficultyString = `${difficultyString.slice(0, decimalPos)}.${difficultyString.slice(decimalPos)}`
+    const leftOfDecimal = `${difficultyString.slice(0, decimalPos)}`
+    const rightOfDecimal = `${difficultyString.slice(decimalPos)}`
+    difficultyString = `${leftOfDecimal}.${rightOfDecimal}`
 
     return parseFloat(difficultyString)
   }

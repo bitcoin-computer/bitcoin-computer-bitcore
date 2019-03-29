@@ -168,7 +168,8 @@ Interpreter.prototype.set = function(obj) {
   this.stack = obj.stack || this.stack
   this.altstack = obj.altstack || this.altstack
   this.pc = typeof obj.pc !== 'undefined' ? obj.pc : this.pc
-  this.pbegincodehash = typeof obj.pbegincodehash !== 'undefined' ? obj.pbegincodehash : this.pbegincodehash
+  this.pbegincodehash =
+    typeof obj.pbegincodehash !== 'undefined' ? obj.pbegincodehash : this.pbegincodehash
   this.nOpCount = typeof obj.nOpCount !== 'undefined' ? obj.nOpCount : this.nOpCount
   this.vfExec = obj.vfExec || this.vfExec
   this.errstr = obj.errstr || this.errstr
@@ -250,7 +251,9 @@ Interpreter.prototype.checkSignatureEncoding = function(buf) {
   let sig
   if (
     (this.flags &
-      (Interpreter.SCRIPT_VERIFY_DERSIG | Interpreter.SCRIPT_VERIFY_LOW_S | Interpreter.SCRIPT_VERIFY_STRICTENC)) !==
+      (Interpreter.SCRIPT_VERIFY_DERSIG |
+        Interpreter.SCRIPT_VERIFY_LOW_S |
+        Interpreter.SCRIPT_VERIFY_STRICTENC)) !==
       0 &&
     !Signature.isTxDER(buf)
   ) {
@@ -339,8 +342,10 @@ Interpreter.prototype.checkLockTime = function(nLockTime) {
   // the nLockTime in the transaction.
   if (
     !(
-      (this.tx.nLockTime < Interpreter.LOCKTIME_THRESHOLD && nLockTime.lt(Interpreter.LOCKTIME_THRESHOLD_BN)) ||
-      (this.tx.nLockTime >= Interpreter.LOCKTIME_THRESHOLD && nLockTime.gte(Interpreter.LOCKTIME_THRESHOLD_BN))
+      (this.tx.nLockTime < Interpreter.LOCKTIME_THRESHOLD &&
+        nLockTime.lt(Interpreter.LOCKTIME_THRESHOLD_BN)) ||
+      (this.tx.nLockTime >= Interpreter.LOCKTIME_THRESHOLD &&
+        nLockTime.gte(Interpreter.LOCKTIME_THRESHOLD_BN))
     )
   ) {
     return false
@@ -516,7 +521,11 @@ Interpreter.prototype.step = function() {
         // Thus as a special case we tell CScriptNum to accept up
         // to 5-byte bignums, which are good until 2**39-1, well
         // beyond the 2**32-1 limit of the nLockTime field itself.
-        const nLockTime = BN.fromScriptNumBuffer(this.stack[this.stack.length - 1], fRequireMinimal, 5)
+        const nLockTime = BN.fromScriptNumBuffer(
+          this.stack[this.stack.length - 1],
+          fRequireMinimal,
+          5
+        )
 
         // In the rare event that the argument may be < 0 due to
         // some arithmetic being done first, you can always use
@@ -1107,7 +1116,10 @@ Interpreter.prototype.step = function() {
             return false
           }
 
-          let nKeysCount = BN.fromScriptNumBuffer(this.stack[this.stack.length - i], fRequireMinimal).toNumber()
+          let nKeysCount = BN.fromScriptNumBuffer(
+            this.stack[this.stack.length - i],
+            fRequireMinimal
+          ).toNumber()
           if (nKeysCount < 0 || nKeysCount > 20) {
             this.errstr = 'SCRIPT_ERR_PUBKEY_COUNT'
             return false
@@ -1126,7 +1138,10 @@ Interpreter.prototype.step = function() {
             return false
           }
 
-          let nSigsCount = BN.fromScriptNumBuffer(this.stack[this.stack.length - i], fRequireMinimal).toNumber()
+          let nSigsCount = BN.fromScriptNumBuffer(
+            this.stack[this.stack.length - i],
+            fRequireMinimal
+          ).toNumber()
           if (nSigsCount < 0 || nSigsCount > nKeysCount) {
             this.errstr = 'SCRIPT_ERR_SIG_COUNT'
             return false
@@ -1202,7 +1217,10 @@ Interpreter.prototype.step = function() {
             this.errstr = 'SCRIPT_ERR_INVALID_STACK_OPERATION'
             return false
           }
-          if (this.flags & Interpreter.SCRIPT_VERIFY_NULLDUMMY && this.stack[this.stack.length - 1].length) {
+          if (
+            this.flags & Interpreter.SCRIPT_VERIFY_NULLDUMMY &&
+            this.stack[this.stack.length - 1].length
+          ) {
             this.errstr = 'SCRIPT_ERR_SIG_NULLDUMMY'
             return false
           }

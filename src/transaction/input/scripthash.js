@@ -60,7 +60,14 @@ ScriptHashInput.prototype.getSignatures = function(transaction, privateKey, inde
         prevTxId: this.prevTxId,
         outputIndex: this.outputIndex,
         inputIndex: index,
-        signature: Sighash.sign(transaction, privateKey, sigtype, index, this.output.script, this.output.satoshisBN),
+        signature: Sighash.sign(
+          transaction,
+          privateKey,
+          sigtype,
+          index,
+          this.output.script,
+          this.output.satoshisBN
+        ),
         sigtype
       })
   )
@@ -90,7 +97,10 @@ ScriptHashInput.prototype._updateScript = function() {
 ScriptHashInput.prototype._createSignatures = function() {
   const definedSignatures = this.signatures.filter(signature => signature !== undefined)
   return definedSignatures.map(signature =>
-    BufferUtil.concat([signature.signature.toDER(), BufferUtil.integerAsSingleByteBuffer(signature.sigtype)])
+    BufferUtil.concat([
+      signature.signature.toDER(),
+      BufferUtil.integerAsSingleByteBuffer(signature.sigtype)
+    ])
   )
 }
 
@@ -113,7 +123,9 @@ ScriptHashInput.prototype.countSignatures = function() {
 
 ScriptHashInput.prototype.publicKeysWithoutSignature = function() {
   const self = this
-  return this.publicKeys.filter(publicKey => !self.signatures[self.publicKeyIndex[publicKey.toString()]])
+  return this.publicKeys.filter(
+    publicKey => !self.signatures[self.publicKeyIndex[publicKey.toString()]]
+  )
 }
 
 ScriptHashInput.prototype.isValidSignature = function(transaction, signature) {

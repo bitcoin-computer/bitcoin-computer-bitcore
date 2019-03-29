@@ -58,7 +58,9 @@ class OutputId {
    * @returns {bool} True if the objects refer to the same output, false if not
    */
   equals(other) {
-    return this.outputIndex === other.outputIndex && this.txId.toLowerCase() === other.txId.toLowerCase()
+    return (
+      this.outputIndex === other.outputIndex && this.txId.toLowerCase() === other.txId.toLowerCase()
+    )
   }
 }
 

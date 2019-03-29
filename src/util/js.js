@@ -74,6 +74,11 @@ module.exports = {
    * @return {Boolean}
    */
   isNaturalNumber: function isNaturalNumber(value) {
-    return typeof value === 'number' && Number.isFinite(value) && Math.floor(value) === value && value >= 0
+    return (
+      typeof value === 'number' &&
+      Number.isFinite(value) &&
+      Math.floor(value) === value &&
+      value >= 0
+    )
   }
 }

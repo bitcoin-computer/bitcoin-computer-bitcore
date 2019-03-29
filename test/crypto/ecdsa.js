@@ -196,7 +196,7 @@ describe('ECDSA', function() {
         privkey: ecdsa.privkey
       });
       ecdsa2.randomK();
-      ecdsa2.sign.bind(ecdsa2).should.throw('hashbuf must be a 32 byte buffer');
+      ecdsa2.sign.bind(ecdsa2).should.throw('hashbuf must be 32 bytes');
     });
 
     it('should default to deterministicK', function() {

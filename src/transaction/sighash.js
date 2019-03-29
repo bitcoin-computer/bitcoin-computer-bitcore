@@ -18,7 +18,10 @@ const ENABLE_SIGHASH_FORKID = true
 class Sighash {
   static sighashForForkId(transaction, sighashType, inputNumber, subscript, satoshisBN) {
     const input = transaction.inputs[inputNumber]
-    $.checkArgument(satoshisBN instanceof BN, 'For ForkId=0 signatures, satoshis or complete input must be provided')
+    $.checkArgument(
+      satoshisBN instanceof BN,
+      'For ForkId=0 signatures, satoshis or complete input must be provided'
+    )
 
     function GetPrevoutHash(tx) {
       const writer = new BufferWriter()
@@ -77,9 +80,15 @@ class Sighash {
       hashSequence = GetSequenceHash(transaction)
     }
 
-    if ((sighashType & 31) !== Signature.SIGHASH_SINGLE && (sighashType & 31) !== Signature.SIGHASH_NONE) {
+    if (
+      (sighashType & 31) !== Signature.SIGHASH_SINGLE &&
+      (sighashType & 31) !== Signature.SIGHASH_NONE
+    ) {
       hashOutputs = GetOutputsHash(transaction)
-    } else if ((sighashType & 31) === Signature.SIGHASH_SINGLE && inputNumber < transaction.outputs.length) {
+    } else if (
+      (sighashType & 31) === Signature.SIGHASH_SINGLE &&
+      inputNumber < transaction.outputs.length
+    ) {
       hashOutputs = GetOutputsHash(transaction, inputNumber)
     }
 
@@ -164,7 +173,10 @@ class Sighash {
 
     txcopy.inputs[inputNumber] = new Input(txcopy.inputs[inputNumber]).setScript(subscript)
 
-    if ((sighashType & 31) === Signature.SIGHASH_NONE || (sighashType & 31) === Signature.SIGHASH_SINGLE) {
+    if (
+      (sighashType & 31) === Signature.SIGHASH_NONE ||
+      (sighashType & 31) === Signature.SIGHASH_SINGLE
+    ) {
       // clear all sequenceNumbers
       for (i = 0; i < txcopy.inputs.length; i += 1) {
         if (i !== inputNumber) {
@@ -240,7 +252,13 @@ class Sighash {
   static verify(transaction, signature, publicKey, inputIndex, subscript, satoshisBN) {
     $.checkArgument(!_.isUndefined(transaction))
     $.checkArgument(!_.isUndefined(signature) && !_.isUndefined(signature.nhashtype))
-    const hashbuf = Sighash.sighash(transaction, signature.nhashtype, inputIndex, subscript, satoshisBN)
+    const hashbuf = Sighash.sighash(
+      transaction,
+      signature.nhashtype,
+      inputIndex,
+      subscript,
+      satoshisBN
+    )
     return ECDSA.verify(hashbuf, signature, publicKey, 'little')
   }
 }

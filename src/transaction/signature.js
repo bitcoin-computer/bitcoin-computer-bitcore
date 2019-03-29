@@ -30,7 +30,9 @@ class TransactionSignature extends Signature {
   _fromObject(arg) {
     TransactionSignature._checkObjectArgs(arg)
     this.publicKey = new PublicKey(arg.publicKey)
-    this.prevTxId = BufferUtil.isBuffer(arg.prevTxId) ? arg.prevTxId : Buffer.from(arg.prevTxId, 'hex')
+    this.prevTxId = BufferUtil.isBuffer(arg.prevTxId)
+      ? arg.prevTxId
+      : Buffer.from(arg.prevTxId, 'hex')
     this.outputIndex = arg.outputIndex
     this.inputIndex = arg.inputIndex
     if (arg.signature instanceof Signature) {
@@ -53,7 +55,9 @@ class TransactionSignature extends Signature {
     $.checkArgument(arg.signature, 'signature')
     $.checkArgument(arg.prevTxId, 'prevTxId')
     $.checkState(
-      arg.signature instanceof Signature || BufferUtil.isBuffer(arg.signature) || JSUtil.isHexa(arg.signature),
+      arg.signature instanceof Signature ||
+        BufferUtil.isBuffer(arg.signature) ||
+        JSUtil.isHexa(arg.signature),
       'signature must be a buffer or hexa value'
     )
     $.checkState(

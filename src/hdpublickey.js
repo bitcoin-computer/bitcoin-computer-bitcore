@@ -260,7 +260,9 @@ HDPublicKey.prototype._buildFromPrivate = function(arg) {
   const args = _.clone(arg._buffers)
   const point = Point.getG().mul(BN.fromBuffer(args.privateKey))
   args.publicKey = Point.pointToCompressed(point)
-  args.version = BufferUtil.integerAsBuffer(Network.get(BufferUtil.integerFromBuffer(args.version)).xpubkey)
+  args.version = BufferUtil.integerAsBuffer(
+    Network.get(BufferUtil.integerFromBuffer(args.version)).xpubkey
+  )
   args.privateKey = undefined
   args.checksum = undefined
   args.xprivkey = undefined
@@ -279,12 +281,16 @@ HDPublicKey.prototype._buildFromObject = function(arg) {
   }
 
   const buffers = {
-    version: arg.network ? BufferUtil.integerAsBuffer(Network.get(arg.network).xpubkey) : arg.version,
+    version: arg.network
+      ? BufferUtil.integerAsBuffer(Network.get(arg.network).xpubkey)
+      : arg.version,
     depth: _.isNumber(arg.depth) ? BufferUtil.integerAsSingleByteBuffer(arg.depth) : arg.depth,
     parentFingerPrint: _.isNumber(arg.parentFingerPrint)
       ? BufferUtil.integerAsBuffer(arg.parentFingerPrint)
       : arg.parentFingerPrint,
-    childIndex: _.isNumber(arg.childIndex) ? BufferUtil.integerAsBuffer(arg.childIndex) : arg.childIndex,
+    childIndex: _.isNumber(arg.childIndex)
+      ? BufferUtil.integerAsBuffer(arg.childIndex)
+      : arg.childIndex,
     chainCode: _.isString(arg.chainCode) ? BufferUtil.hexToBuffer(arg.chainCode) : arg.chainCode,
     publicKey,
     checksum: _.isNumber(arg.checksum) ? BufferUtil.integerAsBuffer(arg.checksum) : arg.checksum
@@ -297,7 +303,10 @@ HDPublicKey.prototype._buildFromSerialized = function(arg) {
   const buffers = {
     version: decoded.slice(HDPublicKey.VersionStart, HDPublicKey.VersionEnd),
     depth: decoded.slice(HDPublicKey.DepthStart, HDPublicKey.DepthEnd),
-    parentFingerPrint: decoded.slice(HDPublicKey.ParentFingerPrintStart, HDPublicKey.ParentFingerPrintEnd),
+    parentFingerPrint: decoded.slice(
+      HDPublicKey.ParentFingerPrintStart,
+      HDPublicKey.ParentFingerPrintEnd
+    ),
     childIndex: decoded.slice(HDPublicKey.ChildIndexStart, HDPublicKey.ChildIndexEnd),
     chainCode: decoded.slice(HDPublicKey.ChainCodeStart, HDPublicKey.ChainCodeEnd),
     publicKey: decoded.slice(HDPublicKey.PublicKeyStart, HDPublicKey.PublicKeyEnd),
@@ -330,7 +339,14 @@ HDPublicKey.prototype._buildFromBuffers = function(arg) {
     _buffers: arg
   })
 
-  const sequence = [arg.version, arg.depth, arg.parentFingerPrint, arg.childIndex, arg.chainCode, arg.publicKey]
+  const sequence = [
+    arg.version,
+    arg.depth,
+    arg.parentFingerPrint,
+    arg.childIndex,
+    arg.chainCode,
+    arg.publicKey
+  ]
   const concat = BufferUtil.concat(sequence)
   const checksum = Base58Check.checksum(concat)
   if (!arg.checksum || !arg.checksum.length) {
@@ -362,7 +378,7 @@ HDPublicKey._validateBufferArguments = function(arg) {
   const checkBuffer = function(name, size) {
     const buff = arg[name]
     assert(BufferUtil.isBuffer(buff), `${name} argument is not a buffer, it's ${typeof buff}`)
-    assert(buff.length === size, `${name} has not the expected size: found ${buff.length}, expected ${size}`)
+    assert(buff.length === size, `${name} size unexpected: found ${buff.length}, expected ${size}`)
   }
   checkBuffer('version', HDPublicKey.VersionSize)
   checkBuffer('depth', HDPublicKey.DepthSize)
@@ -472,7 +488,8 @@ HDPublicKey.VersionEnd = HDPublicKey.VersionStart + HDPublicKey.VersionSize
 HDPublicKey.DepthStart = HDPublicKey.VersionEnd
 HDPublicKey.DepthEnd = HDPublicKey.DepthStart + HDPublicKey.DepthSize
 HDPublicKey.ParentFingerPrintStart = HDPublicKey.DepthEnd
-HDPublicKey.ParentFingerPrintEnd = HDPublicKey.ParentFingerPrintStart + HDPublicKey.ParentFingerPrintSize
+HDPublicKey.ParentFingerPrintEnd =
+  HDPublicKey.ParentFingerPrintStart + HDPublicKey.ParentFingerPrintSize
 HDPublicKey.ChildIndexStart = HDPublicKey.ParentFingerPrintEnd
 HDPublicKey.ChildIndexEnd = HDPublicKey.ChildIndexStart + HDPublicKey.ChildIndexSize
 HDPublicKey.ChainCodeStart = HDPublicKey.ChildIndexEnd

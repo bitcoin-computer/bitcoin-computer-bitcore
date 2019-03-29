@@ -48,6 +48,12 @@
   "browser": {
     "request": "browser-request"
   },
+  "prettier": {
+    "printWidth": 100,
+    "proseWrap": "preserve",
+    "semi": false,
+    "singleQuote": true
+  },
   "dependencies": {
     "big-integer": "^1.6.42",
     "bn.js": "^4.11.8",
@@ -92,12 +98,6 @@
     "shelljs": "^0.8.2",
     "sinon": "^1.13.0",
     "uglify-js": "^3.4.9"
-  },
-  "prettier": {
-    "printWidth": 120,
-    "proseWrap": "preserve",
-    "semi": false,
-    "singleQuote": true
   },
   "license": "MIT"
 }

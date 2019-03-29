@@ -53,7 +53,9 @@ class Transaction {
       } else if (_.isObject(serialized)) {
         this.fromObject(serialized)
       } else {
-        throw new errors.InvalidArgument('Must provide an object or string to deserialize a transaction')
+        throw new errors.InvalidArgument(
+          'Must provide an object or string to deserialize a transaction'
+        )
       }
     } else {
       this._newTransaction()
@@ -162,23 +164,31 @@ class Transaction {
 
   _hasFeeError(opts, unspent) {
     if (this._fee !== undefined && this._fee !== unspent) {
-      return new errors.Transaction.FeeError.Different(`Unspent value is ${unspent} but specified fee is ${this._fee}`)
+      return new errors.Transaction.FeeError.Different(
+        `Unspent value is ${unspent} but specified fee is ${this._fee}`
+      )
     }
 
     if (!opts.disableLargeFees) {
       const maximumFee = Math.floor(Transaction.FEE_SECURITY_MARGIN * this._estimateFee())
       if (unspent > maximumFee) {
         if (this._missingChange()) {
-          return new errors.Transaction.ChangeAddressMissing('Fee is too large and no change address was provided')
+          return new errors.Transaction.ChangeAddressMissing(
+            'Fee is too large and no change address was provided'
+          )
         }
-        return new errors.Transaction.FeeError.TooLarge(`expected less than ${maximumFee} but got ${unspent}`)
+        return new errors.Transaction.FeeError.TooLarge(
+          `expected less than ${maximumFee} but got ${unspent}`
+        )
       }
     }
 
     if (!opts.disableSmallFees) {
       const minimumFee = Math.ceil(this._estimateFee() / Transaction.FEE_SECURITY_MARGIN)
       if (unspent < minimumFee) {
-        return new errors.Transaction.FeeError.TooSmall(`expected more than ${minimumFee} but got ${unspent}`)
+        return new errors.Transaction.FeeError.TooSmall(
+          `expected more than ${minimumFee} but got ${unspent}`
+        )
       }
     }
 
@@ -235,7 +245,10 @@ class Transaction {
   }
 
   fromBufferReader(reader) {
-    $.checkArgument(!reader.finished(), 'No transaction data received when creating transaction from buffer')
+    $.checkArgument(
+      !reader.finished(),
+      'No transaction data received when creating transaction from buffer'
+    )
     let i
 
     this.version = reader.readInt32LE()
@@ -297,7 +310,12 @@ class Transaction {
       if (script.isPublicKeyHashOut()) {
         txin = new Input.PublicKeyHash(input)
       } else if (script.isScriptHashOut() && input.publicKeys && input.threshold) {
-        txin = new Input.MultiSigScriptHash(input, input.publicKeys, input.threshold, input.signatures)
+        txin = new Input.MultiSigScriptHash(
+          input,
+          input.publicKeys,
+          input.threshold,
+          input.signatures
+        )
       } else if (script.isPublicKeyOut()) {
         txin = new Input.PublicKey(input)
       } else {
@@ -520,7 +538,9 @@ class Transaction {
   addInput(input, outputScript, satoshis) {
     $.checkArgumentType(input, Input, 'Trying to add input of type other than input')
     if (!input.output && (outputScript === undefined || satoshis === undefined)) {
-      throw new errors.Transaction.NeedMoreInfo('Need information about the UTXO script and satoshis')
+      throw new errors.Transaction.NeedMoreInfo(
+        'Need information about the UTXO script and satoshis'
+      )
     }
     if (!input.output && outputScript && satoshis !== undefined) {
       outputScript = outputScript instanceof Script ? outputScript : new Script(outputScript)
@@ -797,7 +817,10 @@ class Transaction {
   }
 
   _estimateSize() {
-    let result = this.inputs.reduce((acc, input) => acc + input._estimateSize(), Transaction.MAXIMUM_EXTRA_SIZE)
+    let result = this.inputs.reduce(
+      (acc, input) => acc + input._estimateSize(),
+      Transaction.MAXIMUM_EXTRA_SIZE
+    )
     result = this.outputs.reduce((acc, output) => acc + output.script.toBuffer().length + 9, result)
     return result
   }
@@ -823,14 +846,18 @@ class Transaction {
     /* eslint-disable max-len */
     this.sortInputs(inputs => {
       const copy = Array.prototype.concat.apply([], inputs)
-      copy.sort((first, second) => compare(first.prevTxId, second.prevTxId) || first.outputIndex - second.outputIndex)
+      copy.sort(
+        (first, second) =>
+          compare(first.prevTxId, second.prevTxId) || first.outputIndex - second.outputIndex
+      )
       return copy
     })
     this.sortOutputs(outputs => {
       const copy = Array.prototype.concat.apply([], outputs)
       copy.sort(
         (first, second) =>
-          first.satoshis - second.satoshis || compare(first.script.toBuffer(), second.script.toBuffer())
+          first.satoshis - second.satoshis ||
+          compare(first.script.toBuffer(), second.script.toBuffer())
       )
       return copy
     })
@@ -878,7 +905,8 @@ class Transaction {
 
   _newOutputOrder(newOutputs) {
     const isInvalidSorting =
-      this.outputs.length !== newOutputs.length || _.difference(this.outputs, newOutputs).length !== 0
+      this.outputs.length !== newOutputs.length ||
+      _.difference(this.outputs, newOutputs).length !== 0
     if (isInvalidSorting) {
       throw new errors.Transaction.InvalidSorting()
     }
@@ -922,7 +950,7 @@ class Transaction {
    * @return {Transaction} this, for chaining
    */
   sign(privateKeys, sigtype) {
-    $.checkState(this.hasAllUtxoInfo(), 'Cannot sign transaction because some input is not defined')
+    $.checkState(this.hasAllUtxoInfo(), 'Cannot sign because an input is not defined')
     const self = this
     if (Array.isArray(privateKeys)) {
       privateKeys.forEach(privateKey => self.sign(privateKey, sigtype))
@@ -940,9 +968,10 @@ class Transaction {
     const transaction = this
     const results = []
     const hashData = Hash.sha256ripemd160(privKey.publicKey.toBuffer())
-    this.inputs.forEach((input, index) =>
-      input.getSignatures(transaction, privKey, index, sigtype, hashData).forEach(signature => results.push(signature))
-    )
+    this.inputs.forEach((input, index) => {
+      const signatures = input.getSignatures(transaction, privKey, index, sigtype, hashData)
+      signatures.forEach(signature => results.push(signature))
+    })
     return results
   }
 

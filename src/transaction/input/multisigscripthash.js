@@ -29,7 +29,9 @@ function MultiSigScriptHashInput(input, pubkeys, threshold, signatures, redeemSc
     self.publicKeyIndex[publicKey.toString()] = index
   })
   // Empty array of signatures
-  this.signatures = signatures ? this._deserializeSignatures(signatures) : new Array(this.publicKeys.length)
+  this.signatures = signatures
+    ? this._deserializeSignatures(signatures)
+    : new Array(this.publicKeys.length)
 }
 inherits(MultiSigScriptHashInput, Input)
 
@@ -50,7 +52,12 @@ MultiSigScriptHashInput.prototype._serializeSignatures = function() {
 }
 
 // eslint-disable-next-line max-len
-MultiSigScriptHashInput.prototype.getSignatures = function(transaction, privateKey, index, sigtype) {
+MultiSigScriptHashInput.prototype.getSignatures = function(
+  transaction,
+  privateKey,
+  index,
+  sigtype
+) {
   $.checkState(this.output instanceof Output, 'Malformed output found when signing transaction')
   sigtype = sigtype || Signature.SIGHASH_ALL | Signature.SIGHASH_FORKID
 
@@ -64,7 +71,14 @@ MultiSigScriptHashInput.prototype.getSignatures = function(transaction, privateK
         prevTxId: this.prevTxId,
         outputIndex: this.outputIndex,
         inputIndex: index,
-        signature: Sighash.sign(transaction, privateKey, sigtype, index, this.redeemScript, this.output.satoshisBN),
+        signature: Sighash.sign(
+          transaction,
+          privateKey,
+          sigtype,
+          index,
+          this.redeemScript,
+          this.output.satoshisBN
+        ),
         sigtype
       })
   )
@@ -94,7 +108,10 @@ MultiSigScriptHashInput.prototype._updateScript = function() {
 MultiSigScriptHashInput.prototype._createSignatures = function() {
   const definedSignatures = this.signatures.filter(signature => signature !== undefined)
   return definedSignatures.map(signature =>
-    BufferUtil.concat([signature.signature.toDER(), BufferUtil.integerAsSingleByteBuffer(signature.sigtype)])
+    BufferUtil.concat([
+      signature.signature.toDER(),
+      BufferUtil.integerAsSingleByteBuffer(signature.sigtype)
+    ])
   )
 }
 
@@ -116,7 +133,9 @@ MultiSigScriptHashInput.prototype.countSignatures = function() {
 }
 
 MultiSigScriptHashInput.prototype.publicKeysWithoutSignature = function() {
-  return this.publicKeys.filter(publicKey => !this.signatures[this.publicKeyIndex[publicKey.toString()]])
+  return this.publicKeys.filter(
+    publicKey => !this.signatures[this.publicKeyIndex[publicKey.toString()]]
+  )
 }
 
 MultiSigScriptHashInput.prototype.isValidSignature = function(transaction, signature) {

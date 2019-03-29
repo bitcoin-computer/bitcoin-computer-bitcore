@@ -24,7 +24,7 @@ describe('Address', function() {
   it('can\'t build without data', function() {
     (function() {
       return new Address();
-    }).should.throw('First argument is required, please include address data.');
+    }).should.throw('Address data required in first argument.');
   });
 
   it('should throw an error because of bad network param', function() {

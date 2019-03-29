@@ -86,40 +86,40 @@ Signature.fromString = function(str) {
  * In order to mimic the non-strict DER encoding of OpenSSL, set strict = false.
  */
 Signature.parseDER = function(buf, strict) {
-  $.checkArgument(BufferUtil.isBuffer(buf), new Error('DER formatted signature should be a buffer'))
+  $.checkArgument(BufferUtil.isBuffer(buf), 'DER formatted signature should be a buffer')
   if (_.isUndefined(strict)) {
     strict = true
   }
 
   const header = buf[0]
-  $.checkArgument(header === 0x30, new Error('Header byte should be 0x30'))
+  $.checkArgument(header === 0x30, 'Header byte should be 0x30')
 
   let length = buf[1]
   const buflength = buf.slice(2).length
-  $.checkArgument(!strict || length === buflength, new Error('Length byte should length of what follows'))
+  $.checkArgument(!strict || length === buflength, 'Length byte should length of what follows')
 
   length = length < buflength ? length : buflength
 
   const rheader = buf[2 + 0]
-  $.checkArgument(rheader === 0x02, new Error('Integer byte for r should be 0x02'))
+  $.checkArgument(rheader === 0x02, 'Integer byte for r should be 0x02')
 
   const rlength = buf[2 + 1]
   const rbuf = buf.slice(2 + 2, 2 + 2 + rlength)
   const r = BN.fromBuffer(rbuf)
   const rneg = buf[2 + 1 + 1] === 0x00
-  $.checkArgument(rlength === rbuf.length, new Error('Length of r incorrect'))
+  $.checkArgument(rlength === rbuf.length, 'Length of r incorrect')
 
   const sheader = buf[2 + 2 + rlength + 0]
-  $.checkArgument(sheader === 0x02, new Error('Integer byte for s should be 0x02'))
+  $.checkArgument(sheader === 0x02, 'Integer byte for s should be 0x02')
 
   const slength = buf[2 + 2 + rlength + 1]
   const sbuf = buf.slice(2 + 2 + rlength + 2, 2 + 2 + rlength + 2 + slength)
   const s = BN.fromBuffer(sbuf)
   const sneg = buf[2 + 2 + rlength + 2 + 2] === 0x00
-  $.checkArgument(slength === sbuf.length, new Error('Length of s incorrect'))
+  $.checkArgument(slength === sbuf.length, 'Length of s incorrect')
 
   const sumlength = 2 + 2 + rlength + 2 + slength
-  $.checkArgument(length === sumlength - 2, new Error('Length of signature incorrect'))
+  $.checkArgument(length === sumlength - 2, 'Length of signature incorrect')
 
   const obj = {
     header,
