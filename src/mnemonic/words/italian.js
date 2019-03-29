@@ -2046,7 +2046,7 @@ const italian = [
   'zucchero',
   'zufolo',
   'zulu',
-  'zuppa',
+  'zuppa'
 ]
 
 module.exports = italian

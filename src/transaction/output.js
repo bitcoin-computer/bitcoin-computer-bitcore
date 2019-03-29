@@ -98,7 +98,7 @@ class Output {
 
   toJSON() {
     const obj = {
-      satoshis: this.satoshis,
+      satoshis: this.satoshis
     }
     obj.script = this._scriptBuffer.toString('hex')
     return obj

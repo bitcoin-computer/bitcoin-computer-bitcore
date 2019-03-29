@@ -168,7 +168,7 @@ module.exports = {
   hexToBuffer: function hexToBuffer(string) {
     assert(js.isHexa(string))
     return Buffer.from(string, 'hex')
-  },
+  }
 }
 
 module.exports.NULL_HASH = module.exports.fill(Buffer.alloc(32), 0)

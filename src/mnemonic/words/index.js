@@ -11,5 +11,5 @@ module.exports = {
   FRENCH,
   ITALIAN,
   JAPANESE,
-  SPANISH,
+  SPANISH
 }

@@ -19,7 +19,7 @@ function ScriptHashInput(input, pubkeys, redeemScript) {
   this.redeemScript = redeemScript
   $.checkState(
     Script.buildScriptHashOut(this.redeemScript).equals(this.output.script),
-    "Provided redeemScript doesn't hash to the provided output",
+    "Provided redeemScript doesn't hash to the provided output"
   )
   this.publicKeyIndex = {}
   this.publicKeys.forEach((publicKey, index) => {
@@ -51,7 +51,7 @@ ScriptHashInput.prototype.getSignatures = function(transaction, privateKey, inde
   sigtype = sigtype || Signature.SIGHASH_ALL | Signature.SIGHASH_FORKID
 
   const publicKeysForPrivateKey = this.publicKeys.filter(
-    publicKey => publicKey.toString() === privateKey.publicKey.toString(),
+    publicKey => publicKey.toString() === privateKey.publicKey.toString()
   )
   return publicKeysForPrivateKey.map(
     publicKey =>
@@ -61,8 +61,8 @@ ScriptHashInput.prototype.getSignatures = function(transaction, privateKey, inde
         outputIndex: this.outputIndex,
         inputIndex: index,
         signature: Sighash.sign(transaction, privateKey, sigtype, index, this.output.script, this.output.satoshisBN),
-        sigtype,
-      }),
+        sigtype
+      })
   )
 }
 
@@ -70,7 +70,7 @@ ScriptHashInput.prototype.addSignature = function(transaction, signature) {
   $.checkState(!this.isFullySigned(), 'All needed signatures have already been added')
   $.checkArgument(
     this.publicKeyIndex[signature.publicKey.toString()] !== undefined,
-    'Signature has no matching public key',
+    'Signature has no matching public key'
   )
   $.checkState(this.isValidSignature(transaction, signature))
   this.signatures[this.publicKeyIndex[signature.publicKey.toString()]] = signature
@@ -81,8 +81,8 @@ ScriptHashInput.prototype.addSignature = function(transaction, signature) {
 ScriptHashInput.prototype._updateScript = function() {
   this.setScript(
     Script.buildP2SHMultisigIn(this.publicKeys, this.threshold, this._createSignatures(), {
-      cachedMultisig: this.redeemScript,
-    }),
+      cachedMultisig: this.redeemScript
+    })
   )
   return this
 }
@@ -90,7 +90,7 @@ ScriptHashInput.prototype._updateScript = function() {
 ScriptHashInput.prototype._createSignatures = function() {
   const definedSignatures = this.signatures.filter(signature => signature !== undefined)
   return definedSignatures.map(signature =>
-    BufferUtil.concat([signature.signature.toDER(), BufferUtil.integerAsSingleByteBuffer(signature.sigtype)]),
+    BufferUtil.concat([signature.signature.toDER(), BufferUtil.integerAsSingleByteBuffer(signature.sigtype)])
   )
 }
 
@@ -125,7 +125,7 @@ ScriptHashInput.prototype.isValidSignature = function(transaction, signature) {
     signature.publicKey,
     signature.inputIndex,
     this.redeemScript,
-    this.output.satoshisBN,
+    this.output.satoshisBN
   )
 }
 

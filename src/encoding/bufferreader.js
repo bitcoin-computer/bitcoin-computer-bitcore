@@ -12,7 +12,7 @@ const BufferReader = function BufferReader(buf) {
   }
   if (Buffer.isBuffer(buf)) {
     this.set({
-      buf,
+      buf
     })
   } else if (_.isString(buf)) {
     const b = Buffer.from(buf, 'hex')
@@ -21,7 +21,7 @@ const BufferReader = function BufferReader(buf) {
     }
 
     this.set({
-      buf: b,
+      buf: b
     })
   } else if (_.isObject(buf)) {
     const obj = buf
@@ -147,7 +147,7 @@ BufferReader.prototype.readVarLengthBuffer = function() {
   const buf = this.read(len)
   $.checkState(
     buf.length === len,
-    `Invalid length while reading varlength buffer. Expected to read: ${len} and read ${buf.length}`,
+    `Invalid length while reading varlength buffer. Expected to read: ${len} and read ${buf.length}`
   )
   return buf
 }

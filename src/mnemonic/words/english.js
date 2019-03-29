@@ -2046,7 +2046,7 @@ const english = [
   'zebra',
   'zero',
   'zone',
-  'zoo',
+  'zoo'
 ]
 
 module.exports = english

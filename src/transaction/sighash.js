@@ -187,7 +187,7 @@ class Sighash {
       for (i = 0; i < inputNumber; i += 1) {
         txcopy.outputs[i] = new Output({
           satoshis: BN.fromBuffer(new buffer.Buffer(BITS_64_ON, 'hex')),
-          script: Script.empty(),
+          script: Script.empty()
         })
       }
     }
@@ -220,7 +220,7 @@ class Sighash {
   static sign(transaction, privateKey, sighashType, inputIndex, subscript, satoshisBN) {
     const hashbuf = Sighash.sighash(transaction, sighashType, inputIndex, subscript, satoshisBN)
     const sig = ECDSA.sign(hashbuf, privateKey, 'little').set({
-      nhashtype: sighashType,
+      nhashtype: sighashType
     })
     return sig
   }

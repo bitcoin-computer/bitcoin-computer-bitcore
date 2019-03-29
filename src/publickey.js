@@ -52,7 +52,7 @@ function PublicKey(data, extra) {
   JSUtil.defineImmutable(this, {
     point: info.point,
     compressed: info.compressed,
-    network: info.network || Network.defaultNetwork,
+    network: info.network || Network.defaultNetwork
   })
 
   return this
@@ -66,7 +66,7 @@ function PublicKey(data, extra) {
 PublicKey.prototype._classifyArgs = function(data, extra) {
   /* jshint maxcomplexity: 10 */
   let info = {
-    compressed: _.isUndefined(extra.compressed) || extra.compressed,
+    compressed: _.isUndefined(extra.compressed) || extra.compressed
   }
 
   // detect type of data
@@ -202,7 +202,7 @@ PublicKey._transformObject = function(json) {
   const y = new BN(json.y, 'hex')
   const point = new Point(x, y)
   return new PublicKey(point, {
-    compressed: json.compressed,
+    compressed: json.compressed
   })
 }
 
@@ -217,7 +217,7 @@ PublicKey.fromPrivateKey = function(privkey) {
   const info = PublicKey._transformPrivateKey(privkey)
   return new PublicKey(info.point, {
     compressed: info.compressed,
-    network: info.network,
+    network: info.network
   })
 }
 
@@ -231,7 +231,7 @@ PublicKey.fromBuffer = function(buf, strict) {
   $.checkArgument(PublicKey._isBuffer(buf), 'Must be a hex buffer of DER encoded public key')
   const info = PublicKey._transformDER(buf, strict)
   return new PublicKey(info.point, {
-    compressed: info.compressed,
+    compressed: info.compressed
   })
 }
 PublicKey.fromDER = PublicKey.fromBuffer
@@ -246,7 +246,7 @@ PublicKey.fromDER = PublicKey.fromBuffer
 PublicKey.fromPoint = function(point, compressed) {
   $.checkArgument(point instanceof Point, 'First argument must be an instance of Point.')
   return new PublicKey(point, {
-    compressed,
+    compressed
   })
 }
 
@@ -261,7 +261,7 @@ PublicKey.fromString = function(str, encoding) {
   const buf = Buffer.from(str, encoding || 'hex')
   const info = PublicKey._transformDER(buf)
   return new PublicKey(info.point, {
-    compressed: info.compressed,
+    compressed: info.compressed
   })
 }
 
@@ -275,7 +275,7 @@ PublicKey.fromString = function(str, encoding) {
 PublicKey.fromX = function(odd, x) {
   const info = PublicKey._transformX(odd, x)
   return new PublicKey(info.point, {
-    compressed: info.compressed,
+    compressed: info.compressed
   })
 }
 
@@ -314,7 +314,7 @@ PublicKey.prototype.toJSON = function toObject() {
   return {
     x: this.point.getX().toString('hex', 2),
     y: this.point.getY().toString('hex', 2),
-    compressed: this.compressed,
+    compressed: this.compressed
   }
 }
 PublicKey.prototype.toObject = PublicKey.prototype.toJSON
@@ -329,10 +329,10 @@ PublicKey.prototype.toDER = function() {
   const y = this.point.getY()
 
   const xbuf = x.toBuffer({
-    size: 32,
+    size: 32
   })
   const ybuf = y.toBuffer({
-    size: 32,
+    size: 32
   })
 
   let prefix

@@ -2046,7 +2046,7 @@ const spanish = [
   'zona',
   'zorro',
   'zumo',
-  'zurdo',
+  'zurdo'
 ]
 
 module.exports = spanish

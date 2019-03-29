@@ -20,7 +20,7 @@ function MultiSigInput(input, pubkeys, threshold, signatures) {
   this.publicKeys = _.sortBy(pubkeys, publicKey => publicKey.toString('hex'))
   $.checkState(
     Script.buildMultisigOut(this.publicKeys, this.threshold).equals(this.output.script),
-    "Provided public keys don't match to the provided output script",
+    "Provided public keys don't match to the provided output script"
   )
   this.publicKeyIndex = {}
   this.publicKeys.forEach((publicKey, index) => {
@@ -52,7 +52,7 @@ MultiSigInput.prototype.getSignatures = function(transaction, privateKey, index,
   sigtype = sigtype || Signature.SIGHASH_ALL | Signature.SIGHASH_FORKID
 
   const publicKeysForPrivateKey = this.publicKeys.filter(
-    publicKey => publicKey.toString() === privateKey.publicKey.toString(),
+    publicKey => publicKey.toString() === privateKey.publicKey.toString()
   )
   return publicKeysForPrivateKey.map(
     publicKey =>
@@ -62,8 +62,8 @@ MultiSigInput.prototype.getSignatures = function(transaction, privateKey, index,
         outputIndex: this.outputIndex,
         inputIndex: index,
         signature: Sighash.sign(transaction, privateKey, sigtype, index, this.output.script, this.output.satoshisBN),
-        sigtype,
-      }),
+        sigtype
+      })
   )
 }
 
@@ -71,7 +71,7 @@ MultiSigInput.prototype.addSignature = function(transaction, signature) {
   $.checkState(!this.isFullySigned(), 'All needed signatures have already been added')
   $.checkArgument(
     this.publicKeyIndex[signature.publicKey.toString()] !== undefined,
-    'Signature has no matching public key',
+    'Signature has no matching public key'
   )
   $.checkState(this.isValidSignature(transaction, signature), 'Signature invalid')
   this.signatures[this.publicKeyIndex[signature.publicKey.toString()]] = signature
@@ -87,7 +87,7 @@ MultiSigInput.prototype._updateScript = function() {
 MultiSigInput.prototype._createSignatures = function() {
   const definedSignatures = this.signatures.filter(signature => signature !== undefined)
   return definedSignatures.map(signature =>
-    BufferUtil.concat([signature.signature.toDER(), BufferUtil.integerAsSingleByteBuffer(signature.sigtype)]),
+    BufferUtil.concat([signature.signature.toDER(), BufferUtil.integerAsSingleByteBuffer(signature.sigtype)])
   )
 }
 
@@ -121,7 +121,7 @@ MultiSigInput.prototype.isValidSignature = function(transaction, signature) {
     signature.publicKey,
     signature.inputIndex,
     this.output.script,
-    this.output.satoshisBN,
+    this.output.satoshisBN
   )
 }
 
@@ -148,7 +148,7 @@ MultiSigInput.normalizeSignatures = function(transaction, input, inputIndex, sig
         prevTxId: input.prevTxId,
         outputIndex: input.outputIndex,
         inputIndex,
-        sigtype: Signature.SIGHASH_ALL,
+        sigtype: Signature.SIGHASH_ALL
       })
 
       signature.signature.nhashtype = signature.sigtype
@@ -157,7 +157,7 @@ MultiSigInput.normalizeSignatures = function(transaction, input, inputIndex, sig
         signature.signature,
         signature.publicKey,
         signature.inputIndex,
-        input.output.script,
+        input.output.script
       )
 
       if (isMatch) {

@@ -8,7 +8,7 @@ const UNITS = {
   mBTC: [1e5, 5],
   uBTC: [1e2, 2],
   bits: [1e2, 2],
-  satoshis: [1, 0],
+  satoshis: [1, 0]
 }
 
 /**
@@ -57,7 +57,7 @@ function Unit(amount, code) {
       get() {
         return self.to(key)
       },
-      enumerable: true,
+      enumerable: true
     })
   }
 
@@ -226,7 +226,7 @@ Unit.prototype.toString = function() {
 Unit.prototype.toJSON = function toObject() {
   return {
     amount: this.BTC,
-    code: Unit.BTC,
+    code: Unit.BTC
   }
 }
 Unit.prototype.toObject = Unit.prototype.toJSON

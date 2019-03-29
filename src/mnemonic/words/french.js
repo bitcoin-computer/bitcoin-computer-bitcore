@@ -2046,7 +2046,7 @@ const french = [
   'zèbre',
   'zénith',
   'zeste',
-  'zoologie',
+  'zoologie'
 ]
 
 module.exports = french

@@ -66,7 +66,7 @@ Script.fromBuffer = function(origBuffer) {
         script.chunks.push({
           buf: br.read(len),
           len,
-          opcodenum,
+          opcodenum
         })
       } else if (opcodenum === Opcode.OP_PUSHDATA1) {
         len = br.readUInt8()
@@ -74,7 +74,7 @@ Script.fromBuffer = function(origBuffer) {
         script.chunks.push({
           buf,
           len,
-          opcodenum,
+          opcodenum
         })
       } else if (opcodenum === Opcode.OP_PUSHDATA2) {
         len = br.readUInt16LE()
@@ -82,7 +82,7 @@ Script.fromBuffer = function(origBuffer) {
         script.chunks.push({
           buf,
           len,
-          opcodenum,
+          opcodenum
         })
       } else if (opcodenum === Opcode.OP_PUSHDATA4) {
         len = br.readUInt32LE()
@@ -90,11 +90,11 @@ Script.fromBuffer = function(origBuffer) {
         script.chunks.push({
           buf,
           len,
-          opcodenum,
+          opcodenum
         })
       } else {
         script.chunks.push({
-          opcodenum,
+          opcodenum
         })
       }
     } catch (e) {
@@ -147,7 +147,7 @@ Script.fromASM = function(str) {
       script.chunks.push({
         buf,
         len: buf.length,
-        opcodenum: buf.length,
+        opcodenum: buf.length
       })
       i += 1
     } else if (
@@ -158,12 +158,12 @@ Script.fromASM = function(str) {
       script.chunks.push({
         buf: Buffer.from(tokens[i + 2], 'hex'),
         len: parseInt(tokens[i + 1], 16),
-        opcodenum,
+        opcodenum
       })
       i += 3
     } else {
       script.chunks.push({
-        opcodenum,
+        opcodenum
       })
       i += 1
     }
@@ -200,7 +200,7 @@ Script.fromString = function(str) {
         script.chunks.push({
           buf: Buffer.from(tokens[i + 1].slice(2), 'hex'),
           len: opcodenum,
-          opcodenum,
+          opcodenum
         })
         i += 2
       } else {
@@ -217,12 +217,12 @@ Script.fromString = function(str) {
       script.chunks.push({
         buf: Buffer.from(tokens[i + 2].slice(2), 'hex'),
         len: parseInt(tokens[i + 1], 10),
-        opcodenum,
+        opcodenum
       })
       i += 3
     } else {
       script.chunks.push({
-        opcodenum,
+        opcodenum
       })
       i += 1
     }
@@ -632,9 +632,9 @@ Script.prototype._addOpcode = function(opcode, prepend) {
   }
   this._insertAtPosition(
     {
-      opcodenum: op,
+      opcodenum: op
     },
-    prepend,
+    prepend
   )
   return this
 }
@@ -657,9 +657,9 @@ Script.prototype._addBuffer = function(buf, prepend) {
     {
       buf,
       len,
-      opcodenum,
+      opcodenum
     },
-    prepend,
+    prepend
   )
   return this
 }
@@ -683,7 +683,7 @@ Script.prototype.removeCodeseparators = function() {
 Script.buildMultisigOut = function(publicKeys, threshold, opts) {
   $.checkArgument(
     threshold <= publicKeys.length,
-    'Number of required signatures must be less than or equal to the number of public keys',
+    'Number of required signatures must be less than or equal to the number of public keys'
   )
   opts = opts || {}
   const script = new this()
@@ -979,7 +979,7 @@ Script.prototype.findAndDelete = function(script) {
   const hex = buf.toString('hex')
   for (let i = 0; i < this.chunks.length; i += 1) {
     const script2 = Script({
-      chunks: [this.chunks[i]],
+      chunks: [this.chunks[i]]
     })
     const buf2 = script2.toBuffer()
     const hex2 = buf2.toString('hex')

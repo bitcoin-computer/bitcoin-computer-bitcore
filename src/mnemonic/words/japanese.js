@@ -2046,7 +2046,7 @@ const japanese = [
   'わじまし',
   'わすれもの',
   'わらう',
-  'われる',
+  'われる'
 ]
 
 module.exports = japanese

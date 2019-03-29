@@ -54,11 +54,11 @@ class TransactionSignature extends Signature {
     $.checkArgument(arg.prevTxId, 'prevTxId')
     $.checkState(
       arg.signature instanceof Signature || BufferUtil.isBuffer(arg.signature) || JSUtil.isHexa(arg.signature),
-      'signature must be a buffer or hexa value',
+      'signature must be a buffer or hexa value'
     )
     $.checkState(
       BufferUtil.isBuffer(arg.prevTxId) || JSUtil.isHexa(arg.prevTxId),
-      'prevTxId must be a buffer or hexa value',
+      'prevTxId must be a buffer or hexa value'
     )
     $.checkArgument(arg.sigtype, 'sigtype')
     $.checkState(_.isNumber(arg.sigtype), 'sigtype must be a number')
@@ -75,7 +75,7 @@ class TransactionSignature extends Signature {
       outputIndex: this.outputIndex,
       inputIndex: this.inputIndex,
       signature: this.signature.toString(),
-      sigtype: this.sigtype,
+      sigtype: this.sigtype
     }
   }
 

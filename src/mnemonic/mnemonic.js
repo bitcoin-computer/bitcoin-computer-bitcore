@@ -77,12 +77,12 @@ const Mnemonic = function(data, wordlist) {
 
   Object.defineProperty(this, 'wordlist', {
     configurable: false,
-    value: wordlist,
+    value: wordlist
   })
 
   Object.defineProperty(this, 'phrase', {
     configurable: false,
-    value: phrase,
+    value: phrase
   })
 }
 

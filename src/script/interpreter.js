@@ -56,7 +56,7 @@ Interpreter.prototype.verify = function(scriptSig, scriptPubkey, tx, nin, flags)
     script: scriptSig,
     tx,
     nin,
-    flags,
+    flags
   })
   let stackCopy
 
@@ -81,7 +81,7 @@ Interpreter.prototype.verify = function(scriptSig, scriptPubkey, tx, nin, flags)
     stack,
     tx,
     nin,
-    flags,
+    flags
   })
 
   // evaluate scriptPubkey
@@ -125,7 +125,7 @@ Interpreter.prototype.verify = function(scriptSig, scriptPubkey, tx, nin, flags)
       stack: stackCopy,
       tx,
       nin,
-      flags,
+      flags
     })
 
     // evaluate redeemScript
@@ -1061,7 +1061,7 @@ Interpreter.prototype.step = function() {
           // Subset of script starting at the most recent codeseparator
           // CScript scriptCode(pbegincodehash, pend);
           subscript = new Script().set({
-            chunks: this.script.chunks.slice(this.pbegincodehash),
+            chunks: this.script.chunks.slice(this.pbegincodehash)
           })
 
           // Drop the signature, since there's no way for a signature to sign itself
@@ -1142,7 +1142,7 @@ Interpreter.prototype.step = function() {
 
           // Subset of script starting at the most recent codeseparator
           subscript = new Script().set({
-            chunks: this.script.chunks.slice(this.pbegincodehash),
+            chunks: this.script.chunks.slice(this.pbegincodehash)
           })
 
           // Drop the signatures, since there's no way for a signature to sign itself

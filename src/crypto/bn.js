@@ -152,7 +152,7 @@ BN.fromScriptNumBuffer = function(buf, fRequireMinimal, size) {
     }
   }
   return BN.fromSM(buf, {
-    endian: 'little',
+    endian: 'little'
   })
 }
 
@@ -164,7 +164,7 @@ BN.fromScriptNumBuffer = function(buf, fRequireMinimal, size) {
  */
 BN.prototype.toScriptNumBuffer = function() {
   return this.toSM({
-    endian: 'little',
+    endian: 'little'
   })
 }
 

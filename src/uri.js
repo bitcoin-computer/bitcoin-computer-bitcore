@@ -209,7 +209,7 @@ URI.prototype.toString = function() {
   return URL.format({
     protocol: 'bitcoincash:',
     host: this.address,
-    query,
+    query
   })
 }
 

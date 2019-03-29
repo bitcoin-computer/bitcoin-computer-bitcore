@@ -37,12 +37,12 @@ class UnspentOutput {
     }
     $.checkArgument(
       !_.isUndefined(data.scriptPubKey) || !_.isUndefined(data.script),
-      'Must provide the scriptPubKey for that output!',
+      'Must provide the scriptPubKey for that output!'
     )
     const script = new Script(data.scriptPubKey || data.script)
     $.checkArgument(
       !_.isUndefined(data.amount) || !_.isUndefined(data.satoshis),
-      'Must provide an amount for the output',
+      'Must provide an amount for the output'
     )
     const amount = !_.isUndefined(data.amount) ? Unit.fromBTC(data.amount).toSatoshis() : data.satoshis
     $.checkArgument(_.isNumber(amount), 'Amount must be a number')
@@ -51,7 +51,7 @@ class UnspentOutput {
       txId,
       outputIndex,
       script,
-      satoshis: amount,
+      satoshis: amount
     })
   }
 
@@ -90,7 +90,7 @@ class UnspentOutput {
       txid: this.txId,
       vout: this.outputIndex,
       scriptPubKey: this.script.toBuffer().toString('hex'),
-      amount: Unit.fromSatoshis(this.satoshis).toBTC(),
+      amount: Unit.fromSatoshis(this.satoshis).toBTC()
     }
   }
 
