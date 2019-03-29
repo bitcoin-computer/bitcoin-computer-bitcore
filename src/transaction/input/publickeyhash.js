@@ -28,7 +28,13 @@ inherits(PublicKeyHashInput, Input)
  * @return {Array} of objects that can be
  */
 // eslint-disable-next-line max-len
-PublicKeyHashInput.prototype.getSignatures = function(transaction, privateKey, index, sigtype, hashData) {
+PublicKeyHashInput.prototype.getSignatures = function(
+  transaction,
+  privateKey,
+  index,
+  sigtype,
+  hashData
+) {
   $.checkState(this.output instanceof Output, 'Malformed output found when signing transaction')
   hashData = hashData || Hash.sha256ripemd160(privateKey.publicKey.toBuffer())
   sigtype = sigtype || Signature.SIGHASH_ALL | Signature.SIGHASH_FORKID
@@ -40,7 +46,14 @@ PublicKeyHashInput.prototype.getSignatures = function(transaction, privateKey, i
         prevTxId: this.prevTxId,
         outputIndex: this.outputIndex,
         inputIndex: index,
-        signature: Sighash.sign(transaction, privateKey, sigtype, index, this.output.script, this.output.satoshisBN),
+        signature: Sighash.sign(
+          transaction,
+          privateKey,
+          sigtype,
+          index,
+          this.output.script,
+          this.output.satoshisBN
+        ),
         sigtype
       })
     ]
@@ -58,8 +71,13 @@ PublicKeyHashInput.prototype.getSignatures = function(transaction, privateKey, i
  * @return {PublicKeyHashInput} this, for chaining
  */
 PublicKeyHashInput.prototype.addSignature = function(transaction, signature) {
-  $.checkState(this.isValidSignature(transaction, signature), 'Failed adding signature because it is invalid')
-  this.setScript(Script.buildPublicKeyHashIn(signature.publicKey, signature.signature.toDER(), signature.sigtype))
+  $.checkState(this.isValidSignature(transaction, signature), 'Signature invalid')
+  const script = Script.buildPublicKeyHashIn(
+    signature.publicKey,
+    signature.signature.toDER(),
+    signature.sigtype
+  )
+  this.setScript(script)
   return this
 }
 

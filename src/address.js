@@ -62,7 +62,7 @@ class Address {
       return data
     }
 
-    $.checkArgument(data, 'First argument is required, please include address data.', 'guide/address.html')
+    $.checkArgument(data, 'Address data required in first argument.', 'guide/address.html')
 
     if (network && !Networks.get(network)) {
       throw new TypeError('Second argument must be "livenet" or "testnet".')
@@ -467,7 +467,7 @@ class Address {
    */
 
   static fromObject(obj) {
-    $.checkState(JSUtil.isHexa(obj.hash), `Unexpected hash property, "${obj.hash}", expected to be hex.`)
+    $.checkState(JSUtil.isHexa(obj.hash), `Unexpected hash, "${obj.hash}", expected to be hex.`)
     const hashBuffer = Buffer.from(obj.hash, 'hex')
     return new Address(hashBuffer, obj.network, obj.type)
   }

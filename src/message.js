@@ -33,7 +33,7 @@ class Message {
   }
 
   _sign(privateKey) {
-    $.checkArgument(privateKey instanceof PrivateKey, 'First argument should be an instance of PrivateKey')
+    $.checkArgument(privateKey instanceof PrivateKey, 'First argument should be a PrivateKey')
     const hash = this.magicHash()
     const ecdsa = new ECDSA()
     ecdsa.hashbuf = hash
@@ -56,8 +56,8 @@ class Message {
   }
 
   _verify(publicKey, signature) {
-    $.checkArgument(publicKey instanceof PublicKey, 'First argument should be an instance of PublicKey')
-    $.checkArgument(signature instanceof Signature, 'Second argument should be an instance of Signature')
+    $.checkArgument(publicKey instanceof PublicKey, 'First argument should be a PublicKey')
+    $.checkArgument(signature instanceof Signature, 'Second argument should be a Signature')
     const hash = this.magicHash()
     const verified = ECDSA.verify(hash, signature, publicKey)
     if (!verified) {

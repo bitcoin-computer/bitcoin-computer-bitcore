@@ -34,7 +34,14 @@ PublicKeyInput.prototype.getSignatures = function(transaction, privateKey, index
         prevTxId: this.prevTxId,
         outputIndex: this.outputIndex,
         inputIndex: index,
-        signature: Sighash.sign(transaction, privateKey, sigtype, index, this.output.script, this.output.satoshisBN),
+        signature: Sighash.sign(
+          transaction,
+          privateKey,
+          sigtype,
+          index,
+          this.output.script,
+          this.output.satoshisBN
+        ),
         sigtype
       })
     ]
@@ -52,7 +59,7 @@ PublicKeyInput.prototype.getSignatures = function(transaction, privateKey, index
  * @return {PublicKeyInput} this, for chaining
  */
 PublicKeyInput.prototype.addSignature = function(transaction, signature) {
-  $.checkState(this.isValidSignature(transaction, signature), 'Failed adding signature because it is invalid')
+  $.checkState(this.isValidSignature(transaction, signature), 'Signature invalid')
   this.setScript(Script.buildPublicKeyIn(signature.signature.toDER(), signature.sigtype))
   return this
 }

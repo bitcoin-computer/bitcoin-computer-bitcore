@@ -27,7 +27,9 @@ function MultiSigInput(input, pubkeys, threshold, signatures) {
     this.publicKeyIndex[publicKey.toString()] = index
   })
   // Empty array of signatures
-  this.signatures = signatures ? this._deserializeSignatures(signatures) : new Array(this.publicKeys.length)
+  this.signatures = signatures
+    ? this._deserializeSignatures(signatures)
+    : new Array(this.publicKeys.length)
 }
 inherits(MultiSigInput, Input)
 
@@ -61,7 +63,14 @@ MultiSigInput.prototype.getSignatures = function(transaction, privateKey, index,
         prevTxId: this.prevTxId,
         outputIndex: this.outputIndex,
         inputIndex: index,
-        signature: Sighash.sign(transaction, privateKey, sigtype, index, this.output.script, this.output.satoshisBN),
+        signature: Sighash.sign(
+          transaction,
+          privateKey,
+          sigtype,
+          index,
+          this.output.script,
+          this.output.satoshisBN
+        ),
         sigtype
       })
   )
@@ -87,7 +96,10 @@ MultiSigInput.prototype._updateScript = function() {
 MultiSigInput.prototype._createSignatures = function() {
   const definedSignatures = this.signatures.filter(signature => signature !== undefined)
   return definedSignatures.map(signature =>
-    BufferUtil.concat([signature.signature.toDER(), BufferUtil.integerAsSingleByteBuffer(signature.sigtype)])
+    BufferUtil.concat([
+      signature.signature.toDER(),
+      BufferUtil.integerAsSingleByteBuffer(signature.sigtype)
+    ])
   )
 }
 
@@ -109,7 +121,9 @@ MultiSigInput.prototype.countSignatures = function() {
 }
 
 MultiSigInput.prototype.publicKeysWithoutSignature = function() {
-  return this.publicKeys.filter(publicKey => !this.signatures[this.publicKeyIndex[publicKey.toString()]])
+  return this.publicKeys.filter(
+    publicKey => !this.signatures[this.publicKeyIndex[publicKey.toString()]]
+  )
 }
 
 MultiSigInput.prototype.isValidSignature = function(transaction, signature) {
@@ -134,7 +148,13 @@ MultiSigInput.prototype.isValidSignature = function(transaction, signature) {
  * @returns {TransactionSignature[]}
  */
 // eslint-disable-next-line max-len
-MultiSigInput.normalizeSignatures = function(transaction, input, inputIndex, signatures, publicKeys) {
+MultiSigInput.normalizeSignatures = function(
+  transaction,
+  input,
+  inputIndex,
+  signatures,
+  publicKeys
+) {
   return publicKeys.map(pubKey => {
     let signatureMatch = null
     signatures = signatures.filter(signatureBuffer => {

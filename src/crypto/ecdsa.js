@@ -112,7 +112,7 @@ ECDSA.prototype.deterministicK = function(badrs) {
 ECDSA.prototype.toPublicKey = function() {
   /* jshint maxstatements: 25 */
   const { i } = this.sig
-  $.checkArgument(i === 0 || i === 1 || i === 2 || i === 3, new Error('i must be equal to 0, 1, 2, or 3'))
+  $.checkArgument(i === 0 || i === 1 || i === 2 || i === 3, 'i must be equal to 0, 1, 2, or 3')
 
   const e = BN.fromBuffer(this.hashbuf)
   const { r } = this.sig
@@ -200,7 +200,8 @@ ECDSA.prototype.sigError = function() {
 ECDSA.toLowS = function(s) {
   // enforce low s
   // see BIP 62, "low S values in signatures"
-  if (s.gt(BN.fromBuffer(Buffer.from('7FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF5D576E7357A4501DDFE92F46681B20A0', 'hex')))) {
+  const maxS = '7FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF5D576E7357A4501DDFE92F46681B20A0'
+  if (s.gt(BN.fromBuffer(Buffer.from(maxS, 'hex')))) {
     s = Point.getN().sub(s)
   }
   return s
@@ -240,8 +241,9 @@ ECDSA.prototype.sign = function() {
   const { privkey } = this
   const d = privkey.bn
 
-  $.checkState(hashbuf && privkey && d, new Error('invalid parameters'))
-  $.checkState(BufferUtil.isBuffer(hashbuf) && hashbuf.length === 32, new Error('hashbuf must be a 32 byte buffer'))
+  $.checkState(hashbuf && privkey && d, 'invalid parameters')
+  $.checkState(BufferUtil.isBuffer(hashbuf), 'hashbuf must be a buffer')
+  $.checkState(hashbuf.length === 32, 'hashbuf must be 32 bytes')
 
   const e = BN.fromBuffer(
     hashbuf,

@@ -191,7 +191,8 @@ Input.prototype.isValidSignature = function(transaction, signature) {
  */
 Input.prototype.isNull = function() {
   return (
-    this.prevTxId.toString('hex') === '0000000000000000000000000000000000000000000000000000000000000000' &&
+    this.prevTxId.toString('hex') ===
+      '0000000000000000000000000000000000000000000000000000000000000000' &&
     this.outputIndex === 0xffffffff
   )
 }

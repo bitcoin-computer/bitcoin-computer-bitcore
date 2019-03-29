@@ -251,7 +251,11 @@ Script.prototype._chunkToString = function(chunk, type) {
     }
   } else {
     // data chunk
-    if (opcodenum === Opcode.OP_PUSHDATA1 || opcodenum === Opcode.OP_PUSHDATA2 || opcodenum === Opcode.OP_PUSHDATA4) {
+    if (
+      opcodenum === Opcode.OP_PUSHDATA1 ||
+      opcodenum === Opcode.OP_PUSHDATA2 ||
+      opcodenum === Opcode.OP_PUSHDATA4
+    ) {
       str = `${str} ${Opcode(opcodenum).toString()}`
     }
     if (chunk.len > 0) {
@@ -305,7 +309,13 @@ Script.prototype.isPublicKeyHashIn = function() {
   if (this.chunks.length === 2) {
     const signatureBuf = this.chunks[0].buf
     const pubkeyBuf = this.chunks[1].buf
-    if (signatureBuf && signatureBuf.length && signatureBuf[0] === 0x30 && pubkeyBuf && pubkeyBuf.length) {
+    if (
+      signatureBuf &&
+      signatureBuf.length &&
+      signatureBuf[0] === 0x30 &&
+      pubkeyBuf &&
+      pubkeyBuf.length
+    ) {
       const version = pubkeyBuf[0]
       if ((version === 0x04 || version === 0x06 || version === 0x07) && pubkeyBuf.length === 65) {
         return true
@@ -324,7 +334,10 @@ Script.prototype.getPublicKey = function() {
 }
 
 Script.prototype.getPublicKeyHash = function() {
-  $.checkState(this.isPublicKeyHashOut(), "Can't retrieve PublicKeyHash from a non-PublicKeyHash output")
+  $.checkState(
+    this.isPublicKeyHashOut(),
+    "Can't retrieve PublicKeyHash from a non-PublicKeyHash output"
+  )
   return this.chunks[2].buf
 }
 
@@ -371,7 +384,12 @@ Script.prototype.isPublicKeyIn = function() {
  */
 Script.prototype.isScriptHashOut = function() {
   const buf = this.toBuffer()
-  return buf.length === 23 && buf[0] === Opcode.OP_HASH160 && buf[1] === 0x14 && buf[buf.length - 1] === Opcode.OP_EQUAL
+  return (
+    buf.length === 23 &&
+    buf[0] === Opcode.OP_HASH160 &&
+    buf[1] === 0x14 &&
+    buf[buf.length - 1] === Opcode.OP_EQUAL
+  )
 }
 
 /**
@@ -408,7 +426,9 @@ Script.prototype.isMultisigOut = function() {
   return (
     this.chunks.length > 3 &&
     Opcode.isSmallIntOp(this.chunks[0].opcodenum) &&
-    this.chunks.slice(1, this.chunks.length - 2).every(obj => obj.buf && BufferUtil.isBuffer(obj.buf)) &&
+    this.chunks
+      .slice(1, this.chunks.length - 2)
+      .every(obj => obj.buf && BufferUtil.isBuffer(obj.buf)) &&
     Opcode.isSmallIntOp(this.chunks[this.chunks.length - 2].opcodenum) &&
     this.chunks[this.chunks.length - 1].opcodenum === Opcode.OP_CHECKMULTISIG
   )
@@ -573,7 +593,10 @@ Script.prototype.equals = function(script) {
     if (BufferUtil.isBuffer(this.chunks[i].buf) && !BufferUtil.isBuffer(script.chunks[i].buf)) {
       return false
     }
-    if (BufferUtil.isBuffer(this.chunks[i].buf) && !BufferUtil.equals(this.chunks[i].buf, script.chunks[i].buf)) {
+    if (
+      BufferUtil.isBuffer(this.chunks[i].buf) &&
+      !BufferUtil.equals(this.chunks[i].buf, script.chunks[i].buf)
+    ) {
       return false
     }
     if (this.chunks[i].opcodenum !== script.chunks[i].opcodenum) {
@@ -818,7 +841,9 @@ Script.buildDataOut = function(data, encoding) {
  * @returns {Script} new pay to script hash script for given script
  */
 Script.buildScriptHashOut = function(script) {
-  $.checkArgument(script instanceof Script || (script instanceof Address && script.isPayToScriptHash()))
+  $.checkArgument(
+    script instanceof Script || (script instanceof Address && script.isPayToScriptHash())
+  )
   const s = new this()
     .add(Opcode.OP_HASH160)
     .add(script instanceof Address ? script.hashBuffer : Hash.sha256ripemd160(script.toBuffer()))
@@ -842,7 +867,12 @@ Script.buildPublicKeyIn = function(signature, sigtype) {
     signature = signature.toBuffer()
   }
   const script = new this()
-  script.add(BufferUtil.concat([signature, BufferUtil.integerAsSingleByteBuffer(sigtype || Signature.SIGHASH_ALL)]))
+  script.add(
+    BufferUtil.concat([
+      signature,
+      BufferUtil.integerAsSingleByteBuffer(sigtype || Signature.SIGHASH_ALL)
+    ])
+  )
   return script
 }
 
@@ -862,7 +892,12 @@ Script.buildPublicKeyHashIn = function(publicKey, signature, sigtype) {
     signature = signature.toBuffer()
   }
   const script = new this()
-    .add(BufferUtil.concat([signature, BufferUtil.integerAsSingleByteBuffer(sigtype || Signature.SIGHASH_ALL)]))
+    .add(
+      BufferUtil.concat([
+        signature,
+        BufferUtil.integerAsSingleByteBuffer(sigtype || Signature.SIGHASH_ALL)
+      ])
+    )
     .add(new PublicKey(publicKey).toBuffer())
   return script
 }

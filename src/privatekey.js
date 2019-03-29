@@ -305,7 +305,11 @@ PrivateKey.prototype.toString = function() {
 PrivateKey.prototype.toWIF = function() {
   let buf
   if (this.compressed) {
-    buf = Buffer.concat([Buffer.from([this.network.privatekey]), this.bn.toBuffer({ size: 32 }), Buffer.from([0x01])])
+    buf = Buffer.concat([
+      Buffer.from([this.network.privatekey]),
+      this.bn.toBuffer({ size: 32 }),
+      Buffer.from([0x01])
+    ])
   } else {
     buf = Buffer.concat([Buffer.from([this.network.privatekey]), this.bn.toBuffer({ size: 32 })])
   }

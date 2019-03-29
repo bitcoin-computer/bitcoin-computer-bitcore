@@ -147,7 +147,7 @@ BufferReader.prototype.readVarLengthBuffer = function() {
   const buf = this.read(len)
   $.checkState(
     buf.length === len,
-    `Invalid length while reading varlength buffer. Expected to read: ${len} and read ${buf.length}`
+    `Invalid length while reading varlength buffer. Expected: ${len}, Received: ${buf.length}`
   )
   return buf
 }

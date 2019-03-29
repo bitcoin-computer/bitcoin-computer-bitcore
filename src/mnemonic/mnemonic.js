@@ -185,7 +185,10 @@ Mnemonic.prototype.toSeed = function(passphrase) {
  */
 Mnemonic.fromSeed = function(seed, wordlist) {
   $.checkArgument(Buffer.isBuffer(seed), 'seed must be a Buffer.')
-  $.checkArgument(_.isArray(wordlist) || _.isString(wordlist), 'wordlist must be a string or an array.')
+  $.checkArgument(
+    _.isArray(wordlist) || _.isString(wordlist),
+    'wordlist must be a string or an array.'
+  )
   return new Mnemonic(seed, wordlist)
 }
 

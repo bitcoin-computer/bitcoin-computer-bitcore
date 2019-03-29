@@ -44,7 +44,9 @@ class UnspentOutput {
       !_.isUndefined(data.amount) || !_.isUndefined(data.satoshis),
       'Must provide an amount for the output'
     )
-    const amount = !_.isUndefined(data.amount) ? Unit.fromBTC(data.amount).toSatoshis() : data.satoshis
+    const amount = !_.isUndefined(data.amount)
+      ? Unit.fromBTC(data.amount).toSatoshis()
+      : data.satoshis
     $.checkArgument(_.isNumber(amount), 'Amount must be a number')
     JSUtil.defineImmutable(this, {
       address,
@@ -60,7 +62,10 @@ class UnspentOutput {
    * @returns string
    */
   inspect() {
-    return `<UnspentOutput: ${this.txId}:${this.outputIndex}, satoshis: ${this.satoshis}, address: ${this.address}>`
+    const unspent = `UnspentOutput: ${this.txId}:${this.outputIndex}`
+    const satoshis = `satoshis: ${this.satoshis}`
+    const address = `address: ${this.address}`
+    return `<${unspent}, ${satoshis}, ${address}>`
   }
 
   /**

@@ -241,7 +241,7 @@ HDPrivateKey.prototype._deriveWithNumber = function(index, hardened, nonComplian
   } else if (hardened) {
     // This will use a 32 byte zero padded serialization of the private key
     const privateKeyBuffer = this.privateKey.bn.toBuffer({ size: 32 })
-    assert(privateKeyBuffer.length === 32, 'length of private key buffer is expected to be 32 bytes')
+    assert(privateKeyBuffer.length === 32, 'private key buffer is expected to be 32 bytes')
     data = BufferUtil.concat([new buffer.Buffer([0]), privateKeyBuffer, indexBuffer])
   } else {
     data = BufferUtil.concat([this.publicKey.toBuffer(), indexBuffer])
@@ -282,7 +282,10 @@ HDPrivateKey.prototype._deriveFromString = function(path, nonCompliant) {
   }
 
   const indexes = HDPrivateKey._getDerivationIndexes(path)
-  const derived = indexes.reduce((prev, index) => prev._deriveWithNumber(index, null, nonCompliant), this)
+  const derived = indexes.reduce(
+    (prev, index) => prev._deriveWithNumber(index, null, nonCompliant),
+    this
+  )
 
   return derived
 }
@@ -372,12 +375,16 @@ HDPrivateKey.prototype._buildFromObject = function(arg) {
   }
 
   const buffers = {
-    version: arg.network ? BufferUtil.integerAsBuffer(Network.get(arg.network).xprivkey) : arg.version,
+    version: arg.network
+      ? BufferUtil.integerAsBuffer(Network.get(arg.network).xprivkey)
+      : arg.version,
     depth: _.isNumber(arg.depth) ? BufferUtil.integerAsSingleByteBuffer(arg.depth) : arg.depth,
     parentFingerPrint: _.isNumber(arg.parentFingerPrint)
       ? BufferUtil.integerAsBuffer(arg.parentFingerPrint)
       : arg.parentFingerPrint,
-    childIndex: _.isNumber(arg.childIndex) ? BufferUtil.integerAsBuffer(arg.childIndex) : arg.childIndex,
+    childIndex: _.isNumber(arg.childIndex)
+      ? BufferUtil.integerAsBuffer(arg.childIndex)
+      : arg.childIndex,
     chainCode: _.isString(arg.chainCode) ? BufferUtil.hexToBuffer(arg.chainCode) : arg.chainCode,
     privateKey:
       _.isString(arg.privateKey) && JSUtil.isHexa(arg.privateKey)
@@ -393,7 +400,10 @@ HDPrivateKey.prototype._buildFromSerialized = function(arg) {
   const buffers = {
     version: decoded.slice(HDPrivateKey.VersionStart, HDPrivateKey.VersionEnd),
     depth: decoded.slice(HDPrivateKey.DepthStart, HDPrivateKey.DepthEnd),
-    parentFingerPrint: decoded.slice(HDPrivateKey.ParentFingerPrintStart, HDPrivateKey.ParentFingerPrintEnd),
+    parentFingerPrint: decoded.slice(
+      HDPrivateKey.ParentFingerPrintStart,
+      HDPrivateKey.ParentFingerPrintEnd
+    ),
     childIndex: decoded.slice(HDPrivateKey.ChildIndexStart, HDPrivateKey.ChildIndexEnd),
     chainCode: decoded.slice(HDPrivateKey.ChainCodeStart, HDPrivateKey.ChainCodeEnd),
     privateKey: decoded.slice(HDPrivateKey.PrivateKeyStart, HDPrivateKey.PrivateKeyEnd),
@@ -531,7 +541,7 @@ HDPrivateKey._validateBufferArguments = function(arg) {
   const checkBuffer = function(name, size) {
     const buff = arg[name]
     assert(BufferUtil.isBuffer(buff), `${name} argument is not a buffer`)
-    assert(buff.length === size, `${name} has not the expected size: found ${buff.length}, expected ${size}`)
+    assert(buff.length === size, `${name} size unexpected: found ${buff.length}, expected ${size}`)
   }
   checkBuffer('version', HDPrivateKey.VersionSize)
   checkBuffer('depth', HDPrivateKey.DepthSize)
@@ -632,7 +642,8 @@ HDPrivateKey.VersionEnd = HDPrivateKey.VersionStart + HDPrivateKey.VersionSize
 HDPrivateKey.DepthStart = HDPrivateKey.VersionEnd
 HDPrivateKey.DepthEnd = HDPrivateKey.DepthStart + HDPrivateKey.DepthSize
 HDPrivateKey.ParentFingerPrintStart = HDPrivateKey.DepthEnd
-HDPrivateKey.ParentFingerPrintEnd = HDPrivateKey.ParentFingerPrintStart + HDPrivateKey.ParentFingerPrintSize
+HDPrivateKey.ParentFingerPrintEnd =
+  HDPrivateKey.ParentFingerPrintStart + HDPrivateKey.ParentFingerPrintSize
 HDPrivateKey.ChildIndexStart = HDPrivateKey.ParentFingerPrintEnd
 HDPrivateKey.ChildIndexEnd = HDPrivateKey.ChildIndexStart + HDPrivateKey.ChildIndexSize
 HDPrivateKey.ChainCodeStart = HDPrivateKey.ChildIndexEnd
