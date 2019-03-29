@@ -1,10 +1,11 @@
 'use strict';
 
+import bch from '..'
+
 var chai = require('chai');
 var expect = chai.expect;
 var should = chai.should();
 
-var bch = require('..');
 var Address = bch.Address;
 var Signature = bch.crypto.Signature;
 var Message = bch.Message;
@@ -45,7 +46,7 @@ describe('Message', function() {
     expect(function() {
       var message3 = new Message(text);
       return message3.sign('not a private key');
-    }).to.throw('First argument should be a PrivateKey');
+    }).to.throw()
   });
 
   it('can verify a message with signature', function() {
@@ -64,14 +65,14 @@ describe('Message', function() {
     expect(function() {
       var message6 = new Message(text);
       return message6._verify('not a public key', signature);
-    }).to.throw('First argument should be a PublicKey');
+    }).to.throw()
   });
 
   it('verify will error with incorrect signature argument', function() {
     expect(function() {
       var message7 = new Message(text);
       return message7._verify(publicKey, 'not a signature');
-    }).to.throw('Second argument should be a Signature');
+    }).to.throw()
   });
 
   it('verify will correctly identify a bad signature', function() {

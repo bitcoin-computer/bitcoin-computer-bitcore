@@ -1,13 +1,13 @@
-const _ = require('lodash')
-const $ = require('./util/preconditions')
-const Address = require('./address')
-const PublicKey = require('./publickey')
-const PrivateKey = require('./privatekey')
-const BufferWriter = require('./encoding/bufferwriter')
-const ECDSA = require('./crypto/ecdsa')
-const Signature = require('./crypto/signature')
-const { sha256sha256 } = require('./crypto/hash')
-const JSUtil = require('./util/js')
+import _ from 'lodash'
+import $ from './util/preconditions'
+import Address from './address'
+import BufferWriter from './encoding/bufferwriter'
+import ECDSA from './crypto/ecdsa'
+import Hash from './crypto/hash'
+import JSUtil from './util/js'
+import PrivateKey from './privatekey'
+import PublicKey from './publickey'
+import Signature from './crypto/signature'
 
 /**
  * constructs a new message to sign and verify.
@@ -28,7 +28,7 @@ class Message {
     const messageBuffer = Buffer.from(this.message)
     const prefix2 = BufferWriter.varintBufNum(messageBuffer.length)
     const buf = Buffer.concat([prefix1, Message.MAGIC_BYTES, prefix2, messageBuffer])
-    const hash = sha256sha256(buf)
+    const hash = Hash.sha256sha256(buf)
     return hash
   }
 
@@ -160,4 +160,4 @@ class Message {
 
 Message.MAGIC_BYTES = Buffer.from('Bitcoin Signed Message:\n')
 
-module.exports = Message
+export default Message

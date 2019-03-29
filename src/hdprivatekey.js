@@ -1,22 +1,22 @@
-const assert = require('assert')
-const buffer = require('buffer')
-const _ = require('lodash')
-const $ = require('./util/preconditions')
-
-const BN = require('./crypto/bn')
-const Base58 = require('./encoding/base58')
-const Base58Check = require('./encoding/base58check')
-const Hash = require('./crypto/hash')
-const Network = require('./networks')
-const Point = require('./crypto/point')
-const PrivateKey = require('./privatekey')
-const Random = require('./crypto/random')
-
-const errors = require('./errors')
+import _ from 'lodash'
+import assert from 'assert'
+import { Buffer as ImportedBuffer } from 'buffer'
+import $ from './util/preconditions'
+import Base58 from './encoding/base58'
+import Base58Check from './encoding/base58check'
+import BN from './crypto/bn'
+import BufferUtil from './util/buffer'
+import errors from './errors'
+import Hash from './crypto/hash'
+import HDPublicKey from './hdpublickey'
+import JSUtil from './util/js'
+import Network from './networks'
+import Point from './crypto/point'
+import PrivateKey from './privatekey'
+import Random from './crypto/random'
 
 const hdErrors = errors.HDPrivateKey
-const BufferUtil = require('./util/buffer')
-const JSUtil = require('./util/js')
+const buffer = { Buffer: ImportedBuffer }
 
 const MINIMUM_ENTROPY_BITS = 128
 const BITS_TO_BYTES = 1 / 8
@@ -452,9 +452,6 @@ HDPrivateKey.fromSeed = function(hexa, network) {
 
 HDPrivateKey.prototype._calcHDPublicKey = function() {
   if (!this._hdPublicKey) {
-    // TODO Try to resolve the circular dependency.
-    // eslint-disable-next-line global-require
-    const HDPublicKey = require('./hdpublickey')
     this._hdPublicKey = new HDPublicKey(this)
   }
 }
@@ -655,4 +652,4 @@ HDPrivateKey.ChecksumEnd = HDPrivateKey.ChecksumStart + HDPrivateKey.CheckSumSiz
 
 assert(HDPrivateKey.ChecksumEnd === HDPrivateKey.SerializedByteSize)
 
-module.exports = HDPrivateKey
+export default HDPrivateKey

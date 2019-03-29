@@ -1,8 +1,9 @@
 'use strict';
 
+import bch from '..'
+
 var expect = require('chai').expect;
 var should = require('chai').should();
-var bch = require('..');
 var networks = bch.Networks;
 
 describe('Networks', function() {

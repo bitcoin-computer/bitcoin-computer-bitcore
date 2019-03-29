@@ -1,4 +1,4 @@
-const spanish = [
+export default [
   'ábaco',
   'abdomen',
   'abeja',
@@ -2048,5 +2048,3 @@ const spanish = [
   'zumo',
   'zurdo'
 ]
-
-module.exports = spanish

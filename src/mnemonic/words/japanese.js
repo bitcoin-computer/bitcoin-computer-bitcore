@@ -1,4 +1,4 @@
-const japanese = [
+export default [
   'あいこくしん',
   'あいさつ',
   'あいだ',
@@ -2048,5 +2048,3 @@ const japanese = [
   'わらう',
   'われる'
 ]
-
-module.exports = japanese

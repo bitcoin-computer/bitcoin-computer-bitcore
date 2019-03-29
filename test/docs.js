@@ -1,9 +1,10 @@
 'use strict';
 
+import bch from '..'
+
 var chai = require('chai');
 var should = chai.should();
 
-var bch = require('..');
 var fs = require('fs');
 
 describe('Documentation', function() {

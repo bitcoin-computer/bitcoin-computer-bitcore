@@ -1,12 +1,14 @@
-const _ = require('lodash')
-const buffer = require('buffer')
-const BN = require('../crypto/bn')
-const bufferUtil = require('../util/buffer')
-const JSUtil = require('../util/js')
-const BufferWriter = require('../encoding/bufferwriter')
-const Script = require('../script')
-const $ = require('../util/preconditions')
-const errors = require('../errors')
+import { Buffer as ImportedBuffer } from 'buffer'
+import _ from 'lodash'
+import $ from '../util/preconditions'
+import BN from '../crypto/bn'
+import BufferUtil from '../util/buffer'
+import BufferWriter from '../encoding/bufferwriter'
+import errors from '../errors'
+import JSUtil from '../util/js'
+import Script from '../script/script'
+
+const buffer = { Buffer: ImportedBuffer }
 
 const MAX_SAFE_INTEGER = 0x1fffffffffffff
 
@@ -14,7 +16,7 @@ class Output {
   constructor(args) {
     if (_.isObject(args)) {
       this.satoshis = args.satoshis
-      if (bufferUtil.isBuffer(args.script)) {
+      if (BufferUtil.isBuffer(args.script)) {
         this._scriptBuffer = args.script
       } else {
         let script
@@ -131,7 +133,7 @@ class Output {
       this._script = Script.fromString(script)
       this._scriptBuffer = this._script.toBuffer()
       this._script._isOutput = true
-    } else if (bufferUtil.isBuffer(script)) {
+    } else if (BufferUtil.isBuffer(script)) {
       this.setScriptFromBuffer(script)
     } else {
       throw new TypeError('Invalid argument type: script')
@@ -161,4 +163,4 @@ class Output {
   }
 }
 
-module.exports = Output
+export default Output

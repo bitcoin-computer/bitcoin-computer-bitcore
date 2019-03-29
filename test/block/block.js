@@ -1,6 +1,7 @@
 'use strict';
 
-var bch = require('../..');
+import bch from '../..'
+
 var BN = bch.crypto.BN;
 var BufferReader = bch.encoding.BufferReader;
 var BufferWriter = bch.encoding.BufferWriter;

@@ -1,12 +1,13 @@
-const _ = require('lodash')
-const cashaddr = require('cashaddrjs')
-const $ = require('./util/preconditions')
-const errors = require('./errors')
-const Base58Check = require('./encoding/base58check')
-const Networks = require('./networks')
-const Hash = require('./crypto/hash')
-const JSUtil = require('./util/js')
-const PublicKey = require('./publickey')
+import _ from 'lodash'
+import cashaddr from 'cashaddrjs'
+import $ from './util/preconditions'
+import Base58Check from './encoding/base58check'
+import errors from './errors'
+import Hash from './crypto/hash'
+import JSUtil from './util/js'
+import Networks from './networks'
+import PublicKey from './publickey'
+import Script from './script/script'
 
 const BITPAY_P2PKH_VERSION_BYTE = 28
 const BITPAY_P2SH_VERSION_BYTE = 40
@@ -632,7 +633,4 @@ Address.DefaultFormat = Address.LegacyFormat
 Address.PayToPublicKeyHash = 'pubkeyhash'
 Address.PayToScriptHash = 'scripthash'
 
-module.exports = Address
-
-// Todo: move this to the top of the file. Currently breaks a lot of test cases if we do
-const Script = require('./script')
+export default Address

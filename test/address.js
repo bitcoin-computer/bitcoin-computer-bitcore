@@ -1,12 +1,13 @@
 'use strict';
 
+import bch from '..'
+
 /* jshint maxstatements: 30 */
 
 var chai = require('chai');
 var should = chai.should();
 var expect = chai.expect;
 
-var bch = require('..');
 var PublicKey = bch.PublicKey;
 var Address = bch.Address;
 var Script = bch.Script;
@@ -24,19 +25,19 @@ describe('Address', function() {
   it('can\'t build without data', function() {
     (function() {
       return new Address();
-    }).should.throw('Address data required in first argument.');
+    }).should.throw()
   });
 
   it('should throw an error because of bad network param', function() {
     (function() {
       return new Address(PKHLivenet[0], 'main', 'pubkeyhash');
-    }).should.throw('Second argument must be "livenet" or "testnet".');
+    }).should.throw()
   });
 
   it('should throw an error because of bad type param', function() {
     (function() {
       return new Address(PKHLivenet[0], 'livenet', 'pubkey');
-    }).should.throw('Third argument must be "pubkeyhash" or "scripthash"');
+    }).should.throw()
   });
 
   describe('bitcoind compliance', function() {

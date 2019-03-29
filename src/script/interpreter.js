@@ -1,11 +1,11 @@
-const _ = require('lodash')
-const Script = require('./script')
-const Opcode = require('../opcode')
-const BN = require('../crypto/bn')
-const Hash = require('../crypto/hash')
-const Signature = require('../crypto/signature')
-const PublicKey = require('../publickey')
-const Transaction = require('../transaction')
+import _ from 'lodash'
+import BN from '../crypto/bn'
+import Hash from '../crypto/hash'
+import Opcode from '../opcode'
+import PublicKey from '../publickey'
+import Script from './script'
+import Signature from '../crypto/signature'
+import Transaction from '../transaction/transaction'
 
 /**
  * Bitcoin transactions contain scripts. Each input has a script called the
@@ -147,8 +147,6 @@ Interpreter.prototype.verify = function(scriptSig, scriptPubkey, tx, nin, flags)
 
   return true
 }
-
-module.exports = Interpreter
 
 Interpreter.prototype.initialize = function() {
   this.stack = []
@@ -1247,3 +1245,5 @@ Interpreter.prototype.step = function() {
 
   return true
 }
+
+export default Interpreter

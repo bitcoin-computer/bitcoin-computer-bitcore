@@ -1,11 +1,11 @@
-const CHINESE = require('./chinese')
-const ENGLISH = require('./english')
-const FRENCH = require('./french')
-const ITALIAN = require('./italian')
-const JAPANESE = require('./japanese')
-const SPANISH = require('./spanish')
+import CHINESE from './chinese'
+import ENGLISH from './english'
+import FRENCH from './french'
+import ITALIAN from './italian'
+import JAPANESE from './japanese'
+import SPANISH from './spanish'
 
-module.exports = {
+export default {
   CHINESE,
   ENGLISH,
   FRENCH,

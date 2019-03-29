@@ -1,7 +1,9 @@
-const _ = require('lodash')
-const buffer = require('buffer')
-const Base58 = require('./base58')
-const { sha256sha256 } = require('../crypto/hash')
+import _ from 'lodash'
+import { Buffer as ImportedBuffer } from 'buffer'
+import Base58 from './base58'
+import Hash from '../crypto/hash'
+
+const buffer = { Buffer: ImportedBuffer }
 
 const Base58Check = function Base58Check(obj) {
   if (!(this instanceof Base58Check)) return new Base58Check(obj)
@@ -45,7 +47,7 @@ Base58Check.decode = function(s) {
   const data = buf.slice(0, -4)
   const csum = buf.slice(-4)
 
-  const hash = sha256sha256(data)
+  const hash = Hash.sha256sha256(data)
   const hash4 = hash.slice(0, 4)
 
   if (csum.toString('hex') !== hash4.toString('hex')) throw new Error('Checksum mismatch')
@@ -54,7 +56,7 @@ Base58Check.decode = function(s) {
 }
 
 Base58Check.checksum = function(buff) {
-  return sha256sha256(buff).slice(0, 4)
+  return Hash.sha256sha256(buff).slice(0, 4)
 }
 
 Base58Check.encode = function(buf) {
@@ -85,4 +87,4 @@ Base58Check.prototype.toString = function() {
   return Base58Check.encode(this.buf)
 }
 
-module.exports = Base58Check
+export default Base58Check

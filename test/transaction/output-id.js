@@ -1,4 +1,5 @@
-var bch = require('../..');
+import bch from '../..'
+
 var expect = require('chai').expect;
 var OutputId = bch.Transaction.OutputId;
 

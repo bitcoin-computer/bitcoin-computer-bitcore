@@ -1,10 +1,11 @@
 'use strict';
 
+import bch from '../../..'
+
 var should = require('chai').should();
 var expect = require('chai').expect;
 var _ = require('lodash');
 
-var bch = require('../../..');
 var errors = bch.errors;
 var PrivateKey = bch.PrivateKey;
 var Address = bch.Address;
@@ -66,10 +67,6 @@ describe('Transaction.Input', function() {
   });
 
   describe('instantiation', function() {
-    it('works without new', function() {
-      var input = Input();
-      should.exist(input);
-    });
     it('fails with no script info', function() {
       expect(function() {
         var input = new Input({});

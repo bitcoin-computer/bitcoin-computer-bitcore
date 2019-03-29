@@ -1,11 +1,13 @@
-const _ = require('lodash')
-const unorm = require('unorm')
-const $ = require('../util/preconditions')
-const BN = require('../crypto/bn')
-const errors = require('../errors')
-const Hash = require('../crypto/hash')
-const HDPrivateKey = require('../hdprivatekey')
-const Random = require('../crypto/random')
+import _ from 'lodash'
+import unorm from 'unorm'
+import $ from '../util/preconditions'
+import BN from '../crypto/bn'
+import errors from '../errors'
+import Hash from '../crypto/hash'
+import HDPrivateKey from '../hdprivatekey'
+import pbkdf2 from './pbkdf2'
+import Random from '../crypto/random'
+import Words from './words'
 
 /**
  * This is an immutable class that represents a BIP39 Mnemonic code.
@@ -86,7 +88,7 @@ const Mnemonic = function(data, wordlist) {
   })
 }
 
-Mnemonic.Words = require('./words')
+Mnemonic.Words = Words
 
 /**
  * Will return a boolean if the mnemonic is valid
@@ -292,6 +294,6 @@ Mnemonic._entropyChecksum = function(entropy) {
   return checksum
 }
 
-Mnemonic.pbkdf2 = require('./pbkdf2')
+Mnemonic.pbkdf2 = pbkdf2
 
-module.exports = Mnemonic
+export default Mnemonic

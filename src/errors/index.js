@@ -1,5 +1,5 @@
-const _ = require('lodash')
-const data = require('./spec')
+import _ from 'lodash'
+import data from './spec'
 
 function format(message, args) {
   return message
@@ -49,8 +49,8 @@ bitcore.Error.prototype.name = 'bitcore.Error'
 
 traverseRoot(bitcore.Error, data)
 
-module.exports = bitcore.Error
-
-module.exports.extend = function(spec) {
+bitcore.Error.extend = function(spec) {
   return traverseNode(bitcore.Error, spec)
 }
+
+export default bitcore.Error

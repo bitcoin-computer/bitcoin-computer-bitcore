@@ -1,8 +1,9 @@
 'use strict';
 
+import bch from '../..'
+
 var should = require('chai').should();
 
-var bch = require('../..');
 var MerkleBlock = bch.MerkleBlock;
 var BufferReader = bch.encoding.BufferReader;
 var BufferWriter = bch.encoding.BufferWriter;

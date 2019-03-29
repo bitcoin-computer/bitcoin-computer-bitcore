@@ -1,10 +1,11 @@
 'use strict';
 /* jshint unused: false */
 
+import bch from '../..'
+
 var should = require('chai').should();
 var expect = require('chai').expect;
 
-var bch = require('../..');
 var JSUtil = bch.util.js;
 
 describe('js utils', function() {

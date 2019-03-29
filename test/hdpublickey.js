@@ -1,11 +1,13 @@
 'use strict';
 
 /* jshint unused: false */
+
+import bch from '..'
+
 var _ = require('lodash');
 var assert = require('assert');
 var should = require('chai').should();
 var expect = require('chai').expect;
-var bch = require('..');
 var buffer = require('buffer');
 var errors = bch.errors;
 var hdErrors = bch.errors.HDPublicKey;

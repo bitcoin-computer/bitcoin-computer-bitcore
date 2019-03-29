@@ -1,12 +1,10 @@
-const _ = require('lodash')
-const inherits = require('inherits')
-const $ = require('../util/preconditions')
-const BufferUtil = require('../util/buffer')
-const JSUtil = require('../util/js')
-
-const PublicKey = require('../publickey')
-const errors = require('../errors')
-const Signature = require('../crypto/signature')
+import _ from 'lodash'
+import $ from '../util/preconditions'
+import BufferUtil from '../util/buffer'
+import errors from '../errors'
+import JSUtil from '../util/js'
+import PublicKey from '../publickey'
+import Signature from '../crypto/signature'
 
 /**
  * @desc
@@ -97,6 +95,5 @@ class TransactionSignature extends Signature {
     return new TransactionSignature(object)
   }
 }
-inherits(TransactionSignature, Signature)
 
-module.exports = TransactionSignature
+export default TransactionSignature

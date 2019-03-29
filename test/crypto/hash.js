@@ -1,7 +1,8 @@
 'use strict';
 
+import bch from '../..'
+
 require('chai').should();
-var bch = require('../..');
 var Hash = bch.crypto.Hash;
 
 describe('Hash', function() {

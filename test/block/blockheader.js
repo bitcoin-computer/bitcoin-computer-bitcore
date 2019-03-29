@@ -1,6 +1,7 @@
 'use strict';
 
-var bch = require('../..');
+import bch from '../..'
+
 var BN = bch.crypto.BN;
 var BufferReader = bch.encoding.BufferReader;
 var BufferWriter = bch.encoding.BufferWriter;
@@ -75,7 +76,7 @@ describe('BlockHeader', function() {
           bits: bits,
           nonce: nonce,
         });
-      }.should.throw('Argument object hash does not match block hash.'));
+      }.should.throw())
     });
   });
 

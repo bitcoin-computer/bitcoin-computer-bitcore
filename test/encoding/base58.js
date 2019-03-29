@@ -1,7 +1,8 @@
 'use strict';
 
+import bch from '../..'
+
 var should = require('chai').should();
-var bch = require('../..');
 var buffer = require('buffer');
 var Base58 = bch.encoding.Base58;
 

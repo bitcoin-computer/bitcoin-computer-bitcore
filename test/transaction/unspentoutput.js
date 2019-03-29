@@ -1,11 +1,12 @@
 'use strict';
 
+import bch from '../..'
+
 var _ = require('lodash');
 var chai = require('chai');
 var should = chai.should();
 var expect = chai.expect;
 
-var bch = require('../..');
 var UnspentOutput = bch.Transaction.UnspentOutput;
 
 describe('UnspentOutput', function () {

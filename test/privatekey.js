@@ -1,10 +1,11 @@
 'use strict';
 
+import bch from '..'
+
 var chai = require('chai');
 var should = chai.should();
 var expect = chai.expect;
 
-var bch = require('..');
 var BN = bch.crypto.BN;
 var Point = bch.crypto.Point;
 var PrivateKey = bch.PrivateKey;

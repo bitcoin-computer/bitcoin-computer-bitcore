@@ -1,1 +1,3 @@
-module.exports = require('./mnemonic')
+import Mnemonic from './mnemonic'
+
+export default Mnemonic

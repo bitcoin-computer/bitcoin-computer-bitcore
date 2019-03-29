@@ -1,17 +1,19 @@
-const _ = require('lodash')
-const buffer = require('buffer')
-const Address = require('../address')
-const BufferReader = require('../encoding/bufferreader')
-const BufferWriter = require('../encoding/bufferwriter')
-const Hash = require('../crypto/hash')
-const Opcode = require('../opcode')
-const PublicKey = require('../publickey')
-const Signature = require('../crypto/signature')
-const Networks = require('../networks')
-const $ = require('../util/preconditions')
-const errors = require('../errors')
-const BufferUtil = require('../util/buffer')
-const JSUtil = require('../util/js')
+import { Buffer as ImportedBuffer } from 'buffer'
+import _ from 'lodash'
+import $ from '../util/preconditions'
+import Address from '../address'
+import BufferReader from '../encoding/bufferreader'
+import BufferUtil from '../util/buffer'
+import BufferWriter from '../encoding/bufferwriter'
+import errors from '../errors'
+import Hash from '../crypto/hash'
+import JSUtil from '../util/js'
+import Networks from '../networks'
+import Opcode from '../opcode'
+import PublicKey from '../publickey'
+import Signature from '../crypto/signature'
+
+const buffer = { Buffer: ImportedBuffer }
 
 /**
  * A bitcoin transaction script. Each transaction's inputs and outputs
@@ -1104,4 +1106,4 @@ Script.prototype.getSignatureOperationsCount = function(accurate) {
   return n
 }
 
-module.exports = Script
+export default Script
