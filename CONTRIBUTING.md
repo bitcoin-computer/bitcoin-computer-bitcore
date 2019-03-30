@@ -97,9 +97,9 @@ Don't write long tests, write helper functions to make them be as short and conc
 
 Inputs for tests should not be generated randomly. Also, the type and structure of outputs should be checked.
 
-#### Require 'bitcoinsource' and Look up Classes from There
+#### Require 'bitcoin-source' and Look up Classes from There
 
-This helps to make tests more useful as examples, and more independent of where they are placed. This also helps prevent forgetting to include all sub-modules in the bitcoinsource object.
+This helps to make tests more useful as examples, and more independent of where they are placed. This also helps prevent forgetting to include all sub-modules in the bitcoin-source object.
 
 DO:
 ```javascript

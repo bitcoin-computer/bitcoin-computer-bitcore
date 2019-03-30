@@ -1,5 +1,5 @@
 {
-  "name": "bitcoinsource",
+  "name": "bitcoin-source",
   "version": "0.1.12",
   "description": "A simple, safe, and powerful JavaScript Bitcoin Cash library.",
   "author": "Clemens Ley <ley.clemens@gmail.com>",
