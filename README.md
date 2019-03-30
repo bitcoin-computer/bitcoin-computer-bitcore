@@ -24,12 +24,6 @@ Bitcoin Cash is peer-to-peer electronic cash for the Internet. It is fully decen
 $ npm install --save bitcoinsource
 ```
 
-### Using Bower
-
-```s
-$ bower install --save bitcoinsource
-```
-
 ### Manually
 
 You can also download a pre-compiled and minified version here: [dist](https://github.com/the-bitcoin-token/BitcoinSource/tree/master/dist/bitcoinsource-1.0.0-dev.js)
