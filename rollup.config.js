@@ -71,9 +71,9 @@ const main = {
   // The cjs build is designed for node so these modules should be present.
   external: [
     'assert',
+    'crypto',
     'url',
     'buffer',
-    'crypto',
     'util'
   ],
   plugins: [
@@ -187,9 +187,9 @@ const module = {
   // The cjs build is designed for node so these modules should be present.
   external: [
     'assert',
+    'crypto',
     'url',
     'buffer',
-    'crypto',
     'util'
   ],
   plugins: [

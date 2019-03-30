@@ -1,4 +1,4 @@
-import crypto from 'crypto'
+import hash from 'hash.js'
 import $ from '../util/preconditions'
 import BufferUtil from '../util/buffer'
 
@@ -6,20 +6,22 @@ const Hash = {}
 
 Hash.sha1 = function(buf) {
   $.checkArgument(BufferUtil.isBuffer(buf))
-  return crypto
-    .createHash('sha1')
+  const digest = hash
+    .sha1()
     .update(buf)
-    .digest()
+    .digest('hex')
+  return Buffer.from(digest, 'hex')
 }
 
 Hash.sha1.blocksize = 512
 
 Hash.sha256 = function(buf) {
   $.checkArgument(BufferUtil.isBuffer(buf))
-  return crypto
-    .createHash('sha256')
+  const digest = hash
+    .sha256()
     .update(buf)
-    .digest()
+    .digest('hex')
+  return Buffer.from(digest, 'hex')
 }
 
 Hash.sha256.blocksize = 512
@@ -31,10 +33,11 @@ Hash.sha256sha256 = function(buf) {
 
 Hash.ripemd160 = function(buf) {
   $.checkArgument(BufferUtil.isBuffer(buf))
-  return crypto
-    .createHash('ripemd160')
+  const digest = hash
+    .ripemd160()
     .update(buf)
-    .digest()
+    .digest('hex')
+  return Buffer.from(digest, 'hex')
 }
 
 Hash.sha256ripemd160 = function(buf) {
@@ -44,10 +47,11 @@ Hash.sha256ripemd160 = function(buf) {
 
 Hash.sha512 = function(buf) {
   $.checkArgument(BufferUtil.isBuffer(buf))
-  return crypto
-    .createHash('sha512')
+  const digest = hash
+    .sha512()
     .update(buf)
-    .digest()
+    .digest('hex')
+  return Buffer.from(digest, 'hex')
 }
 
 Hash.sha512.blocksize = 1024
