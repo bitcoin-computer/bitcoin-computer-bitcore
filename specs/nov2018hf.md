@@ -15,7 +15,7 @@ These two new functions will be the new module exports. The user will be expecte
 
 Example:
 ```
-const bsv = require('bitcoinsource').bsv();
+const bsv = require('bitcoin-source').bsv();
 const privateKey = new bsv.PrivateKey();
 const address = privateKey.toAddress();
 ```

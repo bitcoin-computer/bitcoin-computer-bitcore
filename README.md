@@ -21,12 +21,12 @@ Bitcoin Cash is peer-to-peer electronic cash for the Internet. It is fully decen
 ### Using NPM
 
 ```s
-$ npm install --save bitcoinsource
+$ npm install --save bitcoin-source
 ```
 
 ### Manually
 
-You can also download a pre-compiled and minified version here: [dist](https://github.com/the-bitcoin-token/bitcoin-source/tree/master/dist/bitcoinsource-0.1.12.js)
+You can also download a pre-compiled and minified version here: [dist](https://github.com/the-bitcoin-token/bitcoin-source/tree/master/dist/bitcoin-source-0.1.12.js)
 
 ## Examples
 
@@ -73,7 +73,6 @@ $ npm test
 | File       | Airbnb Style Guide | ES6 | Flow
 | ---------- | :---: | :---: | :---: |
 | address.js | ![done](https://i.imgur.com/RXSkZTD.png "Done") | ![done](https://i.imgur.com/RXSkZTD.png "Done") | ![not done](https://i.imgur.com/MleS2Jt.png "Not done") |
-| bitcoinsource.js | ![done](https://i.imgur.com/RXSkZTD.png "Done") | ![done](https://i.imgur.com/RXSkZTD.png "Done") | ![not done](https://i.imgur.com/MleS2Jt.png "Not done") |
 | block/block.js | ![done](https://i.imgur.com/RXSkZTD.png "Done") | ![done](https://i.imgur.com/RXSkZTD.png "Done")| ![not done](https://i.imgur.com/MleS2Jt.png "Not done") |
 | block/blockheader.js | ![done](https://i.imgur.com/RXSkZTD.png "Done") | ![done](https://i.imgur.com/RXSkZTD.png "Done") | ![not done](https://i.imgur.com/MleS2Jt.png "Not done") |
 | block/index.js | ![done](https://i.imgur.com/RXSkZTD.png "Done") | ![done](https://i.imgur.com/RXSkZTD.png "Done") | ![not done](https://i.imgur.com/MleS2Jt.png "Not done") |
