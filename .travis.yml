@@ -1,7 +1,8 @@
 language: node_js
 
 node_js:
-  - '8'
+  # Use the latest version of node
+  - 'node'
 
 install:
   - npm install
@@ -10,3 +11,6 @@ script:
   - npm run lint
   - npm run flow
   - npm run test
+
+cache:
+  - npm

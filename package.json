@@ -11,8 +11,8 @@
   ],
   "scripts": {
     "build": "rollup -c",
-    "test": "mocha --require @babel/register",
-    "test:cover": "nyc mocha --require @babel/register",
+    "test": "mocha",
+    "test:cover": "nyc mocha",
     "lint": "eslint src test",
     "lint:fix": "eslint src test --fix",
     "flow": "flow check",
