@@ -1,4 +1,4 @@
-// flow-typed signature: eccb6e38eec8b2ece6f73ad12c1b4765
+// flow-typed signature: 7e1ad9e9d449151c89e15ca0b07d99d9
 // flow-typed version: <<STUB>>/eslint_v^5.15.3/flow_v0.95.1
 
 /**
@@ -147,6 +147,10 @@ declare module 'eslint/lib/formatters/html' {
 }
 
 declare module 'eslint/lib/formatters/jslint-xml' {
+  declare module.exports: any;
+}
+
+declare module 'eslint/lib/formatters/json-with-metadata' {
   declare module.exports: any;
 }
 
@@ -1546,6 +1550,9 @@ declare module 'eslint/lib/formatters/html.js' {
 }
 declare module 'eslint/lib/formatters/jslint-xml.js' {
   declare module.exports: $Exports<'eslint/lib/formatters/jslint-xml'>;
+}
+declare module 'eslint/lib/formatters/json-with-metadata.js' {
+  declare module.exports: $Exports<'eslint/lib/formatters/json-with-metadata'>;
 }
 declare module 'eslint/lib/formatters/json.js' {
   declare module.exports: $Exports<'eslint/lib/formatters/json'>;
