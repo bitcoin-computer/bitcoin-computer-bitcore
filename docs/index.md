@@ -6,7 +6,7 @@ Bitcoin Cash is the continuation of the Bitcoin project as peer-to-peer electron
 
 Bitcoin Cash uses a different `SigHash` for transaction signatures. The implementation in BitcoinCash.js has been tested agains the original Bitcoin Cash test vectors (see sighash.json in `/test`). Modifications in script evaluation have not yet been implemented.
 
-To get started, just `npm install --save bitcoincashjs` or `bower install bitcoincashjs`.
+To get started, just `npm install --save bitcoin-source`
 
 # Documentation Index
 
