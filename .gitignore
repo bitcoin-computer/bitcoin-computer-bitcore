@@ -1,20 +1,10 @@
-*.swp
-coverage
-node_modules
-docs/api
-
-CONTRIBUTING.html
-LICENSE.html
-README.html
-examples.html
-npm-debug.log
-
-apiref
-report
+# OS and editor files
 .DS_Store
+*.swp
 
+# Node modules files
+node_modules
+
+# Auto-generated directories
 dist
-.build/
 .nyc_output/
-
-dev\.js
