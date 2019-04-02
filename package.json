@@ -4,8 +4,8 @@
   "description": "A simple, safe, and powerful JavaScript Bitcoin Cash library.",
   "author": "Clemens Ley <ley.clemens@gmail.com>",
   "license": "MIT",
-  "main": "dist/bitcoin-source.cjs.min.js",
-  "module": "dist/bitcoin-source.es.min.js",
+  "main": "dist/bitcoin-source.common.js",
+  "module": "dist/bitcoin-source.esm.js",
   "files": [
     "dist"
   ],
