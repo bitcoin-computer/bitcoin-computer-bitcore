@@ -1,11 +1,11 @@
 // @flow
 
-import crypto from 'crypto'
+import randomBytes from 'randombytes'
 
 const Random = {}
 
 Random.getRandomBufferNode = function(size: number) {
-  return crypto.randomBytes(size)
+  return randomBytes(size)
 }
 
 Random.getRandomBufferBrowser = function(size: number) {
