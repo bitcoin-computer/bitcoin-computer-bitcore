@@ -71,7 +71,6 @@
     "eslint-plugin-import": "^2.16.0",
     "eslint-plugin-prettier": "^3.0.1",
     "flow-bin": "^0.95.1",
-    "flow-copy-source": "^2.0.3",
     "flow-typed": "^2.5.1",
     "jsdoc": "^3.5.5",
     "mocha": "^6.0.2",
@@ -87,7 +86,6 @@
     "rollup-plugin-node-globals": "^1.4.0",
     "rollup-plugin-node-resolve": "^4.0.1",
     "rollup-plugin-terser": "^4.0.4",
-    "sinon": "^1.13.0",
-    "uglify-js": "^3.4.9"
+    "sinon": "^1.13.0"
   }
 }
