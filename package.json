@@ -17,9 +17,9 @@
     "lint:fix": "eslint src test --fix",
     "flow": "flow check",
     "clean": "rm -rf dist",
-    "readme": "mustache package.json README.tpl.md > README.md",
+    "docs": "mustache package.json README.tpl.md > README.md",
     "preversion": "npm run clean && npm run lint && npm run flow && npm run test",
-    "version": "npm run build && npm run readme && git add README.md",
+    "version": "npm run build && npm run docs && git add README.md",
     "postversion": "git push && git push --tags && npm publish",
     "bump": "npm version patch -m 'Bump version to %s.'"
   },
