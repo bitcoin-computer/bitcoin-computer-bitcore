@@ -26,7 +26,7 @@ $ npm install --save bitcoin-source
 
 ### Manually
 
-You can also download a pre-compiled and minified version here: [dist](https://github.com/the-bitcoin-token/bitcoin-source/tree/master/dist/bitcoin-source-0.1.12.js)
+You can also download a pre-compiled and minified version here: [dist](https://github.com/the-bitcoin-token/bitcoin-source/tree/master/dist/bitcoin-source-0.1.13.js)
 
 ## Examples
 
