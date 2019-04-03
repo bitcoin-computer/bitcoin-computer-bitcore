@@ -1,6 +1,6 @@
 {
   "name": "bitcoinsource",
-  "version": "0.1.12",
+  "version": "0.1.13",
   "description": "A simple, safe, and powerful JavaScript Bitcoin Cash library.",
   "author": "Clemens Ley <ley.clemens@gmail.com>",
   "license": "MIT",
@@ -16,8 +16,9 @@
     "lint": "eslint src test",
     "lint:fix": "eslint src test --fix",
     "flow": "flow check",
+    "clean": "rm -rf dist",
     "readme": "mustache package.json README.tpl.md > README.md",
-    "preversion": "npm run lint && npm run flow && npm run test",
+    "preversion": "npm run clean && npm run lint && npm run flow && npm run test",
     "version": "npm run build && npm run readme && git add README.md",
     "postversion": "git push && git push --tags && npm publish",
     "bump": "npm version patch -m 'Bump version to %s.'"
