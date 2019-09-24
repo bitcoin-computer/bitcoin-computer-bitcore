@@ -7,4 +7,5 @@ node_modules
 
 # Auto-generated directories
 dist
+coverage/
 .nyc_output/
