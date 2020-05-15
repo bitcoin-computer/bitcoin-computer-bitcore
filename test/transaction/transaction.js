@@ -336,6 +336,7 @@ describe('Transaction', function() {
   describe('change address', function() {
     it('can calculate simply the output amount', function() {
       const amount = 500000
+      const txSize = 229
       const transaction = new Transaction()
         .from(simpleUtxoWith1000000Satoshis)
         .to(toAddress, 500000)
@@ -344,7 +345,9 @@ describe('Transaction', function() {
 
       transaction.outputs.length.should.equal(2)
       transaction.outputs[0].satoshis.should.equal(amount)
-      transaction.outputs[1].satoshis.should.equal(amount - Transaction.FEE_PER_KB)
+      transaction.outputs[1].satoshis.should.equal(
+        amount - Math.ceil((txSize / 1000) * Transaction.FEE_PER_KB)
+      )
       transaction.outputs[1].script
         .toString()
         .should.equal(Script.fromAddress(changeAddress).toString())
@@ -418,7 +421,7 @@ describe('Transaction', function() {
         .sign(privateKey)
       transaction._estimateSize().should.be.within(1000, 1999)
       transaction.outputs.length.should.equal(2)
-      transaction.outputs[1].satoshis.should.equal(34000)
+      transaction.outputs[1].satoshis.should.equal(40464)
     })
     it('if satoshis are invalid', function() {
       const transaction = new Transaction()
@@ -982,12 +985,15 @@ describe('Transaction', function() {
     it('returns correct values for transaction with change', function() {
       const inAmount = 100000000
       const outAmount = 1000
+      const txSize = 229
       const transaction = new Transaction()
         .from(simpleUtxoWith1BTC)
         .change(changeAddress)
         .to(toAddress, outAmount)
       transaction.inputAmount.should.equal(inAmount)
-      transaction.outputAmount.should.equal(inAmount - Transaction.FEE_PER_KB)
+      transaction.outputAmount.should.equal(
+        inAmount - Math.ceil((txSize / 1000) * Transaction.FEE_PER_KB)
+      )
     })
     it('returns correct values for coinjoin transaction', function() {
       // see livenet tx c16467eea05f1f30d50ed6dbc06a38539d9bb15110e4b7dc6653046a3678a718
@@ -1099,7 +1105,7 @@ describe('Transaction', function() {
         .toAddress()
         .toString()
         .should.equal(toAddress)
-      tx.outputs[1].satoshis.should.equal(89980000)
+      tx.outputs[1].satoshis.should.equal(89995420)
       tx.outputs[1].script
         .toAddress()
         .toString()
