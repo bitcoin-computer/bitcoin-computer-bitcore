@@ -1121,11 +1121,11 @@ class Transaction {
   }
 
   static _estimateFee(size, amountAvailable, feePerKb) {
-    const fee = Math.ceil(size / 1000) * (feePerKb || Transaction.FEE_PER_KB)
+    const fee = Math.ceil((size / 1000) * (feePerKb || Transaction.FEE_PER_KB))
     if (amountAvailable > fee) {
       size += Transaction.CHANGE_OUTPUT_MAX_SIZE
     }
-    return Math.ceil(size / 1000) * (feePerKb || Transaction.FEE_PER_KB)
+    return Math.ceil((size / 1000) * (feePerKb || Transaction.FEE_PER_KB))
   }
 }
 
