@@ -305,7 +305,7 @@ describe('ECDSA', function () {
       it('should verify a valid signature, and unverify an invalid signature', function () {
         const sig = ECDSA.sign(ecdsa.hashbuf, ecdsa.privkey)
         ECDSA.verify(ecdsa.hashbuf, sig, ecdsa.pubkey).should.equal(true)
-        const fakesig = new Signature(sig.r.add(new BN(1)), sig.s)
+        const fakesig = new Signature({ r: sig.r.add(new BN(1)), s: sig.s })
         ECDSA.verify(ecdsa.hashbuf, fakesig, ecdsa.pubkey).should.equal(false)
       })
       it('should work with big and little endian', function () {
