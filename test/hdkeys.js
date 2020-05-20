@@ -345,7 +345,7 @@ describe('BIP32 compliance', function () {
   })
 
   describe('edge cases', function () {
-    const sandbox = sinon.sandbox.create()
+    const sandbox = sinon.createSandbox()
     afterEach(function () {
       sandbox.restore()
     })
@@ -364,7 +364,7 @@ describe('BIP32 compliance', function () {
       )
       const unstubbed = Bitcoin.crypto.BN.prototype.toBuffer
       let count = 0
-      sandbox.stub(Bitcoin.crypto.BN.prototype, 'toBuffer', function (args) {
+      sandbox.stub(Bitcoin.crypto.BN.prototype, 'toBuffer').callsFake(function (args) {
         // On the fourth call to the function give back an invalid private key
         // otherwise use the normal behavior.
         count += 1
