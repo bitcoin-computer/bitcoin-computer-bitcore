@@ -49,7 +49,7 @@
     "bn.js": "^4.11.8",
     "bs58": "=2.0.1",
     "buffer-compare": "=1.1.1",
-    "cashaddrjs": "^0.2.9",
+    "cashaddrjs": "^0.3.11",
     "elliptic": "^6.5.2",
     "hash.js": "^1.1.7",
     "lodash": "^4.17.15",
