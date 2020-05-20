@@ -57,7 +57,7 @@ describe('MerkleBlock', function () {
 
     it('accepts an object as argument', function () {
       const block = new MerkleBlock(blockbuf)
-      MerkleBlock.fromObject(block.toObject()).should.exist()
+      should.exist(MerkleBlock.fromObject(block.toObject()))
     })
   })
 
