@@ -6,27 +6,27 @@ const { Networks } = Bitcoin
 const should = chai.should()
 const { URI } = Bitcoin
 
-describe('URI', function() {
+describe('URI', function () {
   // TODO: Split this and explain tests
-  it('parses uri strings correctly (test vector)', function() {
+  it('parses uri strings correctly (test vector)', function () {
     let uri
 
     URI.parse.bind(URI, 'badURI').should.throw(TypeError)
 
     uri = URI.parse('bitcoincash:')
-    expect(uri.address).to.be.undefined()
-    expect(uri.amount).to.be.undefined()
-    expect(uri.otherParam).to.be.undefined()
+    expect(uri.address).to.equal(undefined)
+    expect(uri.amount).to.equal(undefined)
+    expect(uri.otherParam).to.equal(undefined)
 
     uri = URI.parse('bitcoincash:1DP69gMMvSuYhbnxsi4EJEFufUAbDrEQfj')
     uri.address.should.equal('1DP69gMMvSuYhbnxsi4EJEFufUAbDrEQfj')
-    expect(uri.amount).to.be.undefined()
-    expect(uri.otherParam).to.be.undefined()
+    expect(uri.amount).to.equal(undefined)
+    expect(uri.otherParam).to.equal(undefined)
 
     uri = URI.parse('bitcoincash:1DP69gMMvSuYhbnxsi4EJEFufUAbDrEQfj?amount=123.22')
     uri.address.should.equal('1DP69gMMvSuYhbnxsi4EJEFufUAbDrEQfj')
     uri.amount.should.equal('123.22')
-    expect(uri.otherParam).to.be.undefined()
+    expect(uri.otherParam).to.equal(undefined)
 
     uri = URI.parse(
       'bitcoincash:1DP69gMMvSuYhbnxsi4EJEFufUAbDrEQfj?amount=123.22' +
@@ -39,7 +39,7 @@ describe('URI', function() {
   })
 
   // TODO: Split this and explain tests
-  it('URIs can be validated statically (test vector)', function() {
+  it('URIs can be validated statically (test vector)', function () {
     URI.isValid('bitcoincash:1DP69gMMvSuYhbnxsi4EJEFufUAbDrEQfj').should.equal(true)
     URI.isValid('bitcoincash:mkYY5NRvikVBY1EPtaq9fAFgquesdjqECw').should.equal(true)
 
@@ -48,7 +48,7 @@ describe('URI', function() {
       'bitcoincash:1DP69gMMvSuYhbnxsi4EJEFufUAbDrEQfj?amount=1.2&other=param'
     ).should.equal(true)
     URI.isValid('bitcoincash:1DP69gMMvSuYhbnxsi4EJEFufUAbDrEQfj?amount=1.2&req-other=param', [
-      'req-other'
+      'req-other',
     ]).should.equal(true)
     URI.isValid(
       'bitcoincash:mmrqEBJxUCf42vdb3oozZtyz5mKr3Vb2Em?amount=0.1&' +
@@ -66,55 +66,55 @@ describe('URI', function() {
     ).should.equal(false)
   })
 
-  it('fails on creation with no params', function() {
-    ;(function() {
+  it('fails on creation with no params', function () {
+    ;(function () {
       return new URI()
     }.should.throw(TypeError))
   })
 
-  it('do not need new keyword', function() {
+  it('do not need new keyword', function () {
     const uri = URI('bitcoincash:1DP69gMMvSuYhbnxsi4EJEFufUAbDrEQfj')
     uri.should.be.instanceof(URI)
   })
 
-  describe('instantiation from bitcoin uri', function() {
+  describe('instantiation from bitcoin uri', function () {
     let uri
 
-    it('parses address', function() {
+    it('parses address', function () {
       uri = new URI('bitcoincash:1DP69gMMvSuYhbnxsi4EJEFufUAbDrEQfj')
       uri.address.should.be.instanceof(Bitcoin.Address)
       uri.network.should.equal(Networks.livenet)
     })
 
-    it('parses amount', function() {
+    it('parses amount', function () {
       uri = URI.fromString('bitcoincash:1DP69gMMvSuYhbnxsi4EJEFufUAbDrEQfj?amount=123.22')
       uri.address.toString().should.equal('1DP69gMMvSuYhbnxsi4EJEFufUAbDrEQfj')
       uri.amount.should.equal(12322000000)
-      expect(uri.otherParam).to.be.undefined()
+      expect(uri.otherParam).to.equal(undefined)
     })
 
-    it('parses a testnet address', function() {
+    it('parses a testnet address', function () {
       uri = new URI('bitcoincash:mkYY5NRvikVBY1EPtaq9fAFgquesdjqECw')
       uri.address.should.be.instanceof(Bitcoin.Address)
       uri.network.should.equal(Networks.testnet)
     })
 
-    it('stores unknown parameters as "extras"', function() {
+    it('stores unknown parameters as "extras"', function () {
       uri = new URI('bitcoincash:1DP69gMMvSuYhbnxsi4EJEFufUAbDrEQfj?amount=1.2&other=param')
       uri.address.should.be.instanceof(Bitcoin.Address)
-      expect(uri.other).to.be.undefined()
+      expect(uri.other).to.equal(undefined)
       uri.extras.other.should.equal('param')
     })
 
-    it('throws error when a required feature is not supported', function() {
-      ;(function() {
+    it('throws error when a required feature is not supported', function () {
+      ;(function () {
         return new URI(
           'bitcoincash:1DP69gMMvSuYhbnxsi4EJEFufUAbDrEQfj?amount=1.2&other=param&req-required=param'
         )
       }.should.throw(Error))
     })
 
-    it('has no false negative when checking supported features', function() {
+    it('has no false negative when checking supported features', function () {
       uri = new URI(
         'bitcoincash:1DP69gMMvSuYhbnxsi4EJEFufUAbDrEQfj?amount=1.2&other=param&' +
           'req-required=param',
@@ -128,17 +128,17 @@ describe('URI', function() {
   })
 
   // TODO: Split this and explain tests
-  it('should create instance from object', function() {
+  it('should create instance from object', function () {
     let uri
 
     uri = new URI({
-      address: '1DP69gMMvSuYhbnxsi4EJEFufUAbDrEQfj'
+      address: '1DP69gMMvSuYhbnxsi4EJEFufUAbDrEQfj',
     })
     uri.address.should.be.instanceof(Bitcoin.Address)
     uri.network.should.equal(Networks.livenet)
 
     uri = new URI({
-      address: 'mkYY5NRvikVBY1EPtaq9fAFgquesdjqECw'
+      address: 'mkYY5NRvikVBY1EPtaq9fAFgquesdjqECw',
     })
     uri.address.should.be.instanceof(Bitcoin.Address)
     uri.network.should.equal(Networks.testnet)
@@ -146,16 +146,16 @@ describe('URI', function() {
     uri = new URI({
       address: '1DP69gMMvSuYhbnxsi4EJEFufUAbDrEQfj',
       amount: 120000000,
-      other: 'param'
+      other: 'param',
     })
     uri.address.should.be.instanceof(Bitcoin.Address)
     uri.amount.should.equal(120000000)
-    expect(uri.other).to.be.undefined()
+    expect(uri.other).to.equal(undefined)
     uri.extras.other.should.equal('param')
-    ;(function() {
+    ;(function () {
       return new URI({
         address: '1DP69gMMvSuYhbnxsi4EJEFufUAbDrEQfj',
-        'req-required': 'param'
+        'req-required': 'param',
       })
     }.should.throw(Error))
 
@@ -164,7 +164,7 @@ describe('URI', function() {
         address: '1DP69gMMvSuYhbnxsi4EJEFufUAbDrEQfj',
         amount: 120000000,
         other: 'param',
-        'req-required': 'param'
+        'req-required': 'param',
       },
       ['req-required']
     )
@@ -174,36 +174,34 @@ describe('URI', function() {
     uri.extras['req-required'].should.equal('param')
   })
 
-  it('should support double slash scheme', function() {
+  it('should support double slash scheme', function () {
     const uri = new URI('bitcoincash://1DP69gMMvSuYhbnxsi4EJEFufUAbDrEQfj')
     uri.address.toString().should.equal('1DP69gMMvSuYhbnxsi4EJEFufUAbDrEQfj')
   })
 
-  it('should input/output String', function() {
+  it('should input/output String', function () {
     const str =
       'bitcoincash:1DP69gMMvSuYhbnxsi4EJEFufUAbDrEQfj?' +
       'message=Donation%20for%20project%20xyz&label=myLabel&other=xD'
-    URI.fromString(str)
-      .toString()
-      .should.equal(str)
+    URI.fromString(str).toString().should.equal(str)
   })
 
-  it('should input/output JSON', function() {
+  it('should input/output JSON', function () {
     const json = JSON.stringify({
       address: '1DP69gMMvSuYhbnxsi4EJEFufUAbDrEQfj',
       message: 'Donation for project xyz',
       label: 'myLabel',
-      other: 'xD'
+      other: 'xD',
     })
     JSON.stringify(URI.fromObject(JSON.parse(json))).should.equal(json)
   })
 
-  it('should support numeric amounts', function() {
+  it('should support numeric amounts', function () {
     const uri = new URI('bitcoincash:1DP69gMMvSuYhbnxsi4EJEFufUAbDrEQfj?amount=12.10001')
     expect(uri.amount).to.be.equal(1210001000)
   })
 
-  it('should support extra arguments', function() {
+  it('should support extra arguments', function () {
     const uri = new URI(
       'bitcoincash:1DP69gMMvSuYhbnxsi4EJEFufUAbDrEQfj?' +
         'message=Donation%20for%20project%20xyz&label=myLabel&other=xD'
@@ -219,9 +217,9 @@ describe('URI', function() {
     uri.extras.other.should.equal('xD')
   })
 
-  it('should generate a valid URI', function() {
+  it('should generate a valid URI', function () {
     new URI({
-      address: '1DP69gMMvSuYhbnxsi4EJEFufUAbDrEQfj'
+      address: '1DP69gMMvSuYhbnxsi4EJEFufUAbDrEQfj',
     })
       .toString()
       .should.equal('bitcoincash:1DP69gMMvSuYhbnxsi4EJEFufUAbDrEQfj')
@@ -230,7 +228,7 @@ describe('URI', function() {
       address: '1DP69gMMvSuYhbnxsi4EJEFufUAbDrEQfj',
       amount: 110001000,
       message: 'Hello World',
-      something: 'else'
+      something: 'else',
     })
       .toString()
       .should.equal(
@@ -238,14 +236,14 @@ describe('URI', function() {
       )
   })
 
-  it('should be case insensitive to protocol', function() {
+  it('should be case insensitive to protocol', function () {
     const uri1 = new URI('bItcOincash:1DP69gMMvSuYhbnxsi4EJEFufUAbDrEQfj')
     const uri2 = new URI('bitcoincash:1DP69gMMvSuYhbnxsi4EJEFufUAbDrEQfj')
 
     uri1.address.toString().should.equal(uri2.address.toString())
   })
 
-  it('writes correctly the "r" parameter on string serialization', function() {
+  it('writes correctly the "r" parameter on string serialization', function () {
     const originalString =
       'bitcoincash:mmrqEBJxUCf42vdb3oozZtyz5mKr3Vb2Em?amount=0.1&' +
       'r=https%3A%2F%2Ftest.bitpay.com%2Fi%2F6DKgf8cnJC388irbXk5hHu'
@@ -253,20 +251,20 @@ describe('URI', function() {
     uri.toString().should.equal(originalString)
   })
 
-  it('displays nicely on the console (#inspect)', function() {
+  it('displays nicely on the console (#inspect)', function () {
     const uri = 'bitcoincash:1DP69gMMvSuYhbnxsi4EJEFufUAbDrEQfj'
     const instance = new URI(uri)
     instance.inspect().should.equal(`<URI: ${uri}>`)
   })
 
-  it("fails early when fromString isn't provided a string", function() {
-    expect(function() {
+  it("fails early when fromString isn't provided a string", function () {
+    expect(function () {
       return URI.fromString(1)
     }).to.throw()
   })
 
-  it("fails early when fromJSON isn't provided a valid JSON string", function() {
-    expect(function() {
+  it("fails early when fromJSON isn't provided a valid JSON string", function () {
+    expect(function () {
       return URI.fromJSON('¹')
     }).to.throw()
   })

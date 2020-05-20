@@ -11,7 +11,7 @@ const Signature = function Signature(r, s) {
   if (r instanceof BN) {
     this.set({
       r,
-      s
+      s,
     })
   } else if (r) {
     const obj = r
@@ -19,7 +19,7 @@ const Signature = function Signature(r, s) {
   }
 }
 
-Signature.prototype.set = function(obj) {
+Signature.prototype.set = function (obj) {
   this.r = obj.r || this.r || undefined
   this.s = obj.s || this.s || undefined
   this.i = typeof obj.i !== 'undefined' ? obj.i : this.i // public key recovery parameter in range [0, 3]
@@ -28,7 +28,7 @@ Signature.prototype.set = function(obj) {
   return this
 }
 
-Signature.fromCompact = function(buf) {
+Signature.fromCompact = function (buf) {
   $.checkArgument(BufferUtil.isBuffer(buf), 'Argument is expected to be a Buffer')
 
   const sig = new Signature()
@@ -55,7 +55,7 @@ Signature.fromCompact = function(buf) {
   return sig
 }
 
-Signature.fromDER = function(buf, strict) {
+Signature.fromDER = function (buf, strict) {
   const obj = Signature.parseDER(buf, strict)
   const sig = new Signature()
 
@@ -68,7 +68,7 @@ Signature.fromDER = function(buf, strict) {
 Signature.fromBuffer = Signature.fromDER
 
 // The format used in a tx
-Signature.fromTxFormat = function(buf) {
+Signature.fromTxFormat = function (buf) {
   const nhashtype = buf.readUInt8(buf.length - 1)
   const derbuf = buf.slice(0, buf.length - 1)
   const sig = Signature.fromDER(derbuf, false)
@@ -76,7 +76,7 @@ Signature.fromTxFormat = function(buf) {
   return sig
 }
 
-Signature.fromString = function(str) {
+Signature.fromString = function (str) {
   const buf = Buffer.from(str, 'hex')
   return Signature.fromDER(buf)
 }
@@ -84,7 +84,7 @@ Signature.fromString = function(str) {
 /**
  * In order to mimic the non-strict DER encoding of OpenSSL, set strict = false.
  */
-Signature.parseDER = function(buf, strict) {
+Signature.parseDER = function (buf, strict) {
   $.checkArgument(BufferUtil.isBuffer(buf), 'DER formatted signature should be a buffer')
   if (_.isUndefined(strict)) {
     strict = true
@@ -132,13 +132,13 @@ Signature.parseDER = function(buf, strict) {
     slength,
     sneg,
     sbuf,
-    s
+    s,
   }
 
   return obj
 }
 
-Signature.prototype.toCompact = function(i, compressed) {
+Signature.prototype.toCompact = function (i, compressed) {
   i = typeof i === 'number' ? i : this.i
   compressed = typeof compressed === 'boolean' ? compressed : this.compressed
 
@@ -152,15 +152,15 @@ Signature.prototype.toCompact = function(i, compressed) {
   }
   const b1 = Buffer.from([val])
   const b2 = this.r.toBuffer({
-    size: 32
+    size: 32,
   })
   const b3 = this.s.toBuffer({
-    size: 32
+    size: 32,
   })
   return Buffer.concat([b1, b2, b3])
 }
 
-Signature.prototype.toBuffer = function() {
+Signature.prototype.toBuffer = function () {
   const rnbuf = this.r.toBuffer()
   const snbuf = this.s.toBuffer()
 
@@ -181,14 +181,14 @@ Signature.prototype.toBuffer = function() {
     Buffer.from([header, length, rheader, rlength]),
     rbuf,
     Buffer.from([sheader, slength]),
-    sbuf
+    sbuf,
   ])
   return der
 }
 
 Signature.prototype.toDER = Signature.prototype.toBuffer
 
-Signature.prototype.toString = function() {
+Signature.prototype.toString = function () {
   const buf = this.toDER()
   return buf.toString('hex')
 }
@@ -205,7 +205,7 @@ Signature.prototype.toString = function() {
  *
  * See https://bitcointalk.org/index.php?topic=8392.msg127623#msg127623
  */
-Signature.isTxDER = function(buf) {
+Signature.isTxDER = function (buf) {
   if (buf.length < 9) {
     //  Non-canonical signature: too short
     return false
@@ -276,7 +276,7 @@ Signature.isTxDER = function(buf) {
  * See also ECDSA signature algorithm which enforces this.
  * See also BIP 62, "low S values in signatures"
  */
-Signature.prototype.hasLowS = function() {
+Signature.prototype.hasLowS = function () {
   if (
     this.s.lt(new BN(1)) ||
     this.s.gt(new BN('7FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF5D576E7357A4501DDFE92F46681B20A0', 'hex'))
@@ -290,7 +290,7 @@ Signature.prototype.hasLowS = function() {
  * @returns true if the nhashtype is exactly equal to one of the standard options
  * or combinations thereof. Translated from bitcoind's IsDefinedHashtypeSignature
  */
-Signature.prototype.hasDefinedHashtype = function() {
+Signature.prototype.hasDefinedHashtype = function () {
   if (!JSUtil.isNaturalNumber(this.nhashtype)) {
     return false
   }
@@ -302,7 +302,7 @@ Signature.prototype.hasDefinedHashtype = function() {
   return true
 }
 
-Signature.prototype.toTxFormat = function() {
+Signature.prototype.toTxFormat = function () {
   const derbuf = this.toDER()
   const buf = Buffer.alloc(1)
   buf.writeUInt8(this.nhashtype, 0)

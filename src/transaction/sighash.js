@@ -27,7 +27,7 @@ class Sighash {
     function GetPrevoutHash(tx) {
       const writer = new BufferWriter()
 
-      _.each(tx.inputs, txIn => {
+      _.each(tx.inputs, (txIn) => {
         writer.writeReverse(txIn.prevTxId)
         writer.writeUInt32LE(txIn.outputIndex)
       })
@@ -40,7 +40,7 @@ class Sighash {
     function GetSequenceHash(tx) {
       const writer = new BufferWriter()
 
-      _.each(tx.inputs, txIn => {
+      _.each(tx.inputs, (txIn) => {
         writer.writeUInt32LE(txIn.sequenceNumber)
       })
 
@@ -53,7 +53,7 @@ class Sighash {
       const writer = new BufferWriter()
 
       if (_.isUndefined(n)) {
-        _.each(tx.outputs, output => {
+        _.each(tx.outputs, (output) => {
           output.toBufferWriter(writer)
         })
       } else {
@@ -192,7 +192,7 @@ class Sighash {
       for (i = 0; i < inputNumber; i += 1) {
         txcopy.outputs[i] = new Output({
           satoshis: BN.fromBuffer(Buffer.from(BITS_64_ON, 'hex')),
-          script: Script.empty()
+          script: Script.empty(),
         })
       }
     }
@@ -201,10 +201,7 @@ class Sighash {
       txcopy.inputs = [txcopy.inputs[inputNumber]]
     }
 
-    const buf = new BufferWriter()
-      .write(txcopy.toBuffer())
-      .writeInt32LE(sighashType)
-      .toBuffer()
+    const buf = new BufferWriter().write(txcopy.toBuffer()).writeInt32LE(sighashType).toBuffer()
     let ret = Hash.sha256sha256(buf)
     ret = new BufferReader(ret).readReverse()
     return ret
@@ -225,7 +222,7 @@ class Sighash {
   static sign(transaction, privateKey, sighashType, inputIndex, subscript, satoshisBN) {
     const hashbuf = Sighash.sighash(transaction, sighashType, inputIndex, subscript, satoshisBN)
     const sig = ECDSA.sign(hashbuf, privateKey, 'little').set({
-      nhashtype: sighashType
+      nhashtype: sighashType,
     })
     return sig
   }

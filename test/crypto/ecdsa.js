@@ -1,6 +1,6 @@
 import chai from 'chai'
 import Bitcoin from '../bitcoin'
-import vectors from '../data/ecdsa'
+import vectors from '../data/ecdsa.json'
 
 const should = chai.should()
 const { ECDSA } = Bitcoin.crypto
@@ -11,8 +11,8 @@ const { Signature } = Bitcoin.crypto
 const { BN } = Bitcoin.crypto
 const point = Bitcoin.crypto.Point
 
-describe('ECDSA', function() {
-  it('instantiation', function() {
+describe('ECDSA', function () {
+  it('instantiation', function () {
     const ecdsa = new ECDSA()
     should.exist(ecdsa)
   })
@@ -26,25 +26,25 @@ describe('ECDSA', function() {
   )
   ecdsa.privkey2pubkey()
 
-  describe('#set', function() {
-    it('sets hashbuf', function() {
+  describe('#set', function () {
+    it('sets hashbuf', function () {
       should.exist(
         ECDSA().set({
-          hashbuf: ecdsa.hashbuf
+          hashbuf: ecdsa.hashbuf,
         }).hashbuf
       )
     })
   })
 
-  describe('#calci', function() {
-    it('calculates i correctly', function() {
+  describe('#calci', function () {
+    it('calculates i correctly', function () {
       ecdsa.randomK()
       ecdsa.sign()
       ecdsa.calci()
       should.exist(ecdsa.sig.i)
     })
 
-    it('calulates this known i', function() {
+    it('calulates this known i', function () {
       const hashbuf = Hash.sha256(Buffer.from('some data'))
       const r = new BN(
         '71706645040721865894779025947914615666559616020894583599959600180037551395766',
@@ -59,8 +59,8 @@ describe('ECDSA', function() {
         hashbuf,
         sig: new Signature({
           r,
-          s
-        })
+          s,
+        }),
       })
 
       ec.calci()
@@ -68,8 +68,8 @@ describe('ECDSA', function() {
     })
   })
 
-  describe('#fromString', function() {
-    it('round trip with fromString', function() {
+  describe('#fromString', function () {
+    it('round trip with fromString', function () {
       const str = ecdsa.toString()
       const ecdsa2 = ECDSA.fromString(str)
       should.exist(ecdsa2.hashbuf)
@@ -77,8 +77,8 @@ describe('ECDSA', function() {
     })
   })
 
-  describe('#randomK', function() {
-    it('should generate a new random k when called twice in a row', function() {
+  describe('#randomK', function () {
+    it('should generate a new random k when called twice in a row', function () {
       ecdsa.randomK()
       const k1 = ecdsa.k
       ecdsa.randomK()
@@ -86,7 +86,7 @@ describe('ECDSA', function() {
       ;(k1.cmp(k2) === 0).should.equal(false)
     })
 
-    it('should generate a random k that is (almost always) greater than this relatively small number', function() {
+    it('should generate a random k that is (almost always) greater than this relatively small number', function () {
       ecdsa.randomK()
       const k1 = ecdsa.k
       const k2 = new BN(2 ** 32).mul(new BN(2 ** 32)).mul(new BN(2 ** 32))
@@ -94,15 +94,15 @@ describe('ECDSA', function() {
     })
   })
 
-  describe('#deterministicK', function() {
-    it('should generate the same deterministic k', function() {
+  describe('#deterministicK', function () {
+    it('should generate the same deterministic k', function () {
       ecdsa.deterministicK()
       ecdsa.k
         .toBuffer()
         .toString('hex')
         .should.equal('fcce1de7a9bcd6b2d3defade6afa1913fb9229e3b7ddf4749b55c4848b2a196e')
     })
-    it('should generate the same deterministic k if badrs is set', function() {
+    it('should generate the same deterministic k if badrs is set', function () {
       ecdsa.deterministicK(0)
       ecdsa.k
         .toBuffer()
@@ -118,7 +118,7 @@ describe('ECDSA', function() {
         .toString('hex')
         .should.equal('727fbcb59eb48b1d7d46f95a04991fc512eb9dbf9105628e3aec87428df28fd8')
     })
-    it('should compute this test vector correctly', function() {
+    it('should compute this test vector correctly', function () {
       // test fixture from bitcoinjs
       // https://github.com/bitcoinjs/bitcoinjs-lib/blob/10630873ebaa42381c5871e20336fbfb46564ac8/test/fixtures/ecdsa.json#L6
       const ec = new ECDSA()
@@ -146,8 +146,8 @@ describe('ECDSA', function() {
     })
   })
 
-  describe('#toPublicKey', function() {
-    it('should calculate the correct public key', function() {
+  describe('#toPublicKey', function () {
+    it('should calculate the correct public key', function () {
       ecdsa.k = new BN(
         '114860389168127852803919605627759231199925249596762615988727970217268189974335',
         10
@@ -158,7 +158,7 @@ describe('ECDSA', function() {
       pubkey.point.eq(ecdsa.pubkey.point).should.equal(true)
     })
 
-    it('should calculate the correct public key for this signature with low s', function() {
+    it('should calculate the correct public key for this signature with low s', function () {
       ecdsa.k = new BN(
         '114860389168127852803919605627759231199925249596762615988727970217268189974335',
         10
@@ -172,7 +172,7 @@ describe('ECDSA', function() {
       pubkey.point.eq(ecdsa.pubkey.point).should.equal(true)
     })
 
-    it('should calculate the correct public key for this signature with high s', function() {
+    it('should calculate the correct public key for this signature with high s', function () {
       ecdsa.k = new BN(
         '114860389168127852803919605627759231199925249596762615988727970217268189974335',
         10
@@ -188,13 +188,13 @@ describe('ECDSA', function() {
     })
   })
 
-  describe('#sigError', function() {
-    it('should return an error if the hash is invalid', function() {
+  describe('#sigError', function () {
+    it('should return an error if the hash is invalid', function () {
       const ec = new ECDSA()
       ec.sigError().should.equal('hashbuf must be a 32 byte buffer')
     })
 
-    it('should return an error if r, s are invalid', function() {
+    it('should return an error if r, s are invalid', function () {
       const ec = new ECDSA()
       ec.hashbuf = Hash.sha256(Buffer.from('test'))
       const pk = Pubkey.fromDER(
@@ -211,7 +211,7 @@ describe('ECDSA', function() {
       ec.sigError().should.equal('r and s not in range')
     })
 
-    it('should return an error if the signature is incorrect', function() {
+    it('should return an error if the signature is incorrect', function () {
       ecdsa.sig = Signature.fromString(
         '3046022100e9915e6236695f093a4128ac2a956c40' +
           'ed971531de2f4f41ba05fac7e2bd019c02210094e6a4a769cc7f2a8ab3db696c7cd8d56bcdbfff860a8c81de4bc6a798b90827'
@@ -221,28 +221,28 @@ describe('ECDSA', function() {
     })
   })
 
-  describe('#sign', function() {
-    it('should create a valid signature', function() {
+  describe('#sign', function () {
+    it('should create a valid signature', function () {
       ecdsa.randomK()
       ecdsa.sign()
       ecdsa.verify().verified.should.equal(true)
     })
 
-    it('should should throw an error if hashbuf is not 32 bytes', function() {
+    it('should should throw an error if hashbuf is not 32 bytes', function () {
       const ecdsa2 = ECDSA().set({
         hashbuf: ecdsa.hashbuf.slice(0, 31),
-        privkey: ecdsa.privkey
+        privkey: ecdsa.privkey,
       })
       ecdsa2.randomK()
       ecdsa2.sign.bind(ecdsa2).should.throw()
     })
 
-    it('should default to deterministicK', function() {
+    it('should default to deterministicK', function () {
       const ecdsa2 = new ECDSA(ecdsa)
       ecdsa2.k = undefined
       let called = 0
       const deterministicK = ecdsa2.deterministicK.bind(ecdsa2)
-      ecdsa2.deterministicK = function() {
+      ecdsa2.deterministicK = function () {
         deterministicK()
         called += 1
       }
@@ -250,7 +250,7 @@ describe('ECDSA', function() {
       called.should.equal(1)
     })
 
-    it('should generate right K', function() {
+    it('should generate right K', function () {
       const msg1 = Buffer.from(
         '52204d20fd0131ae1afd173fd80a3a746d2dcc0cddced8c9dc3d61cc7ab6e966',
         'hex'
@@ -260,9 +260,7 @@ describe('ECDSA', function() {
         '16f243e962c59e71e54189e67e66cf2440a1334514c09c00ddcc21632bac9808',
         'hex'
       )
-      const signature1 = ECDSA.sign(msg1, Privkey.fromBuffer(pk))
-        .toBuffer()
-        .toString('hex')
+      const signature1 = ECDSA.sign(msg1, Privkey.fromBuffer(pk)).toBuffer().toString('hex')
       const signature2 = ECDSA.sign(msg2, Privkey.fromBuffer(pk), 'little')
         .toBuffer()
         .toString('hex')
@@ -270,20 +268,20 @@ describe('ECDSA', function() {
     })
   })
 
-  describe('#toString', function() {
-    it('should convert this to a string', function() {
+  describe('#toString', function () {
+    it('should convert this to a string', function () {
       const str = ecdsa.toString()
       ;(typeof str === 'string').should.equal(true)
     })
   })
 
-  describe('signing and verification', function() {
-    describe('@sign', function() {
-      it('should produce a signature', function() {
+  describe('signing and verification', function () {
+    describe('@sign', function () {
+      it('should produce a signature', function () {
         const sig = ECDSA.sign(ecdsa.hashbuf, ecdsa.privkey)
         ;(sig instanceof Signature).should.equal(true)
       })
-      it('should produce a signature, and be different when called twice', function() {
+      it('should produce a signature, and be different when called twice', function () {
         ecdsa.signRandomK()
         should.exist(ecdsa.sig)
         const ecdsa2 = ECDSA(ecdsa)
@@ -292,25 +290,25 @@ describe('ECDSA', function() {
       })
     })
 
-    describe('#verify', function() {
-      it('should verify a signature that was just signed', function() {
+    describe('#verify', function () {
+      it('should verify a signature that was just signed', function () {
         ecdsa.sig = Signature.fromString(
           '3046022100e9915e6236695f093a4128ac2a956c' +
             '40ed971531de2f4f41ba05fac7e2bd019c02210094e6a4a769cc7f2a8ab3db696c7cd8d56bcdbfff860a8c81de4bc6a798b90827'
         )
         ecdsa.verify().verified.should.equal(true)
       })
-      it('should verify this known good signature', function() {
+      it('should verify this known good signature', function () {
         ecdsa.signRandomK()
         ecdsa.verify().verified.should.equal(true)
       })
-      it('should verify a valid signature, and unverify an invalid signature', function() {
+      it('should verify a valid signature, and unverify an invalid signature', function () {
         const sig = ECDSA.sign(ecdsa.hashbuf, ecdsa.privkey)
         ECDSA.verify(ecdsa.hashbuf, sig, ecdsa.pubkey).should.equal(true)
-        const fakesig = new Signature(sig.r.add(new BN(1)), sig.s)
+        const fakesig = new Signature({ r: sig.r.add(new BN(1)), s: sig.s })
         ECDSA.verify(ecdsa.hashbuf, fakesig, ecdsa.pubkey).should.equal(false)
       })
-      it('should work with big and little endian', function() {
+      it('should work with big and little endian', function () {
         let sig = ECDSA.sign(ecdsa.hashbuf, ecdsa.privkey, 'big')
         ECDSA.verify(ecdsa.hashbuf, sig, ecdsa.pubkey, 'big').should.equal(true)
         ECDSA.verify(ecdsa.hashbuf, sig, ecdsa.pubkey, 'little').should.equal(false)
@@ -320,9 +318,9 @@ describe('ECDSA', function() {
       })
     })
 
-    describe('vectors', function() {
-      vectors.valid.forEach(function(obj, i) {
-        it(`should validate valid vector ${i}`, function() {
+    describe('vectors', function () {
+      vectors.valid.forEach(function (obj, i) {
+        it(`should validate valid vector ${i}`, function () {
           const ec = ECDSA().set({
             privkey: new Privkey(BN.fromBuffer(Buffer.from(obj.d, 'hex'))),
             k: BN.fromBuffer(Buffer.from(obj.k, 'hex')),
@@ -330,8 +328,8 @@ describe('ECDSA', function() {
             sig: new Signature().set({
               r: new BN(obj.signature.r),
               s: new BN(obj.signature.s),
-              i: obj.i
-            })
+              i: obj.i,
+            }),
           })
           const ecdsa2 = ECDSA(ec)
           ecdsa2.k = undefined
@@ -344,34 +342,28 @@ describe('ECDSA', function() {
         })
       })
 
-      vectors.invalid.sigError.forEach(function(obj, i) {
-        it(`should validate invalid.sigError vector ${i}: ${obj.description}`, function() {
+      vectors.invalid.sigError.forEach(function (obj, i) {
+        it(`should validate invalid.sigError vector ${i}: ${obj.description}`, function () {
           const ec = ECDSA().set({
             pubkey: Pubkey.fromPoint(point.fromX(true, 1)),
             sig: new Signature(new BN(obj.signature.r), new BN(obj.signature.s)),
-            hashbuf: Hash.sha256(Buffer.from(obj.message))
+            hashbuf: Hash.sha256(Buffer.from(obj.message)),
           })
           ec.sigError().should.equal(obj.exception)
         })
       })
 
-      vectors.deterministicK.forEach(function(obj, i) {
-        it(`should validate deterministicK vector ${i}`, function() {
+      vectors.deterministicK.forEach(function (obj, i) {
+        it(`should validate deterministicK vector ${i}`, function () {
           const hashbuf = Hash.sha256(Buffer.from(obj.message))
           const privkey = Privkey(BN.fromBuffer(Buffer.from(obj.privkey, 'hex')), 'mainnet')
           const ec = ECDSA({
             privkey,
-            hashbuf
+            hashbuf,
           })
-          ec.deterministicK(0)
-            .k.toString('hex')
-            .should.equal(obj.k_bad00)
-          ec.deterministicK(1)
-            .k.toString('hex')
-            .should.equal(obj.k_bad01)
-          ec.deterministicK(15)
-            .k.toString('hex')
-            .should.equal(obj.k_bad15)
+          ec.deterministicK(0).k.toString('hex').should.equal(obj.k_bad00)
+          ec.deterministicK(1).k.toString('hex').should.equal(obj.k_bad01)
+          ec.deterministicK(15).k.toString('hex').should.equal(obj.k_bad15)
         })
       })
     })

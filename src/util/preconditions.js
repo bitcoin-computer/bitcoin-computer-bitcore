@@ -26,5 +26,5 @@ export default {
     } else if (!(argument instanceof type)) {
       throw new errors.InvalidArgumentType(argument, type.name, argumentName)
     }
-  }
+  },
 }

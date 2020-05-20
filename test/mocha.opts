@@ -1,3 +1,0 @@
---recursive
---timeout 7000
---require @babel/register

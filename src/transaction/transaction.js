@@ -132,7 +132,7 @@ class Transaction {
   }
 
   invalidSatoshis() {
-    return this.outputs.some(output => output.invalidSatoshis())
+    return this.outputs.some((output) => output.invalidSatoshis())
   }
 
   /**
@@ -201,7 +201,7 @@ class Transaction {
     if (!opts.disableDustOutputs) {
       // eslint-disable-next-line max-len
       const dustOutputs = this.outputs.filter(
-        output => output.satoshis < Transaction.DUST_AMOUNT && !output.script.isDataOut()
+        (output) => output.satoshis < Transaction.DUST_AMOUNT && !output.script.isDataOut()
       )
       if (dustOutputs.length > 0) {
         return new errors.Transaction.DustOutputs()
@@ -230,9 +230,9 @@ class Transaction {
   toBufferWriter(writer) {
     writer.writeInt32LE(this.version)
     writer.writeVarintNum(this.inputs.length)
-    this.inputs.forEach(input => input.toBufferWriter(writer))
+    this.inputs.forEach((input) => input.toBufferWriter(writer))
     writer.writeVarintNum(this.outputs.length)
-    this.outputs.forEach(output => output.toBufferWriter(writer))
+    this.outputs.forEach((output) => output.toBufferWriter(writer))
     writer.writeUInt32LE(this.nLockTime)
     return writer
   }
@@ -264,14 +264,14 @@ class Transaction {
   }
 
   toJSON() {
-    const inputs = this.inputs.map(input => input.toObject())
-    const outputs = this.outputs.map(output => output.toObject())
+    const inputs = this.inputs.map((input) => input.toObject())
+    const outputs = this.outputs.map((output) => output.toObject())
     const obj = {
       hash: this.hash,
       version: this.version,
       inputs,
       outputs,
-      nLockTime: this.nLockTime
+      nLockTime: this.nLockTime,
     }
     if (this._changeScript) {
       obj.changeScript = this._changeScript.toString()
@@ -298,7 +298,7 @@ class Transaction {
   fromObject(arg) {
     $.checkArgument(_.isObject(arg) || arg instanceof Transaction)
     const transaction = arg instanceof Transaction ? arg.toObject() : arg
-    transaction.inputs.forEach(input => {
+    transaction.inputs.forEach((input) => {
       if (!input.output || !input.output.script) {
         this.uncheckedAddInput(new Input(input))
         return
@@ -321,7 +321,7 @@ class Transaction {
       }
       this.addInput(txin)
     })
-    transaction.outputs.forEach(output => this.addOutput(new Output(output)))
+    transaction.outputs.forEach((output) => this.addOutput(new Output(output)))
     if (transaction.changeIndex) {
       this._changeIndex = transaction.changeIndex
     }
@@ -367,7 +367,7 @@ class Transaction {
       time = time.getTime() / 1000
     }
 
-    this.inputs.forEach(input => {
+    this.inputs.forEach((input) => {
       if (input.sequenceNumber === Input.DEFAULT_SEQNUMBER) {
         input.sequenceNumber = Input.DEFAULT_LOCKTIME_SEQNUMBER
       }
@@ -393,7 +393,7 @@ class Transaction {
       throw new errors.Transaction.NLockTimeOutOfRange()
     }
 
-    this.inputs.forEach(input => {
+    this.inputs.forEach((input) => {
       if (input.sequenceNumber === Input.DEFAULT_SEQNUMBER) {
         input.sequenceNumber = Input.DEFAULT_LOCKTIME_SEQNUMBER
       }
@@ -472,13 +472,14 @@ class Transaction {
    */
   from(txs, pubkeys, threshold) {
     if (Array.isArray(txs)) {
-      txs.forEach(tx => this.from(tx, pubkeys, threshold))
+      txs.forEach((tx) => this.from(tx, pubkeys, threshold))
       return this
     }
     // TODO: Maybe prevTxId should be a string? Or defined as read only property?
     // Check if the utxo has already been added as an input
     const utxoExists = this.inputs.some(
-      input => input.prevTxId.toString('hex') === txs.txId && input.outputIndex === txs.outputIndex
+      (input) =>
+        input.prevTxId.toString('hex') === txs.txId && input.outputIndex === txs.outputIndex
     )
     let Clazz
     const utxo = new UnspentOutput(txs)
@@ -510,11 +511,11 @@ class Transaction {
       {
         output: new Output({
           script: utxo.script,
-          satoshis: utxo.satoshis
+          satoshis: utxo.satoshis,
         }),
         prevTxId: utxo.txId,
         outputIndex: utxo.outputIndex,
-        script: Script.empty()
+        script: Script.empty(),
       },
       pubkeys,
       threshold
@@ -545,7 +546,7 @@ class Transaction {
       $.checkArgumentType(satoshis, 'number', 'Satoshis must be a number when adding input')
       input.output = new Output({
         script: outputScript,
-        satoshis
+        satoshis,
       })
     }
     return this.uncheckedAddInput(input)
@@ -572,7 +573,7 @@ class Transaction {
    * @return {boolean}
    */
   hasAllUtxoInfo() {
-    return this.inputs.map(input => !!input.output)
+    return this.inputs.map((input) => !!input.output)
   }
 
   /**
@@ -644,7 +645,7 @@ class Transaction {
   to(address, amount) {
     if (Array.isArray(address)) {
       const self = this
-      address.forEach(to => self.to(to.address, to.satoshis))
+      address.forEach((to) => self.to(to.address, to.satoshis))
       return this
     }
 
@@ -652,7 +653,7 @@ class Transaction {
     this.addOutput(
       new Output({
         script: Script(new Address(address)),
-        satoshis: amount
+        satoshis: amount,
       })
     )
     return this
@@ -672,7 +673,7 @@ class Transaction {
     this.addOutput(
       new Output({
         script: Script.buildDataOut(value),
-        satoshis: 0
+        satoshis: 0,
       })
     )
     return this
@@ -731,7 +732,7 @@ class Transaction {
     if (this._inputAmount === undefined) {
       const self = this
       this._inputAmount = 0
-      this.inputs.forEach(input => {
+      this.inputs.forEach((input) => {
         if (input.output === undefined) {
           throw new errors.Transaction.Input.MissingPreviousOutput()
         }
@@ -757,7 +758,7 @@ class Transaction {
       this._addOutput(
         new Output({
           script: this._changeScript,
-          satoshis: changeAmount
+          satoshis: changeAmount,
         })
       )
     } else {
@@ -811,7 +812,7 @@ class Transaction {
   }
 
   _clearSignatures() {
-    this.inputs.forEach(input => input.clearSignatures())
+    this.inputs.forEach((input) => input.clearSignatures())
   }
 
   _estimateSize() {
@@ -825,7 +826,7 @@ class Transaction {
 
   _removeOutput(index) {
     const output = this.outputs[index]
-    this.outputs = this.outputs.filter(val => val !== output)
+    this.outputs = this.outputs.filter((val) => val !== output)
     this._outputAmount = undefined
   }
 
@@ -842,7 +843,7 @@ class Transaction {
    */
   sort() {
     /* eslint-disable max-len */
-    this.sortInputs(inputs => {
+    this.sortInputs((inputs) => {
       const copy = Array.prototype.concat.apply([], inputs)
       copy.sort(
         (first, second) =>
@@ -850,7 +851,7 @@ class Transaction {
       )
       return copy
     })
-    this.sortOutputs(outputs => {
+    this.sortOutputs((outputs) => {
       const copy = Array.prototype.concat.apply([], outputs)
       copy.sort(
         (first, second) =>
@@ -925,7 +926,7 @@ class Transaction {
     } else {
       index = _.findIndex(
         this.inputs,
-        input => input.prevTxId.toString('hex') === txId && input.outputIndex === outputIndex
+        (input) => input.prevTxId.toString('hex') === txId && input.outputIndex === outputIndex
       )
     }
     if (index < 0 || index >= this.inputs.length) {
@@ -951,11 +952,11 @@ class Transaction {
     $.checkState(this.hasAllUtxoInfo(), 'Cannot sign because an input is not defined')
     const self = this
     if (Array.isArray(privateKeys)) {
-      privateKeys.forEach(privateKey => self.sign(privateKey, sigtype))
+      privateKeys.forEach((privateKey) => self.sign(privateKey, sigtype))
       return this
     }
     const signatures = this.getSignatures(privateKeys, sigtype)
-    signatures.forEach(signature => self.applySignature(signature))
+    signatures.forEach((signature) => self.applySignature(signature))
     return this
   }
 
@@ -968,7 +969,7 @@ class Transaction {
     const hashData = Hash.sha256ripemd160(privKey.publicKey.toBuffer())
     this.inputs.forEach((input, index) => {
       const signatures = input.getSignatures(transaction, privKey, index, sigtype, hashData)
-      signatures.forEach(signature => results.push(signature))
+      signatures.forEach((signature) => results.push(signature))
     })
     return results
   }
@@ -989,7 +990,7 @@ class Transaction {
   }
 
   isFullySigned() {
-    this.inputs.forEach(input => {
+    this.inputs.forEach((input) => {
       if (input.isFullySigned === Input.prototype.isFullySigned) {
         throw new errors.Transaction.UnableToVerifySignature(
           'Unrecognized script kind, or not enough information to execute script.' +
@@ -997,7 +998,7 @@ class Transaction {
         )
       }
     })
-    return this.inputs.map(input => input.isFullySigned()).every(x => x)
+    return this.inputs.map((input) => input.isFullySigned()).every((x) => x)
   }
 
   isValidSignature(signature) {
@@ -1071,7 +1072,7 @@ class Transaction {
       if (buf.length < 2 || buf.length > 100) {
         return 'Coinbase transaction script size invalid'
       }
-    } else if (this.inputs.filter(input => input.isNull()).length > 0) {
+    } else if (this.inputs.filter((input) => input.isNull()).length > 0) {
       return 'Transaction has null input'
     }
     return true
@@ -1089,7 +1090,7 @@ class Transaction {
    * transaction that provides a sufficiently higher fee (RBF).
    */
   isRBF() {
-    return this.inputs.some(input => input.sequenceNumber < Input.MAXINT - 1)
+    return this.inputs.some((input) => input.sequenceNumber < Input.MAXINT - 1)
   }
 
   /**
@@ -1099,7 +1100,7 @@ class Transaction {
    * already enable RBF.
    */
   enableRBF() {
-    this.inputs = this.inputs.map(input => {
+    this.inputs = this.inputs.map((input) => {
       if (input.sequenceNumber >= Input.MAXINT - 1) {
         input.sequenceNumber = Input.DEFAULT_RBF_SEQNUMBER
       }

@@ -15,7 +15,7 @@ const Base58Check = function Base58Check(obj) {
   }
 }
 
-Base58Check.prototype.set = function(obj) {
+Base58Check.prototype.set = function (obj) {
   this.buf = obj.buf || this.buf || undefined
   return this
 }
@@ -34,7 +34,7 @@ Base58Check.validChecksum = function validChecksum(data, checksum) {
   return Base58Check.checksum(data).toString('hex') === checksum.toString('hex')
 }
 
-Base58Check.decode = function(s) {
+Base58Check.decode = function (s) {
   if (typeof s !== 'string') throw new Error('Input must be a string')
 
   const buf = Buffer.from(Base58.decode(s))
@@ -52,11 +52,11 @@ Base58Check.decode = function(s) {
   return data
 }
 
-Base58Check.checksum = function(buff) {
+Base58Check.checksum = function (buff) {
   return Hash.sha256sha256(buff).slice(0, 4)
 }
 
-Base58Check.encode = function(buf) {
+Base58Check.encode = function (buf) {
   if (!Buffer.isBuffer(buf)) throw new Error('Input must be a buffer')
   const checkedBuf = Buffer.alloc(buf.length + 4)
   const hash = Base58Check.checksum(buf)
@@ -65,22 +65,22 @@ Base58Check.encode = function(buf) {
   return Base58.encode(checkedBuf)
 }
 
-Base58Check.prototype.fromBuffer = function(buf) {
+Base58Check.prototype.fromBuffer = function (buf) {
   this.buf = buf
   return this
 }
 
-Base58Check.prototype.fromString = function(str) {
+Base58Check.prototype.fromString = function (str) {
   const buf = Base58Check.decode(str)
   this.buf = buf
   return this
 }
 
-Base58Check.prototype.toBuffer = function() {
+Base58Check.prototype.toBuffer = function () {
   return this.buf
 }
 
-Base58Check.prototype.toString = function() {
+Base58Check.prototype.toString = function () {
   return Base58Check.encode(this.buf)
 }
 

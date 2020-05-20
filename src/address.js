@@ -69,7 +69,7 @@ class Address {
       throw new TypeError('Second argument must be "livenet" or "testnet".')
     }
 
-    if (type && (type !== Address.PayToPublicKeyHash && type !== Address.PayToScriptHash)) {
+    if (type && type !== Address.PayToPublicKeyHash && type !== Address.PayToScriptHash) {
       throw new TypeError('Third argument must be "pubkeyhash" or "scripthash".')
     }
 
@@ -82,7 +82,7 @@ class Address {
     JSUtil.defineImmutable(this, {
       hashBuffer: info.hashBuffer,
       network: info.network,
-      type: info.type
+      type: info.type,
     })
   }
 
@@ -148,7 +148,7 @@ class Address {
     return {
       hashBuffer: data.hash ? Buffer.from(data.hash, 'hex') : data.hashBuffer,
       network: Networks.get(data.network) || Networks.defaultNetwork,
-      type: data.type
+      type: data.type,
     }
   }
 
@@ -550,7 +550,7 @@ class Address {
     return {
       hash: this.hashBuffer.toString('hex'),
       type: this.type,
-      network: this.network.toString()
+      network: this.network.toString(),
     }
   }
 

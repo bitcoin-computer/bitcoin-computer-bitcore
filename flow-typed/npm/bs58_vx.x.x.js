@@ -14,7 +14,7 @@
  */
 
 declare module 'bs58' {
-  declare module.exports: any;
+  declare module.exports: any
 }
 
 /**
@@ -23,10 +23,10 @@ declare module 'bs58' {
  * needed.
  */
 declare module 'bs58/lib/bs58' {
-  declare module.exports: any;
+  declare module.exports: any
 }
 
 // Filename aliases
 declare module 'bs58/lib/bs58.js' {
-  declare module.exports: $Exports<'bs58/lib/bs58'>;
+  declare module.exports: $Exports<'bs58/lib/bs58'>
 }

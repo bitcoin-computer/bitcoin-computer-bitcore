@@ -14,7 +14,7 @@
  */
 
 declare module 'eslint-config-airbnb-base' {
-  declare module.exports: any;
+  declare module.exports: any
 }
 
 /**
@@ -23,93 +23,93 @@ declare module 'eslint-config-airbnb-base' {
  * needed.
  */
 declare module 'eslint-config-airbnb-base/legacy' {
-  declare module.exports: any;
+  declare module.exports: any
 }
 
 declare module 'eslint-config-airbnb-base/rules/best-practices' {
-  declare module.exports: any;
+  declare module.exports: any
 }
 
 declare module 'eslint-config-airbnb-base/rules/errors' {
-  declare module.exports: any;
+  declare module.exports: any
 }
 
 declare module 'eslint-config-airbnb-base/rules/es6' {
-  declare module.exports: any;
+  declare module.exports: any
 }
 
 declare module 'eslint-config-airbnb-base/rules/imports' {
-  declare module.exports: any;
+  declare module.exports: any
 }
 
 declare module 'eslint-config-airbnb-base/rules/node' {
-  declare module.exports: any;
+  declare module.exports: any
 }
 
 declare module 'eslint-config-airbnb-base/rules/strict' {
-  declare module.exports: any;
+  declare module.exports: any
 }
 
 declare module 'eslint-config-airbnb-base/rules/style' {
-  declare module.exports: any;
+  declare module.exports: any
 }
 
 declare module 'eslint-config-airbnb-base/rules/variables' {
-  declare module.exports: any;
+  declare module.exports: any
 }
 
 declare module 'eslint-config-airbnb-base/test/requires' {
-  declare module.exports: any;
+  declare module.exports: any
 }
 
 declare module 'eslint-config-airbnb-base/test/test-base' {
-  declare module.exports: any;
+  declare module.exports: any
 }
 
 declare module 'eslint-config-airbnb-base/whitespace' {
-  declare module.exports: any;
+  declare module.exports: any
 }
 
 // Filename aliases
 declare module 'eslint-config-airbnb-base/index' {
-  declare module.exports: $Exports<'eslint-config-airbnb-base'>;
+  declare module.exports: $Exports<'eslint-config-airbnb-base'>
 }
 declare module 'eslint-config-airbnb-base/index.js' {
-  declare module.exports: $Exports<'eslint-config-airbnb-base'>;
+  declare module.exports: $Exports<'eslint-config-airbnb-base'>
 }
 declare module 'eslint-config-airbnb-base/legacy.js' {
-  declare module.exports: $Exports<'eslint-config-airbnb-base/legacy'>;
+  declare module.exports: $Exports<'eslint-config-airbnb-base/legacy'>
 }
 declare module 'eslint-config-airbnb-base/rules/best-practices.js' {
-  declare module.exports: $Exports<'eslint-config-airbnb-base/rules/best-practices'>;
+  declare module.exports: $Exports<'eslint-config-airbnb-base/rules/best-practices'>
 }
 declare module 'eslint-config-airbnb-base/rules/errors.js' {
-  declare module.exports: $Exports<'eslint-config-airbnb-base/rules/errors'>;
+  declare module.exports: $Exports<'eslint-config-airbnb-base/rules/errors'>
 }
 declare module 'eslint-config-airbnb-base/rules/es6.js' {
-  declare module.exports: $Exports<'eslint-config-airbnb-base/rules/es6'>;
+  declare module.exports: $Exports<'eslint-config-airbnb-base/rules/es6'>
 }
 declare module 'eslint-config-airbnb-base/rules/imports.js' {
-  declare module.exports: $Exports<'eslint-config-airbnb-base/rules/imports'>;
+  declare module.exports: $Exports<'eslint-config-airbnb-base/rules/imports'>
 }
 declare module 'eslint-config-airbnb-base/rules/node.js' {
-  declare module.exports: $Exports<'eslint-config-airbnb-base/rules/node'>;
+  declare module.exports: $Exports<'eslint-config-airbnb-base/rules/node'>
 }
 declare module 'eslint-config-airbnb-base/rules/strict.js' {
-  declare module.exports: $Exports<'eslint-config-airbnb-base/rules/strict'>;
+  declare module.exports: $Exports<'eslint-config-airbnb-base/rules/strict'>
 }
 declare module 'eslint-config-airbnb-base/rules/style.js' {
-  declare module.exports: $Exports<'eslint-config-airbnb-base/rules/style'>;
+  declare module.exports: $Exports<'eslint-config-airbnb-base/rules/style'>
 }
 declare module 'eslint-config-airbnb-base/rules/variables.js' {
-  declare module.exports: $Exports<'eslint-config-airbnb-base/rules/variables'>;
+  declare module.exports: $Exports<'eslint-config-airbnb-base/rules/variables'>
 }
 declare module 'eslint-config-airbnb-base/test/requires.js' {
-  declare module.exports: $Exports<'eslint-config-airbnb-base/test/requires'>;
+  declare module.exports: $Exports<'eslint-config-airbnb-base/test/requires'>
 }
 declare module 'eslint-config-airbnb-base/test/test-base.js' {
-  declare module.exports: $Exports<'eslint-config-airbnb-base/test/test-base'>;
+  declare module.exports: $Exports<'eslint-config-airbnb-base/test/test-base'>
 }
 declare module 'eslint-config-airbnb-base/whitespace.js' {
-  declare module.exports: $Exports<'eslint-config-airbnb-base/whitespace'>;
+  declare module.exports: $Exports<'eslint-config-airbnb-base/whitespace'>
 }

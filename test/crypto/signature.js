@@ -1,8 +1,8 @@
 import _ from 'lodash'
 import chai from 'chai'
 import Bitcoin from '../bitcoin'
-import sigCanonical from '../data/bitcoind/sig_canonical'
-import sigNonCanonical from '../data/bitcoind/sig_noncanonical'
+import sigCanonical from '../data/bitcoind/sig_canonical.json'
+import sigNonCanonical from '../data/bitcoind/sig_noncanonical.json'
 
 const should = chai.should()
 const { BN } = Bitcoin.crypto
@@ -10,13 +10,13 @@ const { Signature } = Bitcoin.crypto
 const JSUtil = Bitcoin.util.js
 const { Interpreter } = Bitcoin.Script
 
-describe('Signature', function() {
-  it('should make a blank signature', function() {
+describe('Signature', function () {
+  it('should make a blank signature', function () {
     const sig = new Signature()
     should.exist(sig)
   })
 
-  it('should work with conveniently setting r, s', function() {
+  it('should work with conveniently setting r, s', function () {
     const r = new BN()
     const s = new BN()
     const sig = new Signature(r, s)
@@ -25,29 +25,29 @@ describe('Signature', function() {
     sig.s.toString().should.equal(s.toString())
   })
 
-  describe('#set', function() {
-    it('should set compressed', function() {
+  describe('#set', function () {
+    it('should set compressed', function () {
       should.exist(
         Signature().set({
-          compressed: true
+          compressed: true,
         })
       )
     })
 
-    it('should set nhashtype', function() {
+    it('should set nhashtype', function () {
       const sig = Signature().set({
-        nhashtype: Signature.SIGHASH_ALL
+        nhashtype: Signature.SIGHASH_ALL,
       })
       sig.nhashtype.should.equal(Signature.SIGHASH_ALL)
       sig.set({
-        nhashtype: Signature.SIGHASH_ALL | Signature.SIGHASH_ANYONECANPAY
+        nhashtype: Signature.SIGHASH_ALL | Signature.SIGHASH_ANYONECANPAY,
       })
       sig.nhashtype.should.equal(Signature.SIGHASH_ALL | Signature.SIGHASH_ANYONECANPAY)
     })
   })
 
-  describe('#fromCompact', function() {
-    it('should create a signature from a compressed signature', function() {
+  describe('#fromCompact', function () {
+    it('should create a signature from a compressed signature', function () {
       const blank = Buffer.alloc(32)
       blank.fill(0)
       const compressed = Buffer.concat([Buffer.from([0 + 27 + 4]), blank, blank])
@@ -57,7 +57,7 @@ describe('Signature', function() {
       sig.compressed.should.equal(true)
     })
 
-    it('should create a signature from an uncompressed signature', function() {
+    it('should create a signature from an uncompressed signature', function () {
       const sigHexaStr =
         '1cd5e61ab5bfd0d1450997894cb1a53e917f89d82eb43f06fa96f32c96e061aec12fc1188e8b' +
         '0dc553a2588be2b5b68dbbd7f092894aa3397786e9c769c5348dc6'
@@ -70,68 +70,68 @@ describe('Signature', function() {
     })
   })
 
-  describe('#fromDER', function() {
+  describe('#fromDER', function () {
     const buf = Buffer.from(
       '3044022075fc517e541bd54769c080b64397e32161c850f6c1b2b67a5c433affbb3e62770220729e85cc46ffab881065ec07694220e71d4df9b2b8c8fd12c3122cf3a5efbcf2',
       'hex'
     )
 
-    it('should parse this DER format signature', function() {
+    it('should parse this DER format signature', function () {
       const sig = Signature.fromDER(buf)
       sig.r
         .toBuffer({
-          size: 32
+          size: 32,
         })
         .toString('hex')
         .should.equal('75fc517e541bd54769c080b64397e32161c850f6c1b2b67a5c433affbb3e6277')
       sig.s
         .toBuffer({
-          size: 32
+          size: 32,
         })
         .toString('hex')
         .should.equal('729e85cc46ffab881065ec07694220e71d4df9b2b8c8fd12c3122cf3a5efbcf2')
     })
   })
 
-  describe('#fromString', function() {
+  describe('#fromString', function () {
     const buf = Buffer.from(
       '3044022075fc517e541bd54769c080b64397e32161c850f6c1b2b67a5c433affbb3e62770220729e85cc46ffab881065ec07694220e71d4df9b2b8c8fd12c3122cf3a5efbcf2',
       'hex'
     )
 
-    it('should parse this DER format signature in hex', function() {
+    it('should parse this DER format signature in hex', function () {
       const sig = Signature.fromString(buf.toString('hex'))
       sig.r
         .toBuffer({
-          size: 32
+          size: 32,
         })
         .toString('hex')
         .should.equal('75fc517e541bd54769c080b64397e32161c850f6c1b2b67a5c433affbb3e6277')
       sig.s
         .toBuffer({
-          size: 32
+          size: 32,
         })
         .toString('hex')
         .should.equal('729e85cc46ffab881065ec07694220e71d4df9b2b8c8fd12c3122cf3a5efbcf2')
     })
   })
 
-  describe('#toTxFormat', function() {
-    it('should parse this known signature and rebuild it with updated zero-padded sighash types', function() {
+  describe('#toTxFormat', function () {
+    it('should parse this known signature and rebuild it with updated zero-padded sighash types', function () {
       const original =
         '30450221008bab1f0a2ff2f9cb8992173d8ad73c229d31ea8e10b0f4d4ae1a0d8ed76021fa02200993a6ec81755b9111762fc2cf8e3ede73047515622792110867d12654275e7201'
       const buf = Buffer.from(original, 'hex')
       const sig = Signature.fromTxFormat(buf)
       sig.nhashtype.should.equal(Signature.SIGHASH_ALL)
       sig.set({
-        nhashtype: Signature.SIGHASH_ALL | Signature.SIGHASH_ANYONECANPAY
+        nhashtype: Signature.SIGHASH_ALL | Signature.SIGHASH_ANYONECANPAY,
       })
       sig
         .toTxFormat()
         .toString('hex')
         .should.equal(`${original.slice(0, -2)}81`)
       sig.set({
-        nhashtype: Signature.SIGHASH_SINGLE
+        nhashtype: Signature.SIGHASH_SINGLE,
       })
       sig
         .toTxFormat()
@@ -140,8 +140,8 @@ describe('Signature', function() {
     })
   })
 
-  describe('#fromTxFormat', function() {
-    it('should convert from this known tx-format buffer', function() {
+  describe('#fromTxFormat', function () {
+    it('should convert from this known tx-format buffer', function () {
       const buf = Buffer.from(
         '30450221008bab1f0a2ff2f9cb8992173d8ad73c229d31ea8e10b0f4d4ae1a0d8ed76021fa02200993a6ec81755b9111762fc2cf8e3ede73047515622792110867d12654275e7201',
         'hex'
@@ -160,20 +160,17 @@ describe('Signature', function() {
       sig.nhashtype.should.equal(Signature.SIGHASH_ALL)
     })
 
-    it('should parse this known signature and rebuild it', function() {
+    it('should parse this known signature and rebuild it', function () {
       const hex =
         '3044022007415aa37ce7eaa6146001ac8bdefca0ddcba0e37c5dc08c4ac99392124ebac802207d382307fd53f65778b07b9c63b6e196edeadf0be719130c5db21ff1e700d67501'
       const buf = Buffer.from(hex, 'hex')
       const sig = Signature.fromTxFormat(buf)
-      sig
-        .toTxFormat()
-        .toString('hex')
-        .should.equal(hex)
+      sig.toTxFormat().toString('hex').should.equal(hex)
     })
   })
 
-  describe('#parseDER', function() {
-    it('should parse this signature generated in node', function() {
+  describe('#parseDER', function () {
+    it('should parse this signature generated in node', function () {
       const sighex =
         '30450221008bab1f0a2ff2f9cb8992173d8ad73c229d31ea8e10b0f4d4ae1a0d8ed76021fa02200993a6ec81755b9111762fc2cf8e3ede73047515622792110867d12654275e72'
       const sig = Buffer.from(sighex, 'hex')
@@ -202,7 +199,7 @@ describe('Signature', function() {
         )
     })
 
-    it('should parse this 69 byte signature', function() {
+    it('should parse this 69 byte signature', function () {
       const sighex =
         '3043021f59e4705959cc78acbfcf8bd0114e9cc1b389a4287fb33152b73a38c319b50302202f7428a27284c757e409bf41506183e9e49dfb54d5063796dfa0d403a4deccfa'
       const sig = Buffer.from(sighex, 'hex')
@@ -229,7 +226,7 @@ describe('Signature', function() {
         )
     })
 
-    it('should parse this 68 byte signature', function() {
+    it('should parse this 68 byte signature', function () {
       const sighex =
         '3042021e17cfe77536c3fb0526bd1a72d7a8e0973f463add210be14063c8a9c37632022061bfa677f825ded82ba0863fb0c46ca1388dd3e647f6a93c038168b59d131a51'
       const sig = Buffer.from(sighex, 'hex')
@@ -256,7 +253,7 @@ describe('Signature', function() {
         )
     })
 
-    it('should parse this signature from script_valid.json', function() {
+    it('should parse this signature from script_valid.json', function () {
       const sighex =
         '304502203e4516da7253cf068effec6b95c41221c0cf3a8e6ccb8cbf1725b562e9afde2c022100ab1e3da73d67e32045a20e0b999e049978ea8d6ee5480d485fcf2ce0d03b2ef051'
       const sig = Buffer.from(sighex, 'hex')
@@ -265,8 +262,8 @@ describe('Signature', function() {
     })
   })
 
-  describe('#toDER', function() {
-    it('should convert these known r and s values into a known signature', function() {
+  describe('#toDER', function () {
+    it('should convert these known r and s values into a known signature', function () {
       const r = new BN(
         '63173831029936981022572627018246571655303050627048489594159321588908385378810'
       )
@@ -275,7 +272,7 @@ describe('Signature', function() {
       )
       const sig = new Signature({
         r,
-        s
+        s,
       })
       const der = sig.toDER(r, s)
       der
@@ -286,8 +283,8 @@ describe('Signature', function() {
     })
   })
 
-  describe('#toString', function() {
-    it('should convert this signature in to hex DER', function() {
+  describe('#toString', function () {
+    it('should convert this signature in to hex DER', function () {
       const r = new BN(
         '63173831029936981022572627018246571655303050627048489594159321588908385378810'
       )
@@ -296,7 +293,7 @@ describe('Signature', function() {
       )
       const sig = new Signature({
         r,
-        s
+        s,
       })
       const hex = sig.toString()
       hex.should.equal(
@@ -305,15 +302,15 @@ describe('Signature', function() {
     })
   })
 
-  describe('@isTxDER', function() {
-    it('should know this is a DER signature', function() {
+  describe('@isTxDER', function () {
+    it('should know this is a DER signature', function () {
       const sighex =
         '3042021e17cfe77536c3fb0526bd1a72d7a8e0973f463add210be14063c8a9c37632022061bfa677f825ded82ba0863fb0c46ca1388dd3e647f6a93c038168b59d131a5101'
       const sigbuf = Buffer.from(sighex, 'hex')
       Signature.isTxDER(sigbuf).should.equal(true)
     })
 
-    it('should know this is not a DER signature', function() {
+    it('should know this is not a DER signature', function () {
       // for more extensive tests, see the script interpreter
       const sighex =
         '3042021e17cfe77536c3fb0526bd1a72d7a8e0973f463add210be14063c8a9c37632022061bfa677f825ded82ba0863fb0c46ca1388dd3e647f6a93c038168b59d131a5101'
@@ -322,15 +319,15 @@ describe('Signature', function() {
       Signature.isTxDER(sigbuf).should.equal(false)
     })
 
-    describe('bitcoind fixtures', function() {
-      const testSigs = function(set, expected) {
+    describe('bitcoind fixtures', function () {
+      const testSigs = function (set, expected) {
         let i = 0
-        set.forEach(function(vector) {
+        set.forEach(function (vector) {
           if (!JSUtil.isHexa(vector)) {
             // non-hex strings are ignored
             return
           }
-          it(`should be ${expected ? '' : 'in'}valid for fixture #${i}`, function() {
+          it(`should be ${expected ? '' : 'in'}valid for fixture #${i}`, function () {
             const sighex = vector
             const interp = Interpreter()
             interp.flags = Interpreter.SCRIPT_VERIFY_DERSIG | Interpreter.SCRIPT_VERIFY_STRICTENC
@@ -344,40 +341,40 @@ describe('Signature', function() {
       testSigs(sigNonCanonical, false)
     })
   })
-  describe('#hasLowS', function() {
-    it('should detect high and low S', function() {
+  describe('#hasLowS', function () {
+    it('should detect high and low S', function () {
       const r = new BN(
         '63173831029936981022572627018246571655303050627048489594159321588908385378810'
       )
 
       const sig = new Signature({
         r,
-        s: new BN('7FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF5D576E7357A4501DDFE92F46681B20A1', 'hex')
+        s: new BN('7FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF5D576E7357A4501DDFE92F46681B20A1', 'hex'),
       })
       sig.hasLowS().should.equal(false)
 
       const sig2 = new Signature({
         r,
-        s: new BN('7FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF5D576E7357A4501DDFE92F46681B20A0', 'hex')
+        s: new BN('7FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF5D576E7357A4501DDFE92F46681B20A0', 'hex'),
       })
       sig2.hasLowS().should.equal(true)
 
       const sig3 = new Signature({
         r,
-        s: new BN(1)
+        s: new BN(1),
       })
       sig3.hasLowS().should.equal(true)
 
       const sig4 = new Signature({
         r,
-        s: new BN(0)
+        s: new BN(0),
       })
       sig4.hasLowS().should.equal(false)
     })
   })
 
-  describe('#hasDefinedHashtype', function() {
-    it('should reject invalid sighash types and accept valid ones', function() {
+  describe('#hasDefinedHashtype', function () {
+    it('should reject invalid sighash types and accept valid ones', function () {
       const sig = new Signature()
       sig.hasDefinedHashtype().should.equal(false)
       const testCases = [
@@ -398,9 +395,9 @@ describe('Signature', function() {
         [Signature.SIGHASH_SINGLE, true],
         [Signature.SIGHASH_SINGLE + 1, false],
         [(Signature.SIGHASH_ANYONECANPAY | Signature.SIGHASH_SINGLE) + 1, false],
-        [(Signature.SIGHASH_ANYONECANPAY | Signature.SIGHASH_ALL) - 1, false]
+        [(Signature.SIGHASH_ANYONECANPAY | Signature.SIGHASH_ALL) - 1, false],
       ]
-      _.each(testCases, function(testCase) {
+      _.each(testCases, function (testCase) {
         ;[sig.nhashtype] = testCase
         sig.hasDefinedHashtype().should.equal(testCase[1])
       })

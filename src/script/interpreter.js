@@ -42,7 +42,7 @@ const Interpreter = function Interpreter(obj) {
  *
  * Translated from bitcoind's VerifyScript
  */
-Interpreter.prototype.verify = function(scriptSig, scriptPubkey, tx, nin, flags) {
+Interpreter.prototype.verify = function (scriptSig, scriptPubkey, tx, nin, flags) {
   if (_.isUndefined(tx)) {
     tx = new Transaction()
   }
@@ -56,7 +56,7 @@ Interpreter.prototype.verify = function(scriptSig, scriptPubkey, tx, nin, flags)
     script: scriptSig,
     tx,
     nin,
-    flags
+    flags,
   })
   let stackCopy
 
@@ -81,7 +81,7 @@ Interpreter.prototype.verify = function(scriptSig, scriptPubkey, tx, nin, flags)
     stack,
     tx,
     nin,
-    flags
+    flags,
   })
 
   // evaluate scriptPubkey
@@ -125,7 +125,7 @@ Interpreter.prototype.verify = function(scriptSig, scriptPubkey, tx, nin, flags)
       stack: stackCopy,
       tx,
       nin,
-      flags
+      flags,
     })
 
     // evaluate redeemScript
@@ -148,7 +148,7 @@ Interpreter.prototype.verify = function(scriptSig, scriptPubkey, tx, nin, flags)
   return true
 }
 
-Interpreter.prototype.initialize = function() {
+Interpreter.prototype.initialize = function () {
   this.stack = []
   this.altstack = []
   this.pc = 0
@@ -159,7 +159,7 @@ Interpreter.prototype.initialize = function() {
   this.flags = 0
 }
 
-Interpreter.prototype.set = function(obj) {
+Interpreter.prototype.set = function (obj) {
   this.script = obj.script || this.script
   this.tx = obj.tx || this.tx
   this.nin = typeof obj.nin !== 'undefined' ? obj.nin : this.nin
@@ -229,7 +229,7 @@ Interpreter.SCRIPT_VERIFY_DISCOURAGE_UPGRADABLE_NOPS = 1 << 7
 // CLTV See BIP65 for details.
 Interpreter.SCRIPT_VERIFY_CHECKLOCKTIMEVERIFY = 1 << 9
 
-Interpreter.castToBool = function(buf) {
+Interpreter.castToBool = function (buf) {
   for (let i = 0; i < buf.length; i += 1) {
     if (buf[i] !== 0) {
       // can be negative zero
@@ -245,7 +245,7 @@ Interpreter.castToBool = function(buf) {
 /**
  * Translated from bitcoind's CheckSignatureEncoding
  */
-Interpreter.prototype.checkSignatureEncoding = function(buf) {
+Interpreter.prototype.checkSignatureEncoding = function (buf) {
   let sig
   if (
     (this.flags &
@@ -277,7 +277,7 @@ Interpreter.prototype.checkSignatureEncoding = function(buf) {
 /**
  * Translated from bitcoind's CheckPubKeyEncoding
  */
-Interpreter.prototype.checkPubkeyEncoding = function(buf) {
+Interpreter.prototype.checkPubkeyEncoding = function (buf) {
   if ((this.flags & Interpreter.SCRIPT_VERIFY_STRICTENC) !== 0 && !PublicKey.isValid(buf)) {
     this.errstr = 'SCRIPT_ERR_PUBKEYTYPE'
     return false
@@ -290,7 +290,7 @@ Interpreter.prototype.checkPubkeyEncoding = function(buf) {
  * Interpreter.prototype.step()
  * bitcoind commit: b5d1b1092998bc95313856d535c632ea5a8f9104
  */
-Interpreter.prototype.evaluate = function() {
+Interpreter.prototype.evaluate = function () {
   if (this.script.toBuffer().length > 10000) {
     this.errstr = 'SCRIPT_ERR_SCRIPT_SIZE'
     return false
@@ -334,7 +334,7 @@ Interpreter.prototype.evaluate = function() {
  * @return {boolean} true if the transaction's locktime is less than or equal to
  *                   the transaction's locktime
  */
-Interpreter.prototype.checkLockTime = function(nLockTime) {
+Interpreter.prototype.checkLockTime = function (nLockTime) {
   // We want to compare apples to apples, so fail the script
   // unless the type of nLockTime being tested is the same as
   // the nLockTime in the transaction.
@@ -376,7 +376,7 @@ Interpreter.prototype.checkLockTime = function(nLockTime) {
  * Based on the inner loop of bitcoind's EvalScript function
  * bitcoind commit: b5d1b1092998bc95313856d535c632ea5a8f9104
  */
-Interpreter.prototype.step = function() {
+Interpreter.prototype.step = function () {
   const fRequireMinimal = (this.flags & Interpreter.SCRIPT_VERIFY_MINIMALDATA) !== 0
 
   // bool fExec = !count(vfExec.begin(), vfExec.end(), false);
@@ -1068,7 +1068,7 @@ Interpreter.prototype.step = function() {
           // Subset of script starting at the most recent codeseparator
           // CScript scriptCode(pbegincodehash, pend);
           subscript = new Script().set({
-            chunks: this.script.chunks.slice(this.pbegincodehash)
+            chunks: this.script.chunks.slice(this.pbegincodehash),
           })
 
           // Drop the signature, since there's no way for a signature to sign itself
@@ -1155,7 +1155,7 @@ Interpreter.prototype.step = function() {
 
           // Subset of script starting at the most recent codeseparator
           subscript = new Script().set({
-            chunks: this.script.chunks.slice(this.pbegincodehash)
+            chunks: this.script.chunks.slice(this.pbegincodehash),
           })
 
           // Drop the signatures, since there's no way for a signature to sign itself

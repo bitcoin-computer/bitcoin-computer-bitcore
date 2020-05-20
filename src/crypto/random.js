@@ -4,11 +4,11 @@ import randomBytes from 'randombytes'
 
 const Random = {}
 
-Random.getRandomBufferNode = function(size: number) {
+Random.getRandomBufferNode = function (size: number) {
   return randomBytes(size)
 }
 
-Random.getRandomBufferBrowser = function(size: number) {
+Random.getRandomBufferBrowser = function (size: number) {
   let windowCrypto
   if (window.crypto && window.crypto.getRandomValues) {
     windowCrypto = window.crypto
@@ -27,7 +27,7 @@ Random.getRandomBufferBrowser = function(size: number) {
 }
 
 /* secure random bytes that sometimes throws an error due to lack of entropy */
-Random.getRandomBuffer = function(size: number) {
+Random.getRandomBuffer = function (size: number) {
   if (
     typeof window !== 'undefined' &&
     (typeof window.crypto !== 'undefined' || typeof window.msCrypto !== 'undefined')
@@ -38,7 +38,7 @@ Random.getRandomBuffer = function(size: number) {
 }
 
 /* insecure random bytes, but it never fails */
-Random.getPseudoRandomBuffer = function(size: number) {
+Random.getPseudoRandomBuffer = function (size: number) {
   const b32 = 0x100000000
   const b = Buffer.alloc(size)
   let r = 0

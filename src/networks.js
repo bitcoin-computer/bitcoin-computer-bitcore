@@ -35,7 +35,7 @@ function get(arg, keys) {
       keys = [keys]
     }
 
-    const index = networks.findIndex(network => _.some(keys, key => network[key] === arg))
+    const index = networks.findIndex((network) => _.some(keys, (key) => network[key] === arg))
     if (index !== -1) {
       return networks[index]
     }
@@ -72,27 +72,27 @@ function addNetwork(data) {
     privatekey: data.privatekey,
     scripthash: data.scripthash,
     xpubkey: data.xpubkey,
-    xprivkey: data.xprivkey
+    xprivkey: data.xprivkey,
   })
 
   if (data.networkMagic) {
     JSUtil.defineImmutable(network, {
-      networkMagic: BufferUtil.integerAsBuffer(data.networkMagic)
+      networkMagic: BufferUtil.integerAsBuffer(data.networkMagic),
     })
   }
 
   if (data.port) {
     JSUtil.defineImmutable(network, {
-      port: data.port
+      port: data.port,
     })
   }
 
   if (data.dnsSeeds) {
     JSUtil.defineImmutable(network, {
-      dnsSeeds: data.dnsSeeds
+      dnsSeeds: data.dnsSeeds,
     })
   }
-  _.each(network, value => {
+  _.each(network, (value) => {
     if (!_.isUndefined(value) && !_.isObject(value)) {
       networkMaps[value] = network
     }
@@ -115,7 +115,7 @@ function removeNetwork(network) {
       networks.splice(i, 1)
     }
   }
-  Object.keys(networkMaps).forEach(objectKey => {
+  Object.keys(networkMaps).forEach((objectKey) => {
     if (networkMaps[objectKey] === network) {
       delete networkMaps[objectKey]
     }
@@ -138,8 +138,8 @@ addNetwork({
     'dnsseed.bitcoin.dashjr.org',
     'seed.bitcoinstats.com',
     'seed.bitnodes.io',
-    'bitseed.xf2.org'
-  ]
+    'bitseed.xf2.org',
+  ],
 })
 
 /**
@@ -155,7 +155,7 @@ addNetwork({
   privatekey: 0xef,
   scripthash: 0xc4,
   xpubkey: 0x043587cf,
-  xprivkey: 0x04358394
+  xprivkey: 0x04358394,
 })
 
 /**
@@ -173,11 +173,11 @@ const TESTNET = {
     'testnet-seed.bitcoin.petertodd.org',
     'testnet-seed.bluematt.me',
     'testnet-seed.alexykot.me',
-    'testnet-seed.bitcoin.schildbach.de'
-  ]
+    'testnet-seed.bitcoin.schildbach.de',
+  ],
 }
 
-Object.keys(TESTNET).forEach(objectKey => {
+Object.keys(TESTNET).forEach((objectKey) => {
   if (!_.isObject(TESTNET[objectKey])) {
     networkMaps[TESTNET[objectKey]] = testnet
   }
@@ -186,10 +186,10 @@ Object.keys(TESTNET).forEach(objectKey => {
 const REGTEST = {
   PORT: 18444,
   NETWORK_MAGIC: BufferUtil.integerAsBuffer(0xfabfb5da),
-  DNS_SEEDS: []
+  DNS_SEEDS: [],
 }
 
-Object.keys(REGTEST).forEach(objectKey => {
+Object.keys(REGTEST).forEach((objectKey) => {
   if (!_.isObject(REGTEST[objectKey])) {
     networkMaps[REGTEST[objectKey]] = testnet
   }
@@ -203,7 +203,7 @@ Object.defineProperty(testnet, 'port', {
       return REGTEST.PORT
     }
     return TESTNET.PORT
-  }
+  },
 })
 
 Object.defineProperty(testnet, 'networkMagic', {
@@ -214,7 +214,7 @@ Object.defineProperty(testnet, 'networkMagic', {
       return REGTEST.NETWORK_MAGIC
     }
     return TESTNET.NETWORK_MAGIC
-  }
+  },
 })
 
 Object.defineProperty(testnet, 'dnsSeeds', {
@@ -225,7 +225,7 @@ Object.defineProperty(testnet, 'dnsSeeds', {
       return REGTEST.DNS_SEEDS
     }
     return TESTNET.DNS_SEEDS
-  }
+  },
 })
 
 /**
@@ -258,5 +258,5 @@ export default {
   testnet,
   get,
   enableRegtest,
-  disableRegtest
+  disableRegtest,
 }

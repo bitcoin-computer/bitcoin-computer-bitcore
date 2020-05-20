@@ -14,7 +14,7 @@
  */
 
 declare module 'unorm' {
-  declare module.exports: any;
+  declare module.exports: any
 }
 
 /**
@@ -23,10 +23,10 @@ declare module 'unorm' {
  * needed.
  */
 declare module 'unorm/lib/unorm' {
-  declare module.exports: any;
+  declare module.exports: any
 }
 
 // Filename aliases
 declare module 'unorm/lib/unorm.js' {
-  declare module.exports: $Exports<'unorm/lib/unorm'>;
+  declare module.exports: $Exports<'unorm/lib/unorm'>
 }

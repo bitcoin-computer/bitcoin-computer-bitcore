@@ -77,7 +77,7 @@ class TransactionSignature extends Signature {
       outputIndex: this.outputIndex,
       inputIndex: this.inputIndex,
       signature: this.signature.toString(),
-      sigtype: this.sigtype
+      sigtype: this.sigtype,
     }
   }
 

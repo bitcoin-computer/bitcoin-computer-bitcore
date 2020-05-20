@@ -58,11 +58,11 @@ export default {
    * @return {Object} The target object
    */
   defineImmutable: function defineImmutable(target, values) {
-    Object.keys(values).forEach(key => {
+    Object.keys(values).forEach((key) => {
       Object.defineProperty(target, key, {
         configurable: false,
         enumerable: true,
-        value: values[key]
+        value: values[key],
       })
     })
     return target
@@ -80,5 +80,5 @@ export default {
       Math.floor(value) === value &&
       value >= 0
     )
-  }
+  },
 }

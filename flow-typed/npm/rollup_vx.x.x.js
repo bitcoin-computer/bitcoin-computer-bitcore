@@ -14,7 +14,7 @@
  */
 
 declare module 'rollup' {
-  declare module.exports: any;
+  declare module.exports: any
 }
 
 /**
@@ -23,31 +23,31 @@ declare module 'rollup' {
  * needed.
  */
 declare module 'rollup/dist/rollup.browser.es' {
-  declare module.exports: any;
+  declare module.exports: any
 }
 
 declare module 'rollup/dist/rollup.browser' {
-  declare module.exports: any;
+  declare module.exports: any
 }
 
 declare module 'rollup/dist/rollup.es' {
-  declare module.exports: any;
+  declare module.exports: any
 }
 
 declare module 'rollup/dist/rollup' {
-  declare module.exports: any;
+  declare module.exports: any
 }
 
 // Filename aliases
 declare module 'rollup/dist/rollup.browser.es.js' {
-  declare module.exports: $Exports<'rollup/dist/rollup.browser.es'>;
+  declare module.exports: $Exports<'rollup/dist/rollup.browser.es'>
 }
 declare module 'rollup/dist/rollup.browser.js' {
-  declare module.exports: $Exports<'rollup/dist/rollup.browser'>;
+  declare module.exports: $Exports<'rollup/dist/rollup.browser'>
 }
 declare module 'rollup/dist/rollup.es.js' {
-  declare module.exports: $Exports<'rollup/dist/rollup.es'>;
+  declare module.exports: $Exports<'rollup/dist/rollup.es'>
 }
 declare module 'rollup/dist/rollup.js' {
-  declare module.exports: $Exports<'rollup/dist/rollup'>;
+  declare module.exports: $Exports<'rollup/dist/rollup'>
 }

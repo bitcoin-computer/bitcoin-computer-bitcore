@@ -63,7 +63,7 @@ function HDPublicKey(arg) {
  * @param {string|number} arg
  * @return {boolean}
  */
-HDPublicKey.isValidPath = function(arg) {
+HDPublicKey.isValidPath = function (arg) {
   if (_.isString(arg)) {
     const indexes = HDPrivateKey._getDerivationIndexes(arg)
     return indexes !== null && _.every(indexes, HDPublicKey.isValidPath)
@@ -101,7 +101,7 @@ HDPublicKey.isValidPath = function(arg) {
  *
  * @param {string|number} arg
  */
-HDPublicKey.prototype.derive = function(arg, hardened) {
+HDPublicKey.prototype.derive = function (arg, hardened) {
   return this.deriveChild(arg, hardened)
 }
 
@@ -130,7 +130,7 @@ HDPublicKey.prototype.derive = function(arg, hardened) {
  *
  * @param {string|number} arg
  */
-HDPublicKey.prototype.deriveChild = function(arg, hardened) {
+HDPublicKey.prototype.deriveChild = function (arg, hardened) {
   if (_.isNumber(arg)) {
     return this._deriveWithNumber(arg, hardened)
   }
@@ -140,7 +140,7 @@ HDPublicKey.prototype.deriveChild = function(arg, hardened) {
   throw new hdErrors.InvalidDerivationArgument(arg)
 }
 
-HDPublicKey.prototype._deriveWithNumber = function(index, hardened) {
+HDPublicKey.prototype._deriveWithNumber = function (index, hardened) {
   if (index >= HDPublicKey.Hardened || hardened) {
     throw new hdErrors.InvalidIndexCantDeriveHardened()
   }
@@ -156,11 +156,7 @@ HDPublicKey.prototype._deriveWithNumber = function(index, hardened) {
 
   let publicKey
   try {
-    publicKey = PublicKey.fromPoint(
-      Point.getG()
-        .mul(leftPart)
-        .add(this.publicKey.point)
-    )
+    publicKey = PublicKey.fromPoint(Point.getG().mul(leftPart).add(this.publicKey.point))
   } catch (e) {
     return this._deriveWithNumber(index + 1)
   }
@@ -171,13 +167,13 @@ HDPublicKey.prototype._deriveWithNumber = function(index, hardened) {
     parentFingerPrint: this.fingerPrint,
     childIndex: index,
     chainCode,
-    publicKey
+    publicKey,
   })
 
   return derived
 }
 
-HDPublicKey.prototype._deriveFromString = function(path) {
+HDPublicKey.prototype._deriveFromString = function (path) {
   if (_.includes(path, "'")) {
     throw new hdErrors.InvalidIndexCantDeriveHardened()
   } else if (!HDPublicKey.isValidPath(path)) {
@@ -199,7 +195,7 @@ HDPublicKey.prototype._deriveFromString = function(path) {
  *     network provided matches the network serialized.
  * @return {boolean}
  */
-HDPublicKey.isValidSerialized = function(data, network) {
+HDPublicKey.isValidSerialized = function (data, network) {
   return _.isNull(HDPublicKey.getSerializedError(data, network))
 }
 
@@ -212,7 +208,7 @@ HDPublicKey.isValidSerialized = function(data, network) {
  *     network provided matches the network serialized.
  * @return {errors|null}
  */
-HDPublicKey.getSerializedError = function(data, network) {
+HDPublicKey.getSerializedError = function (data, network) {
   if (!(_.isString(data) || BufferUtil.isBuffer(data))) {
     return new hdErrors.UnrecognizedArgument('expected buffer or string')
   }
@@ -240,7 +236,7 @@ HDPublicKey.getSerializedError = function(data, network) {
   return null
 }
 
-HDPublicKey._validateNetwork = function(data, networkArg) {
+HDPublicKey._validateNetwork = function (data, networkArg) {
   const network = Network.get(networkArg)
   if (!network) {
     return new errors.InvalidNetworkArgument(networkArg)
@@ -252,7 +248,7 @@ HDPublicKey._validateNetwork = function(data, networkArg) {
   return null
 }
 
-HDPublicKey.prototype._buildFromPrivate = function(arg) {
+HDPublicKey.prototype._buildFromPrivate = function (arg) {
   const args = _.clone(arg._buffers)
   const point = Point.getG().mul(BN.fromBuffer(args.privateKey))
   args.publicKey = Point.pointToCompressed(point)
@@ -265,7 +261,7 @@ HDPublicKey.prototype._buildFromPrivate = function(arg) {
   return this._buildFromBuffers(args)
 }
 
-HDPublicKey.prototype._buildFromObject = function(arg) {
+HDPublicKey.prototype._buildFromObject = function (arg) {
   // TODO: Type validation
   let publicKey
   if (_.isString(arg.publicKey)) {
@@ -289,12 +285,12 @@ HDPublicKey.prototype._buildFromObject = function(arg) {
       : arg.childIndex,
     chainCode: _.isString(arg.chainCode) ? BufferUtil.hexToBuffer(arg.chainCode) : arg.chainCode,
     publicKey,
-    checksum: _.isNumber(arg.checksum) ? BufferUtil.integerAsBuffer(arg.checksum) : arg.checksum
+    checksum: _.isNumber(arg.checksum) ? BufferUtil.integerAsBuffer(arg.checksum) : arg.checksum,
   }
   return this._buildFromBuffers(buffers)
 }
 
-HDPublicKey.prototype._buildFromSerialized = function(arg) {
+HDPublicKey.prototype._buildFromSerialized = function (arg) {
   const decoded = Base58Check.decode(arg)
   const buffers = {
     version: decoded.slice(HDPublicKey.VersionStart, HDPublicKey.VersionEnd),
@@ -307,7 +303,7 @@ HDPublicKey.prototype._buildFromSerialized = function(arg) {
     chainCode: decoded.slice(HDPublicKey.ChainCodeStart, HDPublicKey.ChainCodeEnd),
     publicKey: decoded.slice(HDPublicKey.PublicKeyStart, HDPublicKey.PublicKeyEnd),
     checksum: decoded.slice(HDPublicKey.ChecksumStart, HDPublicKey.ChecksumEnd),
-    xpubkey: arg
+    xpubkey: arg,
   }
   return this._buildFromBuffers(buffers)
 }
@@ -328,11 +324,11 @@ HDPublicKey.prototype._buildFromSerialized = function(arg) {
  *      representation
  * @return {HDPublicKey} this
  */
-HDPublicKey.prototype._buildFromBuffers = function(arg) {
+HDPublicKey.prototype._buildFromBuffers = function (arg) {
   HDPublicKey._validateBufferArguments(arg)
 
   JSUtil.defineImmutable(this, {
-    _buffers: arg
+    _buffers: arg,
   })
 
   const sequence = [
@@ -341,7 +337,7 @@ HDPublicKey.prototype._buildFromBuffers = function(arg) {
     arg.parentFingerPrint,
     arg.childIndex,
     arg.chainCode,
-    arg.publicKey
+    arg.publicKey,
   ]
   const concat = BufferUtil.concat(sequence)
   const checksum = Base58Check.checksum(concat)
@@ -364,14 +360,14 @@ HDPublicKey.prototype._buildFromBuffers = function(arg) {
     network,
     depth: BufferUtil.integerFromSingleByteBuffer(arg.depth),
     publicKey,
-    fingerPrint
+    fingerPrint,
   })
 
   return this
 }
 
-HDPublicKey._validateBufferArguments = function(arg) {
-  const checkBuffer = function(name, size) {
+HDPublicKey._validateBufferArguments = function (arg) {
+  const checkBuffer = function (name, size) {
     const buff = arg[name]
     assert(BufferUtil.isBuffer(buff), `${name} argument is not a buffer, it's ${typeof buff}`)
     assert(buff.length === size, `${name} size unexpected: found ${buff.length}, expected ${size}`)
@@ -387,12 +383,12 @@ HDPublicKey._validateBufferArguments = function(arg) {
   }
 }
 
-HDPublicKey.fromString = function(arg) {
+HDPublicKey.fromString = function (arg) {
   $.checkArgument(_.isString(arg), 'No valid string was provided')
   return new HDPublicKey(arg)
 }
 
-HDPublicKey.fromObject = function(arg) {
+HDPublicKey.fromObject = function (arg) {
   $.checkArgument(_.isObject(arg), 'No valid argument was provided')
   return new HDPublicKey(arg)
 }
@@ -401,7 +397,7 @@ HDPublicKey.fromObject = function(arg) {
  * Returns the base58 checked representation of the public key
  * @return {string} a string starting with "xpub..." in livenet
  */
-HDPublicKey.prototype.toString = function() {
+HDPublicKey.prototype.toString = function () {
   return this.xpubkey
 }
 
@@ -409,7 +405,7 @@ HDPublicKey.prototype.toString = function() {
  * Returns the console representation of this extended public key.
  * @return string
  */
-HDPublicKey.prototype.inspect = function() {
+HDPublicKey.prototype.inspect = function () {
   return `<HDPublicKey: ${this.xpubkey}>`
 }
 
@@ -440,7 +436,7 @@ HDPublicKey.prototype.toJSON = function toObject() {
     chainCode: BufferUtil.bufferToHex(this._buffers.chainCode),
     publicKey: this.publicKey.toString(),
     checksum: BufferUtil.integerFromBuffer(this._buffers.checksum),
-    xpubkey: this.xpubkey
+    xpubkey: this.xpubkey,
   }
 }
 
@@ -452,7 +448,7 @@ HDPublicKey.prototype.toObject = HDPublicKey.prototype.toJSON
  * @param {Buffer} arg
  * @return {HDPublicKey}
  */
-HDPublicKey.fromBuffer = function(arg) {
+HDPublicKey.fromBuffer = function (arg) {
   return new HDPublicKey(arg)
 }
 
@@ -461,7 +457,7 @@ HDPublicKey.fromBuffer = function(arg) {
  *
  * @return {Buffer}
  */
-HDPublicKey.prototype.toBuffer = function() {
+HDPublicKey.prototype.toBuffer = function () {
   return BufferUtil.copy(this._buffers.xpubkey)
 }
 

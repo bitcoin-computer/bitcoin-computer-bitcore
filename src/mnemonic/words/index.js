@@ -11,5 +11,5 @@ export default {
   FRENCH,
   ITALIAN,
   JAPANESE,
-  SPANISH
+  SPANISH,
 }

@@ -128,7 +128,7 @@ class Message {
    */
   toObject() {
     return {
-      message: this.message
+      message: this.message,
     }
   }
 

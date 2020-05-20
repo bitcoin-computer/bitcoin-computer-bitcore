@@ -14,7 +14,7 @@
  */
 
 declare module 'randombytes' {
-  declare module.exports: any;
+  declare module.exports: any
 }
 
 /**
@@ -23,23 +23,23 @@ declare module 'randombytes' {
  * needed.
  */
 declare module 'randombytes/browser' {
-  declare module.exports: any;
+  declare module.exports: any
 }
 
 declare module 'randombytes/test' {
-  declare module.exports: any;
+  declare module.exports: any
 }
 
 // Filename aliases
 declare module 'randombytes/browser.js' {
-  declare module.exports: $Exports<'randombytes/browser'>;
+  declare module.exports: $Exports<'randombytes/browser'>
 }
 declare module 'randombytes/index' {
-  declare module.exports: $Exports<'randombytes'>;
+  declare module.exports: $Exports<'randombytes'>
 }
 declare module 'randombytes/index.js' {
-  declare module.exports: $Exports<'randombytes'>;
+  declare module.exports: $Exports<'randombytes'>
 }
 declare module 'randombytes/test.js' {
-  declare module.exports: $Exports<'randombytes/test'>;
+  declare module.exports: $Exports<'randombytes/test'>
 }

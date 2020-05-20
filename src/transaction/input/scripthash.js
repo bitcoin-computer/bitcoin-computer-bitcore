@@ -30,19 +30,19 @@ class ScriptHashInput extends Input {
   toObject(...args) {
     const obj = Input.prototype.toObject.apply(this, args)
     obj.threshold = this.threshold
-    obj.publicKeys = this.publicKeys.map(publicKey => publicKey.toString())
+    obj.publicKeys = this.publicKeys.map((publicKey) => publicKey.toString())
     obj.signatures = this._serializeSignatures()
     return obj
   }
 
   _deserializeSignatures(signatures) {
-    return signatures.map(signature =>
+    return signatures.map((signature) =>
       signature ? new TransactionSignature(signature) : undefined
     )
   }
 
   _serializeSignatures() {
-    return this.signatures.map(signature => (signature ? signature.toObject() : undefined))
+    return this.signatures.map((signature) => (signature ? signature.toObject() : undefined))
   }
 
   getSignatures(transaction, privateKey, index, sigtype) {
@@ -50,10 +50,10 @@ class ScriptHashInput extends Input {
     sigtype = sigtype || Signature.SIGHASH_ALL | Signature.SIGHASH_FORKID
 
     const publicKeysForPrivateKey = this.publicKeys.filter(
-      publicKey => publicKey.toString() === privateKey.publicKey.toString()
+      (publicKey) => publicKey.toString() === privateKey.publicKey.toString()
     )
     return publicKeysForPrivateKey.map(
-      publicKey =>
+      (publicKey) =>
         new TransactionSignature({
           publicKey,
           prevTxId: this.prevTxId,
@@ -67,7 +67,7 @@ class ScriptHashInput extends Input {
             this.output.script,
             this.output.satoshisBN
           ),
-          sigtype
+          sigtype,
         })
     )
   }
@@ -87,18 +87,18 @@ class ScriptHashInput extends Input {
   _updateScript() {
     this.setScript(
       Script.buildP2SHMultisigIn(this.publicKeys, this.threshold, this._createSignatures(), {
-        cachedMultisig: this.redeemScript
+        cachedMultisig: this.redeemScript,
       })
     )
     return this
   }
 
   _createSignatures() {
-    const definedSignatures = this.signatures.filter(signature => signature !== undefined)
-    return definedSignatures.map(signature =>
+    const definedSignatures = this.signatures.filter((signature) => signature !== undefined)
+    return definedSignatures.map((signature) =>
       BufferUtil.concat([
         signature.signature.toDER(),
-        BufferUtil.integerAsSingleByteBuffer(signature.sigtype)
+        BufferUtil.integerAsSingleByteBuffer(signature.sigtype),
       ])
     )
   }
@@ -123,7 +123,7 @@ class ScriptHashInput extends Input {
   publicKeysWithoutSignature() {
     const self = this
     return this.publicKeys.filter(
-      publicKey => !self.signatures[self.publicKeyIndex[publicKey.toString()]]
+      (publicKey) => !self.signatures[self.publicKeyIndex[publicKey.toString()]]
     )
   }
 

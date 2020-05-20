@@ -1,9 +1,9 @@
 import chai from 'chai'
 import Bitcoin from '../bitcoin'
-import scriptValid from '../data/bitcoind/script_valid'
-import scriptInvalid from '../data/bitcoind/script_invalid'
-import txValid from '../data/bitcoind/tx_valid'
-import txInvalid from '../data/bitcoind/tx_invalid'
+import scriptValid from '../data/bitcoind/script_valid.json'
+import scriptInvalid from '../data/bitcoind/script_invalid.json'
+import txValid from '../data/bitcoind/tx_valid.json'
+import txInvalid from '../data/bitcoind/tx_invalid.json'
 
 const should = chai.should()
 const { Interpreter } = Bitcoin.Script
@@ -15,7 +15,7 @@ const { BufferWriter } = Bitcoin.encoding
 const { Opcode } = Bitcoin
 
 // the script string format used in bitcoind data tests
-Script.fromBitcoindString = function(str) {
+Script.fromBitcoindString = function (str) {
   const bw = new BufferWriter()
   const tokens = str.split(' ')
   for (let i = 0; i < tokens.length; i++) {
@@ -33,9 +33,7 @@ Script.fromBitcoindString = function(str) {
     } else if (token[0] === "'") {
       const tstr = token.slice(1, token.length - 1)
       const cbuf = Buffer.from(tstr)
-      tbuf = Script()
-        .add(cbuf)
-        .toBuffer()
+      tbuf = Script().add(cbuf).toBuffer()
       bw.write(tbuf)
     } else if (typeof Opcode[`OP_${token}`] !== 'undefined') {
       opstr = `OP_${token}`
@@ -57,8 +55,8 @@ Script.fromBitcoindString = function(str) {
   return this.fromBuffer(buf)
 }
 
-describe('Interpreter', function() {
-  it('should make a new interp', function() {
+describe('Interpreter', function () {
+  it('should make a new interp', function () {
     const interp = new Interpreter()
     ;(interp instanceof Interpreter).should.equal(true)
     interp.stack.length.should.equal(0)
@@ -71,36 +69,36 @@ describe('Interpreter', function() {
     interp.flags.should.equal(0)
   })
 
-  describe('@castToBool', function() {
-    it('should cast these bufs to bool correctly', function() {
+  describe('@castToBool', function () {
+    it('should cast these bufs to bool correctly', function () {
       Interpreter.castToBool(
         new BN(0).toSM({
-          endian: 'little'
+          endian: 'little',
         })
       ).should.equal(false)
       Interpreter.castToBool(Buffer.from('0080', 'hex')).should.equal(false) // negative 0
       Interpreter.castToBool(
         new BN(1).toSM({
-          endian: 'little'
+          endian: 'little',
         })
       ).should.equal(true)
       Interpreter.castToBool(
         new BN(-1).toSM({
-          endian: 'little'
+          endian: 'little',
         })
       ).should.equal(true)
 
       const buf = Buffer.from('00', 'hex')
       const bool =
         BN.fromSM(buf, {
-          endian: 'little'
+          endian: 'little',
         }).cmp(BN.Zero) !== 0
       Interpreter.castToBool(buf).should.equal(bool)
     })
   })
 
-  describe('#verify', function() {
-    it('should verify these trivial scripts', function() {
+  describe('#verify', function () {
+    it('should verify these trivial scripts', function () {
       let verified
       const si = Interpreter()
       verified = si.verify(Script('OP_1'), Script('OP_1'))
@@ -126,7 +124,7 @@ describe('Interpreter', function() {
       verified.should.equal(true)
     })
 
-    it('should verify these simple transaction', function() {
+    it('should verify these simple transaction', function () {
       // first we create a transaction
       const privateKey = new PrivateKey('cSBnVM4xvxarwGQuAfQFwqDg9k5tErHUHzgWsEfD4zdwUasvqRVY')
       const { publicKey } = privateKey
@@ -138,12 +136,9 @@ describe('Interpreter', function() {
         txId: 'a477af6b2667c29670467e4e0728b685ee07b240235771862318e29ddbe58458',
         outputIndex: 0,
         script: scriptPubkey,
-        satoshis: 100000
+        satoshis: 100000,
       }
-      const tx = new Transaction()
-        .from(utxo)
-        .to(toAddress, 100000)
-        .sign(privateKey, 1)
+      const tx = new Transaction().from(utxo).to(toAddress, 100000).sign(privateKey, 1)
 
       // we then extract the signature from the first input
       const inputIndex = 0
@@ -155,7 +150,7 @@ describe('Interpreter', function() {
       verified.should.equal(true)
     })
 
-    it('should set values on interpreter', function() {
+    it('should set values on interpreter', function () {
       const script = Script('OP_1')
       const tx = new Transaction()
       const stack = []
@@ -175,7 +170,7 @@ describe('Interpreter', function() {
         nOpCount: 77,
         vfExec,
         errstr: 'testing',
-        flags: Interpreter.SCRIPT_VERIFY_STRICTENC
+        flags: Interpreter.SCRIPT_VERIFY_STRICTENC,
       })
       interp.script.should.equal(script)
       interp.tx.should.equal(tx)
@@ -226,7 +221,7 @@ describe('Interpreter', function() {
     return flags
   }
 
-  const testFixture = function(vector, expected) {
+  const testFixture = function (vector, expected) {
     const scriptSig = Script.fromBitcoindString(vector[0])
     const scriptPubkey = Script.fromBitcoindString(vector[1])
     const flags = getFlags(vector[2])
@@ -239,13 +234,13 @@ describe('Interpreter', function() {
         prevTxId: '0000000000000000000000000000000000000000000000000000000000000000',
         outputIndex: 0xffffffff,
         sequenceNumber: 0xffffffff,
-        script: Script('OP_0 OP_0')
+        script: Script('OP_0 OP_0'),
       })
     )
     credtx.addOutput(
       new Transaction.Output({
         script: scriptPubkey,
-        satoshis: 0
+        satoshis: 0,
       })
     )
     const idbuf = credtx.id
@@ -256,13 +251,13 @@ describe('Interpreter', function() {
         prevTxId: idbuf.toString('hex'),
         outputIndex: 0,
         sequenceNumber: 0xffffffff,
-        script: scriptSig
+        script: scriptSig,
       })
     )
     spendtx.addOutput(
       new Transaction.Output({
         script: new Script(),
-        satoshis: 0
+        satoshis: 0,
       })
     )
 
@@ -270,10 +265,10 @@ describe('Interpreter', function() {
     const verified = interp.verify(scriptSig, scriptPubkey, spendtx, 0, flags)
     verified.should.equal(expected)
   }
-  describe('bitcoind script evaluation fixtures', function() {
-    const testAllFixtures = function(set, expected) {
+  describe('bitcoind script evaluation fixtures', function () {
+    const testAllFixtures = function (set, expected) {
       let c = 0
-      set.forEach(function(vector) {
+      set.forEach(function (vector) {
         if (vector.length === 1) {
           return
         }
@@ -284,7 +279,7 @@ describe('Interpreter', function() {
         it(
           `should pass script_${expected ? '' : 'in'}valid ` +
             `vector #${c}: ${fullScriptString}${comment}`,
-          function() {
+          function () {
             testFixture(vector, expected)
           }
         )
@@ -293,22 +288,22 @@ describe('Interpreter', function() {
     testAllFixtures(scriptValid, true)
     testAllFixtures(scriptInvalid, false)
   })
-  describe('bitcoind transaction evaluation fixtures', function() {
-    const testTxs = function(set, expected) {
+  describe('bitcoind transaction evaluation fixtures', function () {
+    const testTxs = function (set, expected) {
       let c = 0
-      set.forEach(function(vector) {
+      set.forEach(function (vector) {
         if (vector.length === 1) {
           return
         }
         c += 1
         const cc = c // copy to local
-        it(`should pass tx_${expected ? '' : 'in'}valid vector ${cc}`, function() {
+        it(`should pass tx_${expected ? '' : 'in'}valid vector ${cc}`, function () {
           const inputs = vector[0]
           const txhex = vector[1]
           const flags = getFlags(vector[2])
 
           const map = {}
-          inputs.forEach(function(input) {
+          inputs.forEach(function (input) {
             const txid = input[0]
             let txoutnum = input[1]
             const scriptPubKeyStr = input[2]
@@ -320,7 +315,7 @@ describe('Interpreter', function() {
 
           const tx = new Transaction(txhex)
           let allInputsVerified = true
-          tx.inputs.forEach(function(txin, j) {
+          tx.inputs.forEach(function (txin, j) {
             if (txin.isNull()) {
               return
             }

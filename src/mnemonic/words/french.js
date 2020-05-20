@@ -2046,5 +2046,5 @@ export default [
   'zèbre',
   'zénith',
   'zeste',
-  'zoologie'
+  'zoologie',
 ]

@@ -30,7 +30,7 @@ import Unit from './unit'
  * @constructor
  */
 // eslint-disable-next-line consistent-return
-const URI = function(data, knownParams) {
+const URI = function (data, knownParams) {
   // #weirdstuff refactor
   if (!(this instanceof URI)) {
     return new URI(data, knownParams)
@@ -93,7 +93,7 @@ URI.fromObject = function fromObject(json) {
  * @param {Array.<string>=} knownParams - Required non-standard params
  * @returns {boolean} Result of uri validation
  */
-URI.isValid = function(arg, knownParams) {
+URI.isValid = function (arg, knownParams) {
   try {
     // #weirdstuff refactor
     // eslint-disable-next-line no-new
@@ -111,7 +111,7 @@ URI.isValid = function(arg, knownParams) {
  * @throws {TypeError} Invalid bitcoin cash URI
  * @returns {Object} An object with the parsed params
  */
-URI.parse = function(uri) {
+URI.parse = function (uri) {
   const info = URL.parse(uri, true)
 
   if (info.protocol !== 'bitcoincash:') {
@@ -135,7 +135,7 @@ URI.Members = ['address', 'amount', 'message', 'label', 'r']
  * @throws {TypeError} Invalid amount
  * @throws {Error} Unknown required argument
  */
-URI.prototype._fromObject = function(obj) {
+URI.prototype._fromObject = function (obj) {
   if (!Address.isValid(obj.address)) {
     throw new TypeError('Invalid bitcoin address')
   }
@@ -144,7 +144,7 @@ URI.prototype._fromObject = function(obj) {
   this.network = this.address.network
   this.amount = obj.amount
 
-  Object.keys(obj).forEach(key => {
+  Object.keys(obj).forEach((key) => {
     if (key !== 'address' && key !== 'amount') {
       if (/^req-/.exec(key) && this.knownParams.indexOf(key) === -1) {
         throw Error(`Unknown required argument ${key}`)
@@ -163,7 +163,7 @@ URI.prototype._fromObject = function(obj) {
  * @throws {TypeError} Invalid amount
  * @returns {Object} Amount represented in satoshis
  */
-URI.prototype._parseAmount = function(amount) {
+URI.prototype._parseAmount = function (amount) {
   amount = Number(amount)
   if (Number.isNaN(amount)) {
     throw new TypeError('Invalid amount')
@@ -175,7 +175,7 @@ URI.prototype.toJSON = function toObject() {
   const json = {}
   for (let i = 0; i < URI.Members.length; i += 1) {
     const m = URI.Members[i]
-    if (Object.keys(this).findIndex(key => key === m) !== 1 && typeof this[m] !== 'undefined') {
+    if (Object.keys(this).findIndex((key) => key === m) !== 1 && typeof this[m] !== 'undefined') {
       json[m] = this[m].toString()
     }
   }
@@ -189,7 +189,7 @@ URI.prototype.toObject = URI.prototype.toJSON
  *
  * @returns {string} Bitcoin cash URI string
  */
-URI.prototype.toString = function() {
+URI.prototype.toString = function () {
   const query = {}
   if (this.amount) {
     query.amount = Unit.fromSatoshis(this.amount).toBTC()
@@ -208,7 +208,7 @@ URI.prototype.toString = function() {
   return URL.format({
     protocol: 'bitcoincash:',
     host: this.address,
-    query
+    query,
   })
 }
 
@@ -217,7 +217,7 @@ URI.prototype.toString = function() {
  *
  * @returns {string} Bitcoin cash URI
  */
-URI.prototype.inspect = function() {
+URI.prototype.inspect = function () {
   return `<URI: ${this.toString()}>`
 }
 

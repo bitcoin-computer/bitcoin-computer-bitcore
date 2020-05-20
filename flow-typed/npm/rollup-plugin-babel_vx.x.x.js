@@ -14,7 +14,7 @@
  */
 
 declare module 'rollup-plugin-babel' {
-  declare module.exports: any;
+  declare module.exports: any
 }
 
 /**
@@ -23,52 +23,52 @@ declare module 'rollup-plugin-babel' {
  * needed.
  */
 declare module 'rollup-plugin-babel/dist/rollup-plugin-babel.cjs' {
-  declare module.exports: any;
+  declare module.exports: any
 }
 
 declare module 'rollup-plugin-babel/dist/rollup-plugin-babel.esm' {
-  declare module.exports: any;
+  declare module.exports: any
 }
 
 declare module 'rollup-plugin-babel/src/constants' {
-  declare module.exports: any;
+  declare module.exports: any
 }
 
 declare module 'rollup-plugin-babel/src/helperPlugin' {
-  declare module.exports: any;
+  declare module.exports: any
 }
 
 declare module 'rollup-plugin-babel/src/index' {
-  declare module.exports: any;
+  declare module.exports: any
 }
 
 declare module 'rollup-plugin-babel/src/preflightCheck' {
-  declare module.exports: any;
+  declare module.exports: any
 }
 
 declare module 'rollup-plugin-babel/src/utils' {
-  declare module.exports: any;
+  declare module.exports: any
 }
 
 // Filename aliases
 declare module 'rollup-plugin-babel/dist/rollup-plugin-babel.cjs.js' {
-  declare module.exports: $Exports<'rollup-plugin-babel/dist/rollup-plugin-babel.cjs'>;
+  declare module.exports: $Exports<'rollup-plugin-babel/dist/rollup-plugin-babel.cjs'>
 }
 declare module 'rollup-plugin-babel/dist/rollup-plugin-babel.esm.js' {
-  declare module.exports: $Exports<'rollup-plugin-babel/dist/rollup-plugin-babel.esm'>;
+  declare module.exports: $Exports<'rollup-plugin-babel/dist/rollup-plugin-babel.esm'>
 }
 declare module 'rollup-plugin-babel/src/constants.js' {
-  declare module.exports: $Exports<'rollup-plugin-babel/src/constants'>;
+  declare module.exports: $Exports<'rollup-plugin-babel/src/constants'>
 }
 declare module 'rollup-plugin-babel/src/helperPlugin.js' {
-  declare module.exports: $Exports<'rollup-plugin-babel/src/helperPlugin'>;
+  declare module.exports: $Exports<'rollup-plugin-babel/src/helperPlugin'>
 }
 declare module 'rollup-plugin-babel/src/index.js' {
-  declare module.exports: $Exports<'rollup-plugin-babel/src/index'>;
+  declare module.exports: $Exports<'rollup-plugin-babel/src/index'>
 }
 declare module 'rollup-plugin-babel/src/preflightCheck.js' {
-  declare module.exports: $Exports<'rollup-plugin-babel/src/preflightCheck'>;
+  declare module.exports: $Exports<'rollup-plugin-babel/src/preflightCheck'>
 }
 declare module 'rollup-plugin-babel/src/utils.js' {
-  declare module.exports: $Exports<'rollup-plugin-babel/src/utils'>;
+  declare module.exports: $Exports<'rollup-plugin-babel/src/utils'>
 }

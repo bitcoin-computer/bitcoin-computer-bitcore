@@ -14,7 +14,7 @@
  */
 
 declare module 'rollup-plugin-flow' {
-  declare module.exports: any;
+  declare module.exports: any
 }
 
 /**
@@ -23,11 +23,10 @@ declare module 'rollup-plugin-flow' {
  * needed.
  */
 
-
 // Filename aliases
 declare module 'rollup-plugin-flow/index' {
-  declare module.exports: $Exports<'rollup-plugin-flow'>;
+  declare module.exports: $Exports<'rollup-plugin-flow'>
 }
 declare module 'rollup-plugin-flow/index.js' {
-  declare module.exports: $Exports<'rollup-plugin-flow'>;
+  declare module.exports: $Exports<'rollup-plugin-flow'>
 }

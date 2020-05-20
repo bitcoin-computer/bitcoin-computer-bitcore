@@ -14,7 +14,7 @@
  */
 
 declare module 'cashaddrjs' {
-  declare module.exports: any;
+  declare module.exports: any
 }
 
 /**
@@ -23,52 +23,52 @@ declare module 'cashaddrjs' {
  * needed.
  */
 declare module 'cashaddrjs/dist/cashaddrjs-0.2.9' {
-  declare module.exports: any;
+  declare module.exports: any
 }
 
 declare module 'cashaddrjs/dist/cashaddrjs-0.2.9.min' {
-  declare module.exports: any;
+  declare module.exports: any
 }
 
 declare module 'cashaddrjs/LICENSE' {
-  declare module.exports: any;
+  declare module.exports: any
 }
 
 declare module 'cashaddrjs/src/base32' {
-  declare module.exports: any;
+  declare module.exports: any
 }
 
 declare module 'cashaddrjs/src/cashaddr' {
-  declare module.exports: any;
+  declare module.exports: any
 }
 
 declare module 'cashaddrjs/src/convertBits' {
-  declare module.exports: any;
+  declare module.exports: any
 }
 
 declare module 'cashaddrjs/src/validation' {
-  declare module.exports: any;
+  declare module.exports: any
 }
 
 // Filename aliases
 declare module 'cashaddrjs/dist/cashaddrjs-0.2.9.js' {
-  declare module.exports: $Exports<'cashaddrjs/dist/cashaddrjs-0.2.9'>;
+  declare module.exports: $Exports<'cashaddrjs/dist/cashaddrjs-0.2.9'>
 }
 declare module 'cashaddrjs/dist/cashaddrjs-0.2.9.min.js' {
-  declare module.exports: $Exports<'cashaddrjs/dist/cashaddrjs-0.2.9.min'>;
+  declare module.exports: $Exports<'cashaddrjs/dist/cashaddrjs-0.2.9.min'>
 }
 declare module 'cashaddrjs/LICENSE.js' {
-  declare module.exports: $Exports<'cashaddrjs/LICENSE'>;
+  declare module.exports: $Exports<'cashaddrjs/LICENSE'>
 }
 declare module 'cashaddrjs/src/base32.js' {
-  declare module.exports: $Exports<'cashaddrjs/src/base32'>;
+  declare module.exports: $Exports<'cashaddrjs/src/base32'>
 }
 declare module 'cashaddrjs/src/cashaddr.js' {
-  declare module.exports: $Exports<'cashaddrjs/src/cashaddr'>;
+  declare module.exports: $Exports<'cashaddrjs/src/cashaddr'>
 }
 declare module 'cashaddrjs/src/convertBits.js' {
-  declare module.exports: $Exports<'cashaddrjs/src/convertBits'>;
+  declare module.exports: $Exports<'cashaddrjs/src/convertBits'>
 }
 declare module 'cashaddrjs/src/validation.js' {
-  declare module.exports: $Exports<'cashaddrjs/src/validation'>;
+  declare module.exports: $Exports<'cashaddrjs/src/validation'>
 }

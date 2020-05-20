@@ -14,7 +14,7 @@
  */
 
 declare module 'big-integer' {
-  declare module.exports: any;
+  declare module.exports: any
 }
 
 /**
@@ -23,17 +23,17 @@ declare module 'big-integer' {
  * needed.
  */
 declare module 'big-integer/BigInteger' {
-  declare module.exports: any;
+  declare module.exports: any
 }
 
 declare module 'big-integer/BigInteger.min' {
-  declare module.exports: any;
+  declare module.exports: any
 }
 
 // Filename aliases
 declare module 'big-integer/BigInteger.js' {
-  declare module.exports: $Exports<'big-integer/BigInteger'>;
+  declare module.exports: $Exports<'big-integer/BigInteger'>
 }
 declare module 'big-integer/BigInteger.min.js' {
-  declare module.exports: $Exports<'big-integer/BigInteger.min'>;
+  declare module.exports: $Exports<'big-integer/BigInteger.min'>
 }

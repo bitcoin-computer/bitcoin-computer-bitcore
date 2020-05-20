@@ -14,7 +14,7 @@
  */
 
 declare module 'bn.js' {
-  declare module.exports: any;
+  declare module.exports: any
 }
 
 /**
@@ -23,24 +23,24 @@ declare module 'bn.js' {
  * needed.
  */
 declare module 'bn.js/lib/bn' {
-  declare module.exports: any;
+  declare module.exports: any
 }
 
 declare module 'bn.js/util/genCombMulTo' {
-  declare module.exports: any;
+  declare module.exports: any
 }
 
 declare module 'bn.js/util/genCombMulTo10' {
-  declare module.exports: any;
+  declare module.exports: any
 }
 
 // Filename aliases
 declare module 'bn.js/lib/bn.js' {
-  declare module.exports: $Exports<'bn.js/lib/bn'>;
+  declare module.exports: $Exports<'bn.js/lib/bn'>
 }
 declare module 'bn.js/util/genCombMulTo.js' {
-  declare module.exports: $Exports<'bn.js/util/genCombMulTo'>;
+  declare module.exports: $Exports<'bn.js/util/genCombMulTo'>
 }
 declare module 'bn.js/util/genCombMulTo10.js' {
-  declare module.exports: $Exports<'bn.js/util/genCombMulTo10'>;
+  declare module.exports: $Exports<'bn.js/util/genCombMulTo10'>
 }

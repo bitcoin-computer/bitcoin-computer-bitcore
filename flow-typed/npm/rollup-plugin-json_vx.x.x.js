@@ -14,7 +14,7 @@
  */
 
 declare module 'rollup-plugin-json' {
-  declare module.exports: any;
+  declare module.exports: any
 }
 
 /**
@@ -23,24 +23,24 @@ declare module 'rollup-plugin-json' {
  * needed.
  */
 declare module 'rollup-plugin-json/dist/rollup-plugin-json.cjs' {
-  declare module.exports: any;
+  declare module.exports: any
 }
 
 declare module 'rollup-plugin-json/dist/rollup-plugin-json.es' {
-  declare module.exports: any;
+  declare module.exports: any
 }
 
 declare module 'rollup-plugin-json/src/index' {
-  declare module.exports: any;
+  declare module.exports: any
 }
 
 // Filename aliases
 declare module 'rollup-plugin-json/dist/rollup-plugin-json.cjs.js' {
-  declare module.exports: $Exports<'rollup-plugin-json/dist/rollup-plugin-json.cjs'>;
+  declare module.exports: $Exports<'rollup-plugin-json/dist/rollup-plugin-json.cjs'>
 }
 declare module 'rollup-plugin-json/dist/rollup-plugin-json.es.js' {
-  declare module.exports: $Exports<'rollup-plugin-json/dist/rollup-plugin-json.es'>;
+  declare module.exports: $Exports<'rollup-plugin-json/dist/rollup-plugin-json.es'>
 }
 declare module 'rollup-plugin-json/src/index.js' {
-  declare module.exports: $Exports<'rollup-plugin-json/src/index'>;
+  declare module.exports: $Exports<'rollup-plugin-json/src/index'>
 }

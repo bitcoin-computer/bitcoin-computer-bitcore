@@ -53,7 +53,7 @@ const Bitcoin = {}
 Bitcoin.version = `v${PackageInfo.version}`
 
 // eslint-disable-next-line no-unused-vars
-Bitcoin.versionGuard = function(version) {
+Bitcoin.versionGuard = function (version) {
   // if (version !== undefined) {
   //   var message = 'More than one instance of bitcoincashjs found. ' +
   //     'Please make sure to require bitcoincashjs and check that submodules do' +

@@ -14,7 +14,7 @@
  */
 
 declare module 'rollup-plugin-commonjs' {
-  declare module.exports: any;
+  declare module.exports: any
 }
 
 /**
@@ -23,73 +23,73 @@ declare module 'rollup-plugin-commonjs' {
  * needed.
  */
 declare module 'rollup-plugin-commonjs/dist/rollup-plugin-commonjs.cjs' {
-  declare module.exports: any;
+  declare module.exports: any
 }
 
 declare module 'rollup-plugin-commonjs/dist/rollup-plugin-commonjs.es' {
-  declare module.exports: any;
+  declare module.exports: any
 }
 
 declare module 'rollup-plugin-commonjs/src/ast-utils' {
-  declare module.exports: any;
+  declare module.exports: any
 }
 
 declare module 'rollup-plugin-commonjs/src/default-resolver' {
-  declare module.exports: any;
+  declare module.exports: any
 }
 
 declare module 'rollup-plugin-commonjs/src/helpers' {
-  declare module.exports: any;
+  declare module.exports: any
 }
 
 declare module 'rollup-plugin-commonjs/src/index' {
-  declare module.exports: any;
+  declare module.exports: any
 }
 
 declare module 'rollup-plugin-commonjs/src/is-cjs' {
-  declare module.exports: any;
+  declare module.exports: any
 }
 
 declare module 'rollup-plugin-commonjs/src/resolve-id' {
-  declare module.exports: any;
+  declare module.exports: any
 }
 
 declare module 'rollup-plugin-commonjs/src/transform' {
-  declare module.exports: any;
+  declare module.exports: any
 }
 
 declare module 'rollup-plugin-commonjs/src/utils' {
-  declare module.exports: any;
+  declare module.exports: any
 }
 
 // Filename aliases
 declare module 'rollup-plugin-commonjs/dist/rollup-plugin-commonjs.cjs.js' {
-  declare module.exports: $Exports<'rollup-plugin-commonjs/dist/rollup-plugin-commonjs.cjs'>;
+  declare module.exports: $Exports<'rollup-plugin-commonjs/dist/rollup-plugin-commonjs.cjs'>
 }
 declare module 'rollup-plugin-commonjs/dist/rollup-plugin-commonjs.es.js' {
-  declare module.exports: $Exports<'rollup-plugin-commonjs/dist/rollup-plugin-commonjs.es'>;
+  declare module.exports: $Exports<'rollup-plugin-commonjs/dist/rollup-plugin-commonjs.es'>
 }
 declare module 'rollup-plugin-commonjs/src/ast-utils.js' {
-  declare module.exports: $Exports<'rollup-plugin-commonjs/src/ast-utils'>;
+  declare module.exports: $Exports<'rollup-plugin-commonjs/src/ast-utils'>
 }
 declare module 'rollup-plugin-commonjs/src/default-resolver.js' {
-  declare module.exports: $Exports<'rollup-plugin-commonjs/src/default-resolver'>;
+  declare module.exports: $Exports<'rollup-plugin-commonjs/src/default-resolver'>
 }
 declare module 'rollup-plugin-commonjs/src/helpers.js' {
-  declare module.exports: $Exports<'rollup-plugin-commonjs/src/helpers'>;
+  declare module.exports: $Exports<'rollup-plugin-commonjs/src/helpers'>
 }
 declare module 'rollup-plugin-commonjs/src/index.js' {
-  declare module.exports: $Exports<'rollup-plugin-commonjs/src/index'>;
+  declare module.exports: $Exports<'rollup-plugin-commonjs/src/index'>
 }
 declare module 'rollup-plugin-commonjs/src/is-cjs.js' {
-  declare module.exports: $Exports<'rollup-plugin-commonjs/src/is-cjs'>;
+  declare module.exports: $Exports<'rollup-plugin-commonjs/src/is-cjs'>
 }
 declare module 'rollup-plugin-commonjs/src/resolve-id.js' {
-  declare module.exports: $Exports<'rollup-plugin-commonjs/src/resolve-id'>;
+  declare module.exports: $Exports<'rollup-plugin-commonjs/src/resolve-id'>
 }
 declare module 'rollup-plugin-commonjs/src/transform.js' {
-  declare module.exports: $Exports<'rollup-plugin-commonjs/src/transform'>;
+  declare module.exports: $Exports<'rollup-plugin-commonjs/src/transform'>
 }
 declare module 'rollup-plugin-commonjs/src/utils.js' {
-  declare module.exports: $Exports<'rollup-plugin-commonjs/src/utils'>;
+  declare module.exports: $Exports<'rollup-plugin-commonjs/src/utils'>
 }

@@ -71,7 +71,7 @@ class Input {
       prevTxId: this.prevTxId.toString('hex'),
       outputIndex: this.outputIndex,
       sequenceNumber: this.sequenceNumber,
-      script: this._scriptBuffer.toString('hex')
+      script: this._scriptBuffer.toString('hex'),
     }
     // add human readable form if input contains valid script
     if (this.script) {
@@ -145,8 +145,10 @@ class Input {
    */
   getSignatures() {
     throw new errors.AbstractMethodInvoked(
-      `${'Trying to sign unsupported output type (only P2PKH and P2SH multisig inputs are supported)' +
-        ' for input: '}${JSON.stringify(this)}`
+      `${
+        'Trying to sign unsupported output type (only P2PKH and P2SH multisig inputs are supported)' +
+        ' for input: '
+      }${JSON.stringify(this)}`
     )
   }
 

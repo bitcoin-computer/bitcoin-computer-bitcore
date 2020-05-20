@@ -2046,5 +2046,5 @@ export default [
   'zucchero',
   'zufolo',
   'zulu',
-  'zuppa'
+  'zuppa',
 ]

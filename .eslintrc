@@ -10,10 +10,7 @@
     "browser": true,
     "mocha": true
   },
-  "plugins": [
-    "flowtype",
-    "flowtype-errors"
-  ],
+  "plugins": ["flowtype", "flowtype-errors"],
   "rules": {
     "class-methods-use-this": "off",
     "flowtype-errors/show-errors": "error",
@@ -29,6 +26,7 @@
         "allowForLoopAfterthoughts": true
       }
     ],
-    "no-underscore-dangle": "off"
+    "no-underscore-dangle": "off",
+    "import/no-cycle": "off"
   }
 }
