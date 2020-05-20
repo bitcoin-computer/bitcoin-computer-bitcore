@@ -3,8 +3,8 @@ module.exports = {
     [
       // From Mainnet Block 100014
       // From: http://btc.blockr.io/api/v1/tx/raw/652b0aa4cf4f17bdb31f7a1d308331bba91f3b3cbf8f39c9cb5e19d4015b9f01
-      '0100000001834537b2f1ce8ef9373a258e10545ce5a50b758df616cd4356e0032554ebd3c4000000008b483045022100e68f422dd7c34fdce11eeb4509ddae38201773dd62f284e8aa9d96f85099d0b002202243bd399ff96b649a0fad05fa759d6a882f0af8c90cf7632c2840c29070aec20141045e58067e815c2f464c6a2a15f987758374203895710c2d452442e28496ff38ba8f5fd901dc20e29e88477167fe4fc299bf818fd0d9e1632d467b2a3d9503b1aaffffffff0280d7e636030000001976a914f34c3e10eb387efe872acb614c89e78bfca7815d88ac404b4c00000000001976a914a84e272933aaf87e1715d7786c51dfaeb5b65a6f88ac00000000'
-    ]
+      '0100000001834537b2f1ce8ef9373a258e10545ce5a50b758df616cd4356e0032554ebd3c4000000008b483045022100e68f422dd7c34fdce11eeb4509ddae38201773dd62f284e8aa9d96f85099d0b002202243bd399ff96b649a0fad05fa759d6a882f0af8c90cf7632c2840c29070aec20141045e58067e815c2f464c6a2a15f987758374203895710c2d452442e28496ff38ba8f5fd901dc20e29e88477167fe4fc299bf818fd0d9e1632d467b2a3d9503b1aaffffffff0280d7e636030000001976a914f34c3e10eb387efe872acb614c89e78bfca7815d88ac404b4c00000000001976a914a84e272933aaf87e1715d7786c51dfaeb5b65a6f88ac00000000',
+    ],
   ],
   HEX: [
     // Mainnet Block 100014
@@ -21,7 +21,7 @@ module.exports = {
     '41ed70551dd7e841883ab8f0b16bf04176b7d1480e4f0af9f3d4c3595768d068' + // Hash3
     '20d2a7bc994987302e5b1ac80fc425fe25f8b63169ea78e68fbaaefa59379bbf' + // Hash4
     '01' + // Num Flag Bytes
-      '1d' // Flags
+      '1d', // Flags
   ],
   JSON: [
     {
@@ -33,16 +33,16 @@ module.exports = {
         merkleRoot: '8772d9d0fdf8c1303c7b1167e3c73b095fd970e33c799c6563d98b2e96c5167f',
         time: 1293629558,
         bits: 453281356,
-        nonce: 696601429
+        nonce: 696601429,
       },
       numTransactions: 7,
       hashes: [
         '3612262624047ee87660be1a707519a443b1c1ce3d248cbfc6c15870f6c5daa2',
         '019f5b01d4195ecbc9398fbf3c3b1fa9bb3183301d7a1fb3bd174fcfa40a2b65',
         '41ed70551dd7e841883ab8f0b16bf04176b7d1480e4f0af9f3d4c3595768d068',
-        '20d2a7bc994987302e5b1ac80fc425fe25f8b63169ea78e68fbaaefa59379bbf'
+        '20d2a7bc994987302e5b1ac80fc425fe25f8b63169ea78e68fbaaefa59379bbf',
       ],
-      flags: [29]
+      flags: [29],
     },
     {
       // Mainnet Block 12363
@@ -53,11 +53,11 @@ module.exports = {
         merkleRoot: '67313e7a73b62faffe9380578a1a96727c1f0af62e61eb8aa050064007a008d0',
         time: 1240800408,
         nonce: 2506812214,
-        bits: 486604799
+        bits: 486604799,
       },
       numTransactions: 1,
       hashes: ['d008a007400650a08aeb612ef60a1f7c72961a8a578093feaf2fb6737a3e3167'],
-      flags: [0]
+      flags: [0],
     },
     {
       // Mainnet Block 280472
@@ -155,7 +155,7 @@ module.exports = {
         255,
         255,
         255,
-        15
+        15,
       ],
       numTransactions: 1159,
       hashes: [
@@ -529,7 +529,7 @@ module.exports = {
         '4c4acf3cefd0b466d418d3b7f58f9b41681f803a81878e6fad8409f430e8bf04',
         '6fdceb9e02428d9175acbe04590b693a5c644eb8cae672f4c4d06d145ea8ab1a',
         '823486c19fd887d93dc2d1478edf5773ba381f13f0ae6f287c1038e7c81aef1c',
-        '036bf6944a47791471e9a2cb86615de837f3aa234a7d1cd024026b3e1daee79e'
+        '036bf6944a47791471e9a2cb86615de837f3aa234a7d1cd024026b3e1daee79e',
       ],
       header: {
         hash: '00000000000000018eaf634bf13b7e5e50860b99466b91140538223c75b75049',
@@ -538,8 +538,8 @@ module.exports = {
         time: 1389715824,
         version: 2,
         nonce: 322045839,
-        bits: 419587686
-      }
-    }
-  ]
+        bits: 419587686,
+      },
+    },
+  ],
 }

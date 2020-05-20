@@ -2,69 +2,69 @@ import Bitcoin from '../bitcoin'
 
 const JSUtil = Bitcoin.util.js
 
-describe('js utils', function() {
-  describe('isValidJSON', function() {
+describe('js utils', function () {
+  describe('isValidJSON', function () {
     const hexa = '8080808080808080808080808080808080808080808080808080808080808080'
     const json = '{"key": ["value", "value2"]}'
 
-    it('does not mistake an integer as valid json object', function() {
+    it('does not mistake an integer as valid json object', function () {
       const valid = JSUtil.isValidJSON(hexa)
       valid.should.equal(false)
     })
 
-    it('correctly validates a json object', function() {
+    it('correctly validates a json object', function () {
       const valid = JSUtil.isValidJSON(json)
       valid.should.equal(true)
     })
 
-    it('correctly validates an array json object', function() {
+    it('correctly validates an array json object', function () {
       const valid = JSUtil.isValidJSON(json)
       valid.should.equal(true)
     })
   })
 
-  describe('isNaturalNumber', function() {
-    it('false for float', function() {
+  describe('isNaturalNumber', function () {
+    it('false for float', function () {
       const a = JSUtil.isNaturalNumber(0.1)
       a.should.equal(false)
     })
 
-    it('false for string float', function() {
+    it('false for string float', function () {
       const a = JSUtil.isNaturalNumber('0.1')
       a.should.equal(false)
     })
 
-    it('false for string integer', function() {
+    it('false for string integer', function () {
       const a = JSUtil.isNaturalNumber('1')
       a.should.equal(false)
     })
 
-    it('false for negative integer', function() {
+    it('false for negative integer', function () {
       const a = JSUtil.isNaturalNumber(-1)
       a.should.equal(false)
     })
 
-    it('false for negative integer string', function() {
+    it('false for negative integer string', function () {
       const a = JSUtil.isNaturalNumber('-1')
       a.should.equal(false)
     })
 
-    it('false for infinity', function() {
+    it('false for infinity', function () {
       const a = JSUtil.isNaturalNumber(Infinity)
       a.should.equal(false)
     })
 
-    it('false for NaN', function() {
+    it('false for NaN', function () {
       const a = JSUtil.isNaturalNumber(NaN)
       a.should.equal(false)
     })
 
-    it('true for zero', function() {
+    it('true for zero', function () {
       const a = JSUtil.isNaturalNumber(0)
       a.should.equal(true)
     })
 
-    it('true for positive integer', function() {
+    it('true for positive integer', function () {
       const a = JSUtil.isNaturalNumber(1000)
       a.should.equal(true)
     })

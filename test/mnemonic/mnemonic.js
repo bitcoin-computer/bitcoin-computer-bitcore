@@ -6,65 +6,65 @@ const should = chai.should()
 const { Mnemonic } = Bitcoin
 const { errors } = Bitcoin
 
-describe('Mnemonic', function() {
+describe('Mnemonic', function () {
   this.timeout(30000)
 
-  it('should initialize the class', function() {
+  it('should initialize the class', function () {
     should.exist(Mnemonic)
   })
 
-  describe('# Mnemonic', function() {
-    describe('Constructor', function() {
-      it('does not require new keyword', function() {
+  describe('# Mnemonic', function () {
+    describe('Constructor', function () {
+      it('does not require new keyword', function () {
         const mnemonic = Mnemonic()
         mnemonic.should.be.instanceof(Mnemonic)
       })
 
-      it('should fail with invalid data', function() {
-        ;(function() {
+      it('should fail with invalid data', function () {
+        ;(function () {
           return new Mnemonic({})
         }.should.throw(errors.InvalidArgument))
       })
 
-      it('should fail with unknown word list', function() {
-        ;(function() {
+      it('should fail with unknown word list', function () {
+        ;(function () {
           return new Mnemonic(
             'pilots foster august tomorrow kit daughter unknown awesome model town village master'
           )
         }.should.throw(errors.UnknownWordlist))
       })
 
-      it('should fail with invalid mnemonic', function() {
-        ;(function() {
+      it('should fail with invalid mnemonic', function () {
+        ;(function () {
           return new Mnemonic(
             'monster foster august tomorrow kit daughter unknown awesome model town village pilot'
           )
         }.should.throw(errors.InvalidMnemonic))
       })
 
-      it('should fail with invalid ENT', function() {
-        ;(function() {
+      it('should fail with invalid ENT', function () {
+        ;(function () {
           return new Mnemonic(64)
         }.should.throw(errors.InvalidArgument))
       })
 
-      it('constructor defaults to english worldlist', function() {
+      it('constructor defaults to english worldlist', function () {
         const mnemonic = new Mnemonic()
         mnemonic.wordlist.should.equal(Mnemonic.Words.ENGLISH)
       })
 
-      it('allow using different worldlists', function() {
+      it('allow using different worldlists', function () {
         const mnemonic = new Mnemonic(Mnemonic.Words.SPANISH)
         mnemonic.wordlist.should.equal(Mnemonic.Words.SPANISH)
       })
 
-      it('constructor honor both length and wordlist', function() {
+      it('constructor honor both length and wordlist', function () {
         const mnemonic = new Mnemonic(32 * 7, Mnemonic.Words.SPANISH)
         mnemonic.phrase.split(' ').length.should.equal(21)
         mnemonic.wordlist.should.equal(Mnemonic.Words.SPANISH)
       })
 
-      it('constructor should detect standard wordlist', function() {
+      it('constructor should detect standard wordlist', function () {
         const mnemonic = new Mnemonic(
           'afirmar diseño hielo fideo etapa ogro cambio fideo toalla pomelo número buscar'
         )
@@ -72,37 +72,37 @@ describe('Mnemonic', function() {
       })
     })
 
-    it('english wordlist is complete', function() {
+    it('english wordlist is complete', function () {
       Mnemonic.Words.ENGLISH.length.should.equal(2048)
       Mnemonic.Words.ENGLISH[0].should.equal('abandon')
     })
 
-    it('spanish wordlist is complete', function() {
+    it('spanish wordlist is complete', function () {
       Mnemonic.Words.SPANISH.length.should.equal(2048)
       Mnemonic.Words.SPANISH[0].should.equal('ábaco')
     })
 
-    it('japanese wordlist is complete', function() {
+    it('japanese wordlist is complete', function () {
       Mnemonic.Words.JAPANESE.length.should.equal(2048)
       Mnemonic.Words.JAPANESE[0].should.equal('あいこくしん')
     })
 
-    it('chinese wordlist is complete', function() {
+    it('chinese wordlist is complete', function () {
       Mnemonic.Words.CHINESE.length.should.equal(2048)
       Mnemonic.Words.CHINESE[0].should.equal('的')
     })
 
-    it('french wordlist is complete', function() {
+    it('french wordlist is complete', function () {
       Mnemonic.Words.FRENCH.length.should.equal(2048)
       Mnemonic.Words.FRENCH[0].should.equal('abaisser')
     })
 
-    it('italian wordlist is complete', function() {
+    it('italian wordlist is complete', function () {
       Mnemonic.Words.ITALIAN.length.should.equal(2048)
       Mnemonic.Words.ITALIAN[0].should.equal('abaco')
     })
 
-    it('allows use different phrase lengths', function() {
+    it('allows use different phrase lengths', function () {
       let mnemonic
 
       mnemonic = new Mnemonic(32 * 4)
@@ -121,7 +121,7 @@ describe('Mnemonic', function() {
       mnemonic.phrase.split(' ').length.should.equal(24)
     })
 
-    it('validates a phrase', function() {
+    it('validates a phrase', function () {
       const valid = Mnemonic.isValid(
         'afirmar diseño hielo fideo etapa ogro cambio fideo toalla pomelo número buscar'
       )
@@ -146,48 +146,48 @@ describe('Mnemonic', function() {
       valid2.should.equal(true)
     })
 
-    it('has a toString method', function() {
+    it('has a toString method', function () {
       const mnemonic = new Mnemonic()
       mnemonic.toString().should.equal(mnemonic.phrase)
     })
 
-    it('has a toString method', function() {
+    it('has a toString method', function () {
       const mnemonic = new Mnemonic()
       mnemonic.inspect().should.have.string('<Mnemonic:')
     })
 
-    it('derives a seed without a passphrase', function() {
+    it('derives a seed without a passphrase', function () {
       const mnemonic = new Mnemonic()
       const seed = mnemonic.toSeed()
       should.exist(seed)
     })
 
-    it('derives a seed using a passphrase', function() {
+    it('derives a seed using a passphrase', function () {
       const mnemonic = new Mnemonic()
       const seed = mnemonic.toSeed('my passphrase')
       should.exist(seed)
     })
 
-    it('derives an extended private key', function() {
+    it('derives an extended private key', function () {
       const mnemonic = new Mnemonic()
       const pk = mnemonic.toHDPrivateKey()
       should.exist(pk)
     })
 
-    it('Mnemonic.fromSeed should fail with invalid wordlist', function() {
-      ;(function() {
+    it('Mnemonic.fromSeed should fail with invalid wordlist', function () {
+      ;(function () {
         return Mnemonic.fromSeed(Buffer.alloc(1))
       }.should.throw(errors.InvalidArgument))
     })
 
-    it('Mnemonic.fromSeed should fail with invalid seed', function() {
-      ;(function() {
+    it('Mnemonic.fromSeed should fail with invalid seed', function () {
+      ;(function () {
         return Mnemonic.fromSeed()
       }.should.throw(errors.InvalidArgument))
     })
 
-    it('Constructor should fail with invalid seed', function() {
-      ;(function() {
+    it('Constructor should fail with invalid seed', function () {
+      ;(function () {
         return new Mnemonic(Buffer.alloc(1))
       }.should.throw(errors.InvalidEntropy))
     })
@@ -197,12 +197,12 @@ describe('Mnemonic', function() {
     // 2. Add the vectors and make sure the key is lowercase of the key for Mnemonic.Words
     const vectorWordlists = {}
 
-    Object.keys(Mnemonic.Words).forEach(key => {
+    Object.keys(Mnemonic.Words).forEach((key) => {
       vectorWordlists[key.toLowerCase()] = Mnemonic.Words[key]
     })
 
-    const testVector = function(v, lang) {
-      it(`should pass test vector for ${lang} #${v}`, function() {
+    const testVector = function (v, lang) {
+      it(`should pass test vector for ${lang} #${v}`, function () {
         const wordlist = vectorWordlists[lang]
         const vector = bip39Vectors[lang][v]
         const code = vector[1]
@@ -219,7 +219,7 @@ describe('Mnemonic', function() {
       })
     }
 
-    Object.keys(bip39Vectors).forEach(key => {
+    Object.keys(bip39Vectors).forEach((key) => {
       for (let v = 0; v < bip39Vectors[key].length; v++) {
         testVector(v, key)
       }

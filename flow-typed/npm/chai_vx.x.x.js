@@ -14,7 +14,7 @@
  */
 
 declare module 'chai' {
-  declare module.exports: any;
+  declare module.exports: any
 }
 
 /**
@@ -23,219 +23,219 @@ declare module 'chai' {
  * needed.
  */
 declare module 'chai/chai' {
-  declare module.exports: any;
+  declare module.exports: any
 }
 
 declare module 'chai/karma.conf' {
-  declare module.exports: any;
+  declare module.exports: any
 }
 
 declare module 'chai/karma.sauce' {
-  declare module.exports: any;
+  declare module.exports: any
 }
 
 declare module 'chai/lib/chai' {
-  declare module.exports: any;
+  declare module.exports: any
 }
 
 declare module 'chai/lib/chai/assertion' {
-  declare module.exports: any;
+  declare module.exports: any
 }
 
 declare module 'chai/lib/chai/config' {
-  declare module.exports: any;
+  declare module.exports: any
 }
 
 declare module 'chai/lib/chai/core/assertions' {
-  declare module.exports: any;
+  declare module.exports: any
 }
 
 declare module 'chai/lib/chai/interface/assert' {
-  declare module.exports: any;
+  declare module.exports: any
 }
 
 declare module 'chai/lib/chai/interface/expect' {
-  declare module.exports: any;
+  declare module.exports: any
 }
 
 declare module 'chai/lib/chai/interface/should' {
-  declare module.exports: any;
+  declare module.exports: any
 }
 
 declare module 'chai/lib/chai/utils/addChainableMethod' {
-  declare module.exports: any;
+  declare module.exports: any
 }
 
 declare module 'chai/lib/chai/utils/addMethod' {
-  declare module.exports: any;
+  declare module.exports: any
 }
 
 declare module 'chai/lib/chai/utils/addProperty' {
-  declare module.exports: any;
+  declare module.exports: any
 }
 
 declare module 'chai/lib/chai/utils/flag' {
-  declare module.exports: any;
+  declare module.exports: any
 }
 
 declare module 'chai/lib/chai/utils/getActual' {
-  declare module.exports: any;
+  declare module.exports: any
 }
 
 declare module 'chai/lib/chai/utils/getEnumerableProperties' {
-  declare module.exports: any;
+  declare module.exports: any
 }
 
 declare module 'chai/lib/chai/utils/getMessage' {
-  declare module.exports: any;
+  declare module.exports: any
 }
 
 declare module 'chai/lib/chai/utils/getName' {
-  declare module.exports: any;
+  declare module.exports: any
 }
 
 declare module 'chai/lib/chai/utils/getPathValue' {
-  declare module.exports: any;
+  declare module.exports: any
 }
 
 declare module 'chai/lib/chai/utils/getProperties' {
-  declare module.exports: any;
+  declare module.exports: any
 }
 
 declare module 'chai/lib/chai/utils/index' {
-  declare module.exports: any;
+  declare module.exports: any
 }
 
 declare module 'chai/lib/chai/utils/inspect' {
-  declare module.exports: any;
+  declare module.exports: any
 }
 
 declare module 'chai/lib/chai/utils/objDisplay' {
-  declare module.exports: any;
+  declare module.exports: any
 }
 
 declare module 'chai/lib/chai/utils/overwriteChainableMethod' {
-  declare module.exports: any;
+  declare module.exports: any
 }
 
 declare module 'chai/lib/chai/utils/overwriteMethod' {
-  declare module.exports: any;
+  declare module.exports: any
 }
 
 declare module 'chai/lib/chai/utils/overwriteProperty' {
-  declare module.exports: any;
+  declare module.exports: any
 }
 
 declare module 'chai/lib/chai/utils/test' {
-  declare module.exports: any;
+  declare module.exports: any
 }
 
 declare module 'chai/lib/chai/utils/transferFlags' {
-  declare module.exports: any;
+  declare module.exports: any
 }
 
 declare module 'chai/lib/chai/utils/type' {
-  declare module.exports: any;
+  declare module.exports: any
 }
 
 declare module 'chai/sauce.browsers' {
-  declare module.exports: any;
+  declare module.exports: any
 }
 
 // Filename aliases
 declare module 'chai/chai.js' {
-  declare module.exports: $Exports<'chai/chai'>;
+  declare module.exports: $Exports<'chai/chai'>
 }
 declare module 'chai/index' {
-  declare module.exports: $Exports<'chai'>;
+  declare module.exports: $Exports<'chai'>
 }
 declare module 'chai/index.js' {
-  declare module.exports: $Exports<'chai'>;
+  declare module.exports: $Exports<'chai'>
 }
 declare module 'chai/karma.conf.js' {
-  declare module.exports: $Exports<'chai/karma.conf'>;
+  declare module.exports: $Exports<'chai/karma.conf'>
 }
 declare module 'chai/karma.sauce.js' {
-  declare module.exports: $Exports<'chai/karma.sauce'>;
+  declare module.exports: $Exports<'chai/karma.sauce'>
 }
 declare module 'chai/lib/chai.js' {
-  declare module.exports: $Exports<'chai/lib/chai'>;
+  declare module.exports: $Exports<'chai/lib/chai'>
 }
 declare module 'chai/lib/chai/assertion.js' {
-  declare module.exports: $Exports<'chai/lib/chai/assertion'>;
+  declare module.exports: $Exports<'chai/lib/chai/assertion'>
 }
 declare module 'chai/lib/chai/config.js' {
-  declare module.exports: $Exports<'chai/lib/chai/config'>;
+  declare module.exports: $Exports<'chai/lib/chai/config'>
 }
 declare module 'chai/lib/chai/core/assertions.js' {
-  declare module.exports: $Exports<'chai/lib/chai/core/assertions'>;
+  declare module.exports: $Exports<'chai/lib/chai/core/assertions'>
 }
 declare module 'chai/lib/chai/interface/assert.js' {
-  declare module.exports: $Exports<'chai/lib/chai/interface/assert'>;
+  declare module.exports: $Exports<'chai/lib/chai/interface/assert'>
 }
 declare module 'chai/lib/chai/interface/expect.js' {
-  declare module.exports: $Exports<'chai/lib/chai/interface/expect'>;
+  declare module.exports: $Exports<'chai/lib/chai/interface/expect'>
 }
 declare module 'chai/lib/chai/interface/should.js' {
-  declare module.exports: $Exports<'chai/lib/chai/interface/should'>;
+  declare module.exports: $Exports<'chai/lib/chai/interface/should'>
 }
 declare module 'chai/lib/chai/utils/addChainableMethod.js' {
-  declare module.exports: $Exports<'chai/lib/chai/utils/addChainableMethod'>;
+  declare module.exports: $Exports<'chai/lib/chai/utils/addChainableMethod'>
 }
 declare module 'chai/lib/chai/utils/addMethod.js' {
-  declare module.exports: $Exports<'chai/lib/chai/utils/addMethod'>;
+  declare module.exports: $Exports<'chai/lib/chai/utils/addMethod'>
 }
 declare module 'chai/lib/chai/utils/addProperty.js' {
-  declare module.exports: $Exports<'chai/lib/chai/utils/addProperty'>;
+  declare module.exports: $Exports<'chai/lib/chai/utils/addProperty'>
 }
 declare module 'chai/lib/chai/utils/flag.js' {
-  declare module.exports: $Exports<'chai/lib/chai/utils/flag'>;
+  declare module.exports: $Exports<'chai/lib/chai/utils/flag'>
 }
 declare module 'chai/lib/chai/utils/getActual.js' {
-  declare module.exports: $Exports<'chai/lib/chai/utils/getActual'>;
+  declare module.exports: $Exports<'chai/lib/chai/utils/getActual'>
 }
 declare module 'chai/lib/chai/utils/getEnumerableProperties.js' {
-  declare module.exports: $Exports<'chai/lib/chai/utils/getEnumerableProperties'>;
+  declare module.exports: $Exports<'chai/lib/chai/utils/getEnumerableProperties'>
 }
 declare module 'chai/lib/chai/utils/getMessage.js' {
-  declare module.exports: $Exports<'chai/lib/chai/utils/getMessage'>;
+  declare module.exports: $Exports<'chai/lib/chai/utils/getMessage'>
 }
 declare module 'chai/lib/chai/utils/getName.js' {
-  declare module.exports: $Exports<'chai/lib/chai/utils/getName'>;
+  declare module.exports: $Exports<'chai/lib/chai/utils/getName'>
 }
 declare module 'chai/lib/chai/utils/getPathValue.js' {
-  declare module.exports: $Exports<'chai/lib/chai/utils/getPathValue'>;
+  declare module.exports: $Exports<'chai/lib/chai/utils/getPathValue'>
 }
 declare module 'chai/lib/chai/utils/getProperties.js' {
-  declare module.exports: $Exports<'chai/lib/chai/utils/getProperties'>;
+  declare module.exports: $Exports<'chai/lib/chai/utils/getProperties'>
 }
 declare module 'chai/lib/chai/utils/index.js' {
-  declare module.exports: $Exports<'chai/lib/chai/utils/index'>;
+  declare module.exports: $Exports<'chai/lib/chai/utils/index'>
 }
 declare module 'chai/lib/chai/utils/inspect.js' {
-  declare module.exports: $Exports<'chai/lib/chai/utils/inspect'>;
+  declare module.exports: $Exports<'chai/lib/chai/utils/inspect'>
 }
 declare module 'chai/lib/chai/utils/objDisplay.js' {
-  declare module.exports: $Exports<'chai/lib/chai/utils/objDisplay'>;
+  declare module.exports: $Exports<'chai/lib/chai/utils/objDisplay'>
 }
 declare module 'chai/lib/chai/utils/overwriteChainableMethod.js' {
-  declare module.exports: $Exports<'chai/lib/chai/utils/overwriteChainableMethod'>;
+  declare module.exports: $Exports<'chai/lib/chai/utils/overwriteChainableMethod'>
 }
 declare module 'chai/lib/chai/utils/overwriteMethod.js' {
-  declare module.exports: $Exports<'chai/lib/chai/utils/overwriteMethod'>;
+  declare module.exports: $Exports<'chai/lib/chai/utils/overwriteMethod'>
 }
 declare module 'chai/lib/chai/utils/overwriteProperty.js' {
-  declare module.exports: $Exports<'chai/lib/chai/utils/overwriteProperty'>;
+  declare module.exports: $Exports<'chai/lib/chai/utils/overwriteProperty'>
 }
 declare module 'chai/lib/chai/utils/test.js' {
-  declare module.exports: $Exports<'chai/lib/chai/utils/test'>;
+  declare module.exports: $Exports<'chai/lib/chai/utils/test'>
 }
 declare module 'chai/lib/chai/utils/transferFlags.js' {
-  declare module.exports: $Exports<'chai/lib/chai/utils/transferFlags'>;
+  declare module.exports: $Exports<'chai/lib/chai/utils/transferFlags'>
 }
 declare module 'chai/lib/chai/utils/type.js' {
-  declare module.exports: $Exports<'chai/lib/chai/utils/type'>;
+  declare module.exports: $Exports<'chai/lib/chai/utils/type'>
 }
 declare module 'chai/sauce.browsers.js' {
-  declare module.exports: $Exports<'chai/sauce.browsers'>;
+  declare module.exports: $Exports<'chai/sauce.browsers'>
 }

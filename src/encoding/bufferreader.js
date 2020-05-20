@@ -12,7 +12,7 @@ const BufferReader = function BufferReader(buf) {
   }
   if (Buffer.isBuffer(buf)) {
     this.set({
-      buf
+      buf,
     })
   } else if (_.isString(buf)) {
     const b = Buffer.from(buf, 'hex')
@@ -21,7 +21,7 @@ const BufferReader = function BufferReader(buf) {
     }
 
     this.set({
-      buf: b
+      buf: b,
     })
   } else if (_.isObject(buf)) {
     const obj = buf
@@ -31,75 +31,75 @@ const BufferReader = function BufferReader(buf) {
   }
 }
 
-BufferReader.prototype.set = function(obj) {
+BufferReader.prototype.set = function (obj) {
   this.buf = obj.buf || this.buf || undefined
   this.pos = obj.pos || this.pos || 0
   return this
 }
 
-BufferReader.prototype.eof = function() {
+BufferReader.prototype.eof = function () {
   return this.pos >= this.buf.length
 }
 
 BufferReader.prototype.finished = BufferReader.prototype.eof
 
-BufferReader.prototype.read = function(len) {
+BufferReader.prototype.read = function (len) {
   $.checkArgument(!_.isUndefined(len), 'Must specify a length')
   const buf = this.buf.slice(this.pos, this.pos + len)
   this.pos += len
   return buf
 }
 
-BufferReader.prototype.readAll = function() {
+BufferReader.prototype.readAll = function () {
   const buf = this.buf.slice(this.pos, this.buf.length)
   this.pos = this.buf.length
   return buf
 }
 
-BufferReader.prototype.readUInt8 = function() {
+BufferReader.prototype.readUInt8 = function () {
   const val = this.buf.readUInt8(this.pos)
   this.pos += 1
   return val
 }
 
-BufferReader.prototype.readUInt16BE = function() {
+BufferReader.prototype.readUInt16BE = function () {
   const val = this.buf.readUInt16BE(this.pos)
   this.pos += 2
   return val
 }
 
-BufferReader.prototype.readUInt16LE = function() {
+BufferReader.prototype.readUInt16LE = function () {
   const val = this.buf.readUInt16LE(this.pos)
   this.pos += 2
   return val
 }
 
-BufferReader.prototype.readUInt32BE = function() {
+BufferReader.prototype.readUInt32BE = function () {
   const val = this.buf.readUInt32BE(this.pos)
   this.pos += 4
   return val
 }
 
-BufferReader.prototype.readUInt32LE = function() {
+BufferReader.prototype.readUInt32LE = function () {
   const val = this.buf.readUInt32LE(this.pos)
   this.pos += 4
   return val
 }
 
-BufferReader.prototype.readInt32LE = function() {
+BufferReader.prototype.readInt32LE = function () {
   const val = this.buf.readInt32LE(this.pos)
   this.pos += 4
   return val
 }
 
-BufferReader.prototype.readUInt64BEBN = function() {
+BufferReader.prototype.readUInt64BEBN = function () {
   const buf = this.buf.slice(this.pos, this.pos + 8)
   const bn = BN.fromBuffer(buf)
   this.pos += 8
   return bn
 }
 
-BufferReader.prototype.readUInt64LEBN = function() {
+BufferReader.prototype.readUInt64LEBN = function () {
   const second = this.buf.readUInt32LE(this.pos)
   const first = this.buf.readUInt32LE(this.pos + 4)
   const combined = first * 0x100000000 + second
@@ -120,7 +120,7 @@ BufferReader.prototype.readUInt64LEBN = function() {
   return bn
 }
 
-BufferReader.prototype.readVarintNum = function() {
+BufferReader.prototype.readVarintNum = function () {
   const first = this.readUInt8()
   switch (first) {
     case 0xfd:
@@ -142,7 +142,7 @@ BufferReader.prototype.readVarintNum = function() {
 /**
  * reads a length prepended buffer
  */
-BufferReader.prototype.readVarLengthBuffer = function() {
+BufferReader.prototype.readVarLengthBuffer = function () {
   const len = this.readVarintNum()
   const buf = this.read(len)
   $.checkState(
@@ -152,7 +152,7 @@ BufferReader.prototype.readVarLengthBuffer = function() {
   return buf
 }
 
-BufferReader.prototype.readVarintBuf = function() {
+BufferReader.prototype.readVarintBuf = function () {
   const first = this.buf.readUInt8(this.pos)
   switch (first) {
     case 0xfd:
@@ -166,7 +166,7 @@ BufferReader.prototype.readVarintBuf = function() {
   }
 }
 
-BufferReader.prototype.readVarintBN = function() {
+BufferReader.prototype.readVarintBN = function () {
   const first = this.readUInt8()
   switch (first) {
     case 0xfd:
@@ -180,7 +180,7 @@ BufferReader.prototype.readVarintBN = function() {
   }
 }
 
-BufferReader.prototype.reverse = function() {
+BufferReader.prototype.reverse = function () {
   const buf = Buffer.alloc(this.buf.length)
   for (let i = 0; i < buf.length; i += 1) {
     buf[i] = this.buf[this.buf.length - 1 - i]
@@ -189,7 +189,7 @@ BufferReader.prototype.reverse = function() {
   return this
 }
 
-BufferReader.prototype.readReverse = function(len) {
+BufferReader.prototype.readReverse = function (len) {
   if (_.isUndefined(len)) {
     len = this.buf.length
   }

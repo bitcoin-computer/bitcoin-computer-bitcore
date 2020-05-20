@@ -8,12 +8,12 @@ BitcoinSource currently only supports an older version of BCH. The library works
 
 This document proposes to update the Bitcoin Source library to support both BCH and BSV chains after the November 2018 hard fork. Normally this would make maintenance more difficult but BSV is not planning any further hard forks. Supporting both chains should be doable. To our awareness, there are no other libraries that do this today.
 
-
 ### New Top-Level Functions: bsv() and bch()
 
 These two new functions will be the new module exports. The user will be expected to call one of the two, and it will return the module exports currently returned today. In addition, they will also set various internal flags and constants that change the behavior of each chain.
 
 Example:
+
 ```
 const bsv = require('bitcoin-source').bsv();
 const privateKey = new bsv.PrivateKey();
@@ -24,7 +24,7 @@ This requires changing bitcoinsource.js to create two exported functions: bsv() 
 
 ### Update Network Seeds
 
-The BCH and BSV network seeds are now different and will need to be updated. We suggest that the default behavior in network.js be to set the BSV network seeds and the BCH seeds be overridden in bitcoinsource.js. We suggest having two constant arrays in networks.js for the BCH mainnet and testnet seeds so that bitcoinsource.js can simply write: 
+The BCH and BSV network seeds are now different and will need to be updated. We suggest that the default behavior in network.js be to set the BSV network seeds and the BCH seeds be overridden in bitcoinsource.js. We suggest having two constant arrays in networks.js for the BCH mainnet and testnet seeds so that bitcoinsource.js can simply write:
 
 ```
 function bch() {
@@ -36,16 +36,18 @@ function bch() {
 ```
 
 The BSV network seeds for mainnet are:
-* seed.bitcoinsv.io
-* seed.cascharia.com
-* seed.satoshisvision.network
+
+- seed.bitcoinsv.io
+- seed.cascharia.com
+- seed.satoshisvision.network
 
 The BSV network seeds for testnet are:
-* stn-seed.bitcoinsv.io
+
+- stn-seed.bitcoinsv.io
 
 The BCH network seeds remain the same.
 
-*Note: Many BSV seeds also return BCH nodes. This unfortunately makes connecting to nodes more difficul, but we will not make any changes in the BitcoinSource library for now. This is because BSV has proposed replay protection soon and clients may simply check the user agents upon connecting*
+_Note: Many BSV seeds also return BCH nodes. This unfortunately makes connecting to nodes more difficul, but we will not make any changes in the BitcoinSource library for now. This is because BSV has proposed replay protection soon and clients may simply check the user agents upon connecting_
 
 ### Ensure Signature Hashing Uses the Correct Fork ID
 
@@ -53,18 +55,21 @@ The BCH chain now sets a fork ID of 1. We should make sure the code applies this
 
 ## Action Items
 
-*Note: Each code change requires a new test case.*
+_Note: Each code change requires a new test case._
 
 #### High Priority
+
 - [ ] Replace top-level exports with bsv() and bch() functions
 - [ ] Update network seeds
 - [ ] Update documentation for chains
 - [ ] Ensure signature hashing uses the correct fork id
 
 #### Medium Priority
+
 - [ ] Update max block size and flag to enable
 
 #### Low Priority
+
 - [ ] Make internal code comments chain-agnostic
 - [ ] Add support for May 2018 opcodes
 - [ ] Add OP_CHECKDATASIG and OP_CHECKDATASIGVERIFY and flags to enable (BCH)
@@ -79,6 +84,7 @@ The BCH chain now sets a fork ID of 1. We should make sure the code applies this
 - [ ] Increase DATA_CARRIER_SIZE if necessary with flag to enable (BSV)
 
 #### Not Relevant
+
 - [ ] Add support for CTOR validation and flag to enable (BCH)
 - [ ] Add support for TTOR validation and flag to enable (BSV)
 
@@ -91,11 +97,12 @@ Currently these opcodes exist but are not implemented in interpreter.js. We must
 ### OP_CHECKDATASIG and OP_CHECKDATASIGVERIFY
 
 Recommendations
-* Add these two opcodes (186 and 187) must be added in opcodes.js.
-* Create a new flag Interpreter.CHECK_DATA_SIG_ENABLED in interpreter.js.
-* Set CHECK_DATA_SIG_ENABLED correctly in bch() and bsv() in bitcoinsource.js.
-* Delete these opcodes in bsv() in bitcoinsource.js
-* Update Interpreter.step() to process these new opcides when CHECK_DATA_SIG_ENABLED is true.
+
+- Add these two opcodes (186 and 187) must be added in opcodes.js.
+- Create a new flag Interpreter.CHECK_DATA_SIG_ENABLED in interpreter.js.
+- Set CHECK_DATA_SIG_ENABLED correctly in bch() and bsv() in bitcoinsource.js.
+- Delete these opcodes in bsv() in bitcoinsource.js
+- Update Interpreter.step() to process these new opcides when CHECK_DATA_SIG_ENABLED is true.
 
 See the official spec for all implementation details.
 
@@ -108,49 +115,55 @@ There is currently no work to be done because transaction order is not checked b
 The block cap is defined in MAX_BLOCK_SIZE in block.js. Currently it is set to 1MB for BTC and needs to be updated for both chains.
 
 Recommendations
-* Set Block.MAX_BLOCK_SIZE to 32000000 in bch() in bitcionsource.js.
-* Set Block.MAX_BLOCK_SIZE to 128000000 in bsv() in bitcionsource.js.
-* Delete MAX_BLOCK_SIZE in transaction.js.
+
+- Set Block.MAX_BLOCK_SIZE to 32000000 in bch() in bitcionsource.js.
+- Set Block.MAX_BLOCK_SIZE to 128000000 in bsv() in bitcionsource.js.
+- Delete MAX_BLOCK_SIZE in transaction.js.
 
 ### Enforce minimum transaction size
 
 Recommendations
-* Create a new flag in transaction.js called MINIMUM_TRANSACTION_SIZE.
-* Set this flag to 100 for bch() in bitcoinsource.js.
-* Set this flag to 0 for bsv() in bitcoinsource.js.
-* Add a check in Transaction.verify() that ensures the transaction size is greater than or equal to this value.
+
+- Create a new flag in transaction.js called MINIMUM_TRANSACTION_SIZE.
+- Set this flag to 100 for bch() in bitcoinsource.js.
+- Set this flag to 0 for bsv() in bitcoinsource.js.
+- Add a check in Transaction.verify() that ensures the transaction size is greater than or equal to this value.
 
 ### Enforce Push-Only Rule for ScriptSig
 
 Recommendations
-* Create a new flag in transaction.js called ENFORCE_PUSH_ONLY_FOR_SCRIPT_SIG.
-* Set this flag to true for bch() in bitcoinsource.js.
-* Set this flag to false for bsv() in bitcoinsource.js.
-* Check the script sig only contains opcodes less than or equal to 96 in Transaction.verify(). See the BCH Nov 18 HF spec.
+
+- Create a new flag in transaction.js called ENFORCE_PUSH_ONLY_FOR_SCRIPT_SIG.
+- Set this flag to true for bch() in bitcoinsource.js.
+- Set this flag to false for bsv() in bitcoinsource.js.
+- Check the script sig only contains opcodes less than or equal to 96 in Transaction.verify(). See the BCH Nov 18 HF spec.
 
 ### Enforce Clean Stack Rule
 
 Recommendations
-* Create a new flag in interpreter.js called Interpreter.ENFORCE_CLEAN_STACK.
-* Set this flag to true for bch() in bitcoinsource.js.
-* Set this flag to false for bsv() in bitcoinsource.js.
-* Check that the stack is empty at the end of Interpreter.evaluate() and if not return false. 
+
+- Create a new flag in interpreter.js called Interpreter.ENFORCE_CLEAN_STACK.
+- Set this flag to true for bch() in bitcoinsource.js.
+- Set this flag to false for bsv() in bitcoinsource.js.
+- Check that the stack is empty at the end of Interpreter.evaluate() and if not return false.
 
 ### Increase Max Script Ops
 
 Recommendations
-* Create a new flag in interpreter.js called MAX_SCRIPT_OPS
-* Set this flag to 201 for bch() in bitcoinsource.js
-* Set this flag to 500 for bsv() in bitcoinsource.js
-* Check this flag in interpreter.js() instead of checking for 201 directly.
+
+- Create a new flag in interpreter.js called MAX_SCRIPT_OPS
+- Set this flag to 201 for bch() in bitcoinsource.js
+- Set this flag to 500 for bsv() in bitcoinsource.js
+- Check this flag in interpreter.js() instead of checking for 201 directly.
 
 ### Increase Data Carrier Size
 
 Recommendations
-* Create a new flag in transaction.js called DATA_CARRIER_SIZE.
-* Set this flag to 223 for bch() in bitcoinsource.js.
-* Set this flag to 100000 for bsv() in bitcoinsource.js.
-* Add a check in Transaction.verify() that ensures that pk_scripts that start with OP_RETURN are lengths less than or equal to the DATA_CARRIER_SIZE.
+
+- Create a new flag in transaction.js called DATA_CARRIER_SIZE.
+- Set this flag to 223 for bch() in bitcoinsource.js.
+- Set this flag to 100000 for bsv() in bitcoinsource.js.
+- Add a check in Transaction.verify() that ensures that pk_scripts that start with OP_RETURN are lengths less than or equal to the DATA_CARRIER_SIZE.
 
 ### OP_MUL, OP_INVERT, OP_LSHIFT, OP_RSHIFT
 

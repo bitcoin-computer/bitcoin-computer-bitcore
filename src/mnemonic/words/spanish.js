@@ -2046,5 +2046,5 @@ export default [
   'zona',
   'zorro',
   'zumo',
-  'zurdo'
+  'zurdo',
 ]

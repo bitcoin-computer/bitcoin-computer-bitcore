@@ -53,7 +53,7 @@ class UnspentOutput {
       txId,
       outputIndex,
       script,
-      satoshis: amount
+      satoshis: amount,
     })
   }
 
@@ -95,7 +95,7 @@ class UnspentOutput {
       txid: this.txId,
       vout: this.outputIndex,
       scriptPubKey: this.script.toBuffer().toString('hex'),
-      amount: Unit.fromSatoshis(this.satoshis).toBTC()
+      amount: Unit.fromSatoshis(this.satoshis).toBTC(),
     }
   }
 

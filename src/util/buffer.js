@@ -166,7 +166,7 @@ const BufferUtil = {
   hexToBuffer: function hexToBuffer(string) {
     assert(js.isHexa(string))
     return Buffer.from(string, 'hex')
-  }
+  },
 }
 
 BufferUtil.NULL_HASH = BufferUtil.fill(Buffer.alloc(32), 0)

@@ -43,19 +43,13 @@ function pbkdf2(key, salt, iterations, dkLen) {
     block1[salt.length + 2] = (i >> 8) & 0xff
     block1[salt.length + 3] = (i >> 0) & 0xff
 
-    const digest = hash
-      .hmac(hash.sha512, key)
-      .update(block1)
-      .digest()
+    const digest = hash.hmac(hash.sha512, key).update(block1).digest()
     U = Buffer.from(digest)
 
     U.copy(T, 0, 0, hLen)
 
     for (let j = 1; j < iterations; j += 1) {
-      const innerDigest = hash
-        .hmac(hash.sha512, key)
-        .update(U)
-        .digest()
+      const innerDigest = hash.hmac(hash.sha512, key).update(U).digest()
       U = Buffer.from(innerDigest)
 
       for (let k = 0; k < hLen; k += 1) {

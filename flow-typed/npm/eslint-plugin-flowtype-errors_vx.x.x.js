@@ -14,7 +14,7 @@
  */
 
 declare module 'eslint-plugin-flowtype-errors' {
-  declare module.exports: any;
+  declare module.exports: any
 }
 
 /**
@@ -23,44 +23,44 @@ declare module 'eslint-plugin-flowtype-errors' {
  * needed.
  */
 declare module 'eslint-plugin-flowtype-errors/dist/collect' {
-  declare module.exports: any;
+  declare module.exports: any
 }
 
 declare module 'eslint-plugin-flowtype-errors/dist/config/recommended' {
-  declare module.exports: any;
+  declare module.exports: any
 }
 
 declare module 'eslint-plugin-flowtype-errors/dist/format' {
-  declare module.exports: any;
+  declare module.exports: any
 }
 
 declare module 'eslint-plugin-flowtype-errors/dist/get-program' {
-  declare module.exports: any;
+  declare module.exports: any
 }
 
 declare module 'eslint-plugin-flowtype-errors/dist/index' {
-  declare module.exports: any;
+  declare module.exports: any
 }
 
 // Filename aliases
 declare module 'eslint-plugin-flowtype-errors/dist/collect.js' {
-  declare module.exports: $Exports<'eslint-plugin-flowtype-errors/dist/collect'>;
+  declare module.exports: $Exports<'eslint-plugin-flowtype-errors/dist/collect'>
 }
 declare module 'eslint-plugin-flowtype-errors/dist/config/recommended.js' {
-  declare module.exports: $Exports<'eslint-plugin-flowtype-errors/dist/config/recommended'>;
+  declare module.exports: $Exports<'eslint-plugin-flowtype-errors/dist/config/recommended'>
 }
 declare module 'eslint-plugin-flowtype-errors/dist/format.js' {
-  declare module.exports: $Exports<'eslint-plugin-flowtype-errors/dist/format'>;
+  declare module.exports: $Exports<'eslint-plugin-flowtype-errors/dist/format'>
 }
 declare module 'eslint-plugin-flowtype-errors/dist/get-program.js' {
-  declare module.exports: $Exports<'eslint-plugin-flowtype-errors/dist/get-program'>;
+  declare module.exports: $Exports<'eslint-plugin-flowtype-errors/dist/get-program'>
 }
 declare module 'eslint-plugin-flowtype-errors/dist/index.js' {
-  declare module.exports: $Exports<'eslint-plugin-flowtype-errors/dist/index'>;
+  declare module.exports: $Exports<'eslint-plugin-flowtype-errors/dist/index'>
 }
 declare module 'eslint-plugin-flowtype-errors/index' {
-  declare module.exports: $Exports<'eslint-plugin-flowtype-errors'>;
+  declare module.exports: $Exports<'eslint-plugin-flowtype-errors'>
 }
 declare module 'eslint-plugin-flowtype-errors/index.js' {
-  declare module.exports: $Exports<'eslint-plugin-flowtype-errors'>;
+  declare module.exports: $Exports<'eslint-plugin-flowtype-errors'>
 }

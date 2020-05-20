@@ -42,8 +42,8 @@ class PublicKeyHashInput extends Input {
             this.output.script,
             this.output.satoshisBN
           ),
-          sigtype
-        })
+          sigtype,
+        }),
       ]
     }
     return []

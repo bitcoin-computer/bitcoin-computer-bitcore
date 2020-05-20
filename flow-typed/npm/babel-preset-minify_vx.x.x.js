@@ -14,7 +14,7 @@
  */
 
 declare module 'babel-preset-minify' {
-  declare module.exports: any;
+  declare module.exports: any
 }
 
 /**
@@ -23,10 +23,10 @@ declare module 'babel-preset-minify' {
  * needed.
  */
 declare module 'babel-preset-minify/lib/index' {
-  declare module.exports: any;
+  declare module.exports: any
 }
 
 // Filename aliases
 declare module 'babel-preset-minify/lib/index.js' {
-  declare module.exports: $Exports<'babel-preset-minify/lib/index'>;
+  declare module.exports: $Exports<'babel-preset-minify/lib/index'>
 }

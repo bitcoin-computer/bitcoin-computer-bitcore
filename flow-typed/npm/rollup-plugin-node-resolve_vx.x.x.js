@@ -14,7 +14,7 @@
  */
 
 declare module 'rollup-plugin-node-resolve' {
-  declare module.exports: any;
+  declare module.exports: any
 }
 
 /**
@@ -23,31 +23,31 @@ declare module 'rollup-plugin-node-resolve' {
  * needed.
  */
 declare module 'rollup-plugin-node-resolve/dist/rollup-plugin-node-resolve.cjs' {
-  declare module.exports: any;
+  declare module.exports: any
 }
 
 declare module 'rollup-plugin-node-resolve/dist/rollup-plugin-node-resolve.es' {
-  declare module.exports: any;
+  declare module.exports: any
 }
 
 declare module 'rollup-plugin-node-resolve/src/empty' {
-  declare module.exports: any;
+  declare module.exports: any
 }
 
 declare module 'rollup-plugin-node-resolve/src/index' {
-  declare module.exports: any;
+  declare module.exports: any
 }
 
 // Filename aliases
 declare module 'rollup-plugin-node-resolve/dist/rollup-plugin-node-resolve.cjs.js' {
-  declare module.exports: $Exports<'rollup-plugin-node-resolve/dist/rollup-plugin-node-resolve.cjs'>;
+  declare module.exports: $Exports<'rollup-plugin-node-resolve/dist/rollup-plugin-node-resolve.cjs'>
 }
 declare module 'rollup-plugin-node-resolve/dist/rollup-plugin-node-resolve.es.js' {
-  declare module.exports: $Exports<'rollup-plugin-node-resolve/dist/rollup-plugin-node-resolve.es'>;
+  declare module.exports: $Exports<'rollup-plugin-node-resolve/dist/rollup-plugin-node-resolve.es'>
 }
 declare module 'rollup-plugin-node-resolve/src/empty.js' {
-  declare module.exports: $Exports<'rollup-plugin-node-resolve/src/empty'>;
+  declare module.exports: $Exports<'rollup-plugin-node-resolve/src/empty'>
 }
 declare module 'rollup-plugin-node-resolve/src/index.js' {
-  declare module.exports: $Exports<'rollup-plugin-node-resolve/src/index'>;
+  declare module.exports: $Exports<'rollup-plugin-node-resolve/src/index'>
 }

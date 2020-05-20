@@ -14,7 +14,7 @@
  */
 
 declare module 'rollup-plugin-terser' {
-  declare module.exports: any;
+  declare module.exports: any
 }
 
 /**
@@ -23,16 +23,16 @@ declare module 'rollup-plugin-terser' {
  * needed.
  */
 declare module 'rollup-plugin-terser/transform' {
-  declare module.exports: any;
+  declare module.exports: any
 }
 
 // Filename aliases
 declare module 'rollup-plugin-terser/index' {
-  declare module.exports: $Exports<'rollup-plugin-terser'>;
+  declare module.exports: $Exports<'rollup-plugin-terser'>
 }
 declare module 'rollup-plugin-terser/index.js' {
-  declare module.exports: $Exports<'rollup-plugin-terser'>;
+  declare module.exports: $Exports<'rollup-plugin-terser'>
 }
 declare module 'rollup-plugin-terser/transform.js' {
-  declare module.exports: $Exports<'rollup-plugin-terser/transform'>;
+  declare module.exports: $Exports<'rollup-plugin-terser/transform'>
 }

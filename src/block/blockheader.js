@@ -79,7 +79,7 @@ class BlockHeader {
       time: data.time,
       timestamp: data.time,
       bits: data.bits,
-      nonce: data.nonce
+      nonce: data.nonce,
     }
     return info
   }
@@ -161,7 +161,7 @@ class BlockHeader {
       merkleRoot: BufferUtil.reverse(this.merkleRoot).toString('hex'),
       time: this.time,
       bits: this.bits,
-      nonce: this.nonce
+      nonce: this.nonce,
     }
   }
 
@@ -282,13 +282,11 @@ const idProperty = {
    */
   get() {
     if (!this._id) {
-      this._id = BufferReader(this._getHash())
-        .readReverse()
-        .toString('hex')
+      this._id = BufferReader(this._getHash()).readReverse().toString('hex')
     }
     return this._id
   },
-  set: _.noop
+  set: _.noop,
 }
 Object.defineProperty(BlockHeader.prototype, 'id', idProperty)
 Object.defineProperty(BlockHeader.prototype, 'hash', idProperty)
@@ -296,7 +294,7 @@ Object.defineProperty(BlockHeader.prototype, 'hash', idProperty)
 BlockHeader.Constants = {
   START_OF_HEADER: 8, // Start buffer position in raw block data
   MAX_TIME_OFFSET: 2 * 60 * 60, // The max a timestamp can be in the future
-  LARGEST_HASH: new BN('10000000000000000000000000000000000000000000000000000000000000000', 'hex')
+  LARGEST_HASH: new BN('10000000000000000000000000000000000000000000000000000000000000000', 'hex'),
 }
 
 export default BlockHeader

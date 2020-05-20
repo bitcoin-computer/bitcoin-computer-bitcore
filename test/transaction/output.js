@@ -10,100 +10,96 @@ const { BufferReader } = Bitcoin.encoding
 const { Output } = Bitcoin.Transaction
 const { Script } = Bitcoin
 
-describe('Output', function() {
+describe('Output', function () {
   const output = new Output({
     satoshis: 0,
-    script: Script.empty()
+    script: Script.empty(),
   })
 
-  it('throws error with unrecognized argument', function() {
-    ;(function() {
+  it('throws error with unrecognized argument', function () {
+    ;(function () {
       new Output(12345)
     }.should.throw(TypeError))
   })
 
-  it('can be assigned a satoshi amount in big number', function() {
+  it('can be assigned a satoshi amount in big number', function () {
     const newOutput = new Output({
       satoshis: new BN(100),
-      script: Script.empty()
+      script: Script.empty(),
     })
     newOutput.satoshis.should.equal(100)
   })
 
-  it('can be assigned a satoshi amount with a string', function() {
+  it('can be assigned a satoshi amount with a string', function () {
     const newOutput = new Output({
       satoshis: '100',
-      script: Script.empty()
+      script: Script.empty(),
     })
     newOutput.satoshis.should.equal(100)
   })
 
-  describe('will error if output is not a positive integer', function() {
-    it('-100', function() {
-      ;(function() {
+  describe('will error if output is not a positive integer', function () {
+    it('-100', function () {
+      ;(function () {
         new Output({
           satoshis: -100,
-          script: Script.empty()
+          script: Script.empty(),
         })
       }.should.throw('Output satoshis is not a natural number'))
     })
 
-    it('1.1', function() {
-      ;(function() {
+    it('1.1', function () {
+      ;(function () {
         new Output({
           satoshis: 1.1,
-          script: Script.empty()
+          script: Script.empty(),
         })
       }.should.throw('Output satoshis is not a natural number'))
     })
 
-    it('NaN', function() {
-      ;(function() {
+    it('NaN', function () {
+      ;(function () {
         new Output({
           satoshis: NaN,
-          script: Script.empty()
+          script: Script.empty(),
         })
       }.should.throw('Output satoshis is not a natural number'))
     })
 
-    it('Infinity', function() {
-      ;(function() {
+    it('Infinity', function () {
+      ;(function () {
         new Output({
           satoshis: Infinity,
-          script: Script.empty()
+          script: Script.empty(),
         })
       }.should.throw('Output satoshis is not a natural number'))
     })
   })
 
-  const expectEqualOutputs = function(a, b) {
+  const expectEqualOutputs = function (a, b) {
     a.satoshis.should.equal(b.satoshis)
     a.script.toString().should.equal(b.script.toString())
   }
 
-  it('deserializes correctly a simple output', function() {
+  it('deserializes correctly a simple output', function () {
     const writer = new BufferWriter()
     output.toBufferWriter(writer)
     const deserialized = Output.fromBufferReader(new BufferReader(writer.toBuffer()))
     expectEqualOutputs(output, deserialized)
   })
 
-  it('can instantiate from an object', function() {
+  it('can instantiate from an object', function () {
     const out = new Output(output.toObject())
     should.exist(out)
   })
 
-  it('can set a script from a buffer', function() {
+  it('can set a script from a buffer', function () {
     const newOutput = new Output(output.toObject())
-    newOutput.setScript(
-      Script()
-        .add(0)
-        .toBuffer()
-    )
+    newOutput.setScript(Script().add(0).toBuffer())
     newOutput.inspect().should.equal('<Output (0 sats) <Script: OP_0>>')
   })
 
-  it('has a inspect property', function() {
+  it('has a inspect property', function () {
     output.inspect().should.equal('<Output (0 sats) <Script: >>')
   })
 
@@ -113,10 +109,10 @@ describe('Output', function() {
       'OP_2 21 0x038282263212c609d9ea2a6e3e172de238d8c39' +
         'cabd5ac1ca10646e23fd5f51508 21 0x038282263212c609d9ea2a6e3e172de23' +
         '8d8c39cabd5ac1ca10646e23fd5f51508 OP_2 OP_CHECKMULTISIG OP_EQUAL'
-    )
+    ),
   })
 
-  it('toBufferWriter', function() {
+  it('toBufferWriter', function () {
     output2
       .toBufferWriter()
       .toBuffer()
@@ -128,16 +124,16 @@ describe('Output', function() {
       )
   })
 
-  it('roundtrips to/from object', function() {
+  it('roundtrips to/from object', function () {
     const newOutput = new Output({
       satoshis: 50,
-      script: new Script().add(0)
+      script: new Script().add(0),
     })
     const otherOutput = new Output(newOutput.toObject())
     expectEqualOutputs(newOutput, otherOutput)
   })
 
-  it('toObject will handle an invalid (null) script', function() {
+  it('toObject will handle an invalid (null) script', function () {
     // block 000000000000000b7e48f88e86ceee3e97b4df7c139f5411d14735c1b3c36791 (livenet)
     // transaction index 2
     // txid ebc9fa1196a59e192352d76c0f6e73167046b9d37b8302b6bb6968dfd279b767
@@ -151,7 +147,7 @@ describe('Output', function() {
     obj.outputs[6].script.should.equal('4e')
   })
 
-  it('#toObject roundtrip will handle an invalid (null) script', function() {
+  it('#toObject roundtrip will handle an invalid (null) script', function () {
     const invalidOutputScript = Buffer.from('0100000000000000014c', 'hex')
     const br = new Bitcoin.encoding.BufferReader(invalidOutputScript)
     const o1 = Output.fromBufferReader(br)
@@ -160,38 +156,38 @@ describe('Output', function() {
     should.equal(o2._scriptBuffer.toString('hex'), '4c')
   })
 
-  it('inspect will work with an invalid (null) script', function() {
+  it('inspect will work with an invalid (null) script', function () {
     const invalidOutputScript = Buffer.from('0100000000000000014c', 'hex')
     const br = new Bitcoin.encoding.BufferReader(invalidOutputScript)
     const o = Output.fromBufferReader(br)
     o.inspect().should.equal('<Output (1 sats) 4c>')
   })
 
-  it('roundtrips to/from JSON', function() {
+  it('roundtrips to/from JSON', function () {
     const json = JSON.stringify(output2)
     const o3 = new Output(JSON.parse(json))
     JSON.stringify(o3).should.equal(json)
   })
 
-  it('setScript fails with invalid input', function() {
+  it('setScript fails with invalid input', function () {
     const out = new Output(output2.toJSON())
     out.setScript.bind(out, 45).should.throw('Invalid argument type: script')
   })
 
-  it('sets script to null if it is an InvalidBuffer', function() {
+  it('sets script to null if it is an InvalidBuffer', function () {
     const o = new Output({
       satoshis: 1000,
-      script: Buffer.from('4c', 'hex')
+      script: Buffer.from('4c', 'hex'),
     })
     should.equal(o.script, null)
   })
 
-  it('should throw an error if Script throws an error that is not InvalidBuffer', function() {
+  it('should throw an error if Script throws an error that is not InvalidBuffer', function () {
     const o = new Output({
       satoshis: 1000,
-      script: new Script()
+      script: new Script(),
     })
-    ;(function() {
+    ;(function () {
       o.setScriptFromBuffer('bad')
     }.should.throw('Invalid hex string'))
   })

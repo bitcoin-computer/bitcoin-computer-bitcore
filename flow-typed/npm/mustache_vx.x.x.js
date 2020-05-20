@@ -14,7 +14,7 @@
  */
 
 declare module 'mustache' {
-  declare module.exports: any;
+  declare module.exports: any
 }
 
 /**
@@ -23,17 +23,17 @@ declare module 'mustache' {
  * needed.
  */
 declare module 'mustache/mustache' {
-  declare module.exports: any;
+  declare module.exports: any
 }
 
 declare module 'mustache/mustache.min' {
-  declare module.exports: any;
+  declare module.exports: any
 }
 
 // Filename aliases
 declare module 'mustache/mustache.js' {
-  declare module.exports: $Exports<'mustache/mustache'>;
+  declare module.exports: $Exports<'mustache/mustache'>
 }
 declare module 'mustache/mustache.min.js' {
-  declare module.exports: $Exports<'mustache/mustache.min'>;
+  declare module.exports: $Exports<'mustache/mustache.min'>
 }

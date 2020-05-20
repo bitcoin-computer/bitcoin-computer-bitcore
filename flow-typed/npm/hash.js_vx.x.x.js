@@ -14,7 +14,7 @@
  */
 
 declare module 'hash.js' {
-  declare module.exports: any;
+  declare module.exports: any
 }
 
 /**
@@ -23,101 +23,101 @@ declare module 'hash.js' {
  * needed.
  */
 declare module 'hash.js/lib/hash' {
-  declare module.exports: any;
+  declare module.exports: any
 }
 
 declare module 'hash.js/lib/hash/common' {
-  declare module.exports: any;
+  declare module.exports: any
 }
 
 declare module 'hash.js/lib/hash/hmac' {
-  declare module.exports: any;
+  declare module.exports: any
 }
 
 declare module 'hash.js/lib/hash/ripemd' {
-  declare module.exports: any;
+  declare module.exports: any
 }
 
 declare module 'hash.js/lib/hash/sha' {
-  declare module.exports: any;
+  declare module.exports: any
 }
 
 declare module 'hash.js/lib/hash/sha/1' {
-  declare module.exports: any;
+  declare module.exports: any
 }
 
 declare module 'hash.js/lib/hash/sha/224' {
-  declare module.exports: any;
+  declare module.exports: any
 }
 
 declare module 'hash.js/lib/hash/sha/256' {
-  declare module.exports: any;
+  declare module.exports: any
 }
 
 declare module 'hash.js/lib/hash/sha/384' {
-  declare module.exports: any;
+  declare module.exports: any
 }
 
 declare module 'hash.js/lib/hash/sha/512' {
-  declare module.exports: any;
+  declare module.exports: any
 }
 
 declare module 'hash.js/lib/hash/sha/common' {
-  declare module.exports: any;
+  declare module.exports: any
 }
 
 declare module 'hash.js/lib/hash/utils' {
-  declare module.exports: any;
+  declare module.exports: any
 }
 
 declare module 'hash.js/test/hash-test' {
-  declare module.exports: any;
+  declare module.exports: any
 }
 
 declare module 'hash.js/test/hmac-test' {
-  declare module.exports: any;
+  declare module.exports: any
 }
 
 // Filename aliases
 declare module 'hash.js/lib/hash.js' {
-  declare module.exports: $Exports<'hash.js/lib/hash'>;
+  declare module.exports: $Exports<'hash.js/lib/hash'>
 }
 declare module 'hash.js/lib/hash/common.js' {
-  declare module.exports: $Exports<'hash.js/lib/hash/common'>;
+  declare module.exports: $Exports<'hash.js/lib/hash/common'>
 }
 declare module 'hash.js/lib/hash/hmac.js' {
-  declare module.exports: $Exports<'hash.js/lib/hash/hmac'>;
+  declare module.exports: $Exports<'hash.js/lib/hash/hmac'>
 }
 declare module 'hash.js/lib/hash/ripemd.js' {
-  declare module.exports: $Exports<'hash.js/lib/hash/ripemd'>;
+  declare module.exports: $Exports<'hash.js/lib/hash/ripemd'>
 }
 declare module 'hash.js/lib/hash/sha.js' {
-  declare module.exports: $Exports<'hash.js/lib/hash/sha'>;
+  declare module.exports: $Exports<'hash.js/lib/hash/sha'>
 }
 declare module 'hash.js/lib/hash/sha/1.js' {
-  declare module.exports: $Exports<'hash.js/lib/hash/sha/1'>;
+  declare module.exports: $Exports<'hash.js/lib/hash/sha/1'>
 }
 declare module 'hash.js/lib/hash/sha/224.js' {
-  declare module.exports: $Exports<'hash.js/lib/hash/sha/224'>;
+  declare module.exports: $Exports<'hash.js/lib/hash/sha/224'>
 }
 declare module 'hash.js/lib/hash/sha/256.js' {
-  declare module.exports: $Exports<'hash.js/lib/hash/sha/256'>;
+  declare module.exports: $Exports<'hash.js/lib/hash/sha/256'>
 }
 declare module 'hash.js/lib/hash/sha/384.js' {
-  declare module.exports: $Exports<'hash.js/lib/hash/sha/384'>;
+  declare module.exports: $Exports<'hash.js/lib/hash/sha/384'>
 }
 declare module 'hash.js/lib/hash/sha/512.js' {
-  declare module.exports: $Exports<'hash.js/lib/hash/sha/512'>;
+  declare module.exports: $Exports<'hash.js/lib/hash/sha/512'>
 }
 declare module 'hash.js/lib/hash/sha/common.js' {
-  declare module.exports: $Exports<'hash.js/lib/hash/sha/common'>;
+  declare module.exports: $Exports<'hash.js/lib/hash/sha/common'>
 }
 declare module 'hash.js/lib/hash/utils.js' {
-  declare module.exports: $Exports<'hash.js/lib/hash/utils'>;
+  declare module.exports: $Exports<'hash.js/lib/hash/utils'>
 }
 declare module 'hash.js/test/hash-test.js' {
-  declare module.exports: $Exports<'hash.js/test/hash-test'>;
+  declare module.exports: $Exports<'hash.js/test/hash-test'>
 }
 declare module 'hash.js/test/hmac-test.js' {
-  declare module.exports: $Exports<'hash.js/test/hmac-test'>;
+  declare module.exports: $Exports<'hash.js/test/hmac-test'>
 }

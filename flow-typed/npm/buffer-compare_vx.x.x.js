@@ -14,7 +14,7 @@
  */
 
 declare module 'buffer-compare' {
-  declare module.exports: any;
+  declare module.exports: any
 }
 
 /**
@@ -23,16 +23,16 @@ declare module 'buffer-compare' {
  * needed.
  */
 declare module 'buffer-compare/test/test' {
-  declare module.exports: any;
+  declare module.exports: any
 }
 
 // Filename aliases
 declare module 'buffer-compare/index' {
-  declare module.exports: $Exports<'buffer-compare'>;
+  declare module.exports: $Exports<'buffer-compare'>
 }
 declare module 'buffer-compare/index.js' {
-  declare module.exports: $Exports<'buffer-compare'>;
+  declare module.exports: $Exports<'buffer-compare'>
 }
 declare module 'buffer-compare/test/test.js' {
-  declare module.exports: $Exports<'buffer-compare/test/test'>;
+  declare module.exports: $Exports<'buffer-compare/test/test'>
 }

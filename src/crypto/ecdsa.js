@@ -17,7 +17,7 @@ const ECDSA = function ECDSA(obj) {
   }
 }
 
-ECDSA.prototype.set = function(obj) {
+ECDSA.prototype.set = function (obj) {
   this.hashbuf = obj.hashbuf || this.hashbuf
   this.endian = obj.endian || this.endian // the endianness of hashbuf
   this.privkey = obj.privkey || this.privkey
@@ -28,11 +28,11 @@ ECDSA.prototype.set = function(obj) {
   return this
 }
 
-ECDSA.prototype.privkey2pubkey = function() {
+ECDSA.prototype.privkey2pubkey = function () {
   this.pubkey = this.privkey.toPublicKey()
 }
 
-ECDSA.prototype.calci = function() {
+ECDSA.prototype.calci = function () {
   for (let i = 0; i < 4; i += 1) {
     this.sig.i = i
     let Qprime
@@ -53,12 +53,12 @@ ECDSA.prototype.calci = function() {
   throw new Error('Unable to find valid recovery factor')
 }
 
-ECDSA.fromString = function(str) {
+ECDSA.fromString = function (str) {
   const obj = JSON.parse(str)
   return new ECDSA(obj)
 }
 
-ECDSA.prototype.randomK = function() {
+ECDSA.prototype.randomK = function () {
   const N = Point.getN()
   let k
   do {
@@ -69,7 +69,7 @@ ECDSA.prototype.randomK = function() {
 }
 
 // https://tools.ietf.org/html/rfc6979#section-3.2
-ECDSA.prototype.deterministicK = function(badrs) {
+ECDSA.prototype.deterministicK = function (badrs) {
   // if r or s were invalid when this function was used in signing,
   // we do not want to actually compute r, s here for efficiency, so,
   // we can increment badrs. explained at end of RFC 6979 section 3.2
@@ -81,7 +81,7 @@ ECDSA.prototype.deterministicK = function(badrs) {
   let k = Buffer.alloc(32)
   k.fill(0x00)
   const x = this.privkey.bn.toBuffer({
-    size: 32
+    size: 32,
   })
   const hashbuf = this.endian === 'little' ? BufferUtil.reverse(this.hashbuf) : this.hashbuf
   k = Hash.sha256hmac(Buffer.concat([v, Buffer.from([0x00]), x, hashbuf]), k)
@@ -107,7 +107,7 @@ ECDSA.prototype.deterministicK = function(badrs) {
 // Information about public key recovery:
 // https://bitcointalk.org/index.php?topic=6430.0
 // http://stackoverflow.com/questions/19665491/how-do-i-get-an-ecdsa-public-key-from-just-a-bitcoin-signature-sec1-4-1-6-k
-ECDSA.prototype.toPublicKey = function() {
+ECDSA.prototype.toPublicKey = function () {
   const { i } = this.sig
   $.checkArgument(i === 0 || i === 1 || i === 2 || i === 3, 'i must be equal to 0, 1, 2, or 3')
 
@@ -144,16 +144,14 @@ ECDSA.prototype.toPublicKey = function() {
   const rInv = r.invm(n)
 
   // var Q = R.multiplyTwo(s, G, eNeg).mul(rInv);
-  const Q = R.mul(s)
-    .add(G.mul(eNeg))
-    .mul(rInv)
+  const Q = R.mul(s).add(G.mul(eNeg)).mul(rInv)
 
   const pubkey = PublicKey.fromPoint(Q, this.sig.compressed)
 
   return pubkey
 }
 
-ECDSA.prototype.sigError = function() {
+ECDSA.prototype.sigError = function () {
   if (!BufferUtil.isBuffer(this.hashbuf) || this.hashbuf.length !== 32) {
     return 'hashbuf must be a 32 byte buffer'
   }
@@ -168,7 +166,7 @@ ECDSA.prototype.sigError = function() {
     this.hashbuf,
     this.endian
       ? {
-          endian: this.endian
+          endian: this.endian,
         }
       : undefined
   )
@@ -182,18 +180,13 @@ ECDSA.prototype.sigError = function() {
     return 'p is infinity'
   }
 
-  if (
-    p
-      .getX()
-      .umod(n)
-      .cmp(r) !== 0
-  ) {
+  if (p.getX().umod(n).cmp(r) !== 0) {
     return 'Invalid signature'
   }
   return false
 }
 
-ECDSA.toLowS = function(s) {
+ECDSA.toLowS = function (s) {
   // enforce low s
   // see BIP 62, "low S values in signatures"
   const maxS = '7FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF5D576E7357A4501DDFE92F46681B20A0'
@@ -203,7 +196,7 @@ ECDSA.toLowS = function(s) {
   return s
 }
 
-ECDSA.prototype._findSignature = function(d, e) {
+ECDSA.prototype._findSignature = function (d, e) {
   const N = Point.getN()
   const G = Point.getG()
   // try different values of k until r, s are valid
@@ -228,11 +221,11 @@ ECDSA.prototype._findSignature = function(d, e) {
   s = ECDSA.toLowS(s)
   return {
     s,
-    r
+    r,
   }
 }
 
-ECDSA.prototype.sign = function() {
+ECDSA.prototype.sign = function () {
   const { hashbuf } = this
   const { privkey } = this
   const d = privkey.bn
@@ -245,7 +238,7 @@ ECDSA.prototype.sign = function() {
     hashbuf,
     this.endian
       ? {
-          endian: this.endian
+          endian: this.endian,
         }
       : undefined
   )
@@ -257,12 +250,12 @@ ECDSA.prototype.sign = function() {
   return this
 }
 
-ECDSA.prototype.signRandomK = function() {
+ECDSA.prototype.signRandomK = function () {
   this.randomK()
   return this.sign()
 }
 
-ECDSA.prototype.toString = function() {
+ECDSA.prototype.toString = function () {
   const obj = {}
   if (this.hashbuf) {
     obj.hashbuf = this.hashbuf.toString('hex')
@@ -282,7 +275,7 @@ ECDSA.prototype.toString = function() {
   return JSON.stringify(obj)
 }
 
-ECDSA.prototype.verify = function() {
+ECDSA.prototype.verify = function () {
   if (!this.sigError()) {
     this.verified = true
   } else {
@@ -291,23 +284,23 @@ ECDSA.prototype.verify = function() {
   return this
 }
 
-ECDSA.sign = function(hashbuf, privkey, endian) {
+ECDSA.sign = function (hashbuf, privkey, endian) {
   return ECDSA()
     .set({
       hashbuf,
       endian,
-      privkey
+      privkey,
     })
     .sign().sig
 }
 
-ECDSA.verify = function(hashbuf, sig, pubkey, endian) {
+ECDSA.verify = function (hashbuf, sig, pubkey, endian) {
   return ECDSA()
     .set({
       hashbuf,
       endian,
       sig,
-      pubkey
+      pubkey,
     })
     .verify().verified
 }

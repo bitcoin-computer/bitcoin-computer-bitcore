@@ -4,59 +4,47 @@ import BufferUtil from '../util/buffer'
 
 const Hash = {}
 
-Hash.sha1 = function(buf) {
+Hash.sha1 = function (buf) {
   $.checkArgument(BufferUtil.isBuffer(buf))
-  const digest = hash
-    .sha1()
-    .update(buf)
-    .digest('hex')
+  const digest = hash.sha1().update(buf).digest('hex')
   return Buffer.from(digest, 'hex')
 }
 
 Hash.sha1.blocksize = 512
 
-Hash.sha256 = function(buf) {
+Hash.sha256 = function (buf) {
   $.checkArgument(BufferUtil.isBuffer(buf))
-  const digest = hash
-    .sha256()
-    .update(buf)
-    .digest('hex')
+  const digest = hash.sha256().update(buf).digest('hex')
   return Buffer.from(digest, 'hex')
 }
 
 Hash.sha256.blocksize = 512
 
-Hash.sha256sha256 = function(buf) {
+Hash.sha256sha256 = function (buf) {
   $.checkArgument(BufferUtil.isBuffer(buf))
   return Hash.sha256(Hash.sha256(buf))
 }
 
-Hash.ripemd160 = function(buf) {
+Hash.ripemd160 = function (buf) {
   $.checkArgument(BufferUtil.isBuffer(buf))
-  const digest = hash
-    .ripemd160()
-    .update(buf)
-    .digest('hex')
+  const digest = hash.ripemd160().update(buf).digest('hex')
   return Buffer.from(digest, 'hex')
 }
 
-Hash.sha256ripemd160 = function(buf) {
+Hash.sha256ripemd160 = function (buf) {
   $.checkArgument(BufferUtil.isBuffer(buf))
   return Hash.ripemd160(Hash.sha256(buf))
 }
 
-Hash.sha512 = function(buf) {
+Hash.sha512 = function (buf) {
   $.checkArgument(BufferUtil.isBuffer(buf))
-  const digest = hash
-    .sha512()
-    .update(buf)
-    .digest('hex')
+  const digest = hash.sha512().update(buf).digest('hex')
   return Buffer.from(digest, 'hex')
 }
 
 Hash.sha512.blocksize = 1024
 
-Hash.hmac = function(hashf, data, key) {
+Hash.hmac = function (hashf, data, key) {
   // http://en.wikipedia.org/wiki/Hash-based_message_authentication_code
   // http://tools.ietf.org/html/rfc4868#section-2
   $.checkArgument(BufferUtil.isBuffer(data))
@@ -90,11 +78,11 @@ Hash.hmac = function(hashf, data, key) {
   return hashf(Buffer.concat([oKeyPad, hashf(Buffer.concat([iKeyPad, data]))]))
 }
 
-Hash.sha256hmac = function(data, key) {
+Hash.sha256hmac = function (data, key) {
   return Hash.hmac(Hash.sha256, data, key)
 }
 
-Hash.sha512hmac = function(data, key) {
+Hash.sha512hmac = function (data, key) {
   return Hash.hmac(Hash.sha512, data, key)
 }
 

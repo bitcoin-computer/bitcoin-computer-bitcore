@@ -15,7 +15,7 @@ class MultiSigInput extends Input {
     pubkeys = pubkeys || input.publicKeys
     this.threshold = threshold || input.threshold
     signatures = signatures || input.signatures
-    this.publicKeys = _.sortBy(pubkeys, publicKey => publicKey.toString('hex'))
+    this.publicKeys = _.sortBy(pubkeys, (publicKey) => publicKey.toString('hex'))
     $.checkState(
       Script.buildMultisigOut(this.publicKeys, this.threshold).equals(this.output.script),
       "Provided public keys don't match to the provided output script"
@@ -33,19 +33,19 @@ class MultiSigInput extends Input {
   toObject(...args) {
     const obj = Input.prototype.toObject.apply(this, args)
     obj.threshold = this.threshold
-    obj.publicKeys = this.publicKeys.map(publicKey => publicKey.toString())
+    obj.publicKeys = this.publicKeys.map((publicKey) => publicKey.toString())
     obj.signatures = this._serializeSignatures()
     return obj
   }
 
   _deserializeSignatures(signatures) {
-    return signatures.map(signature =>
+    return signatures.map((signature) =>
       signature ? new TransactionSignature(signature) : undefined
     )
   }
 
   _serializeSignatures() {
-    return this.signatures.map(signature => (signature ? signature.toObject() : undefined))
+    return this.signatures.map((signature) => (signature ? signature.toObject() : undefined))
   }
 
   getSignatures(transaction, privateKey, index, sigtype) {
@@ -53,10 +53,10 @@ class MultiSigInput extends Input {
     sigtype = sigtype || Signature.SIGHASH_ALL | Signature.SIGHASH_FORKID
 
     const publicKeysForPrivateKey = this.publicKeys.filter(
-      publicKey => publicKey.toString() === privateKey.publicKey.toString()
+      (publicKey) => publicKey.toString() === privateKey.publicKey.toString()
     )
     return publicKeysForPrivateKey.map(
-      publicKey =>
+      (publicKey) =>
         new TransactionSignature({
           publicKey,
           prevTxId: this.prevTxId,
@@ -70,7 +70,7 @@ class MultiSigInput extends Input {
             this.output.script,
             this.output.satoshisBN
           ),
-          sigtype
+          sigtype,
         })
     )
   }
@@ -95,11 +95,11 @@ class MultiSigInput extends Input {
   }
 
   _createSignatures() {
-    const definedSignatures = this.signatures.filter(signature => signature !== undefined)
-    return definedSignatures.map(signature =>
+    const definedSignatures = this.signatures.filter((signature) => signature !== undefined)
+    return definedSignatures.map((signature) =>
       BufferUtil.concat([
         signature.signature.toDER(),
-        BufferUtil.integerAsSingleByteBuffer(signature.sigtype)
+        BufferUtil.integerAsSingleByteBuffer(signature.sigtype),
       ])
     )
   }
@@ -123,7 +123,7 @@ class MultiSigInput extends Input {
 
   publicKeysWithoutSignature() {
     return this.publicKeys.filter(
-      publicKey => !this.signatures[this.publicKeyIndex[publicKey.toString()]]
+      (publicKey) => !this.signatures[this.publicKeyIndex[publicKey.toString()]]
     )
   }
 
@@ -150,9 +150,9 @@ class MultiSigInput extends Input {
    */
   // eslint-disable-next-line max-len
   static normalizeSignatures(transaction, input, inputIndex, signatures, publicKeys) {
-    return publicKeys.map(pubKey => {
+    return publicKeys.map((pubKey) => {
       let signatureMatch = null
-      signatures = signatures.filter(signatureBuffer => {
+      signatures = signatures.filter((signatureBuffer) => {
         if (signatureMatch) {
           return true
         }
@@ -163,7 +163,7 @@ class MultiSigInput extends Input {
           prevTxId: input.prevTxId,
           outputIndex: input.outputIndex,
           inputIndex,
-          sigtype: Signature.SIGHASH_ALL
+          sigtype: Signature.SIGHASH_ALL,
         })
 
         signature.signature.nhashtype = signature.sigtype

@@ -14,7 +14,7 @@
  */
 
 declare module 'rollup-plugin-node-globals' {
-  declare module.exports: any;
+  declare module.exports: any
 }
 
 /**
@@ -23,52 +23,52 @@ declare module 'rollup-plugin-node-globals' {
  * needed.
  */
 declare module 'rollup-plugin-node-globals/dist/rollup-plugin-node-globals.cjs' {
-  declare module.exports: any;
+  declare module.exports: any
 }
 
 declare module 'rollup-plugin-node-globals/dist/rollup-plugin-node-globals.es6' {
-  declare module.exports: any;
+  declare module.exports: any
 }
 
 declare module 'rollup-plugin-node-globals/src/browser' {
-  declare module.exports: any;
+  declare module.exports: any
 }
 
 declare module 'rollup-plugin-node-globals/src/global' {
-  declare module.exports: any;
+  declare module.exports: any
 }
 
 declare module 'rollup-plugin-node-globals/src/index' {
-  declare module.exports: any;
+  declare module.exports: any
 }
 
 declare module 'rollup-plugin-node-globals/src/inject/index' {
-  declare module.exports: any;
+  declare module.exports: any
 }
 
 declare module 'rollup-plugin-node-globals/src/inject/makeLegalIdentifier' {
-  declare module.exports: any;
+  declare module.exports: any
 }
 
 // Filename aliases
 declare module 'rollup-plugin-node-globals/dist/rollup-plugin-node-globals.cjs.js' {
-  declare module.exports: $Exports<'rollup-plugin-node-globals/dist/rollup-plugin-node-globals.cjs'>;
+  declare module.exports: $Exports<'rollup-plugin-node-globals/dist/rollup-plugin-node-globals.cjs'>
 }
 declare module 'rollup-plugin-node-globals/dist/rollup-plugin-node-globals.es6.js' {
-  declare module.exports: $Exports<'rollup-plugin-node-globals/dist/rollup-plugin-node-globals.es6'>;
+  declare module.exports: $Exports<'rollup-plugin-node-globals/dist/rollup-plugin-node-globals.es6'>
 }
 declare module 'rollup-plugin-node-globals/src/browser.js' {
-  declare module.exports: $Exports<'rollup-plugin-node-globals/src/browser'>;
+  declare module.exports: $Exports<'rollup-plugin-node-globals/src/browser'>
 }
 declare module 'rollup-plugin-node-globals/src/global.js' {
-  declare module.exports: $Exports<'rollup-plugin-node-globals/src/global'>;
+  declare module.exports: $Exports<'rollup-plugin-node-globals/src/global'>
 }
 declare module 'rollup-plugin-node-globals/src/index.js' {
-  declare module.exports: $Exports<'rollup-plugin-node-globals/src/index'>;
+  declare module.exports: $Exports<'rollup-plugin-node-globals/src/index'>
 }
 declare module 'rollup-plugin-node-globals/src/inject/index.js' {
-  declare module.exports: $Exports<'rollup-plugin-node-globals/src/inject/index'>;
+  declare module.exports: $Exports<'rollup-plugin-node-globals/src/inject/index'>
 }
 declare module 'rollup-plugin-node-globals/src/inject/makeLegalIdentifier.js' {
-  declare module.exports: $Exports<'rollup-plugin-node-globals/src/inject/makeLegalIdentifier'>;
+  declare module.exports: $Exports<'rollup-plugin-node-globals/src/inject/makeLegalIdentifier'>
 }

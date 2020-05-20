@@ -51,7 +51,7 @@ class MerkleBlock {
          * @name MerkleBlock#flags
          * @type {Number[]}
          */
-        flags: arg.flags
+        flags: arg.flags,
       }
     } else {
       throw new TypeError('Unrecognized argument for MerkleBlock')
@@ -115,7 +115,7 @@ class MerkleBlock {
       header: this.header.toObject(),
       numTransactions: this.numTransactions,
       hashes: this.hashes,
-      flags: this.flags
+      flags: this.flags,
     }
   }
 
