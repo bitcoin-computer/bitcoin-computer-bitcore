@@ -1,9 +1,9 @@
 import chai from 'chai'
 import Bitcoin from '../bitcoin'
-import scriptValid from '../data/bitcoind/script_valid'
-import scriptInvalid from '../data/bitcoind/script_invalid'
-import txValid from '../data/bitcoind/tx_valid'
-import txInvalid from '../data/bitcoind/tx_invalid'
+import scriptValid from '../data/bitcoind/script_valid.json'
+import scriptInvalid from '../data/bitcoind/script_invalid.json'
+import txValid from '../data/bitcoind/tx_valid.json'
+import txInvalid from '../data/bitcoind/tx_invalid.json'
 
 const should = chai.should()
 const { Interpreter } = Bitcoin.Script

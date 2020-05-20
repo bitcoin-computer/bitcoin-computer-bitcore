@@ -2,7 +2,7 @@ import chai from 'chai'
 import fs from 'fs'
 import Bitcoin from '../bitcoin'
 import data from '../data/blk86756-testnet'
-import dataBlocks from '../data/bitcoind/blocks'
+import dataBlocks from '../data/bitcoind/blocks.json'
 
 const should = chai.should()
 const { BN } = Bitcoin.crypto

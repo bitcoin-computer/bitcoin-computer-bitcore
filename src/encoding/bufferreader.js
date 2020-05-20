@@ -46,7 +46,7 @@ BufferReader.prototype.finished = BufferReader.prototype.eof
 BufferReader.prototype.read = function(len) {
   $.checkArgument(!_.isUndefined(len), 'Must specify a length')
   const buf = this.buf.slice(this.pos, this.pos + len)
-  this.pos = this.pos + len
+  this.pos += len
   return buf
 }
 
@@ -58,44 +58,44 @@ BufferReader.prototype.readAll = function() {
 
 BufferReader.prototype.readUInt8 = function() {
   const val = this.buf.readUInt8(this.pos)
-  this.pos = this.pos + 1
+  this.pos += 1
   return val
 }
 
 BufferReader.prototype.readUInt16BE = function() {
   const val = this.buf.readUInt16BE(this.pos)
-  this.pos = this.pos + 2
+  this.pos += 2
   return val
 }
 
 BufferReader.prototype.readUInt16LE = function() {
   const val = this.buf.readUInt16LE(this.pos)
-  this.pos = this.pos + 2
+  this.pos += 2
   return val
 }
 
 BufferReader.prototype.readUInt32BE = function() {
   const val = this.buf.readUInt32BE(this.pos)
-  this.pos = this.pos + 4
+  this.pos += 4
   return val
 }
 
 BufferReader.prototype.readUInt32LE = function() {
   const val = this.buf.readUInt32LE(this.pos)
-  this.pos = this.pos + 4
+  this.pos += 4
   return val
 }
 
 BufferReader.prototype.readInt32LE = function() {
   const val = this.buf.readInt32LE(this.pos)
-  this.pos = this.pos + 4
+  this.pos += 4
   return val
 }
 
 BufferReader.prototype.readUInt64BEBN = function() {
   const buf = this.buf.slice(this.pos, this.pos + 8)
   const bn = BN.fromBuffer(buf)
-  this.pos = this.pos + 8
+  this.pos += 8
   return bn
 }
 
@@ -116,7 +116,7 @@ BufferReader.prototype.readUInt64LEBN = function() {
     const data = Array.prototype.slice.call(this.buf, this.pos, this.pos + 8)
     bn = new BN(data, 10, 'le')
   }
-  this.pos = this.pos + 8
+  this.pos += 8
   return bn
 }
 
@@ -194,7 +194,7 @@ BufferReader.prototype.readReverse = function(len) {
     len = this.buf.length
   }
   const buf = this.buf.slice(this.pos, this.pos + len)
-  this.pos = this.pos + len
+  this.pos += len
   return BufferUtil.reverse(buf)
 }
 

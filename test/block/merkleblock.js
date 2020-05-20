@@ -1,7 +1,7 @@
 import chai from 'chai'
 import Bitcoin from '../bitcoin'
 import data from '../data/merkleblocks'
-import transactionVector from '../data/tx_creation'
+import transactionVector from '../data/tx_creation.json'
 
 const should = chai.should()
 const { MerkleBlock } = Bitcoin

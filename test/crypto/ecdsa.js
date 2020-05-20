@@ -1,6 +1,6 @@
 import chai from 'chai'
 import Bitcoin from '../bitcoin'
-import vectors from '../data/ecdsa'
+import vectors from '../data/ecdsa.json'
 
 const should = chai.should()
 const { ECDSA } = Bitcoin.crypto

@@ -5,7 +5,7 @@ import chai from 'chai'
 import sinon from 'sinon'
 import Bitcoin from '../bitcoin'
 import fixture from '../data/bip69.json'
-import transactionVector from '../data/tx_creation'
+import transactionVector from '../data/tx_creation.json'
 
 const should = chai.should()
 const { expect } = chai

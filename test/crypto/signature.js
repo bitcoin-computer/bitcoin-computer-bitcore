@@ -1,8 +1,8 @@
 import _ from 'lodash'
 import chai from 'chai'
 import Bitcoin from '../bitcoin'
-import sigCanonical from '../data/bitcoind/sig_canonical'
-import sigNonCanonical from '../data/bitcoind/sig_noncanonical'
+import sigCanonical from '../data/bitcoind/sig_canonical.json'
+import sigNonCanonical from '../data/bitcoind/sig_noncanonical.json'
 
 const should = chai.should()
 const { BN } = Bitcoin.crypto
