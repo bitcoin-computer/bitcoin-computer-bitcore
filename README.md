@@ -6,11 +6,7 @@ BitcoinSource is a community driven effort to produce a readable, reliable and m
 
 In step one, we want to get the entire codebase to comply with the [Airbnb JavaScript Style Guide](https://github.com/airbnb/javascript). Step two will be to port the code base to ES6. Step three will be to statically typecheck the entire codebase with Facebook’s Flow. We suspect we will uncover bugs in the process.
 
-We are looking for contributors. You do not have to be a Bitcoin protocol expert to contribute. All you need to be is a good Javascript programmer. If you want to help, check out [CONTRIBUTING.md](https://github.com/bitcoin-computer/bitcoin-source/blob/master/CONTRIBUTING.md) or email [clemens@bitcointoken.com](mailto:clemens@bitcointoken.com).
-
-## About Bitcoin Cash
-
-Bitcoin Cash is peer-to-peer electronic cash for the Internet. It is fully decentralized, has no central bank, and requires no trusted third-parties to operate. Bitcoin Cash is the continuation of the Bitcoin project, upgraded with consensus rules that allow it to grow and scale.
+We are looking for contributors. You do not have to be a Bitcoin protocol expert to contribute. All you need to be is a good Javascript programmer. If you want to help, check out [CONTRIBUTING.md](https://github.com/bitcoin-computer/bitcoin-source/blob/master/CONTRIBUTING.md) or email [clemens@bitcoincomputer.io](mailto:clemens@bitcoincomputer.io).
 
 ## Installation
 
@@ -22,7 +18,7 @@ $ npm install --save bitcoin-source
 
 ### Manually
 
-You can also download a pre-compiled and minified version here: [dist](https://github.com/bitcoin-computer/bitcoin-source/tree/master/dist/bitcoin-source-0.1.16.js)
+You can also download a pre-compiled and minified version here: [dist](https://github.com/bitcoin-computer/bitcoin-source/tree/master/dist/bitcoin-source-0.1.18.js)
 
 ## Examples
 
