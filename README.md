@@ -1,4 +1,4 @@
-# [BitcoinSource](https://github.com/the-bitcoin-token/bitcoin-source): A Bitcoin Cash implementation written in modern Javascript
+# [BitcoinSource](https://github.com/bitcoin-computer/bitcoin-source): A Bitcoin Cash implementation written in modern Javascript
 
 ## About BitcoinSource
 
@@ -6,11 +6,7 @@ BitcoinSource is a community driven effort to produce a readable, reliable and m
 
 In step one, we want to get the entire codebase to comply with the [Airbnb JavaScript Style Guide](https://github.com/airbnb/javascript). Step two will be to port the code base to ES6. Step three will be to statically typecheck the entire codebase with Facebook’s Flow. We suspect we will uncover bugs in the process.
 
-We are looking for contributors. You do not have to be a Bitcoin protocol expert to contribute. All you need to be is a good Javascript programmer. If you want to help, check out [CONTRIBUTING.md](https://github.com/the-bitcoin-token/bitcoin-source/blob/master/CONTRIBUTING.md) or email [clemens@bitcointoken.com](mailto:clemens@bitcointoken.com).
-
-## Warning
-
-BitcoinSource is currently undergoing a major refactoring which might break parts of the API. **We do not recommend it to be used until the version 1.0.0 is released.**
+We are looking for contributors. You do not have to be a Bitcoin protocol expert to contribute. All you need to be is a good Javascript programmer. If you want to help, check out [CONTRIBUTING.md](https://github.com/bitcoin-computer/bitcoin-source/blob/master/CONTRIBUTING.md) or email [clemens@bitcointoken.com](mailto:clemens@bitcointoken.com).
 
 ## About Bitcoin Cash
 
@@ -26,24 +22,24 @@ $ npm install --save bitcoin-source
 
 ### Manually
 
-You can also download a pre-compiled and minified version here: [dist](https://github.com/the-bitcoin-token/bitcoin-source/tree/master/dist/bitcoin-source-0.1.16.js)
+You can also download a pre-compiled and minified version here: [dist](https://github.com/bitcoin-computer/bitcoin-source/tree/master/dist/bitcoin-source-0.1.16.js)
 
 ## Examples
 
 You can find many useful, up-to-date examples to get you started right away by following the provided
 examples:
 
-- [Generate a random address](https://github.com/the-bitcoin-token/bitcoin-source/blob/master/docs/examples.md#generate-a-random-address)
-- [Generate a address from a SHA256 hash](https://github.com/the-bitcoin-token/bitcoin-source/blob/master/docs/examples.md#generate-a-address-from-a-sha256-hash)
-- [Translate an address to any Bitcoin Cash address format](https://github.com/the-bitcoin-token/bitcoin-source/blob/master/docs/examples.md#translate-an-address-to-any-bitcoin-cash-address-format)
-- [Read an address from any Bitcoin Cash address format](https://github.com/the-bitcoin-token/bitcoin-source/blob/master/docs/examples.md#read-an-address-from-any-bitcoin-cash-address-format)
-- [Import an address via WIF](https://github.com/the-bitcoin-token/bitcoin-source/blob/master/docs/examples.md#import-an-address-via-wif)
-- [Create a Transaction](https://github.com/the-bitcoin-token/bitcoin-source/blob/master/docs/examples.md#create-a-transaction)
-- [Verify a Bitcoin message](https://github.com/the-bitcoin-token/bitcoin-source/blob/master/docs/examples.md#verify-a-bitcoin-message)
-- [Sign a Bitcoin message](https://github.com/the-bitcoin-token/bitcoin-source/blob/master/docs/examples.md#sign-a-bitcoin-message)
-- [Create an OP RETURN transaction](https://github.com/the-bitcoin-token/bitcoin-source/blob/master/docs/examples.md#create-an-op-return-transaction)
-- [Create a 2-of-3 multisig P2SH address](https://github.com/the-bitcoin-token/bitcoin-source/blob/master/docs/examples.md#create-a-2-of-3-multisig-p2sh-address)
-- [Spend from a 2-of-2 multisig P2SH address](https://github.com/the-bitcoin-token/bitcoin-source/blob/master/docs/examples.md#spend-from-a-2-of-2-multisig-p2sh-address)
+- [Generate a random address](https://github.com/bitcoin-computer/bitcoin-source/blob/master/docs/examples.md#generate-a-random-address)
+- [Generate a address from a SHA256 hash](https://github.com/bitcoin-computer/bitcoin-source/blob/master/docs/examples.md#generate-a-address-from-a-sha256-hash)
+- [Translate an address to any Bitcoin Cash address format](https://github.com/bitcoin-computer/bitcoin-source/blob/master/docs/examples.md#translate-an-address-to-any-bitcoin-cash-address-format)
+- [Read an address from any Bitcoin Cash address format](https://github.com/bitcoin-computer/bitcoin-source/blob/master/docs/examples.md#read-an-address-from-any-bitcoin-cash-address-format)
+- [Import an address via WIF](https://github.com/bitcoin-computer/bitcoin-source/blob/master/docs/examples.md#import-an-address-via-wif)
+- [Create a Transaction](https://github.com/bitcoin-computer/bitcoin-source/blob/master/docs/examples.md#create-a-transaction)
+- [Verify a Bitcoin message](https://github.com/bitcoin-computer/bitcoin-source/blob/master/docs/examples.md#verify-a-bitcoin-message)
+- [Sign a Bitcoin message](https://github.com/bitcoin-computer/bitcoin-source/blob/master/docs/examples.md#sign-a-bitcoin-message)
+- [Create an OP RETURN transaction](https://github.com/bitcoin-computer/bitcoin-source/blob/master/docs/examples.md#create-an-op-return-transaction)
+- [Create a 2-of-3 multisig P2SH address](https://github.com/bitcoin-computer/bitcoin-source/blob/master/docs/examples.md#create-a-2-of-3-multisig-p2sh-address)
+- [Spend from a 2-of-2 multisig P2SH address](https://github.com/bitcoin-computer/bitcoin-source/blob/master/docs/examples.md#spend-from-a-2-of-2-multisig-p2sh-address)
 
 ## Security
 
@@ -58,7 +54,7 @@ This is an open-source project, and any form of contribution is welcome. Feel fr
 To get started with development, you should first clone the repository and install any dependencies:
 
 ```s
-$ git clone https://github.com/the-bitcoin-token/bitcoin-source
+$ git clone https://github.com/bitcoin-computer/bitcoin-source
 $ cd BitcoinSource
 $ npm install
 ```
@@ -132,4 +128,4 @@ $ npm test
 
 ## License
 
-Code released under [the MIT license](https://github.com/the-bitcoin-token/bitcoin-source/blob/master/LICENSE).
+Code released under [the MIT license](https://github.com/bitcoin-computer/bitcoin-source/blob/master/LICENSE).

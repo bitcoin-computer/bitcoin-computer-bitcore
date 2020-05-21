@@ -8,10 +8,6 @@ In step one, we want to get the entire codebase to comply with the [Airbnb JavaS
 
 We are looking for contributors. You do not have to be a Bitcoin protocol expert to contribute. All you need to be is a good Javascript programmer. If you want to help, check out [CONTRIBUTING.md]({{{ repository.url }}}/blob/master/CONTRIBUTING.md) or email [clemens@bitcointoken.com](mailto:clemens@bitcointoken.com).
 
-## Warning
-
-BitcoinSource is currently undergoing a major refactoring which might break parts of the API. **We do not recommend it to be used until the version 1.0.0 is released.**
-
 ## About Bitcoin Cash
 
 Bitcoin Cash is peer-to-peer electronic cash for the Internet. It is fully decentralized, has no central bank, and requires no trusted third-parties to operate. Bitcoin Cash is the continuation of the Bitcoin project, upgraded with consensus rules that allow it to grow and scale.

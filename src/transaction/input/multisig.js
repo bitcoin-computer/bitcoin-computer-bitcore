@@ -16,10 +16,10 @@ class MultiSigInput extends Input {
     this.threshold = threshold || input.threshold
     signatures = signatures || input.signatures
     this.publicKeys = _.sortBy(pubkeys, (publicKey) => publicKey.toString('hex'))
-    $.checkState(
-      Script.buildMultisigOut(this.publicKeys, this.threshold).equals(this.output.script),
-      "Provided public keys don't match to the provided output script"
-    )
+    // $.checkState(
+    //   Script.buildMultisigOut(this.publicKeys, this.threshold).equals(this.output.script),
+    //   "Provided public keys don't match to the provided output script"
+    // )
     this.publicKeyIndex = {}
     this.publicKeys.forEach((publicKey, index) => {
       this.publicKeyIndex[publicKey.toString()] = index
