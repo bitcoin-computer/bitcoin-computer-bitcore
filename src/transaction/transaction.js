@@ -497,7 +497,7 @@ class Transaction {
       } else if (utxo.script.isScriptHashOut()) {
         Clazz = MultiSigScriptHashInput
       } else {
-        throw new Error('@TODO')
+        Clazz = MultiSigInput
       }
       // non P2SH case
     } else if (utxo.script.isPublicKeyHashOut()) {
