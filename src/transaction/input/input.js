@@ -144,12 +144,7 @@ class Input {
    * @abstract
    */
   getSignatures() {
-    throw new errors.AbstractMethodInvoked(
-      `${
-        'Trying to sign unsupported output type (only P2PKH and P2SH multisig inputs are supported)' +
-        ' for input: '
-      }${JSON.stringify(this)}`
-    )
+    return []
   }
 
   isFullySigned() {
@@ -165,7 +160,8 @@ class Input {
   }
 
   clearSignatures() {
-    throw new errors.AbstractMethodInvoked('Input#clearSignatures')
+    this.setScript(Script.empty())
+    return this
   }
 
   isValidSignature(transaction, signature) {
