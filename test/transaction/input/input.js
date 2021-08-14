@@ -35,9 +35,9 @@ describe('Transaction.Input', function () {
     script: '',
   })
 
-  it('has abstract methods: "getSignatures", "isFullySigned", "addSignature", "clearSignatures"', function () {
+  it('has abstract methods: "isFullySigned", "addSignature"', function () {
     const input = new Input(output)
-    _.each(['getSignatures', 'isFullySigned', 'addSignature', 'clearSignatures'], function (
+    _.each(['isFullySigned', 'addSignature'], function (
       method
     ) {
       expect(function () {
