@@ -8,7 +8,7 @@ const { Script } = Bitcoin
 const { Signature } = Bitcoin.crypto
 const MultiSigScriptHashInput = Bitcoin.Transaction.Input.MultiSigScriptHash
 
-describe('MultiSigScriptHashInput', function () {
+describe('MultiSigScriptHashInput', () => {
   const privateKey1 = new PrivateKey('KwF9LjRraetZuEjR8VqEq539z137LW5anYDUnVK11vM3mNMHTWb4')
   const privateKey2 = new PrivateKey('L4PqnaPTCkYhAqH3YQmefjxQP6zRcF4EJbdGqR8v6adtG9XSsadY')
   const privateKey3 = new PrivateKey('L4CTX79zFeksZTyyoFuPQAySfmP7fL3R41gWKTuepuN7hxuNuJwV')
@@ -24,7 +24,7 @@ describe('MultiSigScriptHashInput', function () {
     script: new Script(address),
     satoshis: 1000000,
   }
-  it('can count missing signatures', function () {
+  it('can count missing signatures', () => {
     const transaction = new Transaction()
       .from(output, [public1, public2, public3], 2)
       .to(address, 1000000)
@@ -42,13 +42,13 @@ describe('MultiSigScriptHashInput', function () {
     input.countMissingSignatures().should.equal(0)
     input.isFullySigned().should.equal(true)
   })
-  it('returns a list of public keys with missing signatures', function () {
+  it('returns a list of public keys with missing signatures', () => {
     const transaction = new Transaction()
       .from(output, [public1, public2, public3], 2)
       .to(address, 1000000)
     const input = transaction.inputs[0]
 
-    _.every(input.publicKeysWithoutSignature(), function (publicKeyMissing) {
+    _.every(input.publicKeysWithoutSignature(), (publicKeyMissing) => {
       const serialized = publicKeyMissing.toString()
       return (
         serialized === public1.toString() ||
@@ -57,12 +57,12 @@ describe('MultiSigScriptHashInput', function () {
       )
     }).should.equal(true)
     transaction.sign(privateKey1)
-    _.every(input.publicKeysWithoutSignature(), function (publicKeyMissing) {
+    _.every(input.publicKeysWithoutSignature(), (publicKeyMissing) => {
       const serialized = publicKeyMissing.toString()
       return serialized === public2.toString() || serialized === public3.toString()
     }).should.equal(true)
   })
-  it('can clear all signatures', function () {
+  it('can clear all signatures', () => {
     const transaction = new Transaction()
       .from(output, [public1, public2, public3], 2)
       .to(address, 1000000)
@@ -74,14 +74,14 @@ describe('MultiSigScriptHashInput', function () {
     input.clearSignatures()
     input.isFullySigned().should.equal(false)
   })
-  it('can estimate how heavy is the output going to be', function () {
+  it('can estimate how heavy is the output going to be', () => {
     const transaction = new Transaction()
       .from(output, [public1, public2, public3], 2)
       .to(address, 1000000)
     const input = transaction.inputs[0]
     input._estimateSize().should.equal(257)
   })
-  it('uses SIGHASH_ALL|FORKID by default', function () {
+  it('uses SIGHASH_ALL|FORKID by default', () => {
     const transaction = new Transaction()
       .from(output, [public1, public2, public3], 2)
       .to(address, 1000000)
@@ -89,7 +89,7 @@ describe('MultiSigScriptHashInput', function () {
     const sigs = input.getSignatures(transaction, privateKey1, 0)
     sigs[0].sigtype.should.equal(Signature.SIGHASH_ALL | Signature.SIGHASH_FORKID)
   })
-  it('roundtrips to/from object', function () {
+  it('roundtrips to/from object', () => {
     const transaction = new Transaction()
       .from(output, [public1, public2, public3], 2)
       .to(address, 1000000)
@@ -98,7 +98,7 @@ describe('MultiSigScriptHashInput', function () {
     const roundtrip = new MultiSigScriptHashInput(input.toObject())
     roundtrip.toObject().should.deep.equal(input.toObject())
   })
-  it('roundtrips to/from object when not signed', function () {
+  it('roundtrips to/from object when not signed', () => {
     const transaction = new Transaction()
       .from(output, [public1, public2, public3], 2)
       .to(address, 1000000)

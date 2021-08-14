@@ -6,19 +6,19 @@ const { errors } = Bitcoin
 const $ = Bitcoin.util.preconditions
 const { PrivateKey } = Bitcoin
 
-describe('preconditions', function () {
-  it('can be used to assert state', function () {
+describe('preconditions', () => {
+  it('can be used to assert state', () => {
     ;(function () {
       $.checkState(false, 'testing')
     }.should.throw(errors.InvalidState))
   })
-  it('throws no false negative', function () {
+  it('throws no false negative', () => {
     ;(function () {
       $.checkState(true, 'testing')
     }.should.not.throw())
   })
 
-  it('can be used to check an argument', function () {
+  it('can be used to check an argument', () => {
     ;(function () {
       $.checkArgument(false, 'testing')
     }.should.throw(errors.InvalidArgument))
@@ -27,7 +27,7 @@ describe('preconditions', function () {
     }.should.not.throw(errors.InvalidArgument))
   })
 
-  it('can be used to check an argument type', function () {
+  it('can be used to check an argument type', () => {
     let error
     try {
       $.checkArgumentType(1, 'string', 'argumentName')
@@ -37,13 +37,13 @@ describe('preconditions', function () {
     }
     should.exist(error)
   })
-  it('has no false negatives when used to check an argument type', function () {
+  it('has no false negatives when used to check an argument type', () => {
     ;(function () {
       $.checkArgumentType('a String', 'string', 'argumentName')
     }.should.not.throw())
   })
 
-  it('can be used to check an argument type for a class', function () {
+  it('can be used to check an argument type for a class', () => {
     let error
     try {
       $.checkArgumentType(1, PrivateKey)
@@ -54,18 +54,18 @@ describe('preconditions', function () {
     }
     should.exist(error)
   })
-  it('has no false negatives when checking a type for a class', function () {
+  it('has no false negatives when checking a type for a class', () => {
     ;(function () {
       $.checkArgumentType(new PrivateKey(), PrivateKey)
     }.should.not.throw())
   })
 
-  it('formats correctly a message on InvalidArgument()', function () {
+  it('formats correctly a message on InvalidArgument()', () => {
     const error = new errors.InvalidArgument()
     error.message.should.equal('Invalid Argument')
   })
 
-  it('formats correctly a message on checkArgument', function () {
+  it('formats correctly a message on checkArgument', () => {
     let error
     try {
       $.checkArgument(null, 'parameter must be provided')

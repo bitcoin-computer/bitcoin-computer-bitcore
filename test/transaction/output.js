@@ -10,19 +10,19 @@ const { BufferReader } = Bitcoin.encoding
 const { Output } = Bitcoin.Transaction
 const { Script } = Bitcoin
 
-describe('Output', function () {
+describe('Output', () => {
   const output = new Output({
     satoshis: 0,
     script: Script.empty(),
   })
 
-  it('throws error with unrecognized argument', function () {
+  it('throws error with unrecognized argument', () => {
     ;(function () {
       new Output(12345)
     }.should.throw(TypeError))
   })
 
-  it('can be assigned a satoshi amount in big number', function () {
+  it('can be assigned a satoshi amount in big number', () => {
     const newOutput = new Output({
       satoshis: new BN(100),
       script: Script.empty(),
@@ -30,7 +30,7 @@ describe('Output', function () {
     newOutput.satoshis.should.equal(100)
   })
 
-  it('can be assigned a satoshi amount with a string', function () {
+  it('can be assigned a satoshi amount with a string', () => {
     const newOutput = new Output({
       satoshis: '100',
       script: Script.empty(),
@@ -38,8 +38,8 @@ describe('Output', function () {
     newOutput.satoshis.should.equal(100)
   })
 
-  describe('will error if output is not a positive integer', function () {
-    it('-100', function () {
+  describe('will error if output is not a positive integer', () => {
+    it('-100', () => {
       ;(function () {
         new Output({
           satoshis: -100,
@@ -48,7 +48,7 @@ describe('Output', function () {
       }.should.throw('Output satoshis is not a natural number'))
     })
 
-    it('1.1', function () {
+    it('1.1', () => {
       ;(function () {
         new Output({
           satoshis: 1.1,
@@ -57,7 +57,7 @@ describe('Output', function () {
       }.should.throw('Output satoshis is not a natural number'))
     })
 
-    it('NaN', function () {
+    it('NaN', () => {
       ;(function () {
         new Output({
           satoshis: NaN,
@@ -66,7 +66,7 @@ describe('Output', function () {
       }.should.throw('Output satoshis is not a natural number'))
     })
 
-    it('Infinity', function () {
+    it('Infinity', () => {
       ;(function () {
         new Output({
           satoshis: Infinity,
@@ -81,25 +81,25 @@ describe('Output', function () {
     a.script.toString().should.equal(b.script.toString())
   }
 
-  it('deserializes correctly a simple output', function () {
+  it('deserializes correctly a simple output', () => {
     const writer = new BufferWriter()
     output.toBufferWriter(writer)
     const deserialized = Output.fromBufferReader(new BufferReader(writer.toBuffer()))
     expectEqualOutputs(output, deserialized)
   })
 
-  it('can instantiate from an object', function () {
+  it('can instantiate from an object', () => {
     const out = new Output(output.toObject())
     should.exist(out)
   })
 
-  it('can set a script from a buffer', function () {
+  it('can set a script from a buffer', () => {
     const newOutput = new Output(output.toObject())
     newOutput.setScript(Script().add(0).toBuffer())
     newOutput.inspect().should.equal('<Output (0 sats) <Script: OP_0>>')
   })
 
-  it('has a inspect property', function () {
+  it('has a inspect property', () => {
     output.inspect().should.equal('<Output (0 sats) <Script: >>')
   })
 
@@ -112,7 +112,7 @@ describe('Output', function () {
     ),
   })
 
-  it('toBufferWriter', function () {
+  it('toBufferWriter', () => {
     output2
       .toBufferWriter()
       .toBuffer()
@@ -124,7 +124,7 @@ describe('Output', function () {
       )
   })
 
-  it('roundtrips to/from object', function () {
+  it('roundtrips to/from object', () => {
     const newOutput = new Output({
       satoshis: 50,
       script: new Script().add(0),
@@ -133,7 +133,7 @@ describe('Output', function () {
     expectEqualOutputs(newOutput, otherOutput)
   })
 
-  it('toObject will handle an invalid (null) script', function () {
+  it('toObject will handle an invalid (null) script', () => {
     // block 000000000000000b7e48f88e86ceee3e97b4df7c139f5411d14735c1b3c36791 (livenet)
     // transaction index 2
     // txid ebc9fa1196a59e192352d76c0f6e73167046b9d37b8302b6bb6968dfd279b767
@@ -147,7 +147,7 @@ describe('Output', function () {
     obj.outputs[6].script.should.equal('4e')
   })
 
-  it('#toObject roundtrip will handle an invalid (null) script', function () {
+  it('#toObject roundtrip will handle an invalid (null) script', () => {
     const invalidOutputScript = Buffer.from('0100000000000000014c', 'hex')
     const br = new Bitcoin.encoding.BufferReader(invalidOutputScript)
     const o1 = Output.fromBufferReader(br)
@@ -156,25 +156,25 @@ describe('Output', function () {
     should.equal(o2._scriptBuffer.toString('hex'), '4c')
   })
 
-  it('inspect will work with an invalid (null) script', function () {
+  it('inspect will work with an invalid (null) script', () => {
     const invalidOutputScript = Buffer.from('0100000000000000014c', 'hex')
     const br = new Bitcoin.encoding.BufferReader(invalidOutputScript)
     const o = Output.fromBufferReader(br)
     o.inspect().should.equal('<Output (1 sats) 4c>')
   })
 
-  it('roundtrips to/from JSON', function () {
+  it('roundtrips to/from JSON', () => {
     const json = JSON.stringify(output2)
     const o3 = new Output(JSON.parse(json))
     JSON.stringify(o3).should.equal(json)
   })
 
-  it('setScript fails with invalid input', function () {
+  it('setScript fails with invalid input', () => {
     const out = new Output(output2.toJSON())
     out.setScript.bind(out, 45).should.throw('Invalid argument type: script')
   })
 
-  it('sets script to null if it is an InvalidBuffer', function () {
+  it('sets script to null if it is an InvalidBuffer', () => {
     const o = new Output({
       satoshis: 1000,
       script: Buffer.from('4c', 'hex'),
@@ -182,7 +182,7 @@ describe('Output', function () {
     should.equal(o.script, null)
   })
 
-  it('should throw an error if Script throws an error that is not InvalidBuffer', function () {
+  it('should throw an error if Script throws an error that is not InvalidBuffer', () => {
     const o = new Output({
       satoshis: 1000,
       script: new Script(),

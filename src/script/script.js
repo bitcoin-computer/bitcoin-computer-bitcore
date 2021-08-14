@@ -736,11 +736,11 @@ Script.buildMultisigOut = function (publicKeys, threshold, opts) {
  */
 // #weirdstuff - "opts" is never used in the function, but if we remove it tests go red. We should
 // look into this in more detail and try to figure out what is happening.
-// eslint-disable-next-line no-unused-vars
 Script.buildMultisigIn = function (pubkeys, threshold, signatures, opts) {
   $.checkArgument(_.isArray(pubkeys))
   $.checkArgument(_.isNumber(threshold))
   $.checkArgument(_.isArray(signatures))
+// eslint-disable-next-line no-unused-vars
   opts = opts || {}
   const s = new this()
   s.add(Opcode.OP_0)

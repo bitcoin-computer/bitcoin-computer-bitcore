@@ -5,7 +5,7 @@ import Bitcoin from '../bitcoin'
 const { expect } = chai
 const { UnspentOutput } = Bitcoin.Transaction
 
-describe('UnspentOutput', function () {
+describe('UnspentOutput', () => {
   const sampleData1 = {
     address: 'mszYqVnqKoQx4jcTdJXxwKAissE3Jbrrc1',
     txId: 'a477af6b2667c29670467e4e0728b685ee07b240235771862318e29ddbe58458',
@@ -22,32 +22,28 @@ describe('UnspentOutput', function () {
     amount: 0.0108,
   }
 
-  it('roundtrip from raw data', function () {
+  it('roundtrip from raw data', () => {
     expect(new UnspentOutput(sampleData2).toObject()).to.deep.equal(sampleData2)
   })
 
-  it('fails if no tx id is provided', function () {
-    expect(function () {
-      return new UnspentOutput({})
-    }).to.throw()
+  it('fails if no tx id is provided', () => {
+    expect(() => new UnspentOutput({})).to.throw()
   })
 
-  it('fails if vout is not a number', function () {
+  it('fails if vout is not a number', () => {
     const sample = _.cloneDeep(sampleData2)
     sample.vout = '1'
-    expect(function () {
-      return new UnspentOutput(sample)
-    }).to.throw()
+    expect(() => new UnspentOutput(sample)).to.throw()
   })
 
-  it('displays nicely on the console', function () {
+  it('displays nicely on the console', () => {
     const expected =
       '<UnspentOutput: a477af6b2667c29670467e4e0728b685ee07b240235771862318e29ddbe58458:0' +
       ', satoshis: 1020000, address: mszYqVnqKoQx4jcTdJXxwKAissE3Jbrrc1>'
     expect(new UnspentOutput(sampleData1).inspect()).to.equal(expected)
   })
 
-  describe('checking the constructor parameters', function () {
+  describe('checking the constructor parameters', () => {
     const notDefined = {
       txId: 'a477af6b2667c29670467e4e0728b685ee07b240235771862318e29ddbe58458',
       outputIndex: 0,
@@ -61,24 +57,20 @@ describe('UnspentOutput', function () {
         'OP_DUP OP_HASH160 20 0x88d9931ea73d60eaf7e5671efc0552b912911f2a OP_EQUALVERIFY OP_CHECKSIG',
       amount: 0,
     }
-    it('fails when no amount is defined', function () {
-      expect(function () {
-        return new UnspentOutput(notDefined)
-      }).to.throw('Must provide an amount for the output')
+    it('fails when no amount is defined', () => {
+      expect(() => new UnspentOutput(notDefined)).to.throw('Must provide an amount for the output')
     })
-    it('does not fail when amount is zero', function () {
-      expect(function () {
-        return new UnspentOutput(zero)
-      }).to.not.throw()
+    it('does not fail when amount is zero', () => {
+      expect(() => new UnspentOutput(zero)).to.not.throw()
     })
   })
 
-  it('toString returns txid:vout', function () {
+  it('toString returns txid:vout', () => {
     const expected = 'a477af6b2667c29670467e4e0728b685ee07b240235771862318e29ddbe58458:0'
     expect(new UnspentOutput(sampleData1).toString()).to.equal(expected)
   })
 
-  it('to/from JSON roundtrip', function () {
+  it('to/from JSON roundtrip', () => {
     const utxo = new UnspentOutput(sampleData2)
     const obj = UnspentOutput.fromObject(utxo.toJSON()).toObject()
     expect(obj).to.deep.equal(sampleData2)

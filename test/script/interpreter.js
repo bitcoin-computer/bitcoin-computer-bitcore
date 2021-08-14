@@ -55,8 +55,8 @@ Script.fromBitcoindString = function (str) {
   return this.fromBuffer(buf)
 }
 
-describe('Interpreter', function () {
-  it('should make a new interp', function () {
+describe('Interpreter', () => {
+  it('should make a new interp', () => {
     const interp = new Interpreter()
     ;(interp instanceof Interpreter).should.equal(true)
     interp.stack.length.should.equal(0)
@@ -69,8 +69,8 @@ describe('Interpreter', function () {
     interp.flags.should.equal(0)
   })
 
-  describe('@castToBool', function () {
-    it('should cast these bufs to bool correctly', function () {
+  describe('@castToBool', () => {
+    it('should cast these bufs to bool correctly', () => {
       Interpreter.castToBool(
         new BN(0).toSM({
           endian: 'little',
@@ -97,8 +97,8 @@ describe('Interpreter', function () {
     })
   })
 
-  describe('#verify', function () {
-    it('should verify these trivial scripts', function () {
+  describe('#verify', () => {
+    it('should verify these trivial scripts', () => {
       let verified
       const si = Interpreter()
       verified = si.verify(Script('OP_1'), Script('OP_1'))
@@ -124,7 +124,7 @@ describe('Interpreter', function () {
       verified.should.equal(true)
     })
 
-    it('should verify these simple transaction', function () {
+    it('should verify these simple transaction', () => {
       // first we create a transaction
       const privateKey = new PrivateKey('cSBnVM4xvxarwGQuAfQFwqDg9k5tErHUHzgWsEfD4zdwUasvqRVY')
       const { publicKey } = privateKey
@@ -150,7 +150,7 @@ describe('Interpreter', function () {
       verified.should.equal(true)
     })
 
-    it('should set values on interpreter', function () {
+    it('should set values on interpreter', () => {
       const script = Script('OP_1')
       const tx = new Transaction()
       const stack = []
@@ -265,10 +265,10 @@ describe('Interpreter', function () {
     const verified = interp.verify(scriptSig, scriptPubkey, spendtx, 0, flags)
     verified.should.equal(expected)
   }
-  describe('bitcoind script evaluation fixtures', function () {
+  describe('bitcoind script evaluation fixtures', () => {
     const testAllFixtures = function (set, expected) {
       let c = 0
-      set.forEach(function (vector) {
+      set.forEach((vector) => {
         if (vector.length === 1) {
           return
         }
@@ -279,7 +279,7 @@ describe('Interpreter', function () {
         it(
           `should pass script_${expected ? '' : 'in'}valid ` +
             `vector #${c}: ${fullScriptString}${comment}`,
-          function () {
+          () => {
             testFixture(vector, expected)
           }
         )
@@ -288,22 +288,22 @@ describe('Interpreter', function () {
     testAllFixtures(scriptValid, true)
     testAllFixtures(scriptInvalid, false)
   })
-  describe('bitcoind transaction evaluation fixtures', function () {
+  describe('bitcoind transaction evaluation fixtures', () => {
     const testTxs = function (set, expected) {
       let c = 0
-      set.forEach(function (vector) {
+      set.forEach((vector) => {
         if (vector.length === 1) {
           return
         }
         c += 1
         const cc = c // copy to local
-        it(`should pass tx_${expected ? '' : 'in'}valid vector ${cc}`, function () {
+        it(`should pass tx_${expected ? '' : 'in'}valid vector ${cc}`, () => {
           const inputs = vector[0]
           const txhex = vector[1]
           const flags = getFlags(vector[2])
 
           const map = {}
-          inputs.forEach(function (input) {
+          inputs.forEach((input) => {
             const txid = input[0]
             let txoutnum = input[1]
             const scriptPubKeyStr = input[2]
@@ -315,7 +315,7 @@ describe('Interpreter', function () {
 
           const tx = new Transaction(txhex)
           let allInputsVerified = true
-          tx.inputs.forEach(function (txin, j) {
+          tx.inputs.forEach((txin, j) => {
             if (txin.isNull()) {
               return
             }

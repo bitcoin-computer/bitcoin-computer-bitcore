@@ -2,6 +2,7 @@
 
 import randomBytes from 'randombytes'
 
+// eslint-disable-next-line flowtype-errors/show-errors
 const Random = {}
 
 Random.getRandomBufferNode = function (size: number) {

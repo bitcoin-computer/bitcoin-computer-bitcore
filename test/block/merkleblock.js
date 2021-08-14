@@ -9,37 +9,37 @@ const { BufferReader } = Bitcoin.encoding
 const { BufferWriter } = Bitcoin.encoding
 const { Transaction } = Bitcoin
 
-describe('MerkleBlock', function () {
+describe('MerkleBlock', () => {
   const blockhex = data.HEX[0]
   const blockbuf = Buffer.from(blockhex, 'hex')
   const blockJSON = JSON.stringify(data.JSON[0])
   const blockObject = JSON.parse(JSON.stringify(data.JSON[0]))
 
-  describe('#constructor', function () {
-    it('should make a new merkleblock from buffer', function () {
+  describe('#constructor', () => {
+    it('should make a new merkleblock from buffer', () => {
       const b = new MerkleBlock(blockbuf)
       b.toBuffer().toString('hex').should.equal(blockhex)
     })
 
-    it('should make a new merkleblock from object', function () {
+    it('should make a new merkleblock from object', () => {
       const b = new MerkleBlock(blockObject)
       b.toObject().should.deep.equal(blockObject)
     })
 
-    it('should make a new merkleblock from JSON', function () {
+    it('should make a new merkleblock from JSON', () => {
       const b = new MerkleBlock(JSON.parse(blockJSON))
       JSON.stringify(b).should.equal(blockJSON)
     })
 
-    it('should not make an empty block', function () {
+    it('should not make an empty block', () => {
       ;(function () {
         return new MerkleBlock()
       }.should.throw('Unrecognized argument for MerkleBlock'))
     })
   })
 
-  describe('#fromObject', function () {
-    it('should set these known values', function () {
+  describe('#fromObject', () => {
+    it('should set these known values', () => {
       const block = MerkleBlock.fromObject(JSON.parse(blockJSON))
       should.exist(block.header)
       should.exist(block.numTransactions)
@@ -47,7 +47,7 @@ describe('MerkleBlock', function () {
       should.exist(block.flags)
     })
 
-    it('should set these known values', function () {
+    it('should set these known values', () => {
       const block = new MerkleBlock(JSON.parse(blockJSON))
       should.exist(block.header)
       should.exist(block.numTransactions)
@@ -55,14 +55,14 @@ describe('MerkleBlock', function () {
       should.exist(block.flags)
     })
 
-    it('accepts an object as argument', function () {
+    it('accepts an object as argument', () => {
       const block = new MerkleBlock(blockbuf)
       should.exist(MerkleBlock.fromObject(block.toObject()))
     })
   })
 
-  describe('#toJSON', function () {
-    it('should recover these known values', function () {
+  describe('#toJSON', () => {
+    it('should recover these known values', () => {
       const block = new MerkleBlock(JSON.parse(blockJSON))
       const b = JSON.parse(JSON.stringify(block))
       should.exist(block.header)
@@ -76,49 +76,49 @@ describe('MerkleBlock', function () {
     })
   })
 
-  describe('#fromBuffer', function () {
-    it('should make a block from this known buffer', function () {
+  describe('#fromBuffer', () => {
+    it('should make a block from this known buffer', () => {
       const block = MerkleBlock.fromBuffer(blockbuf)
       block.toBuffer().toString('hex').should.equal(blockhex)
     })
   })
 
-  describe('#fromBufferReader', function () {
-    it('should make a block from this known buffer', function () {
+  describe('#fromBufferReader', () => {
+    it('should make a block from this known buffer', () => {
       const block = MerkleBlock.fromBufferReader(BufferReader(blockbuf))
       block.toBuffer().toString('hex').should.equal(blockhex)
     })
   })
 
-  describe('#toBuffer', function () {
-    it('should recover a block from this known buffer', function () {
+  describe('#toBuffer', () => {
+    it('should recover a block from this known buffer', () => {
       const block = MerkleBlock.fromBuffer(blockbuf)
       block.toBuffer().toString('hex').should.equal(blockhex)
     })
   })
 
-  describe('#toBufferWriter', function () {
-    it('should recover a block from this known buffer', function () {
+  describe('#toBufferWriter', () => {
+    it('should recover a block from this known buffer', () => {
       const block = MerkleBlock.fromBuffer(blockbuf)
       block.toBufferWriter().concat().toString('hex').should.equal(blockhex)
     })
 
-    it("doesn't create a bufferWriter if one provided", function () {
+    it("doesn't create a bufferWriter if one provided", () => {
       const writer = new BufferWriter()
       const block = MerkleBlock.fromBuffer(blockbuf)
       block.toBufferWriter(writer).should.equal(writer)
     })
   })
 
-  describe('#validMerkleTree', function () {
-    it('should validate good merkleblocks', function () {
-      data.JSON.forEach(function (data2) {
+  describe('#validMerkleTree', () => {
+    it('should validate good merkleblocks', () => {
+      data.JSON.forEach((data2) => {
         const b = new MerkleBlock(data2)
         b.validMerkleTree().should.equal(true)
       })
     })
 
-    it('should not validate merkleblocks with too many hashes', function () {
+    it('should not validate merkleblocks with too many hashes', () => {
       const b = new MerkleBlock(data.JSON[0])
       // Add too many hashes
       let i = 0
@@ -128,15 +128,15 @@ describe('MerkleBlock', function () {
       b.validMerkleTree().should.equal(false)
     })
 
-    it('should not validate merkleblocks with too few bit flags', function () {
+    it('should not validate merkleblocks with too few bit flags', () => {
       const b = new MerkleBlock(JSON.parse(blockJSON))
       b.flags.pop()
       b.validMerkleTree().should.equal(false)
     })
   })
 
-  describe('#hasTransaction', function () {
-    it('should find transactions via hash string', function () {
+  describe('#hasTransaction', () => {
+    it('should find transactions via hash string', () => {
       const jsonData = data.JSON[0]
       const txId = Buffer.from(jsonData.hashes[1], 'hex').toString('hex')
       const b = new MerkleBlock(jsonData)
@@ -144,7 +144,7 @@ describe('MerkleBlock', function () {
       b.hasTransaction(`${txId}abcd`).should.equal(false)
     })
 
-    it('should find transactions via Transaction object', function () {
+    it('should find transactions via Transaction object', () => {
       const jsonData = data.JSON[0]
       const txBuf = Buffer.from(data.TXHEX[0][0], 'hex')
       const tx = new Transaction().fromBuffer(txBuf)
@@ -152,7 +152,7 @@ describe('MerkleBlock', function () {
       b.hasTransaction(tx).should.equal(true)
     })
 
-    it('should not find non-existant Transaction object', function () {
+    it('should not find non-existant Transaction object', () => {
       // Reuse another transaction already in data/ dir
       const serialized = transactionVector[0][7]
       const tx = new Transaction().fromBuffer(Buffer.from(serialized, 'hex'))
@@ -160,7 +160,7 @@ describe('MerkleBlock', function () {
       b.hasTransaction(tx).should.equal(false)
     })
 
-    it('should not match with merkle nodes', function () {
+    it('should not match with merkle nodes', () => {
       const b = new MerkleBlock(data.JSON[0])
 
       const hashData = [
@@ -170,7 +170,7 @@ describe('MerkleBlock', function () {
         ['20d2a7bc994987302e5b1ac80fc425fe25f8b63169ea78e68fbaaefa59379bbf', false],
       ]
 
-      hashData.forEach(function check(d) {
+      hashData.forEach((d) => {
         b.hasTransaction(d[0]).should.equal(d[1])
       })
     })

@@ -11,7 +11,7 @@ const { PrivateKey } = Bitcoin
 const { Networks } = Bitcoin
 const { Base58Check } = Bitcoin.encoding
 
-describe('PrivateKey', function () {
+describe('PrivateKey', () => {
   const hex = '96c132224121b509b7d0a16245e957d9192609c5637c6228311287b1be21627a'
   const hex2 = '8080808080808080808080808080808080808080808080808080808080808080'
   const buf = Buffer.from(hex, 'hex')
@@ -21,7 +21,7 @@ describe('PrivateKey', function () {
   const wifLivenetUncompressed = '5JxgQaFM1FMd38cd14e3mbdxsdSa9iM2BV6DHBYsvGzxkTNQ7Un'
   const wifNamecoin = '74pxNKNpByQ2kMow4d9kF6Z77BYeKztQNLq3dSyU4ES1K5KLNiz'
 
-  it('should create a new random private key', function () {
+  it('should create a new random private key', () => {
     const a = new PrivateKey()
     should.exist(a)
     should.exist(a.bn)
@@ -30,19 +30,19 @@ describe('PrivateKey', function () {
     should.exist(b.bn)
   })
 
-  it('should create a privatekey from hexa string', function () {
+  it('should create a privatekey from hexa string', () => {
     const a = new PrivateKey(hex2)
     should.exist(a)
     should.exist(a.bn)
   })
 
-  it('should create a new random testnet private key with only one argument', function () {
+  it('should create a new random testnet private key with only one argument', () => {
     const a = new PrivateKey(Networks.testnet)
     should.exist(a)
     should.exist(a.bn)
   })
 
-  it('should create a private key from a custom network WIF string', function () {
+  it('should create a private key from a custom network WIF string', () => {
     const nmc = {
       name: 'namecoin',
       alias: 'namecoin',
@@ -64,19 +64,19 @@ describe('PrivateKey', function () {
     Networks.remove(nmcNet)
   })
 
-  it('should create a new random testnet private key with empty data', function () {
+  it('should create a new random testnet private key with empty data', () => {
     const a = new PrivateKey(null, Networks.testnet)
     should.exist(a)
     should.exist(a.bn)
   })
 
-  it('should create a private key from WIF string', function () {
+  it('should create a private key from WIF string', () => {
     const a = new PrivateKey('L3T1s1TYP9oyhHpXgkyLoJFGniEgkv2Jhi138d7R2yJ9F4QdDU2m')
     should.exist(a)
     should.exist(a.bn)
   })
 
-  it('should create a private key from WIF buffer', function () {
+  it('should create a private key from WIF buffer', () => {
     const a = new PrivateKey(
       Base58Check.decode('L3T1s1TYP9oyhHpXgkyLoJFGniEgkv2Jhi138d7R2yJ9F4QdDU2m')
     )
@@ -84,10 +84,10 @@ describe('PrivateKey', function () {
     should.exist(a.bn)
   })
 
-  describe('bitcoind compliance', function () {
+  describe('bitcoind compliance', () => {
     validbase58.forEach((d) => {
       if (d[2].isPrivkey) {
-        it(`should instantiate WIF private key ${d[0]} with correct properties`, function () {
+        it(`should instantiate WIF private key ${d[0]} with correct properties`, () => {
           let network = Networks.livenet
           if (d[2].isTestnet) {
             network = Networks.testnet
@@ -99,82 +99,72 @@ describe('PrivateKey', function () {
       }
     })
     invalidbase58.forEach((d) => {
-      it(`should describe input ${d[0].slice(0, 10)}... as invalid`, function () {
-        expect(function () {
-          return new PrivateKey(d[0])
-        }).to.throw(Error)
+      it(`should describe input ${d[0].slice(0, 10)}... as invalid`, () => {
+        expect(() => new PrivateKey(d[0])).to.throw(Error)
       })
     })
   })
 
-  describe('instantiation', function () {
-    it('should not be able to instantiate private key greater than N', function () {
-      expect(function () {
-        return new PrivateKey(Point.getN())
-      }).to.throw('Number must be less than N')
+  describe('instantiation', () => {
+    it('should not be able to instantiate private key greater than N', () => {
+      expect(() => new PrivateKey(Point.getN())).to.throw('Number must be less than N')
     })
 
-    it('should not be able to instantiate private key because of network mismatch', function () {
-      expect(function () {
-        return new PrivateKey('L3T1s1TYP9oyhHpXgkyLoJFGniEgkv2Jhi138d7R2yJ9F4QdDU2m', 'testnet')
-      }).to.throw('Private key network mismatch')
+    it('should not be able to instantiate private key because of network mismatch', () => {
+      expect(() => new PrivateKey('L3T1s1TYP9oyhHpXgkyLoJFGniEgkv2Jhi138d7R2yJ9F4QdDU2m', 'testnet')).to.throw('Private key network mismatch')
     })
 
-    it('should not be able to instantiate private key WIF is too long', function () {
-      expect(function () {
+    it('should not be able to instantiate private key WIF is too long', () => {
+      expect(() => {
         const buf1 = Base58Check.decode('L3T1s1TYP9oyhHpXgkyLoJFGniEgkv2Jhi138d7R2yJ9F4QdDU2m')
         const buf2 = Buffer.concat([buf1, Buffer.alloc(0x01)])
         return new PrivateKey(buf2)
       }).to.throw('Length of buffer must be 33 (uncompressed) or 34 (compressed')
     })
 
-    it('should not be able to instantiate private key WIF because of unknown network byte', function () {
-      expect(function () {
+    it('should not be able to instantiate private key WIF because of unknown network byte', () => {
+      expect(() => {
         const buf1 = Base58Check.decode('L3T1s1TYP9oyhHpXgkyLoJFGniEgkv2Jhi138d7R2yJ9F4QdDU2m')
         const buf2 = Buffer.concat([Buffer.from('ff', 'hex'), buf1.slice(1, 33)])
         return new PrivateKey(buf2)
       }).to.throw('Invalid network')
     })
 
-    it('should not be able to instantiate private key WIF because of network mismatch', function () {
-      expect(function () {
+    it('should not be able to instantiate private key WIF because of network mismatch', () => {
+      expect(() => {
         // eslint-disable-next-line no-new
         new PrivateKey(wifNamecoin, 'testnet')
       }).to.throw('Invalid network')
     })
 
-    it('can be instantiated from a hex string', function () {
+    it('can be instantiated from a hex string', () => {
       const privhex = '906977a061af29276e40bf377042ffbde414e496ae2260bbf1fa9d085637bfff'
       const pubhex = '02a1633cafcc01ebfb6d78e39f687a1f0995c62fc95f51ead10a02ee0be551b5dc'
       const privkey = new PrivateKey(privhex)
       privkey.publicKey.toString().should.equal(pubhex)
     })
 
-    it('should not be able to instantiate because of unrecognized data', function () {
-      expect(function () {
-        return new PrivateKey(new Error())
-      }).to.throw('First argument is an unrecognized data type.')
+    it('should not be able to instantiate because of unrecognized data', () => {
+      expect(() => new PrivateKey(new Error())).to.throw('First argument is an unrecognized data type.')
     })
 
-    it('should not be able to instantiate with unknown network', function () {
-      expect(function () {
-        return new PrivateKey(new BN(2), 'unknown')
-      }).to.throw('Must specify the network ("livenet" or "testnet")')
+    it('should not be able to instantiate with unknown network', () => {
+      expect(() => new PrivateKey(new BN(2), 'unknown')).to.throw('Must specify the network ("livenet" or "testnet")')
     })
 
-    it('should not create a zero private key', function () {
-      expect(function () {
+    it('should not create a zero private key', () => {
+      expect(() => {
         const bn = new BN(0)
         return new PrivateKey(bn)
       }).to.throw(TypeError)
     })
 
-    it('should create a livenet private key', function () {
+    it('should create a livenet private key', () => {
       const privkey = new PrivateKey(BN.fromBuffer(buf), 'livenet')
       privkey.toWIF().should.equal(wifLivenet)
     })
 
-    it('should create a default network private key', function () {
+    it('should create a default network private key', () => {
       // keep the original
       const network = Networks.defaultNetwork
       Networks.defaultNetwork = Networks.livenet
@@ -188,14 +178,14 @@ describe('PrivateKey', function () {
       Networks.defaultNetwork = network
     })
 
-    it('returns the same instance if a PrivateKey is provided (immutable)', function () {
+    it('returns the same instance if a PrivateKey is provided (immutable)', () => {
       const privkey = new PrivateKey()
       new PrivateKey(privkey).should.equal(privkey)
     })
   })
 
-  describe('#json/object', function () {
-    it('should input/output json', function () {
+  describe('#json/object', () => {
+    it('should input/output json', () => {
       const json = JSON.stringify({
         bn: '96c132224121b509b7d0a16245e957d9192609c5637c6228311287b1be21627a',
         compressed: false,
@@ -205,8 +195,8 @@ describe('PrivateKey', function () {
       JSON.stringify(key).should.equal(json)
     })
 
-    it('input json should correctly initialize network field', function () {
-      ;['livenet', 'testnet', 'mainnet'].forEach(function (net) {
+    it('input json should correctly initialize network field', () => {
+      ;['livenet', 'testnet', 'mainnet'].forEach((net) => {
         const pk = PrivateKey.fromObject({
           bn: '96c132224121b509b7d0a16245e957d9192609c5637c6228311287b1be21627a',
           compressed: false,
@@ -216,48 +206,44 @@ describe('PrivateKey', function () {
       })
     })
 
-    it('fails on invalid argument', function () {
-      expect(function () {
-        return PrivateKey.fromJSON('¹')
-      }).to.throw()
+    it('fails on invalid argument', () => {
+      expect(() => PrivateKey.fromJSON('¹')).to.throw()
     })
 
-    it('also accepts an object as argument', function () {
-      expect(function () {
-        return PrivateKey.fromObject(new PrivateKey().toObject())
-      }).to.not.throw()
+    it('also accepts an object as argument', () => {
+      expect(() => PrivateKey.fromObject(new PrivateKey().toObject())).to.not.throw()
     })
   })
 
-  describe('#toString', function () {
-    it('should output this address correctly', function () {
+  describe('#toString', () => {
+    it('should output this address correctly', () => {
       const privkey = PrivateKey.fromWIF(wifLivenetUncompressed)
       privkey.toWIF().should.equal(wifLivenetUncompressed)
     })
   })
 
-  describe('#toAddress', function () {
-    it('should output this known livenet address correctly', function () {
+  describe('#toAddress', () => {
+    it('should output this known livenet address correctly', () => {
       const privkey = PrivateKey.fromWIF('L3T1s1TYP9oyhHpXgkyLoJFGniEgkv2Jhi138d7R2yJ9F4QdDU2m')
       const address = privkey.toAddress()
       address.toString().should.equal('1A6ut1tWnUq1SEQLMr4ttDh24wcbJ5o9TT')
     })
 
-    it('should output this known testnet address correctly', function () {
+    it('should output this known testnet address correctly', () => {
       const privkey = PrivateKey.fromWIF('cR4qogdN9UxLZJXCNFNwDRRZNeLRWuds9TTSuLNweFVjiaE4gPaq')
       const address = privkey.toAddress()
       address.toString().should.equal('mtX8nPZZdJ8d3QNLRJ1oJTiEi26Sj6LQXS')
     })
 
-    it('creates network specific address', function () {
+    it('creates network specific address', () => {
       const pk = PrivateKey.fromWIF('cR4qogdN9UxLZJXCNFNwDRRZNeLRWuds9TTSuLNweFVjiaE4gPaq')
       pk.toAddress(Networks.livenet).network.name.should.equal(Networks.livenet.name)
       pk.toAddress(Networks.testnet).network.name.should.equal(Networks.testnet.name)
     })
   })
 
-  describe('#inspect', function () {
-    it('should output known livenet address for console', function () {
+  describe('#inspect', () => {
+    it('should output known livenet address for console', () => {
       const privkey = PrivateKey.fromWIF('L3T1s1TYP9oyhHpXgkyLoJFGniEgkv2Jhi138d7R2yJ9F4QdDU2m')
       privkey
         .inspect()
@@ -266,7 +252,7 @@ describe('PrivateKey', function () {
         )
     })
 
-    it('should output known testnet address for console', function () {
+    it('should output known testnet address for console', () => {
       const privkey = PrivateKey.fromWIF('cR4qogdN9UxLZJXCNFNwDRRZNeLRWuds9TTSuLNweFVjiaE4gPaq')
       privkey
         .inspect()
@@ -275,7 +261,7 @@ describe('PrivateKey', function () {
         )
     })
 
-    it('outputs "uncompressed" for uncompressed imported WIFs', function () {
+    it('outputs "uncompressed" for uncompressed imported WIFs', () => {
       const privkey = PrivateKey.fromWIF(wifLivenetUncompressed)
       privkey
         .inspect()
@@ -285,43 +271,43 @@ describe('PrivateKey', function () {
     })
   })
 
-  describe('#getValidationError', function () {
-    it('should get an error because private key greater than N', function () {
+  describe('#getValidationError', () => {
+    it('should get an error because private key greater than N', () => {
       const n = Point.getN()
       const a = PrivateKey.getValidationError(n)
       a.message.should.equal('Number must be less than N')
     })
 
-    it('should validate as false because private key greater than N', function () {
+    it('should validate as false because private key greater than N', () => {
       const n = Point.getN()
       const a = PrivateKey.isValid(n)
       a.should.equal(false)
     })
 
-    it('should recognize that undefined is an invalid private key', function () {
+    it('should recognize that undefined is an invalid private key', () => {
       PrivateKey.isValid().should.equal(false)
     })
 
-    it('should validate as true', function () {
+    it('should validate as true', () => {
       const a = PrivateKey.isValid('L3T1s1TYP9oyhHpXgkyLoJFGniEgkv2Jhi138d7R2yJ9F4QdDU2m')
       a.should.equal(true)
     })
   })
 
-  describe('buffer serialization', function () {
-    it('returns an expected value when creating a PrivateKey from a buffer', function () {
+  describe('buffer serialization', () => {
+    it('returns an expected value when creating a PrivateKey from a buffer', () => {
       const privkey = new PrivateKey(BN.fromBuffer(buf), 'livenet')
       privkey.toString().should.equal(buf.toString('hex'))
     })
 
-    it('roundtrips correctly when using toBuffer/fromBuffer', function () {
+    it('roundtrips correctly when using toBuffer/fromBuffer', () => {
       const privkey = new PrivateKey(BN.fromBuffer(buf))
       const toBuffer = new PrivateKey(privkey.toBuffer())
       const fromBuffer = PrivateKey.fromBuffer(toBuffer.toBuffer())
       fromBuffer.toString().should.equal(privkey.toString())
     })
 
-    it('will output a 31 byte buffer', function () {
+    it('will output a 31 byte buffer', () => {
       const bn = BN.fromBuffer(
         Buffer.from('9b5a0e8fee1835e21170ce1431f9b6f19b487e67748ed70d8a4462bc031915', 'hex')
       )
@@ -347,8 +333,8 @@ describe('PrivateKey', function () {
     // });
   })
 
-  describe('#toBigNumber', function () {
-    it('should output known BN', function () {
+  describe('#toBigNumber', () => {
+    it('should output known BN', () => {
       const a = BN.fromBuffer(buf)
       const privkey = new PrivateKey(a, 'livenet')
       const b = privkey.toBigNumber()
@@ -356,8 +342,8 @@ describe('PrivateKey', function () {
     })
   })
 
-  describe('#fromRandom', function () {
-    it('should set bn gt 0 and lt n, and should be compressed', function () {
+  describe('#fromRandom', () => {
+    it('should set bn gt 0 and lt n, and should be compressed', () => {
       const privkey = PrivateKey.fromRandom()
       privkey.bn.gt(new BN(0)).should.equal(true)
       privkey.bn.lt(Point.getN()).should.equal(true)
@@ -365,29 +351,29 @@ describe('PrivateKey', function () {
     })
   })
 
-  describe('#fromWIF', function () {
-    it('should parse this compressed testnet address correctly', function () {
+  describe('#fromWIF', () => {
+    it('should parse this compressed testnet address correctly', () => {
       const privkey = PrivateKey.fromWIF(wifLivenet)
       privkey.toWIF().should.equal(wifLivenet)
     })
   })
 
-  describe('#toWIF', function () {
-    it('should parse this compressed testnet address correctly', function () {
+  describe('#toWIF', () => {
+    it('should parse this compressed testnet address correctly', () => {
       const privkey = PrivateKey.fromWIF(wifTestnet)
       privkey.toWIF().should.equal(wifTestnet)
     })
   })
 
-  describe('#fromString', function () {
-    it('should parse this uncompressed testnet address correctly', function () {
+  describe('#fromString', () => {
+    it('should parse this uncompressed testnet address correctly', () => {
       const privkey = PrivateKey.fromString(wifTestnetUncompressed)
       privkey.toWIF().should.equal(wifTestnetUncompressed)
     })
   })
 
-  describe('#toString', function () {
-    it('should parse this uncompressed livenet address correctly', function () {
+  describe('#toString', () => {
+    it('should parse this uncompressed livenet address correctly', () => {
       const privkey = PrivateKey.fromString(wifLivenetUncompressed)
       privkey
         .toString()
@@ -395,8 +381,8 @@ describe('PrivateKey', function () {
     })
   })
 
-  describe('#toPublicKey', function () {
-    it('should convert this known PrivateKey to known PublicKey', function () {
+  describe('#toPublicKey', () => {
+    it('should convert this known PrivateKey to known PublicKey', () => {
       const privhex = '906977a061af29276e40bf377042ffbde414e496ae2260bbf1fa9d085637bfff'
       const pubhex = '02a1633cafcc01ebfb6d78e39f687a1f0995c62fc95f51ead10a02ee0be551b5dc'
       const privkey = new PrivateKey(new BN(Buffer.from(privhex, 'hex')))
@@ -404,21 +390,21 @@ describe('PrivateKey', function () {
       pubkey.toString().should.equal(pubhex)
     })
 
-    it('should have a "publicKey" property', function () {
+    it('should have a "publicKey" property', () => {
       const privhex = '906977a061af29276e40bf377042ffbde414e496ae2260bbf1fa9d085637bfff'
       const pubhex = '02a1633cafcc01ebfb6d78e39f687a1f0995c62fc95f51ead10a02ee0be551b5dc'
       const privkey = new PrivateKey(new BN(Buffer.from(privhex, 'hex')))
       privkey.publicKey.toString().should.equal(pubhex)
     })
 
-    it('should convert this known PrivateKey to known PublicKey and preserve compressed=true', function () {
+    it('should convert this known PrivateKey to known PublicKey and preserve compressed=true', () => {
       const privwif = 'L3T1s1TYP9oyhHpXgkyLoJFGniEgkv2Jhi138d7R2yJ9F4QdDU2m'
       const privkey = new PrivateKey(privwif, 'livenet')
       const pubkey = privkey.toPublicKey()
       pubkey.compressed.should.equal(true)
     })
 
-    it('should convert this known PrivateKey to known PublicKey and preserve compressed=false', function () {
+    it('should convert this known PrivateKey to known PublicKey and preserve compressed=false', () => {
       const privwif = '92jJzK4tbURm1C7udQXxeCBvXHoHJstDXRxAMouPG1k1XUaXdsu'
       const privkey = new PrivateKey(privwif, 'testnet')
       const pubkey = privkey.toPublicKey()
@@ -426,12 +412,12 @@ describe('PrivateKey', function () {
     })
   })
 
-  it('creates an address as expected from WIF, livenet', function () {
+  it('creates an address as expected from WIF, livenet', () => {
     const privkey = new PrivateKey('5J2NYGstJg7aJQEqNwYp4enG5BSfFdKXVTtBLvHicnRGD5kjxi6')
     privkey.publicKey.toAddress().toString().should.equal('135bwugFCmhmNU3SeCsJeTqvo5ViymgwZ9')
   })
 
-  it('creates an address as expected from WIF, testnet', function () {
+  it('creates an address as expected from WIF, testnet', () => {
     const privkey = new PrivateKey('92VYMmwFLXRwXn5688edGxYYgMFsc3fUXYhGp17WocQhU6zG1kd')
     privkey.publicKey.toAddress().toString().should.equal('moiAvLUw16qgrwhFGo1eDnXHC2wPMYiv7Y')
   })

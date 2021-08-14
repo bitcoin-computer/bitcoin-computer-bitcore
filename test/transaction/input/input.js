@@ -11,7 +11,7 @@ const { Script } = Bitcoin
 const { Networks } = Bitcoin
 const { Input } = Bitcoin.Transaction
 
-describe('Transaction.Input', function () {
+describe('Transaction.Input', () => {
   const privateKey = new PrivateKey('KwF9LjRraetZuEjR8VqEq539z137LW5anYDUnVK11vM3mNMHTWb4')
   const { publicKey } = privateKey
   const address = new Address(publicKey, Networks.livenet)
@@ -35,37 +35,35 @@ describe('Transaction.Input', function () {
     script: '',
   })
 
-  it('has abstract methods: "isFullySigned", "addSignature"', function () {
+  it('has abstract methods: "isFullySigned", "addSignature"', () => {
     const input = new Input(output)
-    _.each(['isFullySigned', 'addSignature'], function (
+    _.each(['isFullySigned', 'addSignature'], (
       method
-    ) {
-      expect(function () {
-        return input[method]()
-      }).to.throw(errors.AbstractMethodInvoked)
+    ) => {
+      expect(() => input[method]()).to.throw(errors.AbstractMethodInvoked)
     })
   })
-  it('detects coinbase transactions', function () {
+  it('detects coinbase transactions', () => {
     new Input(output).isNull().should.equal(false)
     const ci = new Input(coinbase)
     ci.isNull().should.equal(true)
   })
 
-  describe('instantiation', function () {
-    it('fails with no script info', function () {
-      expect(function () {
+  describe('instantiation', () => {
+    it('fails with no script info', () => {
+      expect(() => {
         const input = new Input({})
         input.toString()
       }).to.throw('Need a script to create an input')
     })
-    it('fromObject should work', function () {
+    it('fromObject should work', () => {
       const jsonData = JSON.parse(coinbaseJSON)
       const input = Input.fromObject(jsonData)
       should.exist(input)
       input.prevTxId.toString('hex').should.equal(jsonData.prevTxId)
       input.outputIndex.should.equal(jsonData.outputIndex)
     })
-    it('fromObject should work', function () {
+    it('fromObject should work', () => {
       const input = Input.fromObject(JSON.parse(coinbaseJSON))
       const obj = input.toObject()
       Input.fromObject(obj).should.deep.equal(input)
@@ -74,7 +72,7 @@ describe('Transaction.Input', function () {
     })
   })
 
-  it('_estimateSize returns correct size', function () {
+  it('_estimateSize returns correct size', () => {
     const input = new Input(output)
     input._estimateSize().should.equal(66)
   })

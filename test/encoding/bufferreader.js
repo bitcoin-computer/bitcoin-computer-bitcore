@@ -6,29 +6,29 @@ const { BufferWriter } = Bitcoin.encoding
 const { BufferReader } = Bitcoin.encoding
 const { BN } = Bitcoin.crypto
 
-describe('BufferReader', function () {
-  it('should make a new BufferReader', function () {
+describe('BufferReader', () => {
+  it('should make a new BufferReader', () => {
     let br = new BufferReader()
     should.exist(br)
     br = BufferReader()
     should.exist(br)
   })
 
-  it('should create a new bufferreader with a buffer', function () {
+  it('should create a new bufferreader with a buffer', () => {
     const buf = Buffer.alloc(0)
     const br = new BufferReader(buf)
     should.exist(br)
     Buffer.isBuffer(br.buf).should.equal(true)
   })
-  it('should fail for invalid object', function () {
+  it('should fail for invalid object', () => {
     const fail = function () {
       return new BufferReader(5)
     }
     fail.should.throw('Unrecognized argument for BufferReader')
   })
 
-  describe('#set', function () {
-    it('should set pos', function () {
+  describe('#set', () => {
+    it('should set pos', () => {
       should.exist(
         BufferReader().set({
           pos: 1,
@@ -37,21 +37,21 @@ describe('BufferReader', function () {
     })
   })
 
-  describe('#eof', function () {
-    it('should return true for a blank br', function () {
+  describe('#eof', () => {
+    it('should return true for a blank br', () => {
       const br = new BufferReader(Buffer.from([]))
       br.finished().should.equal(true)
     })
   })
 
-  describe('read', function () {
-    it('should return the same buffer', function () {
+  describe('read', () => {
+    it('should return the same buffer', () => {
       const buf = Buffer.from([0])
       const br = new BufferReader(buf)
       br.readAll().toString('hex').should.equal(buf.toString('hex'))
     })
 
-    it('should return a buffer of this length', function () {
+    it('should return a buffer of this length', () => {
       const buf = Buffer.alloc(10)
       buf.fill(0)
       const br = new BufferReader(buf)
@@ -61,7 +61,7 @@ describe('BufferReader', function () {
       br.pos.should.equal(2)
     })
 
-    it('should work with 0 length', function () {
+    it('should work with 0 length', () => {
       const buf = Buffer.alloc(10)
       buf.fill(1)
       const br = new BufferReader(buf)
@@ -72,8 +72,8 @@ describe('BufferReader', function () {
     })
   })
 
-  describe('readVarLengthBuffer', function () {
-    it('returns correct buffer', function () {
+  describe('readVarLengthBuffer', () => {
+    it('returns correct buffer', () => {
       const buf = Buffer.from(
         '73010000003766404f00000000b305434f00000000f203' +
           '0000f1030000001027000048ee00000064000000004653656520626974636f696' +
@@ -99,15 +99,15 @@ describe('BufferReader', function () {
           '6b684bde2b3f573060d5b70c3a46723326e4e8a4f1'
       )
     })
-    it('fails on length too big', function () {
+    it('fails on length too big', () => {
       const buf = Buffer.from('0a00', 'hex')
       const br = new BufferReader(buf)
       br.readVarLengthBuffer.bind(br).should.throw('Invalid length while reading varlength buffer')
     })
   })
 
-  describe('#readUInt8', function () {
-    it('should return 1', function () {
+  describe('#readUInt8', () => {
+    it('should return 1', () => {
       const buf = Buffer.alloc(1)
       buf.writeUInt8(1, 0)
       const br = new BufferReader(buf)
@@ -115,8 +115,8 @@ describe('BufferReader', function () {
     })
   })
 
-  describe('#readUInt16BE', function () {
-    it('should return 1', function () {
+  describe('#readUInt16BE', () => {
+    it('should return 1', () => {
       const buf = Buffer.alloc(2)
       buf.writeUInt16BE(1, 0)
       const br = new BufferReader(buf)
@@ -124,8 +124,8 @@ describe('BufferReader', function () {
     })
   })
 
-  describe('#readUInt16LE', function () {
-    it('should return 1', function () {
+  describe('#readUInt16LE', () => {
+    it('should return 1', () => {
       const buf = Buffer.alloc(2)
       buf.writeUInt16LE(1, 0)
       const br = new BufferReader(buf)
@@ -133,8 +133,8 @@ describe('BufferReader', function () {
     })
   })
 
-  describe('#readUInt32BE', function () {
-    it('should return 1', function () {
+  describe('#readUInt32BE', () => {
+    it('should return 1', () => {
       const buf = Buffer.alloc(4)
       buf.writeUInt32BE(1, 0)
       const br = new BufferReader(buf)
@@ -142,8 +142,8 @@ describe('BufferReader', function () {
     })
   })
 
-  describe('#readUInt32LE', function () {
-    it('should return 1', function () {
+  describe('#readUInt32LE', () => {
+    it('should return 1', () => {
       const buf = Buffer.alloc(4)
       buf.writeUInt32LE(1, 0)
       const br = new BufferReader(buf)
@@ -151,8 +151,8 @@ describe('BufferReader', function () {
     })
   })
 
-  describe('#readUInt64BEBN', function () {
-    it('should return 1', function () {
+  describe('#readUInt64BEBN', () => {
+    it('should return 1', () => {
       const buf = Buffer.alloc(8)
       buf.fill(0)
       buf.writeUInt32BE(1, 4)
@@ -160,7 +160,7 @@ describe('BufferReader', function () {
       br.readUInt64BEBN().toNumber().should.equal(1)
     })
 
-    it('should return 2^64', function () {
+    it('should return 2^64', () => {
       const buf = Buffer.alloc(8)
       buf.fill(0xff)
       const br = new BufferReader(buf)
@@ -170,8 +170,8 @@ describe('BufferReader', function () {
     })
   })
 
-  describe('#readUInt64LEBN', function () {
-    it('should return 1', function () {
+  describe('#readUInt64LEBN', () => {
+    it('should return 1', () => {
       const buf = Buffer.alloc(8)
       buf.fill(0)
       buf.writeUInt32LE(1, 0)
@@ -179,14 +179,14 @@ describe('BufferReader', function () {
       br.readUInt64LEBN().toNumber().should.equal(1)
     })
 
-    it('should return 10BTC', function () {
+    it('should return 10BTC', () => {
       const tenbtc = 10 * 1e8
       const tenbtcBuffer = Buffer.from('00ca9a3b00000000', 'hex')
       const br = new BufferReader(tenbtcBuffer)
       br.readUInt64LEBN().toNumber().should.equal(tenbtc)
     })
 
-    it('should return 2^30', function () {
+    it('should return 2^30', () => {
       const buf = Buffer.alloc(8)
       buf.fill(0)
       buf.writeUInt32LE(2 ** 30, 0)
@@ -196,28 +196,28 @@ describe('BufferReader', function () {
         .should.equal(2 ** 30)
     })
 
-    it('should return 2^32 + 1', function () {
+    it('should return 2^32 + 1', () => {
       const num = 2 ** 32 + 1
       const numBuffer = Buffer.from('0100000001000000', 'hex')
       const br = new BufferReader(numBuffer)
       br.readUInt64LEBN().toNumber().should.equal(num)
     })
 
-    it('should return max number of satoshis', function () {
+    it('should return max number of satoshis', () => {
       const maxSatoshis = 21000000 * 1e8
       const maxSatoshisBuffer = Buffer.from('0040075af0750700', 'hex')
       const br = new BufferReader(maxSatoshisBuffer)
       br.readUInt64LEBN().toNumber().should.equal(maxSatoshis)
     })
 
-    it('should return 2^53 - 1', function () {
+    it('should return 2^53 - 1', () => {
       const maxSafe = 2 ** 53 - 1
       const maxSafeBuffer = Buffer.from('ffffffffffff1f00', 'hex')
       const br = new BufferReader(maxSafeBuffer)
       br.readUInt64LEBN().toNumber().should.equal(maxSafe)
     })
 
-    it('should return 2^53', function () {
+    it('should return 2^53', () => {
       const bn = new BN('20000000000000', 16)
       const bnBuffer = Buffer.from('0000000000002000', 'hex')
       const br = new BufferReader(bnBuffer)
@@ -225,14 +225,14 @@ describe('BufferReader', function () {
       readbn.cmp(bn).should.equal(0)
     })
 
-    it('should return 0', function () {
+    it('should return 0', () => {
       const buf = Buffer.alloc(8)
       buf.fill(0)
       const br = new BufferReader(buf)
       br.readUInt64LEBN().toNumber().should.equal(0)
     })
 
-    it('should return 2^64', function () {
+    it('should return 2^64', () => {
       const buf = Buffer.alloc(8)
       buf.fill(0xff)
       const br = new BufferReader(buf)
@@ -242,27 +242,27 @@ describe('BufferReader', function () {
     })
   })
 
-  describe('#readVarintBuf', function () {
-    it('should read a 1 byte varint', function () {
+  describe('#readVarintBuf', () => {
+    it('should read a 1 byte varint', () => {
       const buf = Buffer.from([50])
       const br = new BufferReader(buf)
       br.readVarintBuf().length.should.equal(1)
     })
 
-    it('should read a 3 byte varint', function () {
+    it('should read a 3 byte varint', () => {
       const buf = Buffer.from([253, 253, 0])
       const br = new BufferReader(buf)
       br.readVarintBuf().length.should.equal(3)
     })
 
-    it('should read a 5 byte varint', function () {
+    it('should read a 5 byte varint', () => {
       const buf = Buffer.from([254, 0, 0, 0, 0])
       buf.writeUInt32LE(50000, 1)
       const br = new BufferReader(buf)
       br.readVarintBuf().length.should.equal(5)
     })
 
-    it('should read a 9 byte varint', function () {
+    it('should read a 9 byte varint', () => {
       const buf = BufferWriter()
         .writeVarintBN(new BN((2 ** 54).toString()))
         .concat()
@@ -271,27 +271,27 @@ describe('BufferReader', function () {
     })
   })
 
-  describe('#readVarintNum', function () {
-    it('should read a 1 byte varint', function () {
+  describe('#readVarintNum', () => {
+    it('should read a 1 byte varint', () => {
       const buf = Buffer.from([50])
       const br = new BufferReader(buf)
       br.readVarintNum().should.equal(50)
     })
 
-    it('should read a 3 byte varint', function () {
+    it('should read a 3 byte varint', () => {
       const buf = Buffer.from([253, 253, 0])
       const br = new BufferReader(buf)
       br.readVarintNum().should.equal(253)
     })
 
-    it('should read a 5 byte varint', function () {
+    it('should read a 5 byte varint', () => {
       const buf = Buffer.from([254, 0, 0, 0, 0])
       buf.writeUInt32LE(50000, 1)
       const br = new BufferReader(buf)
       br.readVarintNum().should.equal(50000)
     })
 
-    it('should throw an error on a 9 byte varint over the javascript uint precision limit', function () {
+    it('should throw an error on a 9 byte varint over the javascript uint precision limit', () => {
       const buf = BufferWriter()
         .writeVarintBN(new BN((2 ** 54).toString()))
         .concat()
@@ -301,7 +301,7 @@ describe('BufferReader', function () {
       }.should.throw('number too large to retain precision - use readVarintBN'))
     })
 
-    it('should not throw an error on a 9 byte varint not over the javascript uint precision limit', function () {
+    it('should not throw an error on a 9 byte varint not over the javascript uint precision limit', () => {
       const buf = BufferWriter()
         .writeVarintBN(new BN((2 ** 53).toString()))
         .concat()
@@ -312,27 +312,27 @@ describe('BufferReader', function () {
     })
   })
 
-  describe('#readVarintBN', function () {
-    it('should read a 1 byte varint', function () {
+  describe('#readVarintBN', () => {
+    it('should read a 1 byte varint', () => {
       const buf = Buffer.from([50])
       const br = new BufferReader(buf)
       br.readVarintBN().toNumber().should.equal(50)
     })
 
-    it('should read a 3 byte varint', function () {
+    it('should read a 3 byte varint', () => {
       const buf = Buffer.from([253, 253, 0])
       const br = new BufferReader(buf)
       br.readVarintBN().toNumber().should.equal(253)
     })
 
-    it('should read a 5 byte varint', function () {
+    it('should read a 5 byte varint', () => {
       const buf = Buffer.from([254, 0, 0, 0, 0])
       buf.writeUInt32LE(50000, 1)
       const br = new BufferReader(buf)
       br.readVarintBN().toNumber().should.equal(50000)
     })
 
-    it('should read a 9 byte varint', function () {
+    it('should read a 9 byte varint', () => {
       const buf = Buffer.concat([Buffer.from([255]), Buffer.from('ffffffffffffffff', 'hex')])
       const br = new BufferReader(buf)
       br.readVarintBN()
@@ -341,8 +341,8 @@ describe('BufferReader', function () {
     })
   })
 
-  describe('#reverse', function () {
-    it('should reverse this [0, 1]', function () {
+  describe('#reverse', () => {
+    it('should reverse this [0, 1]', () => {
       const buf = Buffer.from([0, 1])
       const br = new BufferReader(buf)
       br.reverse().readAll().toString('hex').should.equal('0100')
