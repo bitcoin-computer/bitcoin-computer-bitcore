@@ -1,6 +1,6 @@
 {
   "name": "bitcoinsource",
-  "version": "0.1.19",
+  "version": "0.1.20",
   "description": "A simple, safe, and powerful JavaScript Bitcoin Cash library.",
   "author": "Clemens Ley <ley.clemens@gmail.com>",
   "license": "MIT",
