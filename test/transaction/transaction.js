@@ -749,7 +749,7 @@ describe('Transaction', () => {
           [],
           1
         )
-      }).to.throw('Number of signatures must be greater than the number of public keys')
+      }).to.throw('Number of required signatures must be greater than the number of public keys')
     })
     it('will add an empty script if not supplied', () => {
       transaction = new Transaction()

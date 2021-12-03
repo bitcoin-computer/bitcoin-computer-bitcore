@@ -466,62 +466,76 @@ class Transaction {
    *                  ['03000...', '02000...'], 2);
    * ```
    *
-   * @param {(Array.<Transaction~fromObject>|Transaction~fromObject)} txs
+   * @param {(Array.<Transaction~fromObject>|Transaction~fromObject)} utxo
    * @param {Array=} pubkeys
    * @param {number=} threshold
+   * @param {boolean=} nestedWitness - Indicates that the utxo is nested witness p2sh
    */
-  from(txs, pubkeys, threshold) {
-    if (Array.isArray(txs)) {
-      txs.forEach((tx) => this.from(tx, pubkeys, threshold))
+  from(utxo, pubkeys, threshold) {
+    if (Array.isArray(utxo)) {
+      utxo.forEach((tx) => this.from(tx, pubkeys, threshold))
       return this
     }
     // TODO: Maybe prevTxId should be a string? Or defined as read only property?
     // Check if the utxo has already been added as an input
-    const utxoExists = this.inputs.some(
+    const exists = this.inputs.some(
       (input) =>
-        input.prevTxId.toString('hex') === txs.txId && input.outputIndex === txs.outputIndex
+        input.prevTxId.toString('hex') === utxo.txId && input.outputIndex === utxo.outputIndex
     )
-    let Clazz
-    const utxo = new UnspentOutput(txs)
-    if (utxoExists) {
+    if (exists) {
       return this
       // P2SH case
     }
     if (pubkeys && threshold) {
-      $.checkArgument(
-        threshold <= pubkeys.length,
-        'Number of signatures must be greater than the number of public keys'
-      )
-      if (utxo.script.isMultisigOut()) {
-        Clazz = MultiSigInput
-      } else if (utxo.script.isScriptHashOut()) {
-        Clazz = MultiSigScriptHashInput
-      } else {
-        Clazz = MultiSigInput
-      }
-      // non P2SH case
-    } else if (utxo.script.isPublicKeyHashOut()) {
+      this._fromMultisigUtxo(utxo, pubkeys, threshold);
+    } else {
+      this._fromNonP2SH(utxo);
+    }
+    return this
+  }
+
+  _fromNonP2SH = function(utxo) {
+    let Clazz
+    utxo = new UnspentOutput(utxo)
+    if (utxo.script.isPublicKeyHashOut()) {
       Clazz = PublicKeyHashInput
     } else if (utxo.script.isPublicKeyOut()) {
       Clazz = PublicKeyInput
     } else {
       Clazz = Input
     }
-    const input = new Clazz(
-      {
-        output: new Output({
-          script: utxo.script,
-          satoshis: utxo.satoshis,
-        }),
-        prevTxId: utxo.txId,
-        outputIndex: utxo.outputIndex,
-        script: Script.empty(),
-      },
-      pubkeys,
-      threshold
-    )
-    this.addInput(input)
-    return this
+    this.addInput(new Clazz({
+      output: new Output({
+        script: utxo.script,
+        satoshis: utxo.satoshis
+      }),
+      prevTxId: utxo.txId,
+      outputIndex: utxo.outputIndex,
+      script: Script.empty()
+    }))
+  }
+
+  _fromMultisigUtxo = function(utxo, pubkeys, threshold, nestedWitness) {
+    $.checkArgument(threshold <= pubkeys.length,
+      'Number of required signatures must be greater than the number of public keys')
+    let Clazz;
+    utxo = new UnspentOutput(utxo)
+    if (utxo.script.isMultisigOut()) {
+      Clazz = MultiSigInput
+    } else if (utxo.script.isScriptHashOut()) {
+      Clazz = MultiSigScriptHashInput
+    } else {
+      throw new Error("@TODO")
+    }
+    this.addInput(new Clazz({
+      output: new Output({
+        script: utxo.script,
+        satoshis: utxo.satoshis
+      }),
+      prevTxId: utxo.txId,
+      outputIndex: utxo.outputIndex,
+      script: Script.empty()
+    }, pubkeys, threshold, false, nestedWitness))
   }
 
   /**
