@@ -14,7 +14,7 @@
     "test": "mocha --recursive --timeout 7000 --require @babel/register",
     "test:cover": "nyc mocha",
     "lint": "eslint src test",
-    "lint:fix": "eslint src test --fix",
+    "lint-fix": "eslint src test --fix",
     "flow": "flow check",
     "clean": "rm -rf dist",
     "docs": "mustache package.json README.tpl.md > README.md",
