@@ -1,5 +1,6 @@
 import chai from 'chai'
 import Bitcoin from '../bitcoin'
+import bitcore from '../../src/index'
 
 const should = chai.should()
 const { expect } = chai
@@ -889,6 +890,16 @@ describe('Script', () => {
         it(`should create ${m}-of-${n}`, testMn.bind(null, m, n))
       }
     }
+  })
+  describe('#buildWitnessMultisigOutFromScript', () => {
+    it('it will build nested witness scriptSig', () => {
+      const redeemScript = new Script();
+      const redeemHash = bitcore.crypto.Hash.sha256(redeemScript.toBuffer());
+      const s = Script.buildWitnessMultisigOutFromScript(redeemScript);
+      const buf = s.toBuffer();
+      buf[0].should.equal(0);
+      buf.slice(2, 34).toString('hex').should.equal(redeemHash.toString('hex'));
+    })
   })
   describe('#buildPublicKeyHashOut', () => {
     it('should create script from livenet address', () => {
