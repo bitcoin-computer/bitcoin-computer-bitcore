@@ -9,15 +9,28 @@ import Signature from '../../crypto/signature'
 import TransactionSignature from '../signature'
 
 class MultiSigScriptHashInput extends Input {
-  constructor(input, pubkeys, threshold, signatures, redeemScript) {
-    super(input, pubkeys, threshold, signatures, redeemScript)
+  constructor(input, pubkeys, threshold, signatures, redeemScript, nestedWitness, opts) {
+    super(input, pubkeys, threshold, signatures, redeemScript, nestedWitness, opts)
 
     const self = this
+    opts = opts || {};
     pubkeys = pubkeys || input.publicKeys
     this.threshold = threshold || input.threshold
     signatures = signatures || input.signatures
-    this.publicKeys = _.sortBy(pubkeys, (publicKey) => publicKey.toString('hex'))
+    this.nestedWitness = !!nestedWitness
+    if (opts.noSorting) {
+      this.publicKeys = pubkeys
+    } else  {
+      this.publicKeys = _.sortBy(pubkeys, (publicKey) => publicKey.toString('hex'))
+    }
     this.redeemScript = redeemScript || Script.buildMultisigOut(this.publicKeys, this.threshold)
+
+    if (this.nestedWitness) {
+      const nested = Script.buildWitnessMultisigOutFromScript(this.redeemScript)
+      $.checkState(Script.buildScriptHashOut(nested).equals(this.output.script),
+        'Provided public keys don\'t hash to the provided output (nested witness)')
+      this.setScript(nested)
+    }
     // $.checkState(
     //   Script.buildScriptHashOut(this.redeemScript).equals(this.output.script),
     //   'RedeemScript does not hash to the provided output'
@@ -91,11 +104,14 @@ class MultiSigScriptHashInput extends Input {
   }
 
   _updateScript() {
-    this.setScript(
-      Script.buildP2SHMultisigIn(this.publicKeys, this.threshold, this._createSignatures(), {
-        cachedMultisig: this.redeemScript,
-      })
-    )
+    const scriptSig = Script.buildP2SHMultisigIn(this.publicKeys, this.threshold, this._createSignatures(), {
+      cachedMultisig: this.redeemScript,
+    })
+    if (this.nestedWitness) {
+      this.setWitnesses([scriptSig.toBuffer()])
+    } else {
+      this.setScript(scriptSig)
+    }
     return this
   }
 

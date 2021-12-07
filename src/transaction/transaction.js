@@ -64,6 +64,10 @@ class Transaction {
     return new BufferReader(this._getHash()).readReverse().toString('hex')
   }
 
+  get witnessHash() {
+    return new BufferReader(this._getWitnessHash()).readReverse().toString('hex');
+  }
+
   get id() {
     return new BufferReader(this._getHash()).readReverse().toString('hex')
   }
@@ -81,7 +85,15 @@ class Transaction {
    * @return {Buffer}
    */
   _getHash() {
-    return Hash.sha256sha256(this.toBuffer())
+    return Hash.sha256sha256(this.toBuffer(true))
+  }
+
+  /**
+   * Retrieve the little endian hash of the transaction including witness data
+   * @return {Buffer}
+   */
+  _getWitnessHash () {
+    return Hash.sha256sha256(this.toBuffer(false))
   }
 
   /**
@@ -222,17 +234,44 @@ class Transaction {
     return `<Transaction: ${this.uncheckedSerialize()}>`
   }
 
-  toBuffer() {
+  toBuffer(noWitness) {
     const writer = new BufferWriter()
-    return this.toBufferWriter(writer).toBuffer()
+    return this.toBufferWriter(writer, noWitness).toBuffer()
   }
 
-  toBufferWriter(writer) {
+  hasWitnesses() {
+    let i
+    for (i = 0; i < this.inputs.length; i++) {
+      if (this.inputs[i].hasWitnesses()) {
+        return true;
+      }
+    }
+    return false;
+  }
+
+  toBufferWriter(writer, noWitness) {
     writer.writeInt32LE(this.version)
+
+    const hasWitnesses = this.hasWitnesses()
+
+    if (hasWitnesses && !noWitness) {
+      writer.write(Buffer.from('0001', 'hex'))
+    }
     writer.writeVarintNum(this.inputs.length)
     this.inputs.forEach((input) => input.toBufferWriter(writer))
     writer.writeVarintNum(this.outputs.length)
     this.outputs.forEach((output) => output.toBufferWriter(writer))
+
+    if (hasWitnesses && !noWitness) {
+      this.inputs.forEach((input) => {
+        const witnesses = input.getWitnesses()
+        writer.writeVarintNum(witnesses.length)
+        for (let j = 0; j < witnesses.length; j++) {
+          writer.writeVarintNum(witnesses[j].length)
+          writer.write(witnesses[j])
+        }
+      })
+    }
     writer.writeUInt32LE(this.nLockTime)
     return writer
   }
@@ -250,7 +289,16 @@ class Transaction {
     let i
 
     this.version = reader.readInt32LE()
-    const sizeTxIns = reader.readVarintNum()
+    let sizeTxIns = reader.readVarintNum()
+
+    // check for segwit
+    let hasWitnesses = false;
+    if (sizeTxIns === 0 && reader.buf[reader.pos] !== 0) {
+      reader.pos += 1;
+      hasWitnesses = true;
+      sizeTxIns = reader.readVarintNum();
+    }
+
     for (i = 0; i < sizeTxIns; i += 1) {
       const input = Input.fromBufferReader(reader)
       this.inputs.push(input)
@@ -259,6 +307,21 @@ class Transaction {
     for (i = 0; i < sizeTxOuts; i += 1) {
       this.outputs.push(Output.fromBufferReader(reader))
     }
+
+    if (hasWitnesses) {
+      let k
+      for (k = 0; k < sizeTxIns; k++) {
+        const itemCount = reader.readVarintNum();
+        const witnesses = [];
+        for (let l = 0; l < itemCount; l++) {
+          const size = reader.readVarintNum();
+          const item = reader.read(size);
+          witnesses.push(item);
+        }
+        this.inputs[k].setWitnesses(witnesses);
+      }
+    }
+
     this.nLockTime = reader.readUInt32LE()
     return this
   }
@@ -470,8 +533,11 @@ class Transaction {
    * @param {Array=} pubkeys
    * @param {number=} threshold
    * @param {boolean=} nestedWitness - Indicates that the utxo is nested witness p2sh
+   * @param {Object=} opts - Several options:
+   * - noSorting: defaults to false, if true and is multisig, don't
+   *   sort the given public keys before creating the script
    */
-  from(utxo, pubkeys, threshold) {
+  from(utxo, pubkeys, threshold, nestedWitness, opts) {
     if (Array.isArray(utxo)) {
       utxo.forEach((tx) => this.from(tx, pubkeys, threshold))
       return this
@@ -487,14 +553,14 @@ class Transaction {
       // P2SH case
     }
     if (pubkeys && threshold) {
-      this._fromMultisigUtxo(utxo, pubkeys, threshold);
+      this._fromMultisigUtxo(utxo, pubkeys, threshold, nestedWitness, opts);
     } else {
       this._fromNonP2SH(utxo);
     }
     return this
   }
 
-  _fromNonP2SH = function(utxo) {
+  _fromNonP2SH(utxo) {
     let Clazz
     utxo = new UnspentOutput(utxo)
     if (utxo.script.isPublicKeyHashOut()) {
@@ -515,7 +581,7 @@ class Transaction {
     }))
   }
 
-  _fromMultisigUtxo = function(utxo, pubkeys, threshold, nestedWitness) {
+  _fromMultisigUtxo(utxo, pubkeys, threshold, nestedWitness, opts) {
     $.checkArgument(threshold <= pubkeys.length,
       'Number of required signatures must be greater than the number of public keys')
     let Clazz;
@@ -535,7 +601,7 @@ class Transaction {
       prevTxId: utxo.txId,
       outputIndex: utxo.outputIndex,
       script: Script.empty()
-    }, pubkeys, threshold, false, nestedWitness))
+    }, pubkeys, threshold, false, nestedWitness, opts))
   }
 
   /**
