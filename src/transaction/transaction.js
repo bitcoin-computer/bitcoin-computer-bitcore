@@ -240,8 +240,7 @@ class Transaction {
   }
 
   hasWitnesses() {
-    let i
-    for (i = 0; i < this.inputs.length; i++) {
+    for (let i = 0; i < this.inputs.length; i++) {
       if (this.inputs[i].hasWitnesses()) {
         return true;
       }
@@ -309,8 +308,7 @@ class Transaction {
     }
 
     if (hasWitnesses) {
-      let k
-      for (k = 0; k < sizeTxIns; k++) {
+      for (let k = 0; k < sizeTxIns; k++) {
         const itemCount = reader.readVarintNum();
         const witnesses = [];
         for (let l = 0; l < itemCount; l++) {
