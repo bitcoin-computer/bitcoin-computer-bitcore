@@ -584,12 +584,9 @@ class Transaction {
       'Number of required signatures must be greater than the number of public keys')
     let Clazz;
     utxo = new UnspentOutput(utxo)
-    if (utxo.script.isMultisigOut()) {
-      Clazz = MultiSigInput
-    } else if (utxo.script.isScriptHashOut()) {
+    Clazz = MultiSigInput
+    if (utxo.script.isScriptHashOut()) {
       Clazz = MultiSigScriptHashInput
-    } else {
-      throw new Error("@TODO")
     }
     this.addInput(new Clazz({
       output: new Output({
