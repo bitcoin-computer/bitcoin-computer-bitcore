@@ -255,12 +255,16 @@ class Address {
    * @param {Array} publicKeys - a set of public keys to create an address
    * @param {number} threshold - the number of signatures needed to release the funds
    * @param {String|Network} network - either a Network instance, 'livenet', or 'testnet'
+   * @param {boolean=} nestedWitness - if the address uses a nested p2sh witness
    * @return {Address}
    */
-  static createMultisig(publicKeys, threshold, network) {
+  static createMultisig(publicKeys, threshold, network, nestedWitness) {
     network = network || publicKeys[0].network || Networks.defaultNetwork
-    // eslint-disable-next-line no-use-before-define
-    return Address.payingTo(Script.buildMultisigOut(publicKeys, threshold), network)
+    const redeemScript = Script.buildMultisigOut(publicKeys, threshold);
+    if (nestedWitness) {
+      return Address.payingTo(Script.buildWitnessMultisigOutFromScript(redeemScript), network);
+    }
+    return Address.payingTo(redeemScript, network);
   }
 
   /**

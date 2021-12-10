@@ -46,8 +46,9 @@ class Input {
     this.prevTxId =
       typeof params.prevTxId === 'string' && JSUtil.isHexa(params.prevTxId)
         ? Buffer.from(params.prevTxId, 'hex')
-        : params.prevTxId
+        : params.prevTxId || params.txidbuf
 
+    this.witnesses = []
     if (params.output) {
       this.output = params.output instanceof Output ? params.output : new Output(params.output)
     }
@@ -60,6 +61,10 @@ class Input {
       this.sequenceNumber = params.seqnum
     } else {
       this.sequenceNumber = DEFAULT_SEQNUMBER
+    }
+
+    if (params.script === undefined && params.scriptBuffer === undefined) {
+      throw new errors.Transaction.Input.MissingScript();
     }
 
     this.setScript(params.scriptBuffer || params.script)
@@ -162,6 +167,21 @@ class Input {
   clearSignatures() {
     this.setScript(Script.empty())
     return this
+  }
+
+  hasWitnesses() {
+    if (this.witnesses && this.witnesses.length > 0) {
+      return true
+    }
+    return false
+  }
+
+  getWitnesses() {
+    return this.witnesses
+  }
+
+  setWitnesses(witnesses) {
+    this.witnesses = witnesses
   }
 
   isValidSignature(transaction, signature) {

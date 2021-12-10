@@ -9,13 +9,18 @@ import Signature from '../../crypto/signature'
 import TransactionSignature from '../signature'
 
 class MultiSigInput extends Input {
-  constructor(input, pubkeys, threshold, signatures) {
+  constructor(input, pubkeys, threshold, signatures, opts) {
     super(input, pubkeys, threshold, signatures)
 
+    opts = opts || {};
     pubkeys = pubkeys || input.publicKeys
     this.threshold = threshold || input.threshold
     signatures = signatures || input.signatures
-    this.publicKeys = _.sortBy(pubkeys, (publicKey) => publicKey.toString('hex'))
+    if (opts.noSorting) {
+      this.publicKeys = pubkeys
+    } else  {
+      this.publicKeys = _.sortBy(pubkeys, (publicKey) => publicKey.toString('hex'))
+    }
     // $.checkState(
     //   Script.buildMultisigOut(this.publicKeys, this.threshold).equals(this.output.script),
     //   "Provided public keys don't match to the provided output script"
