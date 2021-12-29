@@ -1,5 +1,5 @@
 {
-  "name": "bc-source",
+  "name": "bc-bitcore",
   "version": "0.1.20",
   "description": "A simple, safe, and powerful JavaScript Bitcoin Cash library.",
   "author": "Clemens Ley <ley.clemens@gmail.com>",
