@@ -130,4 +130,4 @@ Bitcoin.deps.Buffer = Buffer
 Bitcoin.deps.elliptic = elliptic
 Bitcoin.deps._ = _
 
-export default Bitcoin
+export Bitcoin

@@ -1,4 +1,4 @@
-# BitcoinSource Examples
+# Bitcoin Computer Bitcore Examples
 
 ## Generate a random address
 

@@ -1,8 +1,8 @@
-# [BitcoinSource](https://github.com/bitcoin-computer/bitcoin-source): A Bitcoin Cash implementation written in modern Javascript
+# Bitcoin Computer Bitcore
 
-## About BitcoinSource
+## About Bitcoin Computer Bitcore
 
-BitcoinSource is a community driven effort to produce a readable, reliable and modern Javascript implementation of Bitcoin. Most current Javascript Bitcoin implementations do not adhere to modern coding standards and are very hard to read as a consequence. We want to create a Bitcoin implementation that every JavaScript programmer can read and understand.
+Bitcoin Computer Bitcore is a community driven effort to produce a readable, reliable and modern Javascript implementation of Bitcoin. Most current Javascript Bitcoin implementations do not adhere to modern coding standards and are very hard to read as a consequence. We want to create a Bitcoin implementation that every JavaScript programmer can read and understand.
 
 In step one, we want to get the entire codebase to comply with the [Airbnb JavaScript Style Guide](https://github.com/airbnb/javascript). Step two will be to port the code base to ES6. Step three will be to statically typecheck the entire codebase with Facebook’s Flow. We suspect we will uncover bugs in the process.
 
@@ -13,12 +13,8 @@ We are looking for contributors. You do not have to be a Bitcoin protocol expert
 ### Using NPM
 
 ```s
-$ npm install --save bitcoin-source
+$ npm install --save bitcoin-computer-bitcore
 ```
-
-### Manually
-
-You can also download a pre-compiled and minified version here: [dist](https://github.com/bitcoin-computer/bitcoin-source/tree/master/dist/bitcoin-source-0.1.18.js)
 
 ## Examples
 
@@ -39,7 +35,7 @@ examples:
 
 ## Security
 
-BitcoinSource is a fork of [bitcore-lib](https://github.com/bitpay/bitcore-lib/), which is used in production at Bitpay Inc. and many other [projects](http://bitcore.io#projects). If you find a security issue, please email [clemens@bitcointoken.com](mailto:clemens@bitcointoken.com).
+Bitcoin Computer Bitcore is a fork of [bitcore-lib](https://github.com/bitpay/bitcore-lib/), which is used in production at Bitpay Inc. and many other [projects](http://bitcore.io#projects). If you find a security issue, please email [clemens@bitcointoken.com](mailto:clemens@bitcointoken.com).
 
 ## Contributing
 
@@ -50,9 +46,9 @@ This is an open-source project, and any form of contribution is welcome. Feel fr
 To get started with development, you should first clone the repository and install any dependencies:
 
 ```s
-$ git clone https://github.com/bitcoin-computer/bitcoin-source
-$ cd BitcoinSource
-$ npm install
+$ git clone https://github.com/bitcoin-computer/bitcoin-computer-bitcore
+$ cd bitcoin-computer-bitcore
+$ yarn install
 ```
 
 Next, you can check everything is installed correctly by running the full test-suite and verifying that all tests are completed successfully.
