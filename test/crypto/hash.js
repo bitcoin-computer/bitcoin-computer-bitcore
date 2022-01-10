@@ -1,5 +1,5 @@
 import chai from 'chai'
-import Bitcoin from '../bitcoin'
+import { Bitcoin } from '../bitcoin'
 
 const { Hash } = Bitcoin.crypto
 chai.should()

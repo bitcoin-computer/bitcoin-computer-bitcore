@@ -3,7 +3,7 @@
 import _ from 'lodash'
 import chai from 'chai'
 import sinon from 'sinon'
-import Bitcoin from './bitcoin'
+import { Bitcoin } from './bitcoin'
 
 const { expect } = chai
 const { Networks } = Bitcoin

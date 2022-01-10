@@ -1,4 +1,4 @@
-import Bitcoin from '../bitcoin'
+import { Bitcoin } from '../bitcoin'
 import vectorsValid from '../data/bitcoind/tx_valid.json'
 import vectorsInvalid from '../data/bitcoind/tx_invalid.json'
 

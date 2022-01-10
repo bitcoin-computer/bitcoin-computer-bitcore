@@ -1,6 +1,6 @@
 import _ from 'lodash'
 import chai from 'chai'
-import Bitcoin from '../bitcoin'
+import { Bitcoin } from '../bitcoin'
 
 const { expect } = chai
 const { UnspentOutput } = Bitcoin.Transaction

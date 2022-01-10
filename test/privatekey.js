@@ -1,5 +1,5 @@
 import chai from 'chai'
-import Bitcoin from './bitcoin'
+import { Bitcoin } from './bitcoin'
 import validbase58 from './data/bitcoind/base58_keys_valid.json'
 import invalidbase58 from './data/bitcoind/base58_keys_invalid.json'
 

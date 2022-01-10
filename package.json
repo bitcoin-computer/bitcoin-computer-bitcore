@@ -1,18 +1,17 @@
 {
   "name": "bitcoin-computer-bitcore",
-  "version": "0.1.22",
-  "description": "A simple, safe, and powerful JavaScript Bitcoin Cash library.",
+  "version": "0.1.23",
+  "description": "A simple, safe, and powerful JavaScript Bitcoin library.",
   "author": "Clemens Ley <ley.clemens@gmail.com>",
   "license": "MIT",
-  "main": "src/index.js",
-  "module": "src/index.js",
-  "type": "module",
+  "main": "dist/bitcoin-computer-bitcore.common.js",
+  "module": "dist/bitcoin-computer-bitcore.esm.js",
   "files": [
     "dist"
   ],
   "scripts": {
     "build": "rollup -c",
-    "test": "mocha --recursive --timeout 7000 --require @babel/register",
+    "test": "mocha --experimental-json-modules --recursive --timeout 7000 --require @babel/register",
     "test:cover": "nyc mocha",
     "lint": "eslint src test",
     "lint-fix": "eslint src test --fix",

@@ -1,5 +1,5 @@
 import fs from 'fs'
-import Bitcoin from './bitcoin'
+import { Bitcoin } from './bitcoin'
 
 describe('Documentation', () => {
   it('major and minor versions should match', () => {
