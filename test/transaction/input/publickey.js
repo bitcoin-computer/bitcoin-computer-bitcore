@@ -1,4 +1,4 @@
-import Bitcoin from '../../bitcoin'
+import { Bitcoin } from '../../bitcoin'
 
 const { Transaction } = Bitcoin
 const { PrivateKey } = Bitcoin

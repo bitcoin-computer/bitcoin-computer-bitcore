@@ -1,5 +1,5 @@
 import chai from 'chai'
-import Bitcoin from '../bitcoin'
+import { Bitcoin } from '../bitcoin'
 import scriptValid from '../data/bitcoind/script_valid.json'
 import scriptInvalid from '../data/bitcoind/script_invalid.json'
 import txValid from '../data/bitcoind/tx_valid.json'

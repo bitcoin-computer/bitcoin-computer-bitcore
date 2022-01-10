@@ -1,6 +1,6 @@
 import _ from 'lodash'
 import chai from 'chai'
-import Bitcoin from '../bitcoin'
+import { Bitcoin } from '../bitcoin'
 import sigCanonical from '../data/bitcoind/sig_canonical.json'
 import sigNonCanonical from '../data/bitcoind/sig_noncanonical.json'
 

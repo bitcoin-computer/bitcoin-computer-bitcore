@@ -1,4 +1,4 @@
-import Bitcoin from '../bitcoin'
+import { Bitcoin } from '../bitcoin'
 import vectorsSighash from '../data/sighash.json'
 
 const { Script } = Bitcoin

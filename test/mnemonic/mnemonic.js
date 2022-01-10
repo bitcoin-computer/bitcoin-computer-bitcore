@@ -1,5 +1,5 @@
 import chai from 'chai'
-import Bitcoin from '../bitcoin'
+import { Bitcoin } from '../bitcoin'
 import bip39Vectors from '../data/mnemonics.json'
 
 const should = chai.should()

@@ -1,5 +1,5 @@
 import chai from 'chai'
-import Bitcoin from '../bitcoin'
+import { Bitcoin } from '../bitcoin'
 import data from '../data/merkleblocks'
 import transactionVector from '../data/tx_creation.json'
 
