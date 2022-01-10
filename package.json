@@ -6,6 +6,7 @@
   "license": "MIT",
   "main": "src/index.js",
   "module": "src/index.js",
+  "type": "module",
   "files": [
     "dist"
   ],
