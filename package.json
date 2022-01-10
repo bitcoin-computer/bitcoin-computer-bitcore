@@ -1,11 +1,11 @@
 {
-  "name": "bc-bitcore",
-  "version": "0.1.20",
+  "name": "bitcoin-computer-bitcore",
+  "version": "0.1.21",
   "description": "A simple, safe, and powerful JavaScript Bitcoin Cash library.",
   "author": "Clemens Ley <ley.clemens@gmail.com>",
   "license": "MIT",
-  "main": "dist/bitcoinsource.common.js",
-  "module": "dist/bitcoinsource.esm.js",
+  "main": "src/index.js",
+  "module": "src/index.js",
   "files": [
     "dist"
   ],

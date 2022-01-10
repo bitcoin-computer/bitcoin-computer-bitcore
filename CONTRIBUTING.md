@@ -1,4 +1,4 @@
-# Contributing to BitcoinSource
+# Contributing to Bitcoin Computer Bitcore
 
 We are meeting every weekday at 11 am pacific time on Skype. If you want to contribute email clemens@bitcointoken.com and we'll add you to the meeting. Feel free to ask any questions there. Otherwise, to get going on your own, follow the steps below.
 
@@ -69,7 +69,7 @@ Please write meaningful commit messages. Consider [squashing minor changes into 
 
 To create a pull request, visit `https://github.com/[your_github_username]/bitcoin-source/pull/new/[branch_name]` and click on create pull request or click on the link that appears in the terminal.
 
-We will review your code and possibly ask for changes before your code is pulled in to the main repository. If everything is OK, we'll merge your pull request and your code will be part of BitcoinSource.
+We will review your code and possibly ask for changes before your code is pulled in to the main repository. If everything is OK, we'll merge your pull request and your code will be part of Bitcoin Computer Bitcore.
 
 If you have any questions feel free to post them to
 [github.com/the-bitcoin-token/bitcoin-source/issues](https://github.com/the-bitcoin-token/bitcoin-source/issues).
@@ -80,7 +80,7 @@ Thanks for your time and code!
 
 ## Design Guidelines
 
-BitcoinSource is using the [AirBnb JavaScript style guide](https://github.com/airbnb/javascript). We encourage our contributors to review it and follow its recommendations when writing the code.
+Bitcoin Computer Bitcore is using the [AirBnb JavaScript style guide](https://github.com/airbnb/javascript). We encourage our contributors to review it and follow its recommendations when writing the code.
 
 ### Tests
 
