@@ -132,6 +132,15 @@ describe('PublicKey', () => {
       should.exist(c.point)
       c.point.toString().should.equal(p.toString())
     })
+
+    it('from a point created with x cord being an arbitrary string', () => {
+      const x = 'b'.repeat(32)
+      const p = Point.fromX(false, x)
+      const a = new PublicKey(p)
+      should.exist(a.point)
+      a.point.toString().should.equal(p.toString())
+      a.point.getX().toString('hex', 32).should.equal(x)
+    })
   })
 
   describe('#getValidationError', () => {
