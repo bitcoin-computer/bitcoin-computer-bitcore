@@ -1,5 +1,12 @@
 import chai from 'chai'
+import elliptic from 'elliptic'
 import { Bitcoin } from './bitcoin'
+// import BN from './bn'
+// import BufferUtil from '../util/buffer'
+
+const ec = elliptic.curves.secp256k1
+const ecPoint = ec.curve.point.bind(ec.curve)
+// const ecPointFromX = ec.curve.pointFromX.bind(ec.curve)
 
 const should = chai.should()
 const { expect } = chai
@@ -40,7 +47,7 @@ describe('PublicKey', () => {
     })
   })
 
-  describe('instantiation', () => {
+  describe.only('instantiation', () => {
     it('from a private key', () => {
       const privhex = '906977a061af29276e40bf377042ffbde414e496ae2260bbf1fa9d085637bfff'
       const pubhex = '02a1633cafcc01ebfb6d78e39f687a1f0995c62fc95f51ead10a02ee0be551b5dc'
@@ -140,6 +147,54 @@ describe('PublicKey', () => {
       should.exist(a.point)
       a.point.toString().should.equal(p.toString())
       a.point.getX().toString('hex', 32).should.equal(x)
+    })
+
+    it.only('from a point created with x cord being an arbitrary string', () => {
+      const len = 1
+      const base = 16
+      const strX = 'F'.repeat(len)
+      let x = new BN(strX, base)
+      let const3 = new BN(3, base)
+      const const7 = new BN(7, base)
+      const redContext = BN.red('k256')
+      x = x.toRed(redContext)
+      const3 = const3.toRed(redContext)
+      const y2 = x.redPow(const3).redIAdd(x).redIAdd(const7.toRed(redContext));
+      const y = y2.redSqrt();
+
+      console.log(`x: ${x} y ${y}`)
+      const p = ecPoint(x, y, false)
+      // const p = new Point(x, y, false) // max number of bits JS integer 2 ^ 53
+      const a = new PublicKey(p)
+      /* const sign = bigN.gt(new BN(0))
+      const abs = bigN.abs()
+      console.log(`sign ${sign} abs ${abs}`)
+      const p = Point.fromX(sign, abs) // max number of bits JS integer 2 ^ 53
+      const a = new PublicKey(p)
+      should.exist(a.point)
+      a.point.toString().should.equal(p.toString())
+      const abs2 = a.point.getX()
+      const sign2 = a.point.y.gt(new BN(0))
+      const x2 = sign2 ? abs2 : abs2.neg()
+      console.log(`x2.toString() ${x2.toString(base)}`)
+      */
+      // a.point.getX().toString('hex', len).should.equal(x)
+    })
+    it.skip('from a point created with x cord being an arbitrary string', () => {
+      const str = '~~~~~~'.repeat(1)
+      const buff = Buffer.from(str)
+      console.log(`buff ${buff}`)
+      const hex = buff.toString('hex')
+      console.log(`hex: ${hex} typeof hex ${typeof hex}`)
+      const bigN = new BN(hex, 'hex')
+      console.log(`bigN ${bigN}`)
+      const isGrater = bigN.toNumber() - Number.MAX_SAFE_INTEGER <= 0
+      isGrater.should.equal(true)
+    })
+    it('from a point created with x cord being an arbitrary string', () => {
+      const maxNum = Number.MIN_SAFE_INTEGER
+      console.log(`maxNum.toString('hex') ${maxNum.toString(16)}`)
+
     })
   })
 

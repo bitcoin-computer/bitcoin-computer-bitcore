@@ -45,7 +45,7 @@ Point.fromX = function fromX(odd, x) {
   try {
     point = ecPointFromX(x, odd)
   } catch (e) {
-    throw new Error('Invalid x value for curve.')
+    throw new Error(`Invalid x value for curve. error: ${e}`)
   }
   point.validate()
   return point
