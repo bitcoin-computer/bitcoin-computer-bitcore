@@ -10,15 +10,16 @@
  * must be enabled at the top level and in terser for minified builds.
  */
 
-import babel from 'rollup-plugin-babel'
+import babel from '@rollup/plugin-babel'
 import builtins from 'rollup-plugin-node-builtins'
-import commonjs from 'rollup-plugin-commonjs'
+import commonjs from '@rollup/plugin-commonjs'
 import flow from 'rollup-plugin-flow'
 import globals from 'rollup-plugin-node-globals'
-import json from 'rollup-plugin-json'
-import resolve from 'rollup-plugin-node-resolve'
+import json from '@rollup/plugin-json'
+import resolve from '@rollup/plugin-node-resolve'
 import pkg from './package.json'
 import { terser } from 'rollup-plugin-terser'
+import nodePolyfills from 'rollup-plugin-polyfill-node'
 
 // The text to appear at the top of the generated files.
 const license = `/**
@@ -64,6 +65,7 @@ const dependencies = nodeDependencies.concat(packageDependencies)
 // Define our default babel plugin config
 const babelPluginConfig = {
   // Prefer the config below over babelrc
+  babelHelpers: 'bundled',
   babelrc: false,
   presets: [
     // Disable converting modules because rollup will do this better
@@ -74,6 +76,7 @@ const babelPluginConfig = {
 // Define our babel plugin config when generating minified builds
 const babelPluginMinifiedConfig = {
   // Prefer the config below over babelrc
+  babelHelpers: 'bundled',
   babelrc: false,
   presets: [
     // Disable converting modules because rollup will do this better
@@ -168,6 +171,9 @@ const browser = {
   plugins: [
     flow(),
     json(),
+    nodePolyfills({
+      include: './src/*',
+    }),
     // Parse require() statements in any dependencies. Any non-commonjs modules will be ignored,
     // so we can run this across all dependencies, but bitcoin source files must use ES6 imports.
     // We prefer builtins like util over our own util.
@@ -192,6 +198,9 @@ const browserMin = {
   plugins: [
     flow(),
     json(),
+    nodePolyfills({
+      include: './src/*',
+    }),
     commonjs({ preferBuiltins: true }),
     resolve({ browser: true, preferBuiltins: true }),
     globals(),
