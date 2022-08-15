@@ -2,9 +2,9 @@
 
 ## About Bitcoin Computer Bitcore
 
-Bitcoin Computer Bitcore is a community driven effort to produce a readable, reliable and modern Javascript implementation of Bitcoin. Most current Javascript Bitcoin implementations do not adhere to modern coding standards and are very hard to read as a consequence. We want to create a Bitcoin implementation that every JavaScript programmer can read and understand.
+Bitcoin Computer Bitcore is a community-driven effort to produce a readable, reliable, and modern Javascript implementation of Bitcoin. Most current Javascript Bitcoin implementations do not adhere to modern coding standards and are very hard to read as a consequence. We want to create a Bitcoin implementation that every JavaScript programmer can read and understand.
 
-In step one, we want to get the entire codebase to comply with the [Airbnb JavaScript Style Guide](https://github.com/airbnb/javascript). Step two will be to port the code base to ES6. Step three will be to statically typecheck the entire codebase with Facebook’s Flow. We suspect we will uncover bugs in the process.
+In step one, we want to get the entire codebase to comply with the [Airbnb JavaScript Style Guide](https://github.com/airbnb/javascript). Step two will be to port the code base to ES6. Step three is statically type-checking the entire codebase with Facebook’s Flow. We suspect that we will uncover bugs in the process.
 
 We are looking for contributors. You do not have to be a Bitcoin protocol expert to contribute. All you need to be is a good Javascript programmer. If you want to help, check out [CONTRIBUTING.md](https://github.com/bitcoin-computer/bitcoin-source/blob/master/CONTRIBUTING.md) or email [clemens@bitcoincomputer.io](mailto:clemens@bitcoincomputer.io).
 
@@ -18,7 +18,7 @@ $ npm install --save bitcoin-computer-bitcore
 
 ## Examples
 
-You can find many useful, up-to-date examples to get you started right away by following the provided
+You can find many useful, up-to-date resources to get you started right away by following the provided
 examples:
 
 - [Generate a random address](https://github.com/bitcoin-computer/bitcoin-source/blob/master/docs/examples.md#generate-a-random-address)
@@ -39,7 +39,7 @@ Bitcoin Computer Bitcore is a fork of [bitcore-lib](https://github.com/bitpay/bi
 
 ## Contributing
 
-This is an open-source project, and any form of contribution is welcome. Feel free to create an issue in case you would like to share ideas for improvement, or would like to report a bug. Also, please send pull requests for bug fixes or code optimization. For more information on how to contribute, please refer to our [CONTRIBUTING](CONTRIBUTING.md) file.
+This is an open-source project; any form of contribution is welcome. Feel free to create an issue in case you would like to share ideas for improvement or to report a bug. Also, please send pull requests for bug fixes or code optimization. For more information on how to contribute, please refer to our [CONTRIBUTING](CONTRIBUTING.md) file.
 
 ## Development
 
@@ -51,7 +51,7 @@ $ cd bitcoin-computer-bitcore
 $ yarn install
 ```
 
-Next, you can check everything is installed correctly by running the full test-suite and verifying that all tests are completed successfully.
+Next, you can check that everything is installed correctly by running the full test-suite and verifying that all tests are completed successfully.
 
 ```s
 $ npm test
