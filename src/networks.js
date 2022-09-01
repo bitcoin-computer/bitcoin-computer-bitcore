@@ -35,7 +35,11 @@ function get(arg, keys) {
       keys = [keys]
     }
 
-    const index = networks.findIndex((network) => _.some(keys, (key) => network[key] === arg))
+    const index = networks.findIndex((network) => _.some(keys, (key) => {
+      if (key === 'networkMagic')
+        return Buffer.compare(network[key], arg) === 0
+      return network[key] === arg
+    }))
     if (index !== -1) {
       return networks[index]
     }
@@ -122,12 +126,14 @@ function removeNetwork(network) {
   })
 }
 
+// BTC livenet
 addNetwork({
   name: 'livenet',
   alias: 'mainnet',
   pubkeyhash: 0x00,
   privatekey: 0x80,
   scripthash: 0x05,
+  bech32prefix: 'bc',
   xpubkey: 0x0488b21e,
   xprivkey: 0x0488ade4,
   networkMagic: 0xf9beb4d9,
@@ -145,91 +151,47 @@ addNetwork({
 /**
  * @instance
  * @member Networks#livenet
+ * Defaults to BTC
  */
-const livenet = get('livenet')
+const livenet = get(Buffer.from('f9beb4d9', 'hex'), 'networkMagic')
 
+// BTC testnet
 addNetwork({
   name: 'testnet',
   alias: 'regtest',
   pubkeyhash: 0x6f,
   privatekey: 0xef,
   scripthash: 0xc4,
+  bech32prefix: 'tb',
   xpubkey: 0x043587cf,
   xprivkey: 0x04358394,
+  networkMagic: 0x0b110907,
+  port: 18333,
+  dnsSeeds: [
+    'testnet-seed.bitcoin.petertodd.org',
+    'testnet-seed.bluematt.me',
+    'testnet-seed.alexykot.me',
+    'testnet-seed.bitcoin.schildbach.de'
+  ]
 })
 
 /**
  * @instance
  * @member Networks#testnet
+ * Defaults to BTC 
  */
-const testnet = get('testnet')
+ const testnet = get(Buffer.from('0b110907', 'hex'), 'networkMagic')
 
-// Add configurable values for testnet/regtest
-
-const TESTNET = {
-  PORT: 18333,
-  NETWORK_MAGIC: BufferUtil.integerAsBuffer(0x0b110907),
-  DNS_SEEDS: [
-    'testnet-seed.bitcoin.petertodd.org',
-    'testnet-seed.bluematt.me',
-    'testnet-seed.alexykot.me',
-    'testnet-seed.bitcoin.schildbach.de',
-  ],
-}
-
-Object.keys(TESTNET).forEach((objectKey) => {
-  if (!_.isObject(TESTNET[objectKey])) {
-    networkMaps[TESTNET[objectKey]] = testnet
-  }
-})
-
-const REGTEST = {
-  PORT: 18444,
-  NETWORK_MAGIC: BufferUtil.integerAsBuffer(0xfabfb5da),
-  DNS_SEEDS: [],
-}
-
-Object.keys(REGTEST).forEach((objectKey) => {
-  if (!_.isObject(REGTEST[objectKey])) {
-    networkMaps[REGTEST[objectKey]] = testnet
-  }
-})
-
-Object.defineProperty(testnet, 'port', {
-  enumerable: true,
-  configurable: false,
-  get() {
-    if (this.regtestEnabled) {
-      return REGTEST.PORT
-    }
-    return TESTNET.PORT
-  },
-})
-
-Object.defineProperty(testnet, 'networkMagic', {
-  enumerable: true,
-  configurable: false,
-  get() {
-    if (this.regtestEnabled) {
-      return REGTEST.NETWORK_MAGIC
-    }
-    return TESTNET.NETWORK_MAGIC
-  },
-})
-
-Object.defineProperty(testnet, 'dnsSeeds', {
-  enumerable: true,
-  configurable: false,
-  get() {
-    if (this.regtestEnabled) {
-      return REGTEST.DNS_SEEDS
-    }
-    return TESTNET.DNS_SEEDS
-  },
-})
+/**
+ * @instance
+ * @member Networks#testnet
+ * Defaults to BTC
+ */
+// const regtest = get(Buffer.from('fabfb5da', 'hex'), 'networkMagic');
 
 /**
  * @function
+ * @deprecated
  * @member Networks#enableRegtest
  * Will enable regtest features for testnet
  */
@@ -239,6 +201,7 @@ function enableRegtest() {
 
 /**
  * @function
+ * @deprecated
  * @member Networks#disableRegtest
  * Will disable regtest features for testnet
  */
@@ -256,6 +219,7 @@ export default {
   livenet,
   mainnet: livenet,
   testnet,
+  regtest: testnet,
   get,
   enableRegtest,
   disableRegtest,
