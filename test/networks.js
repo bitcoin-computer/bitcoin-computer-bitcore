@@ -55,7 +55,6 @@ describe('Networks', () => {
       } else {
         const expected = Buffer.from('e7beb4d4', 'hex')
         customnet[key].should.deep.equal(expected)
-        // should.equal(expected === custom[key]).to(true)
       }
     })
   })

@@ -183,13 +183,6 @@ addNetwork({
  const testnet = get(Buffer.from('0b110907', 'hex'), 'networkMagic')
 
 /**
- * @instance
- * @member Networks#testnet
- * Defaults to BTC
- */
-// const regtest = get(Buffer.from('fabfb5da', 'hex'), 'networkMagic');
-
-/**
  * @function
  * @deprecated
  * @member Networks#enableRegtest
